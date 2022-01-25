@@ -39,10 +39,10 @@ class ProductsController extends Controller
     $this->carbonObject         =   new Carbon();
     $this->classCommonFunction  =   new CommonFunction();
     $this->vendors              =   new VendorsController();
-	}	
-  
+	}
+
   /**
-   * 
+   *
    * Product add content
    *
    * @param null
@@ -52,12 +52,12 @@ class ProductsController extends Controller
     $data = array();
     $data = $this->classCommonFunction->commonDataForAllPages();
     $get_data = $this->createProductContentData( $data );
- 
+
     return view('pages.admin.product.add-product-content', $get_data);
   }
-  
+
   /**
-   * 
+   *
    * Product update content
    *
    * @param null
@@ -65,24 +65,24 @@ class ProductsController extends Controller
    */
   public function productUpdateContent( $params ){
     $get_post  =  $this->getProductDataByHandle( $params );
-    
+
     if(is_array($get_post)  && count($get_post) > 0){
       $data = array();
       $get_available_attribute =  array();
       $product_id = $get_post['id'];
-      
+
       $data = $this->classCommonFunction->commonDataForAllPages();
       $get_available_attribute	=  $this->getAllAttributes( $product_id );
 
       $data['attrs_list_data_by_product']     =   $get_available_attribute;
       $data['product_post_data']              =   $get_post;
 
-     
+
       $data['role_based_pricing_data']        =   get_role_based_pricing_by_product_id($product_id);
       $data['variation_data']                 =   $this->classCommonFunction->get_variation_and_data_by_product_id( $product_id );
       $data['custom_designer_settings_data']  =   $this->option->getCustomDesignerSettingsData();
 
-    
+
       $get_variation_data = $this->classCommonFunction->get_variation_by_product_id( $product_id );
 
 
@@ -101,7 +101,7 @@ class ProductsController extends Controller
       else{
         $data['attribute_post_meta_by_id'] = null;
       }
-      
+
       if($data['product_post_data']['_product_custom_designer_settings']['enable_global_settings'] == 'yes'){
         if(isset($data['custom_designer_settings_data']) && count($data['custom_designer_settings_data'])>0){
           $data['designer_hf_data']   =  $data['custom_designer_settings_data']['general_settings'];
@@ -118,7 +118,7 @@ class ProductsController extends Controller
           $data['designer_hf_data'] = array();
         }
       }
-      
+
       $get_data = SaveCustomDesign ::where('product_id', $product_id)->first();
 
       if(!empty($get_data) && $get_data->count() > 0){
@@ -131,7 +131,7 @@ class ProductsController extends Controller
       $data['art_cat_lists_data']  =   $this->getTermData( 'designer_cat', false, null, 1 );
       $data['fonts_list']  =   $this->getFontsList(false, null, 1);
       $data['shape_list']  =   $this->getShapeList(false, null, 1);
-      
+
       $generalTabActiveClass = '';
       $featureTabActiveClass = '';
       $customizeBtn          = 'style=display:none;';
@@ -179,19 +179,19 @@ class ProductsController extends Controller
 
       $data['crosssell_products'] = json_encode( $crosssell_products );
 
-      $is_vendor = is_vendor_login(); 
+      $is_vendor = is_vendor_login();
       $data['is_vendor_login'] = $is_vendor;
       $get_data = $this->createProductContentData( $data );
-      
+
       return view('pages.admin.product.update-product-content', $get_data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Product list content
    *
    * @param null
@@ -200,25 +200,25 @@ class ProductsController extends Controller
   public function productListContent( $params ){
     $data = array();
     $search_value = '';
-      
+
     if(isset($_GET['term_product']) && $_GET['term_product'] != ''){
       $search_value = $_GET['term_product'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
 
     $data['product_all_data']  =  $this->getProducts(true, $search_value, -1, $params, $is_vendor);
     $data['search_value']      =  $search_value;
     $data['settings'] = $this->option->getSettingsData();
-    
+
     return view('pages.admin.product.product-list', $data);
   }
 
   /**
-   * 
+   *
    * Product categories list content
    *
    * @param null
@@ -227,26 +227,26 @@ class ProductsController extends Controller
   public function productCategoriesListContent(){
     $data = array();
     $search_value = '';
-        
+
     if(isset($_GET['term_cat']) && $_GET['term_cat'] != ''){
       $search_value = $_GET['term_cat'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['cat_list_data']           =  $this->getTermData( 'product_cat', true, $search_value, -1 );
     $data['only_cat_name']           =  $this->get_categories_name_for_list('product_cat');
     $data['search_value']            =  $search_value;
     $data['action']                  =  route('admin.product_categories_list');
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.categories-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Product tags list content
    *
    * @param null
@@ -255,24 +255,24 @@ class ProductsController extends Controller
   public function productTagsListContent(){
     $data = array();
     $search_value = '';
-      
+
     if(isset($_GET['term_tag']) && $_GET['term_tag'] != ''){
       $search_value = $_GET['term_tag'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['tag_list_data']   =  $this->getTermData( 'product_tag', true, $search_value, -1 );
     $data['search_value']    =  $search_value;
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.product.product-tags-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Product attributes list content
    *
    * @param null
@@ -281,24 +281,24 @@ class ProductsController extends Controller
   public function productAttributesListContent(){
     $data = array();
     $search_value = '';
-      
+
     if(isset($_GET['term_attrs']) && $_GET['term_attrs'] != ''){
       $search_value = $_GET['term_attrs'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['attribute_list_data']   =  $this->getTermData( 'product_attr', true, $search_value, -1 );
     $data['search_value']          =  $search_value;
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.product.product-attribute-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Product colors list content
    *
    * @param null
@@ -307,24 +307,24 @@ class ProductsController extends Controller
   public function productColorsListContent(){
     $data = array();
     $search_value = '';
-      
+
     if(isset($_GET['term_colors']) && $_GET['term_colors'] != ''){
       $search_value = $_GET['term_colors'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['colors_list_data']   =   $this->getTermData( 'product_colors', true, $search_value, -1 );
     $data['search_value']       =   $search_value;
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.product.product-colors-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Product sizes list content
    *
    * @param null
@@ -333,24 +333,24 @@ class ProductsController extends Controller
   public function productSizesListContent(){
     $data = array();
     $search_value = '';
-      
+
     if(isset($_GET['term_sizes']) && $_GET['term_sizes'] != ''){
       $search_value = $_GET['term_sizes'];
     }
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['sizes_list_data']   =   $this->getTermData( 'product_sizes', true, $search_value, -1 );
     $data['search_value']      =   $search_value;
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.product.product-sizes-list', $data);
   }
 
   /**
-   * 
+   *
    * Product comments list content
    *
    * @param null
@@ -358,20 +358,20 @@ class ProductsController extends Controller
    */
   public function productCommentsListContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['product_comments'] = $this->getProductCommentsList();
 
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.product.comments-list', $data);
   }
 
-  
+
   /**
-   * 
+   *
    * Get term data
    *
    * @param term type, pagination, search value, status flag
@@ -382,31 +382,31 @@ class ProductsController extends Controller
    * @return array
    */
 	public function getTermData( $term_type, $pagination = false, $search_val = null, $status_flag = -1){
-    
+
     if($status_flag == -1){
         $where = ['terms.type' => $term_type];
     }
     else{
         $where = ['terms.type' => $term_type, 'terms.status' => $status_flag];
     }
-				
+
     if($search_val && $search_val != ''){
-      $get_term_data = DB::table('terms') 
+      $get_term_data = DB::table('terms')
                            ->where($where)
                            ->where('terms.name', 'LIKE', $search_val.'%')
                            ->orderBy('terms.term_id', 'desc');
-                       
+
     }
     else{
       $get_term_data = DB::table('terms')
                            ->where($where)
                            ->orderBy('terms.term_id', 'desc');
-                       
+
     }
 
     if($term_type == 'blog_cat' || $term_type == 'product_cat'){
       $get_term_data = $get_term_data->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                         ->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"), 'terms.created_at', 'terms.updated_at');          
+                         ->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"), 'terms.created_at', 'terms.updated_at');
     }
     else if($term_type == 'product_brands'){
       $get_term_data = $get_term_data->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
@@ -440,9 +440,9 @@ class ProductsController extends Controller
 
     return $term_data;
   }
-  
+
   /**
-   * 
+   *
    * Get term data by term id
    *
    * @param term id
@@ -463,13 +463,13 @@ class ProductsController extends Controller
 
     if(!empty($get_term) && (($get_term == 'blog_cat') || ($get_term == 'product_cat'))){
       $get_term_data = $get_term_data->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                                     ->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"), 'terms.created_at', 'terms.updated_at'); 
-      $data = $get_term_data->groupBy('term_extras.term_id')->get();                               
+                                     ->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"), 'terms.created_at', 'terms.updated_at');
+      $data = $get_term_data->groupBy('term_extras.term_id')->get();
     }
     else if($get_term == 'product_brands'){
       $get_term_data = $get_term_data->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
                                      ->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', DB::raw("max(CASE WHEN term_extras.key_name = '_brand_country_name' THEN term_extras.key_value END) as brand_country_name"), DB::raw("max(CASE WHEN term_extras.key_name = '_brand_short_description' THEN term_extras.key_value END) as brand_short_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_brand_logo_img_url' THEN term_extras.key_value END) as brand_logo_img_url"), 'terms.created_at', 'terms.updated_at');
-      $data = $get_term_data->groupBy('term_extras.term_id')->get();                               
+      $data = $get_term_data->groupBy('term_extras.term_id')->get();
     }
     else if($get_term == 'product_tag'){
       $get_term_data = $get_term_data->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
@@ -490,14 +490,14 @@ class ProductsController extends Controller
       $get_term_data = $get_term_data->select('terms.term_id', 'terms.name', 'terms.slug', 'terms.type', 'terms.parent', 'terms.status', 'terms.created_at', 'terms.updated_at');
       $data = $get_term_data->get();
     }
-    
-    $term_data = collect($data)->map(function($x){ return (array) $x; })->toArray(); 
+
+    $term_data = collect($data)->map(function($x){ return (array) $x; })->toArray();
 
     return $term_data;
   }
-  
+
   /**
-   * 
+   *
    * Get function for categories name
    *
    * @param cat type
@@ -508,21 +508,21 @@ class ProductsController extends Controller
     $get_cats         =   Term:: where(['type' => $cat_type, 'status' => 1])
                           ->get()
                           ->toArray();
-    
+
     if(count($get_cats) > 0){
-      foreach($get_cats as $row){     
+      foreach($get_cats as $row){
         $cat_list['id']   = $row['term_id'];
         $cat_list['name'] = $row['name'];
         $cat_list['slug'] = $row['slug'];
         $cat_list_array[] = $cat_list;
       }
     }
-    
+
     return $cat_list_array;
   }
-  
+
   /**
-   * 
+   *
    * Get function for categories name for list
    *
    * @param cat type
@@ -533,19 +533,19 @@ class ProductsController extends Controller
     $get_cats         =   Term:: where(['type' => $cat_type])
                           ->get()
                           ->toArray();
-    
+
     if(count($get_cats) > 0){
-      foreach($get_cats as $row){     
+      foreach($get_cats as $row){
         $cat_list['id']   = $row['term_id'];
         $cat_list['name'] = $row['name'];
         $cat_list['slug'] = $row['slug'];
         $cat_list_array[] = $cat_list;
       }
     }
-    
+
     return $cat_list_array;
   }
-		
+
 	/**
    * Get function for parent and child categories
    *
@@ -563,13 +563,13 @@ class ProductsController extends Controller
                       ->orderBy('terms.term_id', 'desc')
                       ->groupBy('terms.term_id')
                       ->get()
-                      ->toArray(); 
+                      ->toArray();
 
     if(is_array($get_categories) && count($get_categories) > 0){
-      $categories = $this->buildTree(json_decode(json_encode($get_categories), true), 0); 
+      $categories = $this->buildTree(json_decode(json_encode($get_categories), true), 0);
     }
-          
-    return $categories; 
+
+    return $categories;
   }
 
   /**
@@ -577,7 +577,7 @@ class ProductsController extends Controller
    *
    * @param array, parent_id
    * @return array
-   */ 
+   */
   public function buildTree(array $elements, $parentId = 0) {
     $branch = array();
 
@@ -598,7 +598,7 @@ class ProductsController extends Controller
 
     return $branch;
   }
-		
+
 	/**
    * Get function for parent categories
    *
@@ -608,14 +608,14 @@ class ProductsController extends Controller
   public function get_parent_categories($cat_id = 0, $cat_type){
 		$parent_categories = array();
     $get_categories_data  =  Term::where(['type' => $cat_type, 'parent' => $cat_id, 'status' => 1])->get()->toArray();
-				
+
     if(count($get_categories_data) > 0){
         $parent_categories = $get_categories_data;
     }
 
     return $parent_categories;
 	}
-  
+
   /**
    * Get function for all categories array list
    *
@@ -631,18 +631,18 @@ class ProductsController extends Controller
         $cat_data['parent'] = $cat['parent'];
         $cat_data['description'] = $cat['description'];
         $cat_data['img_url'] = $cat['img_url'];
-        
+
         array_push($this->cat_list_arr, $cat_data);
-        
+
         if(count($cat['children']) >0){
           $this->categoriesSimpleListExtra($cat['children']);
         }
       }
     }
-  
+
     return $this->cat_list_arr;
 	}
-  
+
   /**
    * Get function for all categories list extra
    *
@@ -658,18 +658,18 @@ class ProductsController extends Controller
         $cat_data['parent'] = $cat['parent'];
         $cat_data['description'] = $cat['description'];
         $cat_data['img_url'] = $cat['img_url'];
-        
+
         array_push($this->cat_list_arr, $cat_data);
-        
+
         if(count($cat['children']) >0){
           $this->categoriesSimpleListExtra($cat['children']);
         }
       }
     }
 	}
-  
+
   /**
-   * 
+   *
    * Save products
    *
    * @param product slug
@@ -678,28 +678,28 @@ class ProductsController extends Controller
    */
   public function saveProduct($params = null){
     if( Request::isMethod('post') && Session::token() == Request::Input('_token')){
-      
+
       //vendor product add restricted
       if(is_vendor_login() && Session::has('shopist_admin_user_id') &&  Request::Input('hf_post_type') == 'add_post'){
         $selected_package_details = get_package_details_by_vendor_id( Session::get('shopist_admin_user_id') );
         $get_total_product = Product::where(['author_id' => Session::get('shopist_admin_user_id')])->get()->count();
-        
+
         if(!empty($get_total_product) && $get_total_product > 0){
           $count = $get_total_product + 1;
-          
+
           if($count > $selected_package_details->max_number_product){
             Session::flash('error-message', Lang::get('admin.vendor_product_exceed_msg', ['number' => $selected_package_details->max_number_product]) );
             return redirect()-> back();
           }
         }
       }
-      
+
       $data = Request::Input();
 
       $rules =  ['product_name'  => 'required'];
 
       $validator = Validator:: make($data, $rules);
-      
+
       if($validator->fails()){
         return redirect()-> back()
         ->withInput()
@@ -749,14 +749,14 @@ class ProductsController extends Controller
             $role_price[$key] = array('regular_price' => $role_regular_price, 'sale_price' => $role_sale_price);
           }
         }
-        
+
         //manage cross sell and upsell products
         $selected_upsell_products = array();
         $selected_crosssell_products = array();
-        
+
         $get_selected_upsell_product = json_decode(Request::Input('selected_upsell_products'));
         $get_selected_crosssell_product = json_decode(Request::Input('selected_crosssell_products'));
-        
+
         if(!empty($get_selected_upsell_product) && count($get_selected_upsell_product) > 0){
           foreach($get_selected_upsell_product as $upsell_products){
             $explod_val = explode('#', $upsell_products);
@@ -764,7 +764,7 @@ class ProductsController extends Controller
             array_push($selected_upsell_products, $get_id);
           }
         }
-        
+
         if(!empty($get_selected_crosssell_product) && count($get_selected_crosssell_product) > 0){
           foreach($get_selected_crosssell_product as $crosssell_products){
             $explod_val = explode('#', $crosssell_products);
@@ -772,8 +772,8 @@ class ProductsController extends Controller
             array_push($selected_crosssell_products, $get_id);
           }
         }
-        
-        
+
+
         if(!empty($params)){
           $get_post =  Product :: where('slug', $params)->get()->toArray();
 
@@ -781,14 +781,14 @@ class ProductsController extends Controller
             $product_id  =  $get_post[0]['id'];
           }
         }
-        
+
         $price          = '';
         $regular_price  = '';
         $sale_price     = '';
         $stock_qty      = 0;
         $sale_price_start_date = '';
         $sale_price_end_date   = '';
-        $stock_availability    = ''; 
+        $stock_availability    = '';
 
         if(is_numeric(Request::Input('inputRegularPrice')) && Request::has('inputRegularPrice')){
           $regular_price = Request::Input('inputRegularPrice');
@@ -797,8 +797,8 @@ class ProductsController extends Controller
         if(is_numeric(Request::Input('inputSalePrice')) && Request::has('inputRegularPrice')){
           $sale_price = Request::Input('inputSalePrice');
         }
- 
-        
+
+
         if(($regular_price && $sale_price) && (abs($sale_price) < abs($regular_price)) && $sale_price > 0){
           $price = Request::Input('inputSalePrice');
         }
@@ -948,7 +948,7 @@ class ProductsController extends Controller
         }
         else{
           $visibilityschedule = 'no';
-        } 
+        }
 
         if($_home_product){
           $home_page_product = 'yes';
@@ -971,12 +971,12 @@ class ProductsController extends Controller
           else{
             $stock_availability = 'in_stock';
           }
-        }  
+        }
         else{
           $stock_availability = Request::Input('stock_availability_status');
         }
 
-        //designer settings 
+        //designer settings
         $cavas_small_width = 0;
         $cavas_small_height = 0;
         $cavas_medium_width = 0;
@@ -1133,7 +1133,7 @@ class ProductsController extends Controller
           $post->type               =   Request::Input('change_product_type');
           $post->image_url          =   $product_image;
 
-          if($post->save()){  
+          if($post->save()){
             if(ProductExtra::insert(array(
                                       array(
                                           'product_id'    =>  $post->id,
@@ -1424,7 +1424,7 @@ class ProductsController extends Controller
               }
 
               if(count($cat_array) > 0){
-                ObjectRelationship::insert( $cat_array );    
+                ObjectRelationship::insert( $cat_array );
               }
             }
 
@@ -1435,11 +1435,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputManufacturerName') as $brands_id){
                 $manufacturer_data = array('term_id'  =>  $brands_id, 'object_id'  =>  $post->id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($manufacturer_array, $manufacturer_data);   
+                array_push($manufacturer_array, $manufacturer_data);
               }
 
               if(count($manufacturer_array) > 0){
-                ObjectRelationship::insert( $manufacturer_array );    
+                ObjectRelationship::insert( $manufacturer_array );
               }
             }
 
@@ -1450,11 +1450,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputTagsName') as $tags_id){
                 $tags_data = array('term_id'  =>  $tags_id, 'object_id'  =>  $post->id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($tags_array, $tags_data);   
+                array_push($tags_array, $tags_data);
               }
 
               if(count($tags_array) > 0){
-                ObjectRelationship::insert( $tags_array );    
+                ObjectRelationship::insert( $tags_array );
               }
             }
 
@@ -1465,11 +1465,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputColorsName') as $colors_id){
                 $colors_data = array('term_id'  =>  $colors_id, 'object_id'  =>  $post->id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($colors_array, $colors_data);   
+                array_push($colors_array, $colors_data);
               }
 
               if(count($colors_array) > 0){
-                ObjectRelationship::insert( $colors_array );    
+                ObjectRelationship::insert( $colors_array );
               }
             }
 
@@ -1480,11 +1480,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputSizesName') as $sizes_id){
                 $sizes_data = array('term_id'  =>  $sizes_id, 'object_id'  =>  $post->id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($sizes_array, $sizes_data);   
+                array_push($sizes_array, $sizes_data);
               }
 
               if(count($sizes_array) > 0){
-                ObjectRelationship::insert( $sizes_array );    
+                ObjectRelationship::insert( $sizes_array );
               }
             }
 
@@ -1722,7 +1722,7 @@ class ProductsController extends Controller
               }
 
               if(count($cat_array) > 0){
-                ObjectRelationship::insert( $cat_array );    
+                ObjectRelationship::insert( $cat_array );
               }
             }
 
@@ -1733,11 +1733,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputManufacturerName') as $brands_id){
                 $manufacturer_data = array('term_id'  => $brands_id, 'object_id'  => $product_id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($manufacturer_array, $manufacturer_data);   
+                array_push($manufacturer_array, $manufacturer_data);
               }
 
               if(count($manufacturer_array) > 0){
-                ObjectRelationship::insert( $manufacturer_array );    
+                ObjectRelationship::insert( $manufacturer_array );
               }
             }
 
@@ -1748,11 +1748,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputTagsName') as $tags_id){
                 $tags_data = array('term_id'  => $tags_id, 'object_id'  => $product_id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($tags_array, $tags_data);   
+                array_push($tags_array, $tags_data);
               }
 
               if(count($tags_array) > 0){
-                ObjectRelationship::insert( $tags_array );    
+                ObjectRelationship::insert( $tags_array );
               }
             }
 
@@ -1763,11 +1763,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputColorsName') as $colors_id){
                 $colors_data = array('term_id'  => $colors_id, 'object_id'  => $product_id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($colors_array, $colors_data);   
+                array_push($colors_array, $colors_data);
               }
 
               if(count($colors_array) > 0){
-                ObjectRelationship::insert( $colors_array );    
+                ObjectRelationship::insert( $colors_array );
               }
             }
 
@@ -1778,11 +1778,11 @@ class ProductsController extends Controller
               foreach(Request::Input('inputSizesName') as $sizes_id){
                 $sizes_data = array('term_id'  => $sizes_id, 'object_id'  => $product_id, 'created_at'  =>  date("y-m-d H:i:s", strtotime('now')), 'updated_at'  =>  date("y-m-d H:i:s", strtotime('now')));
 
-                array_push($sizes_array, $sizes_data);   
+                array_push($sizes_array, $sizes_data);
               }
 
               if(count($sizes_array) > 0){
-                ObjectRelationship::insert( $sizes_array );    
+                ObjectRelationship::insert( $sizes_array );
               }
             }
 
@@ -1790,13 +1790,13 @@ class ProductsController extends Controller
             return redirect()->route('admin.update_product', $params);
           }
         }
-      }  
+      }
     }
     else{
       return redirect()-> back();
     }
   }
-  
+
   /**
    * Get function for products data
    *
@@ -1808,7 +1808,7 @@ class ProductsController extends Controller
     $get_product = array();
 
     $get_product = DB::table('products')
-                       ->where(['products.id' => $product_id]) 
+                       ->where(['products.id' => $product_id])
                        ->join('product_extras', 'products.id', '=', 'product_extras.product_id')
                        ->select('products.id', 'products.author_id', DB::raw('products.content as post_content'), DB::raw('products.title as post_title'), DB::raw('products.slug as post_slug'), DB::raw('products.status as post_status'), DB::raw('products.sku as post_sku'),  DB::raw('products.regular_price as post_regular_price'), DB::raw('products.sale_price as post_sale_price'), DB::raw('products.price as post_price'), DB::raw('products.stock_qty as post_stock_qty'), DB::raw('products.stock_availability as post_stock_availability'),  DB::raw('products.type as post_type'), DB::raw('products.image_url as post_image_url'), DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as _product_related_images_url"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as product_related_img_json"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_sale_price_start_date' THEN product_extras.key_value END) as _product_sale_price_start_date"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_sale_price_end_date' THEN product_extras.key_value END) as _product_sale_price_end_date"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_manage_stock' THEN product_extras.key_value END) as _product_manage_stock"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_manage_stock_back_to_order' THEN product_extras.key_value END) as _product_manage_stock_back_to_order"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_extra_features' THEN product_extras.key_value END) as _product_extra_features"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_recommended' THEN product_extras.key_value END) as _product_enable_as_recommended"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_latest' THEN product_extras.key_value END) as _product_enable_as_latest"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_related' THEN product_extras.key_value END) as _product_enable_as_related"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_custom_design' THEN product_extras.key_value END) as _product_enable_as_custom_design"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_selected_cat' THEN product_extras.key_value END) as _product_enable_as_selected_cat"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_taxes' THEN product_extras.key_value END) as _product_enable_taxes"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_settings' THEN product_extras.key_value END) as _product_custom_designer_settings"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_data' THEN product_extras.key_value END) as _product_custom_designer_data"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_data' THEN product_extras.key_value END) as product_custom_designer_json"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews' THEN product_extras.key_value END) as _product_enable_reviews"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews_add_link_to_product_page' THEN product_extras.key_value END) as _product_enable_reviews_add_link_to_product_page"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews_add_link_to_details_page' THEN product_extras.key_value END) as _product_enable_reviews_add_link_to_details_page"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_video_feature' THEN product_extras.key_value END) as _product_enable_video_feature"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_display_mode' THEN product_extras.key_value END) as _product_video_feature_display_mode"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_title' THEN product_extras.key_value END) as _product_video_feature_title"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_panel_size' THEN product_extras.key_value END) as _product_video_feature_panel_size"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source' THEN product_extras.key_value END) as _product_video_feature_source"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source_embedded_code' THEN product_extras.key_value END) as _product_video_feature_source_embedded_code"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source_online_url' THEN product_extras.key_value END) as _product_video_feature_source_online_url"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_manufacturer' THEN product_extras.key_value END) as _product_enable_manufacturer"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_visibility_schedule' THEN product_extras.key_value END) as _product_enable_visibility_schedule"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_title' THEN product_extras.key_value END) as _product_seo_title"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_description' THEN product_extras.key_value END) as _product_seo_description"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_keywords' THEN product_extras.key_value END) as _product_seo_keywords"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_compare_data' THEN product_extras.key_value END) as _product_compare_data"), DB::raw("max(CASE WHEN product_extras.key_name = '_is_role_based_pricing_enable' THEN product_extras.key_value END) as _is_role_based_pricing_enable"), DB::raw("max(CASE WHEN product_extras.key_name = '_role_based_pricing' THEN product_extras.key_value END) as _role_based_pricing"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_files' THEN product_extras.key_value END) as _downloadable_product_files"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_download_limit' THEN product_extras.key_value END) as _downloadable_product_download_limit"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_download_expiry' THEN product_extras.key_value END) as _downloadable_product_download_expiry"), DB::raw("max(CASE WHEN product_extras.key_name = '_upsell_products' THEN product_extras.key_value END) as _upsell_products"), DB::raw("max(CASE WHEN product_extras.key_name = '_crosssell_products' THEN product_extras.key_value END) as _crosssell_products"), DB::raw("max(CASE WHEN product_extras.key_name = '_selected_vendor' THEN product_extras.key_value END) as _selected_vendor"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_features' THEN product_extras.key_value END) as _product_enable_as_features"))
                        ->get()
@@ -1816,53 +1816,53 @@ class ProductsController extends Controller
 
     if(is_array($get_product) && count($get_product) > 0){
       if(!empty($get_product[0]->_product_related_images_url)){
-        $get_product[0]->_product_related_images_url = json_decode($get_product[0]->_product_related_images_url); 
+        $get_product[0]->_product_related_images_url = json_decode($get_product[0]->_product_related_images_url);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_panel_size)){
-        $get_product[0]->_product_custom_designer_panel_size = unserialize($get_product[0]->_product_custom_designer_panel_size); 
+        $get_product[0]->_product_custom_designer_panel_size = unserialize($get_product[0]->_product_custom_designer_panel_size);
       }
 
       if(!empty($get_product[0]->_product_video_feature_panel_size)){
-        $get_product[0]->_product_video_feature_panel_size = unserialize($get_product[0]->_product_video_feature_panel_size); 
+        $get_product[0]->_product_video_feature_panel_size = unserialize($get_product[0]->_product_video_feature_panel_size);
       }
 
       if(!empty($get_product[0]->_product_selected_categories)){
-        $get_product[0]->_product_selected_categories = unserialize($get_product[0]->_product_selected_categories); 
+        $get_product[0]->_product_selected_categories = unserialize($get_product[0]->_product_selected_categories);
       }
 
       if(!empty($get_product[0]->_product_selected_tags)){
-        $get_product[0]->_product_selected_tags = unserialize($get_product[0]->_product_selected_tags); 
+        $get_product[0]->_product_selected_tags = unserialize($get_product[0]->_product_selected_tags);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_data)){
-        $get_product[0]->_product_custom_designer_data = json_decode($get_product[0]->_product_custom_designer_data); 
+        $get_product[0]->_product_custom_designer_data = json_decode($get_product[0]->_product_custom_designer_data);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_settings)){
-        $get_product[0]->_product_custom_designer_settings = unserialize($get_product[0]->_product_custom_designer_settings); 
+        $get_product[0]->_product_custom_designer_settings = unserialize($get_product[0]->_product_custom_designer_settings);
       }
 
       if(!empty($get_product[0]->_product_compare_data)){
-        $get_product[0]->_product_compare_data = unserialize($get_product[0]->_product_compare_data); 
+        $get_product[0]->_product_compare_data = unserialize($get_product[0]->_product_compare_data);
       }
 
       if(!empty($get_product[0]->_product_color_filter_data)){
-        $get_product[0]->_product_color_filter_data = unserialize($get_product[0]->_product_color_filter_data); 
+        $get_product[0]->_product_color_filter_data = unserialize($get_product[0]->_product_color_filter_data);
       }
 
       if(!empty($get_product[0]->_role_based_pricing)){
-        $get_product[0]->_role_based_pricing = unserialize($get_product[0]->_role_based_pricing); 
+        $get_product[0]->_role_based_pricing = unserialize($get_product[0]->_role_based_pricing);
       }
 
       if(!empty($get_product[0]->_downloadable_product_files)){
-        $get_product[0]->_downloadable_product_files = unserialize($get_product[0]->_downloadable_product_files); 
+        $get_product[0]->_downloadable_product_files = unserialize($get_product[0]->_downloadable_product_files);
       }
 
       $get_product = (array) array_shift($get_product);
-    }                   
+    }
 
-    return $get_product;                 
+    return $get_product;
   }
 
   /**
@@ -1876,7 +1876,7 @@ class ProductsController extends Controller
     $get_product = array();
 
     $get_product = DB::table('products')
-                       ->where(['products.slug' => $handle]) 
+                       ->where(['products.slug' => $handle])
                        ->join('product_extras', 'products.id', '=', 'product_extras.product_id')
                        ->select('products.id', 'products.author_id', DB::raw('products.content as post_content'), DB::raw('products.title as post_title'), DB::raw('products.slug as post_slug'), DB::raw('products.status as post_status'), DB::raw('products.sku as post_sku'),  DB::raw('products.regular_price as post_regular_price'), DB::raw('products.sale_price as post_sale_price'), DB::raw('products.price as post_price'), DB::raw('products.stock_qty as post_stock_qty'), DB::raw('products.stock_availability as post_stock_availability'),  DB::raw('products.type as post_type'), DB::raw('products.image_url as post_image_url'), DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as _product_related_images_url"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as product_related_img_json"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_sale_price_start_date' THEN product_extras.key_value END) as _product_sale_price_start_date"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_sale_price_end_date' THEN product_extras.key_value END) as _product_sale_price_end_date"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_manage_stock' THEN product_extras.key_value END) as _product_manage_stock"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_manage_stock_back_to_order' THEN product_extras.key_value END) as _product_manage_stock_back_to_order"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_extra_features' THEN product_extras.key_value END) as _product_extra_features"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_recommended' THEN product_extras.key_value END) as _product_enable_as_recommended"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_latest' THEN product_extras.key_value END) as _product_enable_as_latest"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_related' THEN product_extras.key_value END) as _product_enable_as_related"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_custom_design' THEN product_extras.key_value END) as _product_enable_as_custom_design"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_selected_cat' THEN product_extras.key_value END) as _product_enable_as_selected_cat"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_taxes' THEN product_extras.key_value END) as _product_enable_taxes"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_settings' THEN product_extras.key_value END) as _product_custom_designer_settings"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_data' THEN product_extras.key_value END) as _product_custom_designer_data"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_custom_designer_data' THEN product_extras.key_value END) as product_custom_designer_json"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews' THEN product_extras.key_value END) as _product_enable_reviews"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews_add_link_to_product_page' THEN product_extras.key_value END) as _product_enable_reviews_add_link_to_product_page"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_reviews_add_link_to_details_page' THEN product_extras.key_value END) as _product_enable_reviews_add_link_to_details_page"),  DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_video_feature' THEN product_extras.key_value END) as _product_enable_video_feature"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_display_mode' THEN product_extras.key_value END) as _product_video_feature_display_mode"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_title' THEN product_extras.key_value END) as _product_video_feature_title"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_panel_size' THEN product_extras.key_value END) as _product_video_feature_panel_size"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source' THEN product_extras.key_value END) as _product_video_feature_source"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source_embedded_code' THEN product_extras.key_value END) as _product_video_feature_source_embedded_code"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_video_feature_source_online_url' THEN product_extras.key_value END) as _product_video_feature_source_online_url"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_manufacturer' THEN product_extras.key_value END) as _product_enable_manufacturer"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_visibility_schedule' THEN product_extras.key_value END) as _product_enable_visibility_schedule"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_title' THEN product_extras.key_value END) as _product_seo_title"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_description' THEN product_extras.key_value END) as _product_seo_description"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_seo_keywords' THEN product_extras.key_value END) as _product_seo_keywords"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_compare_data' THEN product_extras.key_value END) as _product_compare_data"), DB::raw("max(CASE WHEN product_extras.key_name = '_is_role_based_pricing_enable' THEN product_extras.key_value END) as _is_role_based_pricing_enable"), DB::raw("max(CASE WHEN product_extras.key_name = '_role_based_pricing' THEN product_extras.key_value END) as _role_based_pricing"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_files' THEN product_extras.key_value END) as _downloadable_product_files"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_download_limit' THEN product_extras.key_value END) as _downloadable_product_download_limit"), DB::raw("max(CASE WHEN product_extras.key_name = '_downloadable_product_download_expiry' THEN product_extras.key_value END) as _downloadable_product_download_expiry"), DB::raw("max(CASE WHEN product_extras.key_name = '_upsell_products' THEN product_extras.key_value END) as _upsell_products"), DB::raw("max(CASE WHEN product_extras.key_name = '_crosssell_products' THEN product_extras.key_value END) as _crosssell_products"), DB::raw("max(CASE WHEN product_extras.key_name = '_selected_vendor' THEN product_extras.key_value END) as _selected_vendor"), DB::raw("max(CASE WHEN product_extras.key_name = '_product_enable_as_features' THEN product_extras.key_value END) as _product_enable_as_features"))
                        ->get()
@@ -1884,55 +1884,55 @@ class ProductsController extends Controller
 
     if(is_array($get_product) && count($get_product) > 0){
       if(!empty($get_product[0]->_product_related_images_url)){
-        $get_product[0]->_product_related_images_url = json_decode($get_product[0]->_product_related_images_url); 
+        $get_product[0]->_product_related_images_url = json_decode($get_product[0]->_product_related_images_url);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_panel_size)){
-        $get_product[0]->_product_custom_designer_panel_size = unserialize($get_product[0]->_product_custom_designer_panel_size); 
+        $get_product[0]->_product_custom_designer_panel_size = unserialize($get_product[0]->_product_custom_designer_panel_size);
       }
 
       if(!empty($get_product[0]->_product_video_feature_panel_size)){
-        $get_product[0]->_product_video_feature_panel_size = unserialize($get_product[0]->_product_video_feature_panel_size); 
+        $get_product[0]->_product_video_feature_panel_size = unserialize($get_product[0]->_product_video_feature_panel_size);
       }
 
       if(!empty($get_product[0]->_product_selected_categories)){
-        $get_product[0]->_product_selected_categories = unserialize($get_product[0]->_product_selected_categories); 
+        $get_product[0]->_product_selected_categories = unserialize($get_product[0]->_product_selected_categories);
       }
 
       if(!empty($get_product[0]->_product_selected_tags)){
-        $get_product[0]->_product_selected_tags = unserialize($get_product[0]->_product_selected_tags); 
+        $get_product[0]->_product_selected_tags = unserialize($get_product[0]->_product_selected_tags);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_data)){
-        $get_product[0]->_product_custom_designer_data = json_decode($get_product[0]->_product_custom_designer_data); 
+        $get_product[0]->_product_custom_designer_data = json_decode($get_product[0]->_product_custom_designer_data);
       }
 
       if(!empty($get_product[0]->_product_custom_designer_settings)){
-        $get_product[0]->_product_custom_designer_settings = unserialize($get_product[0]->_product_custom_designer_settings); 
+        $get_product[0]->_product_custom_designer_settings = unserialize($get_product[0]->_product_custom_designer_settings);
       }
 
       if(!empty($get_product[0]->_product_compare_data)){
-        $get_product[0]->_product_compare_data = unserialize($get_product[0]->_product_compare_data); 
+        $get_product[0]->_product_compare_data = unserialize($get_product[0]->_product_compare_data);
       }
 
       if(!empty($get_product[0]->_product_color_filter_data)){
-        $get_product[0]->_product_color_filter_data = unserialize($get_product[0]->_product_color_filter_data); 
+        $get_product[0]->_product_color_filter_data = unserialize($get_product[0]->_product_color_filter_data);
       }
 
       if(!empty($get_product[0]->_role_based_pricing)){
-        $get_product[0]->_role_based_pricing = unserialize($get_product[0]->_role_based_pricing); 
+        $get_product[0]->_role_based_pricing = unserialize($get_product[0]->_role_based_pricing);
       }
 
       if(!empty($get_product[0]->_downloadable_product_files)){
-        $get_product[0]->_downloadable_product_files = unserialize($get_product[0]->_downloadable_product_files); 
+        $get_product[0]->_downloadable_product_files = unserialize($get_product[0]->_downloadable_product_files);
       }
 
       $get_product = (array) array_shift($get_product);
-    }                   
+    }
 
-    return $get_product;                 
+    return $get_product;
   }
-  
+
   /**
    * Get function for brands products
    *
@@ -1942,11 +1942,11 @@ class ProductsController extends Controller
   public function getBrandDataBySlug($term_slug){
     $brand_data =  array();
     $get_brand_term = Term :: where(['slug' => $term_slug, 'type' => 'product_brands', 'status' => 1])->first();
-    
+
     if(!empty($get_brand_term)){
       $brand_term_details = $this->getTermDataById($get_brand_term->term_id);
       $brand_data['brand_details']  =  array_shift($brand_term_details);
-      
+
       $brand_data['products'] =  null;
       $get_object_data =  DB::table('products')
                           ->where(['products.status' => 1, 'object_relationships.term_id' => $get_brand_term->term_id ])
@@ -1954,15 +1954,15 @@ class ProductsController extends Controller
                           ->select('products.*')
                           ->orderBy('products.id', 'desc')
                           ->paginate(10);
-      
+
       if(count($get_object_data) > 0){
         $brand_data['products'] =  $get_object_data;
       }
     }
-     
+
     return $brand_data;
   }
-  
+
   /**
    * Get function for categories list by object id
    *
@@ -1975,27 +1975,27 @@ class ProductsController extends Controller
                       ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_cat' ])
                       ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
                       ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                      ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"))  
-                      ->groupBy('term_extras.term_id')      
+                      ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_category_description' THEN term_extras.key_value END) as category_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_category_img_url' THEN term_extras.key_value END) as category_img_url"))
+                      ->groupBy('term_extras.term_id')
                       ->get()
                       ->toArray();
 
     if(is_array($get_cat_list) && count($get_cat_list) > 0){
       $term_id   = array();
       $term_data = array();
-      
+
       foreach($get_cat_list as $row){
         array_push($term_id, $row->term_id);
         array_push($term_data, (array) $row);
       }
-      
+
       $get_cat_array['term_id'] = $term_id;
       $get_cat_array['term_details'] = $term_data;
     }
-    
+
     return $get_cat_array;
   }
-  
+
   /**
    * Get function for top parent
    *
@@ -2004,7 +2004,7 @@ class ProductsController extends Controller
    */
   public function getTopParentId($cat_id){
     $get_term = $this->getTermDataById($cat_id);
-    
+
     if(count($get_term)>0){
       if($get_term[0]['parent'] > 0){
         $this->getTopParentId($get_term[0]['parent']);
@@ -2012,13 +2012,13 @@ class ProductsController extends Controller
       else{
         $this->parent_id = $get_term[0]['term_id'];
       }
-      
+
       if(!empty($this->parent_id) > 0){
         return $this->parent_id;
       }
     }
   }
-  
+
   /**
    * Get function for tags list by object id
    *
@@ -2031,27 +2031,27 @@ class ProductsController extends Controller
                       ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_tag' ])
                       ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
                       ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                      ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_tag_description' THEN term_extras.key_value END) as tag_description"))  
-                      ->groupBy('term_extras.term_id')         
+                      ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_tag_description' THEN term_extras.key_value END) as tag_description"))
+                      ->groupBy('term_extras.term_id')
                       ->get()
                       ->toArray();
-     
+
     if(count($get_tag_list) > 0){
       $term_id = array();
       $term_data = array();
-      
+
       foreach($get_tag_list as $row){
         array_push($term_id, $row->term_id);
         array_push($term_data, (array) $row);
       }
-      
+
       $get_tag_array['term_id']      = $term_id;
       $get_tag_array['term_details'] = $term_data;
     }
-    
+
     return $get_tag_array;
   }
-  
+
   /**
    * Get function for colors list by object id
    *
@@ -2064,27 +2064,27 @@ class ProductsController extends Controller
                          ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_colors' ])
                          ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
                          ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                         ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_product_color_code' THEN term_extras.key_value END) as color_code"))  
-                         ->groupBy('term_extras.term_id')      
+                         ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_product_color_code' THEN term_extras.key_value END) as color_code"))
+                         ->groupBy('term_extras.term_id')
                          ->get()
                          ->toArray();
-     
+
     if(count($get_colors_list) > 0){
       $term_id = array();
       $term_data = array();
-      
+
       foreach($get_colors_list as $row){
         array_push($term_id, $row->term_id);
         array_push($term_data, (array) $row);
       }
-      
+
       $get_colors_array['term_id']      = $term_id;
       $get_colors_array['term_details'] = $term_data;
     }
-    
+
     return $get_colors_array;
   }
-  
+
   /**
    * Get function for sizes list by object id
    *
@@ -2099,23 +2099,23 @@ class ProductsController extends Controller
                         ->select('terms.*')
                         ->get()
                         ->toArray();
-     
+
     if(count($get_sizes_list) > 0){
       $term_id = array();
       $term_data = array();
-      
+
       foreach($get_sizes_list as $row){
         array_push($term_id, $row->term_id);
         array_push($term_data, (array) $row);
       }
-      
+
       $get_sizes_array['term_id']      = $term_id;
       $get_sizes_array['term_details'] = $term_data;
     }
-    
+
     return $get_sizes_array;
   }
-  
+
   /**
    * Get function for manufacturer list by object id
    *
@@ -2128,29 +2128,29 @@ class ProductsController extends Controller
                         ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_brands' ])
                         ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
                         ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
-                        ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_brand_country_name' THEN term_extras.key_value END) as brand_country_name"),  DB::raw("max(CASE WHEN term_extras.key_name = '_brand_short_description' THEN term_extras.key_value END) as brand_short_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_brand_logo_img_url' THEN term_extras.key_value END) as brand_logo_img_url"))  
-                        ->groupBy('term_extras.term_id')              
+                        ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_brand_country_name' THEN term_extras.key_value END) as brand_country_name"),  DB::raw("max(CASE WHEN term_extras.key_name = '_brand_short_description' THEN term_extras.key_value END) as brand_short_description"), DB::raw("max(CASE WHEN term_extras.key_name = '_brand_logo_img_url' THEN term_extras.key_value END) as brand_logo_img_url"))
+                        ->groupBy('term_extras.term_id')
                         ->get()
                         ->toArray();
-     
+
     if(count($get_brands_list) > 0){
       $term_id = array();
       $term_data = array();
-      
+
       foreach($get_brands_list as $row){
         array_push($term_id, $row->term_id);
         array_push($term_data, (array) $row);
       }
-      
+
       $get_brands_array['term_id']      = $term_id;
       $get_brands_array['term_details'] = $term_data;
     }
 
     return $get_brands_array;
   }
-  
+
   /**
-   * 
+   *
    * Get products list data
    *
    * @param pagination required. Boolean type TRUE or FALSE, by default false
@@ -2160,17 +2160,17 @@ class ProductsController extends Controller
    */
   public function getProducts($pagination = false, $search_val = null, $status_flag = -1, $author_id, $is_vendor_login = false){
     $where = '';
-    
+
     if(($is_vendor_login && Session::has('shopist_admin_user_id')) || (!empty($author_id) && $author_id > 0 && $author_id != 'all')){
       $post_author_id = 0;
-      
+
       if(!empty($author_id) && $author_id > 0 && $author_id != 'all'){
         $post_author_id = $author_id;
       }
       else{
         $post_author_id = Session::get('shopist_admin_user_id');
       }
-       
+
       if($status_flag != -1){
         $where = ['products.author_id' => $post_author_id, 'products.status' => $status_flag];
       }
@@ -2183,8 +2183,8 @@ class ProductsController extends Controller
         $where = ['products.status' => $status_flag];
       }
     }
-    
-    
+
+
     if(!empty($search_val) && $search_val != '' && !empty($where)){
       $get_posts_for_product = DB::table('products')->where($where)
                                ->where('products.title', 'LIKE', '%'. $search_val .'%')
@@ -2211,7 +2211,7 @@ class ProductsController extends Controller
 
     return $get_posts_for_product;
   }
-  
+
   /**
    * Get products by user id and name
    *
@@ -2224,7 +2224,7 @@ class ProductsController extends Controller
     $filter_arr    =  array();
     $get_posts_for_product = null;
     $final_data = array();
-    
+
     $product_data['min_price']          =   0;
     $product_data['max_price']          =   300;
     $product_data['selected_colors']    =  array();
@@ -2232,7 +2232,7 @@ class ProductsController extends Controller
     $product_data['selected_colors_hf'] =  '';
     $product_data['selected_sizes_hf']  =  '';
     $product_data['sort_by']            =  '';
-    
+
     //color filter
     if(isset($filter['selected_colors'])){
       $parse_colors = explode(',', $filter['selected_colors']);
@@ -2249,7 +2249,7 @@ class ProductsController extends Controller
         }
       }
     }
-        
+
     //size filter
     if(isset($filter['selected_sizes'])){
       $parse_sizes = explode(',', $filter['selected_sizes']);
@@ -2266,12 +2266,12 @@ class ProductsController extends Controller
         }
       }
     }
-      
+
     if(count($filter_arr) > 0){
       foreach($filter_arr as $term_filter){
         $get_posts_for_product  = DB::table('products')
                                   ->where(['products.author_id' => $user_id, 'products.status' => 1]);
-        
+
         if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0){
           $get_posts_for_product->where(['object_relationships.term_id' => $term_filter['id']]);
           $get_posts_for_product->whereRaw('products.price >=' . $filter['price_min']);
@@ -2279,9 +2279,9 @@ class ProductsController extends Controller
           $get_posts_for_product->join('object_relationships', 'object_relationships.object_id', '=', 'products.id');
         }
 
-        $get_posts_for_product->select('products.*'); 
+        $get_posts_for_product->select('products.*');
         $get_posts_for_product = $get_posts_for_product->get()->toArray();
-        
+
         if(count($get_posts_for_product) > 0){
           foreach($get_posts_for_product as $post){
             $post_data = (array)$post;
@@ -2293,14 +2293,14 @@ class ProductsController extends Controller
     else{
       $get_posts_for_product  = DB::table('products')
                                 ->where(['author_id' => $user_id, 'status' => 1]);
-      
+
       if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0 ){
         $get_posts_for_product->whereRaw('price >=' . $filter['price_min']);
         $get_posts_for_product->whereRaw('price <=' . $filter['price_max']);
       }
-      
-      $get_posts_for_product->select('products.*'); 
-      
+
+      $get_posts_for_product->select('products.*');
+
       //sorting
       if(isset($filter['sort']) && $filter['sort'] == 'alpaz'){
         $get_posts_for_product->orderBy('title', 'ASC');
@@ -2320,10 +2320,10 @@ class ProductsController extends Controller
       elseif (isset($filter['sort']) && $filter['sort'] == 'new-old') {
         $get_posts_for_product->orderBy('created_at', 'DESC');
       }
-      
+
       $get_posts_for_product = $get_posts_for_product->paginate(10);
     }
-    
+
     if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0){
       $product_data['min_price']  =   $filter['price_min'];
       $product_data['max_price']  =   $filter['price_max'];
@@ -2340,8 +2340,8 @@ class ProductsController extends Controller
     if(isset($filter['sort'])){
       $product_data['sort_by'] = $filter['sort'];
     }
-     
-    
+
+
     if(count($filter_arr) > 0){
       if(count($data_array) > 0){
         if(isset($filter['sort']) && $filter['sort'] != 'all'){
@@ -2368,13 +2368,13 @@ class ProductsController extends Controller
           $data_array = $this->classCommonFunction->sortBy($data_array, 'id', 'desc');
         }
       }
-    
+
       if(count($data_array) > 0){
         foreach($data_array as $row){
           array_push($final_data, (object)$row);
         }
       }
-      
+
       $currentPage = LengthAwarePaginator::resolveCurrentPage();
       $col = new Collection( $final_data );
       $perPage = 10;
@@ -2387,7 +2387,7 @@ class ProductsController extends Controller
     else{
       $product_data['products'] = $get_posts_for_product;
     }
-    
+
     return $product_data;
   }
 
@@ -2397,30 +2397,30 @@ class ProductsController extends Controller
   * @param null
   * @return array
   */
-  
+
   public function getProductCommentsList(){
     $comments_data = array();
-    
+
     if(is_vendor_login() && Session::has('shopist_admin_user_id')){
       $where = ['products.author_id' => Session::get('shopist_admin_user_id'), 'comments.target' => 'product'];
     }
     else{
       $where = ['comments.target' => 'product'];
     }
-    
+
     $get_comments = DB::table('comments')->where($where)
                     ->join('products', 'comments.object_id', '=', 'products.id')
                     ->join('users', 'comments.user_id', '=', 'users.id')
-                    ->select('comments.*', 'products.title', 'products.slug', 'users.display_name', 'users.user_photo_url')   
+                    ->select('comments.*', 'products.title', 'products.slug', 'users.display_name', 'users.user_photo_url')
                     ->paginate(10);
-      
+
     if(count($get_comments) > 0){
         $comments_data = $get_comments;
     }
-    
+
     return $comments_data;
   }
-  
+
   /**
    * Get function for advance products
    *
@@ -2431,7 +2431,7 @@ class ProductsController extends Controller
     $best_sales_arr      =  array();
     $todays_deal_arr     =  array();
     $advanced_arr        =  array();
-    
+
     if(Request::is('/')){
       $get_recommended_items = DB::table('products')
                                ->select('products.*')
@@ -2447,15 +2447,15 @@ class ProductsController extends Controller
                                ->get()
                                ->toArray();
     }
-    
+
     $get_latest_items =      DB::table('products')
                              ->select('products.*')
                              ->join(DB::raw("(SELECT product_id FROM product_extras WHERE key_name = '_product_enable_as_latest' AND key_value = 'yes') T1") , 'products.id', '=', 'T1.product_id')
                              ->take(5)
                              ->get()
                              ->toArray();
-   
-    if(Request::is('/')){ 
+
+    if(Request::is('/')){
       $get_todays_items      =  DB::table('posts')
                                 ->where('posts.post_type', 'shop_order')
                                 ->whereDate('posts.created_at', '=', $this->carbonObject->today()->toDateString())
@@ -2466,7 +2466,7 @@ class ProductsController extends Controller
                                 ->get()
                                 ->toArray();
     }
-    
+
     $get_best_sales        =  DB::table('product_extras')
                               ->select('product_id', DB::raw('max(cast(key_value as SIGNED INTEGER)) as max_number'))
                               ->where('key_name', '_total_sales')
@@ -2475,18 +2475,18 @@ class ProductsController extends Controller
                               ->take(5)
                               ->get()
                               ->toArray();
-     
+
     //best sales
     if(count($get_best_sales) > 0){
       foreach($get_best_sales as $items4){
         $get_post_for_best_sales = $this->getProductDataById($items4->product_id);
-        
+
         if(count($get_post_for_best_sales)>0){
           array_push($best_sales_arr, $get_post_for_best_sales);
         }
       }
     }
-    
+
     if(Request::is('/')){
       //todays deal
       if(count($get_todays_items) > 0){
@@ -2511,18 +2511,18 @@ class ProductsController extends Controller
         }
       }
     }
-    
+
     if(Request::is('/')){
       $advanced_arr['recommended_items']  =   $get_recommended_items;
       $advanced_arr['features_items']     =   $get_features_items;
-      $advanced_arr['todays_deal']        =   $todays_deal_arr; 
+      $advanced_arr['todays_deal']        =   $todays_deal_arr;
     }
     $advanced_arr['latest_items']         =   $get_latest_items;
-    $advanced_arr['best_sales']           =   $best_sales_arr; 
-     
+    $advanced_arr['best_sales']           =   $best_sales_arr;
+
     return $advanced_arr;
   }
-  
+
   /**
    * Get function for vendor advance products
    *
@@ -2533,9 +2533,9 @@ class ProductsController extends Controller
     $best_sales_arr      =  array();
     $todays_deal_arr     =  array();
     $advanced_arr        =  array();
-    
+
     $get_recommended_items = DB::table('products')
-                             ->where('products.author_id', $vendor_id) 
+                             ->where('products.author_id', $vendor_id)
                              ->select('products.*')
                              ->join(DB::raw("(SELECT product_id FROM product_extras WHERE key_name = '_product_enable_as_recommended' AND key_value = 'yes') T1") , 'products.id', '=', 'T1.product_id')
                              ->take(8)
@@ -2543,21 +2543,21 @@ class ProductsController extends Controller
                              ->toArray();
 
     $get_features_items =    DB::table('products')
-                             ->where('products.author_id', $vendor_id) 
+                             ->where('products.author_id', $vendor_id)
                              ->select('products.*')
                              ->join(DB::raw("(SELECT product_id FROM product_extras WHERE key_name = '_product_enable_as_features' AND key_value = 'yes') T1") , 'products.id', '=', 'T1.product_id')
                              ->take(8)
                              ->get()
                              ->toArray();
-    
+
     $get_latest_items =      DB::table('products')
-                             ->where('products.author_id', $vendor_id) 
+                             ->where('products.author_id', $vendor_id)
                              ->select('products.*')
                              ->join(DB::raw("(SELECT product_id FROM product_extras WHERE key_name = '_product_enable_as_latest' AND key_value = 'yes') T1") , 'products.id', '=', 'T1.product_id')
                              ->take(5)
                              ->get()
                              ->toArray();
-    
+
     $get_todays_items      =  DB::table('posts')
                               ->where('posts.post_type', 'shop_order')
                               ->whereDate('posts.created_at', '=', $this->carbonObject->today()->toDateString())
@@ -2567,7 +2567,7 @@ class ProductsController extends Controller
                               ->limit(10)
                               ->get()
                               ->toArray();
-    
+
     $get_best_sales        =  DB::table('product_extras')
                               ->select('product_id', DB::raw('max(cast(key_value as SIGNED INTEGER)) as max_number'))
                               ->where('key_name', '_total_sales')
@@ -2576,12 +2576,12 @@ class ProductsController extends Controller
                               ->limit(10)
                               ->get()
                               ->toArray();
-     
+
     //best sales
     if(count($get_best_sales) > 0){
       foreach($get_best_sales as $items4){
         $get_post_for_best_sales = $this->getProductDataById($items4->product_id);
-        
+
         if(isset($get_post_for_best_sales['author_id']) && $get_post_for_best_sales['author_id'] == $vendor_id){
           if(count($get_post_for_best_sales)>0){
             array_push($best_sales_arr, $get_post_for_best_sales);
@@ -2589,19 +2589,19 @@ class ProductsController extends Controller
         }
       }
     }
-    
+
     //todays deal
     if(count($get_todays_items) > 0){
       foreach($get_todays_items as $items5){
         if(!empty($items5->order_data)){
           $parse = json_decode($items5->order_data, true);
-          
+
           if(count($parse) > 0){
             foreach($parse as $items6){
               if(isset($items6['id'])){
                 if(!$this->classCommonFunction->is_item_already_exists_in_array($items6['id'], $todays_deal_arr)){
                   $get_post_for_todays_deal = $this->getProductDataById($items6['id']);
-                
+
                   if($get_post_for_todays_deal['author_id'] == $vendor_id){
                     if(count($get_post_for_todays_deal) > 0){
                       array_push($todays_deal_arr, $get_post_for_todays_deal);
@@ -2614,16 +2614,16 @@ class ProductsController extends Controller
         }
       }
     }
-    
+
     $advanced_arr['recommended_items']    =   $get_recommended_items;
     $advanced_arr['features_items']       =   $get_features_items;
     $advanced_arr['latest_items']         =   $get_latest_items;
-    $advanced_arr['best_sales']           =   $best_sales_arr; 
-    $advanced_arr['todays_deal']          =   $todays_deal_arr; 
-     
+    $advanced_arr['best_sales']           =   $best_sales_arr;
+    $advanced_arr['todays_deal']          =   $todays_deal_arr;
+
     return $advanced_arr;
   }
-  
+
   /**
    * Get function for product search filter with pagination
    *
@@ -2636,7 +2636,7 @@ class ProductsController extends Controller
     $filter_arr    =  array();
     $get_posts_for_product = null;
     $final_data = array();
-    
+
     $product_data['min_price']          =   0;
     $product_data['max_price']          =   300;
     $product_data['selected_colors']    =  array();
@@ -2644,7 +2644,7 @@ class ProductsController extends Controller
     $product_data['selected_colors_hf'] =  '';
     $product_data['selected_sizes_hf']  =  '';
     $product_data['sort_by']            =  '';
-    
+
     //color filter
     if(isset($filter['selected_colors'])){
       $parse_colors = explode(',', $filter['selected_colors']);
@@ -2661,7 +2661,7 @@ class ProductsController extends Controller
         }
       }
     }
-        
+
     //size filter
     if(isset($filter['selected_sizes'])){
       $parse_sizes = explode(',', $filter['selected_sizes']);
@@ -2678,12 +2678,12 @@ class ProductsController extends Controller
         }
       }
     }
-      
+
     if(count($filter_arr) > 0){
       foreach($filter_arr as $term_filter){
         $get_posts_for_product  = DB::table('products')
                                   ->where(['products.status' => 1]);
-        
+
         if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0){
           $get_posts_for_product->where(['object_relationships.term_id' => $term_filter['id']]);
           $get_posts_for_product->whereRaw('products.price >=' . $filter['price_min']);
@@ -2691,9 +2691,9 @@ class ProductsController extends Controller
           $get_posts_for_product->join('object_relationships', 'object_relationships.object_id', '=', 'products.id');
         }
 
-        $get_posts_for_product->select('products.*'); 
+        $get_posts_for_product->select('products.*');
         $get_posts_for_product = $get_posts_for_product->get()->toArray();
-        
+
         if(count($get_posts_for_product) > 0){
           foreach($get_posts_for_product as $post){
             $post_data = (array)$post;
@@ -2705,18 +2705,18 @@ class ProductsController extends Controller
     else{
       $get_posts_for_product  = DB::table('products')
                                 ->where(['status' => 1]);
-      
+
       if(isset($filter['srch_term'])){
         $get_posts_for_product->where('title', 'like', '%'. $filter['srch_term'] .'%');
       }
-      
+
       if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0 ){
         $get_posts_for_product->whereRaw('price >=' . $filter['price_min']);
         $get_posts_for_product->whereRaw('price <=' . $filter['price_max']);
       }
-      
-      $get_posts_for_product->select('products.*'); 
-      
+
+      $get_posts_for_product->select('products.*');
+
       //sorting
       if(isset($filter['sort']) && $filter['sort'] == 'alpaz'){
         $get_posts_for_product->orderBy('title', 'ASC');
@@ -2736,10 +2736,10 @@ class ProductsController extends Controller
       elseif (isset($filter['sort']) && $filter['sort'] == 'new-old') {
         $get_posts_for_product->orderBy('created_at', 'DESC');
       }
-      
+
       $get_posts_for_product = $get_posts_for_product->paginate(10);
     }
-    
+
     if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0){
       $product_data['min_price']  =   $filter['price_min'];
       $product_data['max_price']  =   $filter['price_max'];
@@ -2756,8 +2756,8 @@ class ProductsController extends Controller
     if(isset($filter['sort'])){
       $product_data['sort_by'] = $filter['sort'];
     }
-     
-    
+
+
     if(count($filter_arr) > 0){
       if(count($data_array) > 0){
         if(isset($filter['sort']) && $filter['sort'] != 'all'){
@@ -2784,13 +2784,13 @@ class ProductsController extends Controller
           $data_array = $this->classCommonFunction->sortBy($data_array, 'id', 'desc');
         }
       }
-    
+
       if(count($data_array) > 0){
         foreach($data_array as $row){
           array_push($final_data, (object)$row);
         }
       }
-      
+
       $currentPage = LengthAwarePaginator::resolveCurrentPage();
       $col = new Collection( $final_data );
       $perPage = 10;
@@ -2803,10 +2803,10 @@ class ProductsController extends Controller
     else{
       $product_data['products'] = $get_posts_for_product;
     }
-    
+
     return $product_data;
   }
-  
+
   /**
    * Get function for products by cat slug
    *
@@ -2817,15 +2817,15 @@ class ProductsController extends Controller
     $data_array         =   array();
     $post_array         =   array();
     $selected_cat       =   array();
-    $color_size_obj_id  =   array(); 
+    $color_size_obj_id  =   array();
     $filter_arr         =   array();
-    
+
     $get_term = Term::where(['slug' => $cat_slug, 'type' => 'product_cat'])->first();
-     
+
     if(!empty($get_term) && isset($get_term->term_id)){
       $str    = '';
       $cat_id = $get_term->term_id;
-      
+
       $post_array['min_price']          =  0;
       $post_array['max_price']          =  300;
       $post_array['selected_colors']    =  array();
@@ -2833,7 +2833,7 @@ class ProductsController extends Controller
       $post_array['selected_colors_hf'] =  '';
       $post_array['selected_sizes_hf']  =  '';
       $post_array['sort_by']  =  '';
-      
+
       $get_term_data = $this->getTermDataById( $get_term->term_id );
       $get_child_cat = $this->get_categories($get_term->term_id, 'product_cat');
       $parent_id     = $this->getTopParentId( $get_term->term_id );
@@ -2841,27 +2841,27 @@ class ProductsController extends Controller
       $cat_data['id']    =  $get_term_data[0]['term_id'];
       $cat_data['name']  =  $get_term_data[0]['name'];
       $cat_data['slug']  =  $get_term_data[0]['slug'];
-      
+
       if($get_term_data[0]['parent'] == 0){
         $cat_data['parent']  =  'Parent Categories';
       }
       else{
         $cat_data['parent']  =  'Sub Categories';
       }
-      
+
       $cat_data['parent_id']  =  $get_term_data[0]['parent'] ;
       $cat_data['description']  =  $get_term_data[0]['category_description'];
       $cat_data['img_url']  =  $get_term_data[0]['category_img_url'];
       $cat_data['search_type']  =  'category-filter';
-      
-      
+
+
       //color filter
       if(isset($filter['selected_colors'])){
         $parse_colors = explode(',', $filter['selected_colors']);
 
         if(count($parse_colors) > 0){
           $post_array['selected_colors'] = $parse_colors;
-            
+
           foreach($parse_colors as $color){
             $get_color_term = Term::where(['slug' => $color, 'type' => 'product_colors'])->first();
 
@@ -2871,14 +2871,14 @@ class ProductsController extends Controller
           }
         }
       }
-        
+
       //size filter
       if(isset($filter['selected_sizes'])){
         $parse_sizes = explode(',', $filter['selected_sizes']);
 
         if(count($parse_sizes) > 0){
           $post_array['selected_sizes']	 =  $parse_sizes;
-          
+
           foreach($parse_sizes as $size){
             $get_size_term = Term::where(['slug' => $size, 'type' => 'product_sizes'])->first();
 
@@ -2888,24 +2888,24 @@ class ProductsController extends Controller
           }
         }
       }
-      
+
       if(count($get_child_cat) > 0){
 				$all_cat = array();
         $cats_arr = $this->createCategoriesSimpleList( $get_child_cat );
-                
+
 				if(count($cats_arr) > 0){
           $cats_arr = array_map(function($cats_arr){
             return $cats_arr + ['search_type' => 'category-filter'];
           }, $cats_arr);
-          
+
           array_push($cats_arr, $cat_data);
 					$all_cat = $cats_arr;
         }
-        				
+
         if(count($filter_arr) > 0 && count($cats_arr) > 0){
           $cats_arr = array_merge($filter_arr, $cats_arr);
         }
-        
+
         foreach($cats_arr as $cat){
           if( (count($filter_arr) > 0 && ($cat['search_type'] == 'color-filter' || $cat['search_type'] == 'size-filter')) || (count($filter_arr) == 0 && $cat['search_type'] == 'category-filter')){
             $get_post_data =  DB::table('products');
@@ -2920,11 +2920,11 @@ class ProductsController extends Controller
 
             $get_post_data->select('products.*');
             $get_post_data = $get_post_data->get()->toArray();
-            
+
             if(count($get_post_data) > 0){
               foreach($get_post_data as $post){
                 $filter_cat = array();
-                
+
                 if($cat['search_type'] == 'color-filter' || $cat['search_type'] == 'size-filter'){
                   $filter_cat = $this->getCatByObjectId( $post->id );
                 }
@@ -2935,7 +2935,7 @@ class ProductsController extends Controller
                 }
               }
             }
-          }		
+          }
 
           if($cat['search_type'] == 'category-filter'){
             array_push($selected_cat, $cat['id']);
@@ -2946,15 +2946,15 @@ class ProductsController extends Controller
         $parent_cat_ary = array();
         $parent_cat_ary[] = $cat_data;
         $all_cat = $parent_cat_ary;
-        
+
         if(count($filter_arr) > 0){
           $parent_cat_ary = array_merge($filter_arr, $parent_cat_ary);
         }
-        
+
         if(count($parent_cat_ary) > 0){
           foreach($parent_cat_ary as $cat){
             if( (count($filter_arr) > 0 && ($cat['search_type'] == 'color-filter' || $cat['search_type'] == 'size-filter')) || (count($filter_arr) == 0 && $cat['search_type'] == 'category-filter')){
-              
+
               $get_post_data =  DB::table('products');
               $get_post_data->where(['products.status' => 1, 'object_relationships.term_id' => $cat['id'] ]);
 
@@ -2982,7 +2982,7 @@ class ProductsController extends Controller
                   }
                 }
               }
-            }  
+            }
 
             if($cat['search_type'] == 'category-filter'){
               array_push($selected_cat, $cat['id']);
@@ -2990,7 +2990,7 @@ class ProductsController extends Controller
           }
         }
       }
-      
+
       if( isset($filter['price_min']) && isset($filter['price_max']) && $filter['price_min'] >= 0 && $filter['price_max'] >=0){
         $post_array['min_price']  =   $filter['price_min'];
         $post_array['max_price']  =   $filter['price_max'];
@@ -3003,11 +3003,11 @@ class ProductsController extends Controller
       if(isset($filter['selected_sizes'])){
         $post_array['selected_sizes_hf']  =  $filter['selected_sizes'];
       }
-      
+
       if(isset($filter['sort'])){
         $post_array['sort_by'] = $filter['sort'];
       }
-			
+
       if(count($data_array) > 0){
         if(isset($filter['sort']) && $filter['sort'] != 'all'){
           if($filter['sort'] == 'alpaz'){
@@ -3033,18 +3033,18 @@ class ProductsController extends Controller
           $data_array = $this->classCommonFunction->sortBy($data_array, 'id', 'desc');
         }
       }
-      
+
       $currentPage = LengthAwarePaginator::resolveCurrentPage();
       $col = new Collection( $data_array );
       $perPage = 10;
       $currentPageSearchResults = $col->slice(($currentPage - 1) * $perPage, $perPage)->all();
       $posts_object = new LengthAwarePaginator($currentPageSearchResults, count($col), $perPage);
       $posts_object->setPath( route('categories-page', $cat_data['slug']) );
-      
-      
+
+
       if($cat_data['parent_id'] > 0){
         $parent_cat = $this->getTermDataById( $cat_data['parent_id'] );
-        
+
         $str = '<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="'. route('home-page') .'"><i class="fa fa-home"></i></a></li><li class="breadcrumb-item"><a href="'. route('shop-page') .'">'. Lang::get('frontend.all_products_label' ) .'</a></li><li class="breadcrumb-item"><a href="'. route('categories-page', $parent_cat[0]['slug']) .'">'. $parent_cat[0]['name'] .'</a></li><li class="breadcrumb-item active" aria-current="page">'. $cat_data['name'] .'</li></ol></nav>';
       }
       else{
@@ -3057,10 +3057,10 @@ class ProductsController extends Controller
       $post_array['parent_id']       =  $parent_id;
       $post_array['parent_slug']     =  $cat_data['slug'];
     }
- 
+
     return $post_array;
   }
-    
+
   /**
    * Get function for attributes
    *
@@ -3070,7 +3070,7 @@ class ProductsController extends Controller
   public function getAllAttributes($product_id){
     $get_available_attribute = array();
     $get_attr_from_global	 =  $this->getTermData( 'product_attr', false, null, 1 );
-     
+
     if(count($get_attr_from_global) > 0){
       foreach($get_attr_from_global as $term){
         $ary = array();
@@ -3084,12 +3084,12 @@ class ProductsController extends Controller
         array_push($get_available_attribute, $ary);
       }
     }
-    
+
     $get_attr_by_products  =  PostExtra::where(['post_id' => $product_id, 'key_name' => '_attribute_post_data'])->get()->toArray();
-    
+
     if(count($get_attr_by_products)>0){
       $parseJsonToArray = json_decode($get_attr_by_products[0]['key_value']);
-      
+
       if(!empty($parseJsonToArray)){
         foreach($parseJsonToArray as $row){
           $ary = array();
@@ -3104,10 +3104,10 @@ class ProductsController extends Controller
         }
       }
     }
-    
+
     return $get_available_attribute;
   }
-  
+
   /**
    * Get products by cat id
    *
@@ -3123,35 +3123,35 @@ class ProductsController extends Controller
                       ->orderBy('products.id', 'desc')
                       ->get()
                       ->toArray();
-    
+
     if(count($get_post_data) > 0){
       $object_array = $get_post_data;
     }
-    
+
     return $object_array;
   }
-  
+
   /**
    * Get related items
    *
    * @param product id
    * @return array
    */
-  
+
   public function getRelatedItems($product_id){
     $related_items  =  array();
     $related_products  =  array();
-    
+
     //categories product search
     $cat_lists = $this->getCatByObjectId($product_id);
-    
+
     if(count($cat_lists) > 0 && isset($cat_lists['term_id']) && count($cat_lists['term_id']) > 0){
       foreach($cat_lists['term_id'] as $cat_id){
         $cat_term = $this->getTermDataById($cat_id);
-        
+
         if(count($cat_term) > 0){
           $get_cat_product_list  =  $this->getProductsByTermId($cat_term[0]['term_id']);
-          
+
           if(count($get_cat_product_list) >0){
             foreach($get_cat_product_list as $product){
               if($product->id != $product_id){
@@ -3162,17 +3162,17 @@ class ProductsController extends Controller
         }
       }
     }
-   
+
     //tags product search
     $tag_lists = $this->getTagsByObjectId($product_id);
-    
+
     if(count($tag_lists) > 0 && isset($tag_lists['term_id']) && count($tag_lists['term_id']) > 0){
       foreach($tag_lists['term_id'] as $tag_id){
         $tag_term = $this->getTermDataById($tag_id);
-        
+
         if(count($tag_term) > 0){
           $get_tag_product_list  =  $this->getProductsByTermId($tag_term[0]['term_id']);
-          
+
           if(count($get_tag_product_list) > 0 ){
             foreach($get_tag_product_list as $tag_product){
              if($tag_product->id != $product_id){
@@ -3183,17 +3183,17 @@ class ProductsController extends Controller
         }
       }
     }
-     
+
     //brand product search
     $brand_lists = $this->getManufacturerByObjectId($product_id);
-    
+
     if(count($brand_lists) > 0 && isset($brand_lists['term_id']) && count($brand_lists['term_id']) > 0){
       foreach($brand_lists['term_id'] as $brand_id){
         $brand_term = $this->getTermDataById($brand_id);
-        
+
         if(count($brand_term) > 0){
           $get_brands_product_list  =  $this->getProductsByTermId($brand_term[0]['term_id']);
-          
+
           if(count($get_brands_product_list) > 0){
             foreach($get_brands_product_list as $brand_product){
               if($brand_product->id != $product_id){
@@ -3204,28 +3204,28 @@ class ProductsController extends Controller
         }
       }
     }
-    
-    
+
+
     if(count($related_items) > 0){
       $products_id_array = array_unique($related_items);
-   
+
       if(count($products_id_array) > 0){
         foreach($products_id_array as $related_products_id){
           $get_post_meta  =  ProductExtra :: where(['product_id' => $related_products_id, 'key_name' => '_product_enable_as_related'])->first();
 
           if(!empty($get_post_meta) && $get_post_meta->key_value == 'yes'){
             array_push($related_products, $this->getProductDataById($related_products_id));
-          }  
+          }
         }
       }
     }
-    
+
     return $related_products;
   }
-  
+
   /**
-   * 
-   *Export products 
+   *
+   *Export products
    *
    * @param null
    * @return void
@@ -3233,15 +3233,15 @@ class ProductsController extends Controller
   public function manageExportProducts(){
     $export_data  = array();
     $get_products = array();
-    
+
     if(is_vendor_login() && Session::has('shopist_admin_user_id')){
       $get_products = Product :: where(['author_id' => Session::get('shopist_admin_user_id')])->orderBy('id', 'DESC')->get()->toArray();
     }
     else{
       $get_products = Product :: where([])->orderBy('id', 'DESC')->get()->toArray();
     }
-    
-    
+
+
     if(count($get_products) > 0){
       foreach($get_products as $rows){
         $regular_price = '';
@@ -3259,10 +3259,10 @@ class ProductsController extends Controller
         $seo_desc = '';
         $seo_keywords = '';
         $visibility = FALSE;
-        
+
         $regular_price = $rows['regular_price'];
         $sku = $rows['sku'];
-        
+
         if($rows['status'] == 1){
           $visibility = TRUE;
         }
@@ -3355,9 +3355,9 @@ class ProductsController extends Controller
 
     return Response::stream($callback, 200, $headers);
   }
-  
+
   /**
-   * 
+   *
    * Get designer shape list
    *
    * @param null
@@ -3371,21 +3371,21 @@ class ProductsController extends Controller
     else{
       $where = ['post_type' => 'designer_shape', 'post_status' => $status_flag];
     }
-    
+
     if($search_val && $search_val != null){
       $get_post = DB::table('posts')
                       ->where($where)
                       ->where('post_title', 'LIKE', '%'. $search_val .'%')
-                      ->orderBy('id', 'desc');    
+                      ->orderBy('id', 'desc');
     }
     else{
       $get_post = DB::table('posts')
                       ->where($where)
-                      ->orderBy('id', 'desc');      
+                      ->orderBy('id', 'desc');
     }
-    
+
     if($pagination){
-      $data = $get_post->paginate(10);  
+      $data = $get_post->paginate(10);
     }
     else{
       $data = $get_post->get()->toArray();
@@ -3393,27 +3393,27 @@ class ProductsController extends Controller
 
     return $data;
   }
-  
+
   /**
-   * 
+   *
    * Get designer fonts list
    *
    * @param null
    * @return void
    */
-  public function getFontsList($pagination = false, $search_val = null, $status_flag = -1){    
+  public function getFontsList($pagination = false, $search_val = null, $status_flag = -1){
     if($status_flag == -1){
       $where = ['posts.post_type' => 'custom_font'];
     }
     else{
       $where = ['posts.post_type' => 'custom_font', 'posts.post_status' => $status_flag];
     }
-    
+
     if($search_val && $search_val !=null){
       $get_post = DB::table('posts')
                       ->where($where)
                       ->where('posts.post_title', 'LIKE', '%'. $search_val .'%')
-                      ->orderBy('posts.id', 'desc');       
+                      ->orderBy('posts.id', 'desc');
     }
     else{
       $get_post = DB::table('posts')
@@ -3423,20 +3423,20 @@ class ProductsController extends Controller
 
     $get_post = $get_post->join('post_extras', 'posts.id', '=', 'post_extras.post_id')
                          ->select('posts.*', DB::raw("max(CASE WHEN post_extras.key_name = '_font_uploaded_url' THEN post_extras.key_value END) as url"));
-    
-    
+
+
     if($pagination){
-      $data = $get_post->groupBy('post_extras.post_id')->paginate(10); 
+      $data = $get_post->groupBy('post_extras.post_id')->paginate(10);
     }
     else{
       $data = $get_post->groupBy('post_extras.post_id')->get()->toArray();
     }
 
-    return $data; 
+    return $data;
   }
-  
+
   /**
-   * 
+   *
    * Get post meta
    *
    * @param post_id, key_name
@@ -3448,12 +3448,12 @@ class ProductsController extends Controller
     if(!empty($post_meta)){
       $get_post_meta = $post_meta;
     }
-    
+
     return $get_post_meta;
   }
-  
+
   /**
-   * 
+   *
    * Create product content data
    *
    * @param array
@@ -3472,17 +3472,17 @@ class ProductsController extends Controller
     $data['fields_name']                   =   $this->option->getProductCompareData();
     $data['settings_data']                 =   $this->option->getSettingsData();
     $data['currency_symbol']               =   $this->classCommonFunction->get_currency_symbol( $data['settings_data']['general_settings']['currency_options']['currency_name'] );
-    
-    $data['product_all_images_json']			=		json_encode(  
+
+    $data['product_all_images_json']			=		json_encode(
                                                   array(                                                                                     'product_image'            => '',
                                                   'product_gallery_images'   => array(),
                                                   'shop_banner_image'        => ''
                                                   )
                                               );
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
-    $data['sidebar_data'] = $sidebar;                                        
-    
+    $data['sidebar_data'] = $sidebar;
+
     return $data;
   }
 }

@@ -8,23 +8,23 @@ return [
     'products'                                                        =>  'Products',
     'all_products'                                                    =>  'All Products',
     'add_product'                                                     =>  'Add Product',
-    'categories'                                                      =>  'Categories', 
+    'categories'                                                      =>  'Categories',
     'tags'                                                            =>  'Tags',
     'attributes'                                                      =>  'Attributes',
-    'shipping_method'                                                 =>  'Shipping Method', 
+    'shipping_method'                                                 =>  'Shipping Method',
     'shipping_options'                                                =>  'Shipping Options',
     'flat_rate'                                                       =>  'Flat Rate',
     'free_shipping'                                                   =>  'Free Shipping',
     'local_delivery'                                                  =>  'Local Delivery',
     'payment_method'                                                  =>  'Payment Method',
-    'payment_options'                                                 =>  'Payment Options', 
+    'payment_options'                                                 =>  'Payment Options',
     'direct_bank_transfer'                                            =>  'Direct Bank Transfer',
     'cash_on_delivery'                                                =>  'Cash on Delivery',
     'paypal'                                                          =>  'PayPal',
     'stripe'                                                          =>  'Stripe',
     'two_checkout'                                                    =>  '2Checkout',
     'manufacturers'                                                   =>  'Manufacturers',
-    'all_manufacturers'                                               =>  'All Manufacturers', 
+    'all_manufacturers'                                               =>  'All Manufacturers',
     'add_manufacturer'                                                =>  'Add Manufacturer',
     'custom_designer_elements'                                        =>  'Custom Designer Elements',
     'art_categories_lists'                                            =>  'Art Categories Lists',
@@ -304,7 +304,7 @@ return [
     'add_manufacturers'                                               =>  'Add Manufacturers',
     'update_manufacturers'                                            =>  'Update Manufacturers',
     'update_general_settings'                                         =>  'Update General Settings',
-    'manage_menu_content'                                             =>  'Manage menu',  
+    'manage_menu_content'                                             =>  'Manage menu',
     'manage_languages'                                                =>  'Manage Languages',
     'upload_languages_zip'                                            =>  'Upload Language Zip File',
     'clipart_categories_list'                                         =>  'Clipart Categories List',
@@ -367,7 +367,7 @@ return [
     'display_shipping_methods_with_radio_buttons'                     =>  'Display shipping methods with "radio" buttons',
     'display_shipping_methods_in_a_dropdown'                          =>  'Display shipping methods in a dropdown',
     'general_settings'                                                =>  'General Settings',
-    'menu_settings'                                                   =>  'Menu Settings',  
+    'menu_settings'                                                   =>  'Menu Settings',
     'general_options'                                                 =>  'General Options',
     'upload_lang_file'                                                =>  'Language File Upload Option',
     'edit_upload_lang_file'                                           =>  'Language File Edit Option',
@@ -512,7 +512,7 @@ return [
     '2checkout_desc'                                                  =>  "2Checkout is a simple way to accept payments online.",
     'authentication_failed_msg'                                       =>  'oh no!, authentication failed, try again',
     'categories_list'                                                 =>  'Categories List',
-    'request_products_list'                                           =>  'Request Products List',  
+    'request_products_list'                                           =>  'Request Products List',
     'no_related_data'                                                 =>  'No Related Data!',
     'authentication_failed_with_email_secret'                         =>  'authentication failed with email and secret key, try again',
     'total'                                                           =>  'Total',
@@ -536,17 +536,17 @@ return [
     'download_file'                                                   =>  'Download',
     'zip_file_success_updated_msg'                                    =>  'Your language file successfully updated',
     'frontend_layout'                                                 =>  'Appearance',
-    'menu_label'                                                      =>  'Menu',  
+    'menu_label'                                                      =>  'Menu',
     'page_menu_title'                                                 =>  'Pages',
     'all_pages_list'                                                  =>  'All Pages',
     'blog_manager'                                                    =>  'Blogs',
     'posts_list'                                                      =>  'All Posts',
-    'currency_list'                                                   =>  'Custom Currency List',  
-    'add_currency'                                                    =>  'Add Custom Currency',  
-    'update_currency'                                                 =>  'Update Custom Currency',  
+    'currency_list'                                                   =>  'Custom Currency List',
+    'add_currency'                                                    =>  'Add Custom Currency',
+    'update_currency'                                                 =>  'Update Custom Currency',
     'pages_list'                                                      =>  'Pages List',
     'add_new_post'                                                    =>  'Add New Post',
-    'add_new_currency'                                                =>  'Add New Currency',  
+    'add_new_currency'                                                =>  'Add New Currency',
     'add_new_page'                                                    =>  'Add New Page',
     'blog_comments_list'                                              =>  'Comments List',
     'blog_settings'                                                   =>  'Settings',
@@ -830,12 +830,12 @@ return [
 		'more_features_add_compare_fields_label'                            =>  'Add Compare Fields Name',
 		'more_add_filter_color_label'                                       =>  'Add Filter Color',
 		'more_features_add_compare_more_fields_label'                       =>  'Add New Field Name',
-		'add_new_filter_color_label'                                        =>  'Add New Filter Color',		
+		'add_new_filter_color_label'                                        =>  'Add New Filter Color',
     'home_page_cat_select_label'                                      =>  'Select for top categories to display at home page',
     'no_cat_yet_label'                                                =>  'No categories yet!',
     'home_page_product_label_1'                                       =>  'Home Page Product',
     'home_page_product_label_2'                                       =>  'Enable as a selected top categories product to display at home page',
-    'home_page_cat_collection_select_label'                           =>  'Select for categories collection list to display at home page', 
+    'home_page_cat_collection_select_label'                           =>  'Select for categories collection list to display at home page',
 		'remove_label'                                                      =>  'Remove',
     'more_compare_field_placeholder'                                  =>  'Enter your field name or field title. example: Camera features',
     'add_compare_data_title'                                          =>  'Add More Compare Data',
@@ -843,7 +843,7 @@ return [
     'no_data_found_label'                                             =>  'No data found',
     'cat_search_placeholder'                                          =>  'Enter category name to search',
     'post_title_search_placeholder'                                   =>  'Enter title to search',
-		'enable_role_based_pricing_label'                                   =>  'Enable Role Based Pricing',		
+		'enable_role_based_pricing_label'                                   =>  'Enable Role Based Pricing',
 		'user_pricing_top_label'                                            =>  'Add :user_role Role Pricing',
 		'import_label'                                                      =>  'Import',
 		'export_label'                                                      =>  'Export',
@@ -892,8 +892,8 @@ return [
     'vendor_state_label'                                              =>  'State',
     'vendor_zip_postal_label'                                         =>  'Zip/Postal Code',
     'vendors_settings_page_title'                                     =>  'Vendor Settings',
-    'sidebar_menu_label'                                              =>  'Sidebar Menu', 
-    'cover_image_label'                                               =>  'Cover Image',  
+    'sidebar_menu_label'                                              =>  'Sidebar Menu',
+    'cover_image_label'                                               =>  'Cover Image',
     'social_media_label'                                              =>  'Social Media',
     'google_map_api_key_label'                                        =>  'Google Map API Key',
     'google_map_details_label'                                        =>  'Google Map Details',
@@ -1039,7 +1039,7 @@ return [
     'total_earning_label'                                             =>  "Total Earning in this period",
     'order_total_label'                                               =>  "Order total in this period",
     'order_placed_label'                                              =>  "orders placed in this period",
-    'only_year_label'                                                 =>  "Year", 
+    'only_year_label'                                                 =>  "Year",
     'created_date_label'                                              =>  "Created Date",
     'select_a_vendor'                                                 =>  "Select a vendor",
     'filter_data'                                                     =>  "Filter Data",
@@ -1051,7 +1051,7 @@ return [
     'running_version_label'                                           =>  "Shopist Running Version",
     'laravel_version_label'                                           =>  "Laravel Version",
     'emails_label'                                                    =>  'Emails',
-    'custom_currency_list_label'                                      =>  'Custom Currency List',  
+    'custom_currency_list_label'                                      =>  'Custom Currency List',
     'emails_notifications_label'                                      =>  'Email Notifications',
     'emails_notifications_msg'                                        =>  'Email notifications sent from Shopist are listed below. Click on an email to configure it.',
     'emails_notifications_new_order_label'                            =>  'New order',
@@ -1156,65 +1156,74 @@ return [
     'back_to_login_label'                                              =>  'Back to login',
     'compitable_label'                                                 =>  'This features only for compatible templates',
     'contact_label'                                                    =>  'Contact',
+    'available_at'                                                     =>  'Available At',
+    'available_at_list'                                                =>  'Available At List',
+    'available_at_new'                                                 =>  'Add New Available',
+    'available_at_create_label'                                        =>  'Create Available At',
+    'available_at_all_label'                                           =>  'All Available At',
+
+
+
+
     'restapitoken' => [
       'label' => 'Token',
       'menu' => [
         'label' => 'REST API',
       ],
-      
+
       'create_content' => [
         'page_title' => 'Create api token',
         'header_title' => 'Generate rest api token',
         'field_title_1' => 'Title',
         'field_title_2' => 'Select user',
         'field_title_3' => 'Permissions',
-        'read_label' => 'Read',  
+        'read_label' => 'Read',
         'write_label' => 'Write',
         'read_write_label' => 'Read/Write',
         'submit_btn_label' => 'Generate',
         'token_list_label' => 'Token List'
       ],
-      
+
       'update_content' => [
         'page_title' => 'Update api token',
         'header_title' => 'Update token',
         'token_list_label' => 'Token List',
-        'submit_btn_label' => 'Update'  
+        'submit_btn_label' => 'Update'
       ],
-      
+
       'field_validation' => [
         'title_field_required_msg' => 'Title field is required',
         'user_field_required_msg' => 'User field is required',
         'permissions_field_required_msg' => 'Permissions field is required',
-        'user_unique_msg' => 'You can not create multiple token for user',  
+        'user_unique_msg' => 'You can not create multiple token for user',
       ],
-      
+
       'list_content' => [
         'page_title' => 'Token List',
-        'header_title' => 'Token List',  
+        'header_title' => 'Token List',
         'create_link_label' => 'Create New Token',
         'table_title_1' => 'Title',
-        'table_title_2' => 'User',  
+        'table_title_2' => 'User',
         'table_title_3' => 'Permissions',
         'table_title_4' => 'Created date',
-        'table_title_5' => 'Action',  
-        'read_label' => 'Read',  
+        'table_title_5' => 'Action',
+        'read_label' => 'Read',
         'write_label' => 'Write',
         'read_write_label' => 'Read/Write',
-        'get_token_label' => 'Get Token', 
-        'token_modal_title' => 'REST API Token'  
+        'get_token_label' => 'Get Token',
+        'token_modal_title' => 'REST API Token'
       ],
-      
+
       'search_content' => [
-        'user_label' => 'user', 
-        'title' => 'title',  
+        'user_label' => 'user',
+        'title' => 'title',
       ]
     ],
 
     'search_content' => [
       'default_option_label' => 'Select :attribute',
       'search_placeholder' => 'Search by :attribute',
-      'search_btn_label' => 'Search'  
+      'search_btn_label' => 'Search'
     ],
 
     'table_empty' => [

@@ -5,7 +5,7 @@ use App\Library\GetFunction;
  * Get function for product title
  *
  * @param product id
- * @return string 
+ * @return string
  */
 function get_product_title($product_id = '')
 {
@@ -16,7 +16,7 @@ function get_product_title($product_id = '')
  * Get function for product slug
  *
  * @param product id
- * @return string 
+ * @return string
  */
 function get_product_slug($product_id = '')
 {
@@ -68,7 +68,7 @@ function get_product_brands_lists($product_id)
 }
 
 /**
- * Brands list using comma separator for product single page 
+ * Brands list using comma separator for product single page
  * @param brands list {array}
  * @return string
  */
@@ -78,7 +78,7 @@ function get_single_page_product_brands_lists($brand_list)
 }
 
 /**
- * Tags list using comma separator for product single page 
+ * Tags list using comma separator for product single page
  * @param tags list {array}
  * @return string
  */
@@ -88,7 +88,7 @@ function get_single_page_product_tags_lists($tags_list)
 }
 
 /**
- * Categories list using comma separator for product single page 
+ * Categories list using comma separator for product single page
  * @param product id
  * @return string
  */
@@ -150,7 +150,7 @@ function get_product_tags_lists( $product_id )
 function get_products_by_product_tag_slug( $slug )
 {
   return GetFunction::products_by_product_tag_slug( $slug );
-} 
+}
 
 /**
  * Get function for products type
@@ -241,7 +241,7 @@ function get_country_list()
 }
 
 /**
- * Get function for country 
+ * Get function for country
  *
  * @param Country code
  * @return string
@@ -387,7 +387,7 @@ function get_product_review($product_id)
  * Create price view using selected options
  *
  * @param price value, currency_code no required
- * @return html 
+ * @return html
  */
 function price_html($price, $currency_code = null)
 {
@@ -398,7 +398,7 @@ function price_html($price, $currency_code = null)
  * Create price view only for product list using selected options
  *
  * @param price value, settings
- * @return html 
+ * @return html
  */
 function price_html_for_list($price, $settings)
 {
@@ -450,7 +450,7 @@ function get_available_currency_name()
 }
 
 /**
- * Get currency convert price, if user changed the currency for the convert price, otherwise return default price 
+ * Get currency convert price, if user changed the currency for the convert price, otherwise return default price
  *
  * @param amount
  * @return string
@@ -461,7 +461,7 @@ function get_product_price_html_by_filter($amount)
 }
 
 /**
- * Get running appearance settings for frontend 
+ * Get running appearance settings for frontend
  *
  * @param null
  * @return string
@@ -637,7 +637,7 @@ function get_site_title()
 }
 
 /**
- * Get appearance settings 
+ * Get appearance settings
  *
  * @param null
  * @return array
@@ -694,7 +694,7 @@ function get_all_blogs_data($status = null)
 /**
  * Get blog postmeta data by post id and meta key
  *
- * @param post id, meta key 
+ * @param post id, meta key
  * @return string
  */
 function get_blog_postmeta_data($post_id, $metakey)
@@ -703,7 +703,7 @@ function get_blog_postmeta_data($post_id, $metakey)
 }
 
 /**
- * Check array key, value 
+ * Check array key, value
  *
  * @param array, key, value
  * @return boolean
@@ -758,7 +758,7 @@ function get_comments_data_by_object_id($object_id, $target)
 }
 
 /**
- * Get total comments for per object 
+ * Get total comments for per object
  *
  * @param object id, target name
  * @return number
@@ -813,7 +813,7 @@ function is_sufficient_permission()
 }
 
 /**
- * Check frontend user is logged in  
+ * Check frontend user is logged in
  *
  * @param null
  * @return boolean
@@ -846,7 +846,7 @@ function get_twocheckout_api_data()
 }
 
 /**
- * Get recaptcha data 
+ * Get recaptcha data
  *
  * @param null
  * @return array
@@ -857,7 +857,7 @@ function get_recaptcha_data ()
 }
 
 /**
- * Get nexmo data 
+ * Get nexmo data
  *
  * @param null
  * @return array
@@ -868,7 +868,7 @@ function get_nexmo_data ()
 }
 
 /**
- * String encode 
+ * String encode
  *
  * @param string
  * @return encode string
@@ -879,7 +879,7 @@ function string_encode ($str)
 }
 
 /**
- * String decode 
+ * String decode
  *
  * @param string
  * @return decode string
@@ -1266,7 +1266,7 @@ function get_emails_option_data(){
 }
 
 /**
- * Check is variation exist to variation combination 
+ * Check is variation exist to variation combination
  *
  * @param product_id, array
  * @return boolean

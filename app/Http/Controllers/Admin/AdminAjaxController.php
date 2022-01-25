@@ -42,6 +42,7 @@ use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use App\Library\FPDFLIB\FPDF;
+use App\Models\Ads;
 use DOMDocument;
 use SplFileInfo;
 use App\Models\CustomCurrencyValue;
@@ -55,19 +56,19 @@ class AdminAjaxController extends Controller
   public $product;
   public $option;
   public $env;
-  
+
   public function __construct() {
     $this->classCommonFunction  =  new CommonFunction();
 		$this->product  =  new ProductsController();
     $this->option   =  new OptionController();
     $this->env = App::environment();
-    
+
     $this->settingsData    = $this->option->getSettingsData();
     $this->currency_symbol = $this->classCommonFunction->get_currency_symbol( $this->settingsData['general_settings']['currency_options']['currency_name'] );
   }
-  
+
   /**
-   * 
+   *
    * Save all images
    *
    * @param null
@@ -139,7 +140,12 @@ class AdminAjaxController extends Controller
             'featured_image' => 'image',
           );
         }
-        
+        elseif(isset($input['available_at_picture'])){
+          $rules = array(
+            'available_at_picture' => 'image',
+          );
+        }
+
 
         $validation = Validator::make($input, $rules);
 
@@ -151,10 +157,15 @@ class AdminAjaxController extends Controller
           $image    = '';
           $width    = 0;
           $height   = 0;
-          
-          
+
+
           if(isset($input['product_image'])){
             $image = Request::file('product_image');
+            $fileName = time()."-"."h-250-".$image->getClientOriginalName();
+            $height = 250;
+          }
+          elseif(isset($input['available_at_picture'])){
+            $image = Request::file('available_at_picture');
             $fileName = time()."-"."h-250-".$image->getClientOriginalName();
             $height = 250;
           }
@@ -181,7 +192,7 @@ class AdminAjaxController extends Controller
           elseif(isset($input['designer_img'])){
             $image = Request::file('designer_img');
             $dimension = getimagesize($image);
-            
+
             $fileName = time()."-"."design-image-".$image->getClientOriginalName();
             $width  = $dimension[0];
             $height = $dimension[1];
@@ -218,18 +229,18 @@ class AdminAjaxController extends Controller
             $width  = 397;
             $height = 303;
           }
-          
+
           $img   = Image::make($image);
           $path  = public_path('uploads/' . $fileName);
-          
+
           if(isset($input['product_image'])){
             $img->resize(900, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            
+
             $img->save(public_path('uploads/' . 'large-'.$fileName));
           }
-          
+
           if($width > 0 && $height > 0){
             $img->resize($width, $height);
           }
@@ -243,7 +254,7 @@ class AdminAjaxController extends Controller
                 $constraint->aspectRatio();
             });
           }
-          
+
           if ($img->save($path)) {
             return response()->json(array('status' => 'success', 'name' => $fileName));
           } else {
@@ -253,9 +264,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save product gallery images
    *
    * @param null
@@ -266,7 +277,7 @@ class AdminAjaxController extends Controller
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
         $input = Request::all();
         $files = array();
-        
+
         $count = 0;
         foreach($input['product_gallery_images'] as $key => $value ){
           $rules = array(
@@ -282,41 +293,41 @@ class AdminAjaxController extends Controller
             $image = $value;
             $fileName = $count.time()."-"."h-250-".$image->getClientOriginalName();
             $path  = public_path('uploads/' . $fileName);
-            
+
             $img   = Image::make($image);
-            
+
             //zoom image save
             $img->resize(900, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            
+
             $img->save(public_path('uploads/' . 'large-'.$fileName));
             //end zoom image save
-            
-            
+
+
             $img->resize(null, 250, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            
+
             if ($img->save($path)) {
               $files[] = $fileName;
             }
           }
-          
+
           $count ++;
         }
-        
+
         if (count($files) > 0) {
             return response()->json(array('status' => 'success', 'name' => json_encode($files)));
         } else {
             return Response::json('error', 400);
         }
-      }  
+      }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save custom design art images
    *
    * @param null
@@ -364,9 +375,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save categories details
    *
    * @param null
@@ -374,15 +385,15 @@ class AdminAjaxController extends Controller
    */
   public function saveCategoriesDetails(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax()){
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
         if((isset($input['data']['name'])&& $input['data']['name']) && (isset($input['data']['slug']) && $input['data']['slug'])){
-          
+
 					$termObj					=			new Term;
 					$termExtraObj			=			new TermExtra;
           $cat_slug					=			'';
-												
+
           $cat_slug = create_unique_slug('term', $input['data']['slug']);
 
           if($input['data']['click_source'] == 'for_add'){
@@ -391,7 +402,7 @@ class AdminAjaxController extends Controller
 												$termObj->type				=   $input['data']['cat_for'];
 												$termObj->parent		  =   $input['data']['parent'];
 												$termObj->status			=   $input['data']['status'];
-														
+
             if( $termObj->save() ){
               if(TermExtra::insert(array(
                                       array(
@@ -423,7 +434,7 @@ class AdminAjaxController extends Controller
                           'parent'      =>    $input['data']['parent'],
                           'status'      =>    $input['data']['status']
             );
-              
+
             if( Term::where('term_id', $input['data']['id'])->update($data)){
               $description = array(
                               'key_value'    =>  strip_tags($input['data']['description'])
@@ -435,7 +446,7 @@ class AdminAjaxController extends Controller
 
               TermExtra::where(['term_id' => $input['data']['id'], 'key_name' => '_category_description'])->update($description);
               TermExtra::where(['term_id' => $input['data']['id'], 'key_name' => '_category_img_url'])->update($img_url);
-																
+
               return response()->json(array('success' => TRUE));
             }
           }
@@ -446,9 +457,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save product tags details
    *
    * @param null
@@ -456,7 +467,7 @@ class AdminAjaxController extends Controller
    */
   public function saveTagsDetails(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if(isset($input['data']['name'])&& $input['data']['name']){
         $termObj			 =		new Term;
@@ -464,7 +475,7 @@ class AdminAjaxController extends Controller
         $tag_slug      =    '';
 
         $tag_slug = create_unique_slug('term', $input['data']['name']);
-        
+
         if($input['data']['click_source'] == 'for_add'){
             $termObj->name        =   strip_tags($input['data']['name']);
             $termObj->slug        =   $tag_slug;
@@ -508,9 +519,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save product attribute details
    *
    * @param null
@@ -518,7 +529,7 @@ class AdminAjaxController extends Controller
    */
   public function saveAttributesDetails(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if((isset($input['data']['attrName'])&& $input['data']['attrName']) && (isset($input['data']['attrVal'])&& $input['data']['attrVal'])){
         $termObj			 =		new Term;
@@ -526,7 +537,7 @@ class AdminAjaxController extends Controller
         $attr_slug      =    '';
 
         $attr_slug = create_unique_slug('term', $input['data']['attrName']);
-        
+
         if($input['data']['click_source'] == 'for_add'){
             $termObj->name        =   strip_tags($input['data']['attrName']);
             $termObj->slug        =   $attr_slug;
@@ -570,9 +581,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save product color details
    *
    * @param null
@@ -580,13 +591,13 @@ class AdminAjaxController extends Controller
    */
   public function saveColorDetails(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if((isset($input['data']['colorName'])&& $input['data']['colorName'])){
         $termObj			 =		new Term;
 				$termExtraObj	 =		new TermExtra;
         $color_slug    =    '';
-        
+
         $color_slug = create_unique_slug('term', $input['data']['colorName']);
 
         if($input['data']['click_source'] == 'for_add'){
@@ -632,9 +643,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save product size details
    *
    * @param null
@@ -642,7 +653,7 @@ class AdminAjaxController extends Controller
    */
   public function saveSizeDetails(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if((isset($input['data']['sizeName'])&& $input['data']['sizeName'])){
         $termObj			 =		new Term;
@@ -650,7 +661,7 @@ class AdminAjaxController extends Controller
         $size_slug     =    '';
 
         $size_slug = create_unique_slug('term', $input['data']['sizeName']);
-        
+
         if($input['data']['click_source'] == 'for_add'){
             $termObj->name        =   strip_tags($input['data']['sizeName']);
             $termObj->slug        =   $size_slug;
@@ -678,9 +689,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Save products variations
    *
    * @param null
@@ -688,13 +699,13 @@ class AdminAjaxController extends Controller
    */
   public function saveProductsVariations(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if((isset($input['data']['variation_sku'])&& $input['data']['variation_sku'])){
         $skuCheck  =  PostExtra :: where(['key_name' => '_variation_post_sku', 'key_value' => $input['data']['variation_sku']])->first();
-        
+
         if( ( !empty($skuCheck) &&  $skuCheck->post_id == $input['data']['variation_id'] ) ||  empty($skuCheck)){
-           
+
           $price          = 0;
           $regular_price  = '';
           $sale_price     = '';
@@ -718,50 +729,50 @@ class AdminAjaxController extends Controller
           if(is_numeric($input['data']['stock_qty'])){
             $stock_qty = $input['data']['stock_qty'];
           }
-          
-         
+
+
           if(($regular_price && $sale_price) && (abs($sale_price) < abs($regular_price)) && $sale_price > 0){
             $price = $input['data']['sale_price'];
           }
           else{
             $price = $input['data']['regular_price'];
           }
-          
+
           //role based pricing
           $is_pricing_enable = $input['data']['role_based_pricing_status'];
-          
+
           if(isset($input['data']['role_based_pricing']) && count($input['data']['role_based_pricing']) > 0){
             foreach($input['data']['role_based_pricing'] as $role){
               $role_regular_price = $role['regular_price'];
               $role_sale_price = '';
-              
+
               if($role_regular_price){
                 $role_sale_price = $role['sale_price'];
               }
               $role_price[$role['role_name']] = array('regular_price' => $role_regular_price, 'sale_price' => $role_sale_price);
             }
           }
-          
+
           //downloadable product
           if(is_numeric($input['data']['download_limit'])){
             $download_limit = $input['data']['download_limit'];
-          } 
-          
+          }
+
           if($input['data']['download_expiry']  >= $today ){
             $download_expiry_date = $input['data']['download_expiry'];
           }
-          
+
           if(isset($input['data']['downloadable_data']) && count($input['data']['downloadable_data']) > 0){
             foreach($input['data']['downloadable_data'] as $data){
               $url = str_replace(url('/'), '', $data['uploaded_file_url']);
               $downloadable_data[$data['id']] = array('file_name' => $data['file_name'], 'uploaded_file_url' => $url, 'online_file_url' => $data['online_file_url']);
             }
           }
-          
-          
+
+
           $post_slug = '';
           $post_slug = create_unique_slug('post', 'New product variation');
-          
+
           if($input['data']['manage_stock'] == 1){
             if ($input['data']['manage_stock'] == 1 && $stock_qty == 0 && $input['data']['back_order'] == 'variation_not_allow') {
               $stock_availability = 'variation_out_of_stock';
@@ -769,15 +780,15 @@ class AdminAjaxController extends Controller
             else{
               $stock_availability = 'variation_in_stock';
             }
-          }  
+          }
           else{
             $stock_availability = $input['data']['stock_status'];
           }
-          
+
           $sale_price_start_date = '';
           $sale_price_end_date   = '';
           $today = date("Y-m-d");
-          
+
           if($input['data']['sale_price_start_date'] >= $today){
             $sale_price_start_date = $input['data']['sale_price_start_date'];
           }
@@ -785,8 +796,8 @@ class AdminAjaxController extends Controller
           if($input['data']['sale_price_end_date'] >= $today){
             $sale_price_end_date = $input['data']['sale_price_end_date'];
           }
-        
-          
+
+
           if(isset($input['data']['post_type'])&& $input['data']['post_type'] == 'add_post'){
             $postObj = new Post;
 
@@ -884,7 +895,7 @@ class AdminAjaxController extends Controller
                     'key_value'     =>  $input['data']['tax'],
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                ),  
+                ),
                 array(
                     'post_id'       =>  $postObj->id,
                     'key_name'      =>  '_variation_post_data',
@@ -981,23 +992,23 @@ class AdminAjaxController extends Controller
               $data_variation_json = array(
                                       'key_value'    =>  $input['data']['variation_json']
               );
-              
+
               $data_is_role_based_enable = array(
                                 'key_value'    => $is_pricing_enable
               );
-														
+
 							$data_role_based_pricing = array(
                                 'key_value'    => serialize($role_price)
               );
-              
+
               $data_downloadable_product_data = array(
                                 'key_value'    => serialize($downloadable_data)
               );
-              
+
               $downloadable_limit = array(
                                 'key_value'    => $input['data']['download_limit']
               );
-              
+
               $downloadable_expiry = array(
                                 'key_value'    => $download_expiry_date
               );
@@ -1025,7 +1036,7 @@ class AdminAjaxController extends Controller
             }
           }
 
-          if($status){ 
+          if($status){
             $get_variation        =   $this->classCommonFunction->get_variation_by_product_id( $input['data']['product_id'] );
             $get_variation_data   =   $this->getVariationHTML( $input['data']['product_id'] );
             $str = '';
@@ -1048,7 +1059,7 @@ class AdminAjaxController extends Controller
   }
 
   /**
-   * 
+   *
    * Get function for categoris, tags, variations data
    *
    * @param null
@@ -1056,7 +1067,7 @@ class AdminAjaxController extends Controller
    */
   public function getSpecificDetailsById(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax()){
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
         if($input['data']['id'] && $input['data']['track']){
@@ -1065,50 +1076,50 @@ class AdminAjaxController extends Controller
           if($input['data']['track'] == 'cat_list'){
             $get_details_by_id =  $this->product->getTermDataById($input['data']['id']);
             $get_details_by_id = array_shift($get_details_by_id);
-            
+
             $data = array('success' => TRUE, 'name' => $get_details_by_id['name'], 'slug' => $get_details_by_id['slug'], 'description' => $get_details_by_id['category_description'], 'parent_id' => $get_details_by_id['parent'], 'img_url' => $get_details_by_id['category_img_url'], 'status' => $get_details_by_id['status']);
           }
           elseif($input['data']['track'] == 'tag_list'){
             $get_details_by_id =  $this->product->getTermDataById($input['data']['id']);
             $get_details_by_id = array_shift($get_details_by_id);
-            
+
             $data = array('success' => TRUE, 'name' => $get_details_by_id['name'], 'slug' => $get_details_by_id['slug'], 'description' => $get_details_by_id['tag_description'], 'status' => $get_details_by_id['status']);
           }
           elseif($input['data']['track'] == 'attr_list'){
             $get_details_by_id =  $this->product->getTermDataById($input['data']['id']);
             $get_details_by_id = array_shift($get_details_by_id);
-            
+
             $data = array('success' => TRUE, 'attrName' => $get_details_by_id['name'], 'slug' => $get_details_by_id['slug'], 'attrVal' => $get_details_by_id['product_attr_values'], 'status' => $get_details_by_id['status']);
           }
           elseif($input['data']['track'] == 'color_list'){
             $get_details_by_id =  $this->product->getTermDataById($input['data']['id']);
             $get_details_by_id = array_shift($get_details_by_id);
-            
+
             $data = array('success' => TRUE, 'colorName' => $get_details_by_id['name'], 'slug' => $get_details_by_id['slug'], 'colorCode' => $get_details_by_id['color_code'], 'status' => $get_details_by_id['status']);
           }
           elseif($input['data']['track'] == 'size_list'){
             $get_details_by_id =  $this->product->getTermDataById($input['data']['id']);
             $get_details_by_id = array_shift($get_details_by_id);
-            
+
             $data = array('success' => TRUE, 'sizeName' => $get_details_by_id['name'], 'slug' => $get_details_by_id['slug'], 'status' => $get_details_by_id['status']);
           }
           elseif($input['data']['track'] == 'variation_data_list'){
             $get_details_by_id =  $this->classCommonFunction->get_variation_and_data_by_post_id( $input['data']['id'] );
-            
+
             $get_details_by_id['_role_based_pricing'] = unserialize($get_details_by_id['_role_based_pricing']);
             $get_details_by_id['_downloadable_product_data'] = unserialize($get_details_by_id['_downloadable_product_data']);
-            
+
             $data = array('success' => TRUE, 'edit_data' => json_encode($get_details_by_id));
           }
-          
+
           return response()->json( $data );
         }
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Item deleted by selected id
    *
    * @param null
@@ -1116,7 +1127,6 @@ class AdminAjaxController extends Controller
    */
   public function selectedItemDeleteById(){
     $input = Request::all();
-    
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if($input['data']['id'] && $input['data']['track']){
         if($input['data']['track'] == 'cat_list' || $input['data']['track'] == 'tag_list' || $input['data']['track'] == 'attr_list' || $input['data']['track'] == 'color_list' || $input['data']['track'] == 'size_list' || $input['data']['track'] == 'manufacturers_list'){
@@ -1137,21 +1147,26 @@ class AdminAjaxController extends Controller
             return response()->json(array('delete' => true));
           }
         }
+        elseif($input['data']['track'] == 'available_at'){
+          if(Ads::where('id', $input['data']['id'])->delete()){
+            return response()->json(array('delete' => true));
+          }
+        }
         elseif($input['data']['track'] == 'variation_data_list'){
           $parent_id = 0;
           $str       = '';
-          
+
           $parent_id = Post::where('id', $input['data']['id'])->first();
-          
+
           if(Post::where('id', $input['data']['id'])->delete()){
             if(PostExtra::where('post_id', $input['data']['id'])->delete()){
               $get_variation   =   $this->classCommonFunction->get_variation_by_product_id( $parent_id->parent_id );
               $get_HTML        =   $this->getVariationHTML( $parent_id->parent_id );
-              
+
               if($get_HTML){
                 $str = $get_HTML;
               }
-              
+
               return response()->json(array('delete' => true, 'variation_json' =>  json_encode($get_variation), 'variation_new_html' => $str));
             }
           }
@@ -1166,24 +1181,24 @@ class AdminAjaxController extends Controller
         elseif($input['data']['track'] == 'attr_data_list' && $input['data']['item_id']){
           $postmeta_count   =  PostExtra::where(['post_id' => $input['data']['id'], 'key_name' => '_attribute_post_data'])->count();
           $postmeta         =  PostExtra::where(['post_id' => $input['data']['id'], 'key_name' => '_attribute_post_data'])->first();
-          
+
           if($postmeta_count>0){
             $get_attr_data = json_decode( $postmeta->key_value, true );
             $get_request_item_id = $input['data']['item_id'];
-            
+
             if(count($get_attr_data)>0){
               foreach($get_attr_data as $key => $vals){
                 if($vals['id'] == $get_request_item_id){
                   unset($get_attr_data[$key]);
                 }
               }
-              
+
               $data_attr = array(
 																'key_value'    => json_encode($get_attr_data)
               );
 
               PostExtra::where(['post_id' => $input['data']['id'], 'key_name' => '_attribute_post_data'])->update($data_attr);
-              
+
               return response()->json( array( 'delete' => true, 'attr_new_html' => $this->getAttributeListWithHTML( $input['data']['id'] ) ));
             }
           }
@@ -1201,18 +1216,18 @@ class AdminAjaxController extends Controller
 					$classGetFunction  =  new GetFunction();
           $destinationPath =  base_path('resources/lang/');
           $upload_folder   =  base_path('public/uploads/');
-      
+
           $get_lang_data_by_id   =  ManageLanguage::where(['id' => $input['data']['id']])->get()->toArray();
           $get_data              =  array_shift($get_lang_data_by_id);
-										  
+
           if(file_exists($destinationPath.$get_data['lang_code']) && is_dir($destinationPath.$get_data['lang_code'])){
             $classGetFunction->removeDirectory($destinationPath.$get_data['lang_code']);
           }
-          
+
           if(file_exists($destinationPath.$get_data['lang_code'].'.zip')){
             unlink($destinationPath.$get_data['lang_code'].'.zip');
           }
-          
+
           if(file_exists($upload_folder.$get_data['lang_sample_img'])){
             unlink($upload_folder.$get_data['lang_sample_img']);
           }
@@ -1230,7 +1245,7 @@ class AdminAjaxController extends Controller
               if(count($get_user_details_by_id) >0){
                 UsersDetail::where('user_id', $input['data']['id'])->delete();
               }
-              
+
               return response()->json(array('delete' => true));
             }
           }
@@ -1328,9 +1343,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-  * 
+  *
   * manage comments status
   *
   * @param null
@@ -1338,15 +1353,15 @@ class AdminAjaxController extends Controller
   */
   public function selectedCommentsStatusChange(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       if(isset($input['data']['id']) && isset($input['data']['status']) && isset($input['data']['target'])){
         $status_val  = 0;
-        
+
         if($input['data']['status'] == 'enable'){
           $status_val = 1;
         }
-        
+
         $update_data = array(
                             'status' => $status_val
         );
@@ -1359,7 +1374,7 @@ class AdminAjaxController extends Controller
   }
 
    /**
-   * 
+   *
    * Get function for products variations
    *
    * @param null
@@ -1367,18 +1382,18 @@ class AdminAjaxController extends Controller
    */
   public function getProductsVariationsDataById(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $get_data  = $this->classCommonFunction->get_variation_and_data_by_post_id( $input['id'] );
-      
+
       $returnHTML = view('pages.ajax-pages.variation-view')->with(['variation_view_data' => $get_data, 'currency_symbol' => $this->currency_symbol])->render();
       return response()->json(array('success' => true, 'html'=> $returnHTML));
     }
   }
-  
-		
+
+
   /**
-   * 
+   *
    * Get function for products variations
    *
    * @param products id
@@ -1387,7 +1402,7 @@ class AdminAjaxController extends Controller
   public function getVariationHTML($product_id){
     $str = '';
     $get_variation_data = $this->classCommonFunction->get_variation_and_data_by_product_id( $product_id );
-    
+
     //if(count($get_variation_data)>0){
       $str .= '<table id="variation_list" class="table table-bordered table-striped admin-data-list">';
       $str .= '<thead><tr><th>'. Lang::get('admin.image') .'</th><th>'. Lang::get('admin.variation_combination') .'</th><th>'. Lang::get('admin.price') .'</th><th>'. Lang::get('admin.action') .'</th></tr></thead>';
@@ -1396,7 +1411,7 @@ class AdminAjaxController extends Controller
       foreach($get_variation_data as $row){
 
         $str .= '<tr>';
-								
+
         if($row['_variation_post_img_url']){
           $str .= '<td><img src="'. get_image_url($row['_variation_post_img_url']) .'" alt="'. basename ($row['_variation_post_img_url']) .'"></td>';
         }
@@ -1410,23 +1425,23 @@ class AdminAjaxController extends Controller
         foreach($parse_attr as $val){
           $valStr .= $val->attr_name .' &#8658; '. $val->attr_val . ', ';
         }
-								
+
         $str .= '<td>'.  trim($valStr, ', ').'</td>';
         $str .= '<td>'.$this->currency_symbol.$row['_variation_post_price'].'</td>';
         $str .= '<td>';
         $str .= '<div class="btn-group">';
-        $str .= '<button class="btn btn-success btn-flat" type="button">'. Lang::get('admin.action') .'</button>';    
-        $str .= '<button data-toggle="dropdown" class="btn btn-success btn-flat dropdown-toggle" type="button">'; 
+        $str .= '<button class="btn btn-success btn-flat" type="button">'. Lang::get('admin.action') .'</button>';
+        $str .= '<button data-toggle="dropdown" class="btn btn-success btn-flat dropdown-toggle" type="button">';
         $str .=  '<span class="caret"></span>';
         $str .=  '<span class="sr-only">Toggle Dropdown</span>';
         $str .=  '</button>';
-        $str .=  '<ul role="menu" class="dropdown-menu">'; 
+        $str .=  '<ul role="menu" class="dropdown-menu">';
         $str .=  '<li><a href="#" class="view-data" data-track_name="variation_data_list" data-id="'. $row['id'] .'"><i class="fa fa-eye"></i>'. Lang::get('admin.view') .'</a></li>';
         $str .=  '<li><a href="#" class="edit-data" data-track_name="variation_data_list" data-id="'. $row['id'] .'"><i class="fa fa-edit"></i>'. Lang::get('admin.edit') .'</a></li>';
         $str .=  '<li><a class="remove-selected-data-from-list" data-track_name="variation_data_list" data-id="'. $row['id'] .'" href="#"><i class="fa fa-remove"></i>'. Lang::get('admin.delete') .'</a></li>';
         $str .=  '</ul>';
         $str .=  '</div>';
-        $str .=  '</td>';  
+        $str .=  '</td>';
         $str .= '</tr>';
 
       }
@@ -1435,12 +1450,12 @@ class AdminAjaxController extends Controller
       $str .= '<tfoot><tr><th>'. Lang::get('admin.image') .'</th><th>'. Lang::get('admin.variation_combination') .'</th><th>'. Lang::get('admin.price') .'</th><th>'. Lang::get('admin.action') .'</th></tr></tfoot>';
       $str .= '</table>';
     //}
-    
+
     return $str;
   }
-  
+
   /**
-   * 
+   *
    * Save attribute by product id
    *
    * @param null
@@ -1449,18 +1464,18 @@ class AdminAjaxController extends Controller
   public function addAttributeByProductId(){
     $input = Request::all();
     $str = '';
-    
+
     if(Request::isMethod('post') && Request::ajax()){
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
         $postmeta_count   =  PostExtra::where(['post_id' => $input['id'], 'key_name' => '_attribute_post_data'])->count();
         $postmeta         =  PostExtra::where(['post_id' => $input['id'], 'key_name' => '_attribute_post_data'])->first();
         $new_ary = array();
-        
+
         if($input['action'] == 'save'){
           if($postmeta_count>0){
             $a1 = json_decode( $postmeta->key_value, true );
             $a2 = json_decode( $input['data'], true );
-            
+
             $res = array_merge_recursive( $a1, $a2 );
 
             foreach (array_map('unserialize', array_unique(array_map('serialize', $res))) as $val){
@@ -1488,7 +1503,7 @@ class AdminAjaxController extends Controller
           if($postmeta_count>0){
             $get_attr_data = json_decode( $postmeta->key_value, true );
             $get_request_json_data = json_decode($input['data']);
-            
+
             if(count($get_attr_data)>0){
               foreach($get_attr_data as $vals){
                 if($vals['id'] == $get_request_json_data[0]->id){
@@ -1500,7 +1515,7 @@ class AdminAjaxController extends Controller
                   $new_ary[] = $vals;
                 }
               }
-              
+
               $data_attr = array(
                                 'key_value'  =>  json_encode($new_ary)
               );
@@ -1509,19 +1524,19 @@ class AdminAjaxController extends Controller
             }
           }
         }
-        
+
         $str = $this->getAttributeListWithHTML( $input['id'] );
       }
       else{
         $str = 'token_mismatch';
       }
     }
-    
+
     return $str;
   }
-  
+
   /**
-   * 
+   *
    * Get function for attribute
    *
    * @param product id
@@ -1530,10 +1545,10 @@ class AdminAjaxController extends Controller
   public function getAttributeListWithHTML( $post_id ){
     $postmeta_count  =  PostExtra::where(['post_id' => $post_id, 'key_name' => '_attribute_post_data'])->count();
     $str = '';
-    
+
     if($postmeta_count>0){
       $postmeta  =  PostExtra::where(['post_id' => $post_id, 'key_name' => '_attribute_post_data'])->first();
-      
+
       $str .= '<table id="attr_list" class="table table-bordered table-striped admin-data-list">';
       $str .= '<thead><tr><th>'. Lang::get('admin.attribute_name') .'</th><th>'. Lang::get('admin.attribute_value') .'</th><th>'. Lang::get('admin.action') .'</th></tr></thead>';
       $str .= '<tbody>';
@@ -1544,18 +1559,18 @@ class AdminAjaxController extends Controller
         $str .= '<td>'. $row->attr_val .'</td>';
         $str .= '<td>';
         $str .= '<div class="btn-group">';
-        $str .= '<button class="btn btn-success btn-flat" type="button">'. Lang::get('admin.action') .'</button>';    
-        $str .= '<button data-toggle="dropdown" class="btn btn-success btn-flat dropdown-toggle" type="button">'; 
+        $str .= '<button class="btn btn-success btn-flat" type="button">'. Lang::get('admin.action') .'</button>';
+        $str .= '<button data-toggle="dropdown" class="btn btn-success btn-flat dropdown-toggle" type="button">';
         $str .=  '<span class="caret"></span>';
         $str .=  '<span class="sr-only">Toggle Dropdown</span>';
         $str .=  '</button>';
-        $str .=  '<ul role="menu" class="dropdown-menu">'; 
+        $str .=  '<ul role="menu" class="dropdown-menu">';
 
         $str .=  '<li><a href="#" data-toggle="modal" data-target="#edit_attributes" class="edit-attribute-data" data-track_name="attr_data_list" data-id="'. $post_id .'" data-line_variation_json="'. htmlspecialchars( json_encode( array('id' =>$row->id, 'attr_name' =>$row->attr_name, 'attr_val' =>$row->attr_val )) ) .'"><i class="fa fa-edit"></i>'. Lang::get('admin.edit') .'</a></li>';
         $str .=  '<li><a class="remove-selected-data-from-list" data-track_name="attr_data_list" data-id="'. $post_id .'" data-item_id="'. $row->id .'" href="#"><i class="fa fa-remove"></i>'. Lang::get('admin.delete') .'</a></li>';
         $str .=  '</ul>';
         $str .=  '</div>';
-        $str .=  '</td>';  
+        $str .=  '</td>';
         $str .= '</tr>';
       }
       $str .= '</tbody>';
@@ -1565,12 +1580,12 @@ class AdminAjaxController extends Controller
     else{
       $str = Lang::get('admin.no_variation_yet');
     }
-    
+
     return $str;
   }
-  
+
   /**
-   * 
+   *
    * Get function for attribute
    *
    * @param null
@@ -1582,10 +1597,10 @@ class AdminAjaxController extends Controller
         $input = Request::all();
         $str = '';
         $get_attr_from_global = array();
-								
+
         $get_global_attribute  =   $this->product->getTermData( 'product_attr', false, null, 1 );
         $get_attr_by_products  =   PostExtra::where(['post_id' => $input['post_id'], 'key_name' => '_attribute_post_data'])->get();
-								
+
         if(count($get_global_attribute) > 0){
           foreach($get_global_attribute as $term){
               $ary = array();
@@ -1598,21 +1613,21 @@ class AdminAjaxController extends Controller
 
               array_push($get_attr_from_global, (object) $ary);
           }
-          
+
           $str .= $this->get_attribute_html( $get_attr_from_global );
         }
-        
+
         if($get_attr_by_products->count()>0){
           $str .= $this->get_attribute_html( json_decode( $get_attr_by_products[0]->key_value ) );
         }
-        
+
         return response()->json(array('success' => true, 'html'=> $str));
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Get function for attribute
    *
    * @param array data
@@ -1620,13 +1635,13 @@ class AdminAjaxController extends Controller
    */
   public function get_attribute_html( $data ){
     $str = '';
-				
+
     if(!empty($data)){
       foreach($data as $rows){
         $str .= '<div class="attribute-name">';
         $str .= '<select class="form-control select2 variation-attr-list" style="width: 100%;" data-attr_name="'. $rows->attr_name .'">';
         $str .= '<option selected="selected" value="all">'. trans('admin.any_label') .' '. $rows->attr_name .'</option>';
-        
+
         if(isset($rows->attr_values)){
           foreach(explode(',', $rows->attr_values) as $val){
             $str .= "<option value='". trim($val) ."'>". trim($val) ."</option>";
@@ -1635,19 +1650,19 @@ class AdminAjaxController extends Controller
         elseif(isset($rows->attr_val)){
           foreach(explode(',', $rows->attr_val) as $val){
             $str .= "<option value='". trim($val) ."'>". trim($val) ."</option>";
-          } 
+          }
         }
         $str .= '</select>';
         $str .= '</select>';
         $str .= '</div>';
       }
     }
-    
+
     return $str;
   }
-  
+
   /**
-   * 
+   *
    * Manage and save appearance data
    *
    * @param null
@@ -1657,15 +1672,15 @@ class AdminAjaxController extends Controller
     if(Request::isMethod('post') && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
       $unserialize_appearance_data  =   $this->option->getAppearanceData();
-      
+
       if(isset($unserialize_appearance_data[$input['tab_name']])){
         $unserialize_appearance_data[$input['tab_name']] = $input['template_name'];
       }
-      
+
       $data = array(
                       'option_value'  => serialize($unserialize_appearance_data)
       );
-      
+
       if( Option::where('option_name', '_appearance_tab_data')->update($data)){
         if(!Session::has('appearance_active_tab_name')){
           Session::put('appearance_active_tab_name', $input['tab_name']);
@@ -1674,9 +1689,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Manage frontend images upload
    *
    * @param null
@@ -1687,7 +1702,7 @@ class AdminAjaxController extends Controller
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
         $input = Request::all();
         $files = array();
-        
+
         $count = 0;
         foreach($input['frontend_all_images'] as $key => $value ){
           $rules = array(
@@ -1703,15 +1718,15 @@ class AdminAjaxController extends Controller
             $image = $value;
             $width    = 0;
             $height   = 0;
-        
+
             $fileName = $count.time()."w-1920-h-800-".$image->getClientOriginalName();
             $path  = public_path('uploads/' . $fileName);
-            
+
             $width = 1920;
             $height = 800;
-            
+
             $img   = Image::make($image);
-            
+
             if($width > 0 && $height > 0){
               $img->resize($width, $height);
             }
@@ -1720,36 +1735,36 @@ class AdminAjaxController extends Controller
                   $constraint->aspectRatio();
               });
             }
-        
+
             if ($img->save($path)) {
               $files[] = $fileName;
             }
           }
-          
+
           $count ++;
         }
-        
+
         if (count($files) > 0) {
             return response()->json(array('status' => 'success', 'name' => json_encode($files)));
         } else {
             return Response::json('error', 400);
         }
-      }  
+      }
     }
   }
-		
+
   public function manageImportProductFile(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
         $file = Request::file('csvFileImport')->getClientOriginalName();
         $extension = pathinfo($file, PATHINFO_EXTENSION);
-        
+
         if($extension == 'csv'){
           $header_array = array('Title', 'Description(HTML)', 'Regular Price', 'SKU', 'Features(HTML)', 'Recommended Product', 'Features Product', 'Latest Product', 'Related Product', 'Home Page Product', 'Visibility', 'Enable Reviews', 'Enable Review Product Page', 'Enable Review Details Page', 'SEO Title', 'SEO Description', 'SEO Keywords(Comma Separator)');
-          
+
           $parse_data = array();
           $csvFile = fopen(Request::file('csvFileImport'), 'r');
           $header = fgetcsv($csvFile);
-          
+
           $count = 0;
           if(serialize($header_array) == serialize($header)){
             //fseek( $csvFile, 2);
@@ -1770,15 +1785,15 @@ class AdminAjaxController extends Controller
               $row['enable_review_product_page'] = $line[12];
               $row['enable_review_details_page'] = $line[13];
               $row['seo_title'] = $line[14];
-              $row['seo_description'] = $line[15];  
+              $row['seo_description'] = $line[15];
               $row['seo_keywords'] = $line[16];
-              
+
               array_push($parse_data, $row);
-              
+
               $count ++;
             }
             fclose($csvFile);
-            
+
             if(is_vendor_login() && Session::has('shopist_admin_user_id')){
               $selected_package_details = get_package_details_by_vendor_id( Session::get('shopist_admin_user_id') );
               $get_total_product = Product::where(['author_id' => Session::get('shopist_admin_user_id')])->first()->count() + 1;
@@ -1787,7 +1802,7 @@ class AdminAjaxController extends Controller
                 return response()->json(array('status' => 'notice', 'type' => 'exceed_product'));
               }
             }
-            
+
             if(is_array($parse_data) && count($parse_data) > 0){
               if( 100 >= count($parse_data)){
                 foreach($parse_data as $row){
@@ -1832,7 +1847,7 @@ class AdminAjaxController extends Controller
                   if(isset($row['recommended_product']) && !empty($row['recommended_product']) && $row['recommended_product'] == 'TRUE'){
                     $enable_recommended = 'yes';
                   }
-                  
+
                   if(isset($row['features_product']) && !empty($row['features_product']) && $row['features_product'] == 'TRUE'){
                     $enable_features = 'yes';
                   }
@@ -1879,7 +1894,7 @@ class AdminAjaxController extends Controller
                   if(isset($row['seo_keywords']) && !empty($row['seo_keywords'])){
                     $seo_keywords = $row['seo_keywords'];
                   }
-                  
+
                   //slug
                   $post_slug   =  '';
                   $check_slug  =  Product::where(['slug' => string_slug_format( $title )])->orWhere('slug', 'like', '%' . string_slug_format( $title ) . '%')->get()->count();
@@ -2159,13 +2174,13 @@ class AdminAjaxController extends Controller
                                             )
                   ));
                 }
-                
+
                 return response()->json(array('status' => 'success', 'type' => 'saved'));
               }
               else{
                 return response()->json(array('status' => 'error', 'type' => 'not_more_hundred'));
               }
-            }  
+            }
           }
           else{
             fclose($csvFile);
@@ -2175,11 +2190,11 @@ class AdminAjaxController extends Controller
         else{
           return response()->json(array('status' => 'error', 'type' => 'wrong_extension'));
         }
-      }   
+      }
   }
-  
+
   /**
-   * 
+   *
    *Upload downloadable files
    *
    * @param null
@@ -2190,18 +2205,18 @@ class AdminAjaxController extends Controller
       try {
         $input = Request::all();
         $file = null;
-        
+
         if(isset($input['simple_product']) && $input['simple_product'] == 'simple_product'){
           $file = Request::file('uploadDownloadableProductFile');
         }
         elseif(isset($input['variable_product']) && $input['variable_product'] == 'variable_product'){
           $file = Request::file('uploadDownloadableVariableProductFile');
         }
-        
-        
+
+
         $fileName = time().uniqid()."-". $file->getClientOriginalName();
         $destinationPath  = public_path('uploads/');
-        
+
         $file->move($destinationPath, $fileName);
 
         if($file->getError() == 0){
@@ -2210,16 +2225,16 @@ class AdminAjaxController extends Controller
         else{
           return response()->json(array('status' => 'error'));
         }
-        
+
 
       } catch (Exception $ex) {
         return response()->json(array('status' => 'error'));
       }
     }
-  }   
-  
+  }
+
   /**
-   * 
+   *
    *Upload variable products downloadable files
    *
    * @param null
@@ -2229,10 +2244,10 @@ class AdminAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       try {
         $file = Request::file('variableProductFileUpload');
-        
+
         $fileName = time().uniqid()."-". $file->getClientOriginalName();
         $destinationPath  = public_path('uploads/');
-        
+
         $file->move($destinationPath, $fileName);
 
         if($file->getError() == 0){
@@ -2241,14 +2256,14 @@ class AdminAjaxController extends Controller
         else{
           return response()->json(array('status' => 'error'));
         }
-        
+
 
       } catch (Exception $ex) {
         return response()->json(array('status' => 'error'));
       }
     }
   }
-		
+
 	public function getProductsForLinkedType(){
     if(Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
@@ -2272,15 +2287,15 @@ class AdminAjaxController extends Controller
       }
 
       return json_encode($json);
-    }  
+    }
   }
-  
+
   public function getAllVendor(){
     if(Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
       $query = $input['query'];
       $json = [];
-      
+
       $get_role_details = get_roles_details_by_role_slug('vendor');
       $get_vendors =  DB::table('users')
                       ->where(['role_user.role_id' => $get_role_details->id])
@@ -2298,11 +2313,11 @@ class AdminAjaxController extends Controller
       }
 
       return json_encode($json);
-    }  
+    }
   }
-  
+
   /**
-   * 
+   *
    * Get vendor profile details by id
    *
    * @param null
@@ -2314,17 +2329,17 @@ class AdminAjaxController extends Controller
       $user_data = array();
       $get_user_details = get_user_details( $input['id'] );
       $get_user_extra   = get_user_account_details_by_user_id( $input['id'] );
-      
+
       $user_data = $get_user_details;
       $user_data['details'] = (array) json_decode(array_shift($get_user_extra)['details']);
-      
+
       $returnHTML = view('pages.admin.vendors.vendor-profile')->with( $user_data )->render();
       return response()->json(array('status' => 'success', 'type' => 'vendor_profile', 'html'=> $returnHTML));
-    }  
+    }
   }
-  
+
   /**
-   * 
+   *
    * Vendor status change
    *
    * @param null
@@ -2334,26 +2349,26 @@ class AdminAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
       $email_options = get_emails_option_data();
-      
+
       $data = array(
-                    'user_status'  => $input['status']   
+                    'user_status'  => $input['status']
       );
-      
+
        if(User::where('id', $input['id'])->update($data)){
         if($email_options['vendor_account_activation']['enable_disable'] == true && $this->env === 'production'){
           $classGetFunction  =  new GetFunction();
           $get_vendor = User::where(['id' => $input['id']])->first();
-          
+
           $classGetFunction->sendCustomMail( array('source' => 'vendor_account_activation', 'email' => $get_vendor->email, 'status' => $input['status']) );
-        } 
-        
+        }
+
         return response()->json(array('status' => 'success', 'type' => 'vendor_status_updated'));
        }
     }
   }
-  
+
   /**
-   * 
+   *
    * Get vendor system categories
    *
    * @param null
@@ -2364,7 +2379,7 @@ class AdminAjaxController extends Controller
       $input = Request::all();
       $query = $input['query'];
       $json = [];
-      
+
       $parent_categories = array();
       $get_categories_data  = Term::where(['type' => 'product_cat', 'parent' => 0, 'status' => 1])
                               ->where('name', 'LIKE', '%'. $query .'%')
@@ -2374,7 +2389,7 @@ class AdminAjaxController extends Controller
       if(count($get_categories_data) > 0){
         $parent_categories = $get_categories_data;
       }
-      
+
       if(count($parent_categories) > 0){
         foreach($parent_categories as $cat){
           $data['id']   = $cat['term_id'];
@@ -2386,9 +2401,9 @@ class AdminAjaxController extends Controller
       return json_encode($json);
     }
   }
-  
+
   /**
-   * 
+   *
    * Get vendor withdraw requested data by id
    *
    * @param null
@@ -2399,19 +2414,19 @@ class AdminAjaxController extends Controller
       $input = Request::all();
       $user_data = array();
       $get_requested_withdraw = VendorWithdraw::where(['id' => $input['id']])->first();
-      
+
       if(!empty($get_requested_withdraw)){
         $user_data['withdraw_details'] = $get_requested_withdraw;
         $user_data['payment_details'] = get_payment_details_by_vendor_id($get_requested_withdraw->user_id);
-        
+
         $returnHTML = view('pages.ajax-pages.vendor-withdraw-requested-details')->with( $user_data )->render();
         return response()->json(array('status' => 'success', 'type' => 'vendor_withdraw_request_data', 'html'=> $returnHTML));
       }
-    }  
+    }
   }
-  
+
   /**
-   * 
+   *
    * Requested withdraw status change
    *
    * @param null
@@ -2420,13 +2435,13 @@ class AdminAjaxController extends Controller
   public function requestedWithdrawStatusChange(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $classGetFunction  =  new GetFunction();
-      $input = Request::all(); 
+      $input = Request::all();
       $get_requested_withdraw = VendorWithdraw::where(['id' => $input['id']])->first();
-     
+
       if(!empty($get_requested_withdraw)){
         $email_options = get_emails_option_data();
-        $user_details  = get_user_details( $get_requested_withdraw->user_id ); 
-        
+        $user_details  = get_user_details( $get_requested_withdraw->user_id );
+
         if($input['target'] == 'completed'){
           $data_for_vendorwithdraw = array('status' => 'COMPLETED', 'updated_at' => date("y-m-d H:i:s", strtotime('now')));
 
@@ -2440,11 +2455,11 @@ class AdminAjaxController extends Controller
               $data_for_vendortotals = array('totals' => $get_totals->totals - $get_requested_withdraw->custom_amount, 'updated_at' => date("y-m-d H:i:s", strtotime('now')));
               VendorTotal::where('vendor_id', $get_requested_withdraw->user_id)->update( $data_for_vendortotals );
             }
-            
+
             $data_for_vendororder = array('order_status' => 'COMPLETED', 'updated_at' => date("y-m-d H:i:s", strtotime('now')));
             VendorOrder::where(['vendor_id' => $get_requested_withdraw->user_id, 'order_status' => 'ON-HOLD'])->update( $data_for_vendororder );
           }
-          
+
           if($email_options['vendor_withdraw_request_completed']['enable_disable'] == true && $this->env === 'production'){
             $classGetFunction->sendCustomMail( array('source' => 'vendor_withdraw_request_completed', 'email' => $user_details['user_email']) );
           }
@@ -2452,22 +2467,22 @@ class AdminAjaxController extends Controller
         elseif($input['target'] == 'cancelled'){
           $data_for_vendorwithdraw = array('status' => 'CANCELLED', 'updated_at' => date("y-m-d H:i:s", strtotime('now')));
           VendorWithdraw::where('id', $input['id'])->update( $data_for_vendorwithdraw );
-          
+
           $data_for_vendororder = array('order_status' => 'CANCELLED', 'updated_at' => date("y-m-d H:i:s", strtotime('now')));
           VendorOrder::where(['vendor_id' => $get_requested_withdraw->user_id, 'order_status' => 'ON-HOLD'])->update( $data_for_vendororder );
-          
+
           if($email_options['vendor_withdraw_request_cancelled']['enable_disable'] == true && $this->env === 'production'){
             $classGetFunction->sendCustomMail( array('source' => 'vendor_withdraw_request_cancelled', 'email' => $user_details['user_email']) );
           }
         }
-        
+
         return response()->json(array('status' => 'success', 'type' => 'vendor_status_updated'));
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Manage designer export data
    *
    * @param null
@@ -2476,84 +2491,84 @@ class AdminAjaxController extends Controller
   public function manageDesignerExportData(){
     if(Request::isMethod('post') && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-      $id = uniqid(time(), true); 
+      $id = uniqid(time(), true);
       $destinationPath = public_path('uploads/'. $id. '/');
-      
+
       if(!File::exists( $destinationPath )) {
         File::makeDirectory($destinationPath, $mode = 0755, true, true);
       }
-      
+
       $image_type  = $input['image_type'];
       $output_type = $input['output_type'];
 
       unset($input['output_type']);
       unset($input['image_type']);
-      
+
       if((!empty($output_type) && $output_type == 'image') || (!empty($output_type) && $output_type == 'pdf')){
-        foreach($input as $key => $val){      
+        foreach($input as $key => $val){
           $fileName = uniqid(time(), true). '.' . $image_type;
           $upload_success = Request::file($key)->move($destinationPath, $fileName);
-          
+
           if(!empty($output_type) && $output_type == 'pdf'){
             $pdf = new FPDF();
             $pdf->AddPage();
-            
+
             // top text
             $pdf->SetFont('Arial','BU', 12);
             $pdf->Cell(0, 10, 'Design image', 0, 0, 'C');
-            
+
             //empty cell
             $pdf->ln();
             $pdf->Cell(0, 10, '');
             $pdf->ln();
             $pdf->Cell(0, 0, $pdf->Image($destinationPath. $fileName, $pdf->GetX(), $pdf->GetY()));
-            
+
             if (is_file($destinationPath. $fileName) && is_writable($destinationPath. $fileName)){
               unlink($destinationPath. $fileName);
             }
-            
-            $pdf->Output($destinationPath. uniqid(time(), true) .'_design_image.pdf', 'F'); 
+
+            $pdf->Output($destinationPath. uniqid(time(), true) .'_design_image.pdf', 'F');
           }
         }
       }
       elseif(!empty($output_type) && $output_type == 'svg' ){
         $fonts = array();
-        
-        foreach($input as $key => $val){      
+
+        foreach($input as $key => $val){
           $newID = uniqid().rand(0,10);
-          
+
           if(!File::exists( $destinationPath . $newID )) {
             File::makeDirectory($destinationPath . $newID, $mode = 0755, true, true);
           }
-          
-          $content = base64_decode( $val );           
+
+          $content = base64_decode( $val );
           $fp = fopen($destinationPath . $newID . "/". $newID . ".svg", "wb") or die("Unable to open file!");
           fwrite($fp, $content);
-          
+
           $xdoc = new DOMDocument();
           $xdoc->load( $destinationPath . $newID . "/". $newID . ".svg" );
           $imgCount = $xdoc->getelementsbytagname('image');
-          
-           
+
+
           if(!empty($imgCount)){
             if($imgCount->length>0){
               for($i = 0; $i< $imgCount->length; $i++){
                 $tagname = $xdoc->getelementsbytagname('image')->item($i);
                 $attribNode = $tagname->getAttributeNode('xlink:href');
-               
+
                 $img_url = '';
                 if(!empty($attribNode->value)){
                   if ( strstr( $attribNode->value, 'data:image/png;base64,' ) ) {
                     $img_name = time().uniqid().rand(0,10);
                     $decodedImageData = base64_decode( str_replace( 'data:image/png;base64,', '', $attribNode->value ) );
-                    
+
                     if( file_put_contents( public_path('uploads/'. $img_name. ".png" ), $decodedImageData ) ){
                       $img_url = url('/').'/public/uploads/'. $img_name. ".png";
                     }
                   } else {
                     $img_url = $attribNode->value;
                   }
-                  
+
                   $img_content = file_get_contents( $img_url );
 
                   $fp = fopen($destinationPath . $newID . "/".  basename($img_url), "wb") or die("Unable to open file!");
@@ -2567,31 +2582,31 @@ class AdminAjaxController extends Controller
               }
             }
           }
-          
+
           $textCount = $xdoc->getelementsbytagname('text');
           if(!empty($textCount)){
             if($textCount->length>0){
               for($j = 0; $j<$textCount->length; $j++){
                 $tagnameText = $xdoc->getelementsbytagname('text')->item($j);
                 $attribNodeText = $tagnameText->getAttributeNode('font-family');
-                
+
                 if($attribNodeText){
                   if($attribNodeText->value){
                     $fontName = str_replace( array( '\'', '"', ',' , ';', '<', '>' ), '', $attribNodeText->value);
-                    
+
                     if(!empty($fontName)){
                       $get_post = Post::where(['post_slug' => $fontName])->first();
-                        
+
                       if(!empty($get_post)){
                         $get_font_path = PostExtra::where(['post_id' => $get_post->id, 'key_name' => '_font_uploaded_url'])->first();
-                        
-                        if(!empty($get_font_path)){  
+
+                        if(!empty($get_font_path)){
                           if(File::exists( public_path($get_font_path->key_value) ) ){
                             array_push($fonts, $fontName);
-                            
+
                             $content_font = file_get_contents( public_path($get_font_path->key_value) );
                             $parse = explode('uploads/', $get_font_path->key_value);
-                            
+
                             if(count($parse) > 0){
                               $fp = fopen($destinationPath . $newID . "/". $parse[1], "wb") or die("Unable to open file!");
                               fwrite($fp, $content_font);
@@ -2605,23 +2620,23 @@ class AdminAjaxController extends Controller
               }
             }
           }
-          
+
           // Set the Font info to the svg.
           if(count($fonts)>0){
             $defs_fonts_str = '<style type="text/css"><![CDATA[';
-            
+
             foreach($fonts as $font_load){
               if(!empty($font_load)){
                 $get_post = Post::where(['post_slug' => $font_load])->first();
-                
+
                 if(!empty($get_post)){
                   $get_font_path = PostExtra::where(['post_id' => $get_post->id, 'key_name' => '_font_uploaded_url'])->first();
-                  
-                  if(!empty($get_font_path)){ 
-                    
+
+                  if(!empty($get_font_path)){
+
                     if(File::exists( public_path( $get_font_path->key_value ) ) ){
                       $parse = explode('uploads/', $get_font_path->key_value);
-                      
+
                       if(count($parse) > 0){
                         $defs_fonts_str.= '@font-face{font-family: '.$font_load.';src: url(\''. $parse[1] .'\');}';
                       }
@@ -2638,15 +2653,15 @@ class AdminAjaxController extends Controller
             $fp = fopen($destinationPath . $newID . "/". $newID . ".svg", "wb") or die("Unable to open file!");
             fwrite($fp, $svg_xml_str);
           }
-          
+
           fclose($fp);
         }
       }
-      
+
       if(File::exists( $destinationPath )) {
         $this->customZip(public_path('uploads/'. $id), public_path('uploads/'. $id . '.zip'));
       }
-        
+
       if(File::exists( public_path('uploads/'. $id . '.zip') )){
         if(Session::has('_export_file_download')){
           Session::forget('_export_file_download');
@@ -2657,13 +2672,13 @@ class AdminAjaxController extends Controller
         }
 
         $this->unlinkFolder( public_path('uploads/'. $id) );
-        return response()->json(array('status' => 'success'));    
+        return response()->json(array('status' => 'success'));
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Create folder zip
    *
    * @param null
@@ -2706,9 +2721,9 @@ class AdminAjaxController extends Controller
 
     return $zip->close();
   }
-  
+
   /**
-   * 
+   *
    * Manage designer file download
    *
    * @param null
@@ -2720,7 +2735,7 @@ class AdminAjaxController extends Controller
       $file_name = Session::get('_export_file_download');
       Session::forget('_export_file_download');
     }
-    
+
     if($file_name){
       $headers = array(
         'Content-Type' => 'application/octet-stream',
@@ -2732,9 +2747,9 @@ class AdminAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Recursive folder remove
    *
    * @param null
@@ -2745,7 +2760,7 @@ class AdminAjaxController extends Controller
       $files = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST
       );
-      
+
       foreach($files as $file){
         if ($file->isDir()){
           rmdir($file->getRealPath());
@@ -2753,13 +2768,13 @@ class AdminAjaxController extends Controller
           unlink($file->getRealPath());
         }
       }
-      
+
       rmdir($dir);
     }
   }
-  
+
   /**
-   * 
+   *
    * Uploaded images download
    *
    * @param null
@@ -2768,26 +2783,26 @@ class AdminAjaxController extends Controller
   public function uploadedImagesDownload(){
     if(Request::isMethod('post') && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-      
-      $id = uniqid(time(), true); 
+
+      $id = uniqid(time(), true);
       $destinationPath = public_path('uploads/'. $id. '/');
-      
+
       if(!File::exists( $destinationPath )) {
         File::makeDirectory($destinationPath, $mode = 0755, true, true);
       }
-      
+
       if(isset($input['design_json']) && !empty($input['design_json'])){
         $parse_json = json_decode($input['design_json']);
-         
+
         if(!empty($parse_json)){
           foreach($parse_json as $design_json){
             $get_design_data = json_decode( $design_json->customdata);
-            
+
             if(!empty($get_design_data->objects)){
               foreach($get_design_data->objects as $obj){
                 if(isset($obj->type) && $obj->type == 'image' && isset($obj->itemName) && $obj->itemName == 'upload_image'){
                   $replace = str_replace(url('/public/'), "", $obj->src);
-                  
+
                   $srcFile = file_get_contents( public_path($replace) );
                   $desFile = $destinationPath.basename( $obj->src );
                   $fp = fopen($desFile, "wb") or die("Unable to open file!");
@@ -2798,7 +2813,7 @@ class AdminAjaxController extends Controller
             }
           }
         }
-        
+
         if(File::exists( $destinationPath )) {
           $this->customZip(public_path('uploads/'. $id), public_path('uploads/'. $id . '.zip'));
         }
@@ -2813,15 +2828,15 @@ class AdminAjaxController extends Controller
           }
 
           $this->unlinkFolder( public_path('uploads/'. $id) );
-          return response()->json(array('status' => 'success'));    
+          return response()->json(array('status' => 'success'));
         }
         else{
-          return response()->json(array('status' => 'error'));    
+          return response()->json(array('status' => 'error'));
         }
       }
     }
   }
-  
+
   public function is_base64($s){
     // Check if there are valid base64 characters
     if (!preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s)) return false;
@@ -2835,9 +2850,9 @@ class AdminAjaxController extends Controller
 
     return true;
   }
-  
+
   /**
-   * 
+   *
    * Update menu settings content
    *
    * @param null
@@ -2846,13 +2861,13 @@ class AdminAjaxController extends Controller
   public function updateMenuSettingsContent(){
     if(Request::isMethod('post') && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-      
+
       $get_sorting_data = $input['menu_data'];
-              
+
       $data = array(
                     'option_value'  => json_encode($get_sorting_data)
       );
-      
+
       if( Option::where('option_name', '_menu_data')->update($data)){
         return response()->json(array('status' => 'success'));
       }
@@ -2860,7 +2875,7 @@ class AdminAjaxController extends Controller
   }
 
   /**
-   * 
+   *
    * Contact with vendor via admin email
    *
    * @param name, message
@@ -2868,15 +2883,15 @@ class AdminAjaxController extends Controller
    */
   public function contactWithVendorFromAdminEmail(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
-      $input = Request::all(); 
+      $input = Request::all();
       $mailData = array();
       $classGetFunction = new GetFunction();
-      
+
       $mailData['source'] = 'contact_to_vendor_mail';
       $mailData['data'] = array('_mail_to' => base64_decode($input['vendor_mail']), '_mail_from' => base64_decode($input['admin_mail']), '_subject' => base64_decode($input['strSubject']), '_message' => base64_decode($input['message']));
 
       $classGetFunction->sendCustomMail( $mailData );
-      
+
       return response()->json(array('status' => 'success'));
     }
   }

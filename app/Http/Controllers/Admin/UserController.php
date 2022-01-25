@@ -23,13 +23,13 @@ use App\Library\CommonFunction;
 class UserController extends Controller
 {
   public $classCommonFunction;
-  
+
   public function __construct(){
     $this->classCommonFunction  =   new CommonFunction();
-	}	
-  
+	}
+
   /**
-   * 
+   *
    * users list content
    *
    * @param null
@@ -38,23 +38,23 @@ class UserController extends Controller
   public function usersListContent(){
     $data = array();
     $search_value = '';
-    
+
     if(isset($_GET['term_user_name']) && $_GET['term_user_name'] != ''){
       $search_value = $_GET['term_user_name'];
     }
-      
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['user_list_data'] = $this->getUserListData(true, $search_value, -1);
     $data['search_value']   = $search_value;
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-     
+
     return view('pages.admin.users.user-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * users add content
    *
    * @param null
@@ -62,17 +62,17 @@ class UserController extends Controller
    */
   public function usersAddContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-      
+
     return view('pages.admin.users.add-users', $data);
   }
-  
+
   /**
-   * 
+   *
    * users update content
    *
    * @param null
@@ -80,25 +80,25 @@ class UserController extends Controller
    */
   public function usersUpdateContent( $params ){
     $get_data = get_user_details( $params );
-		  
+
     if(count($get_data)>0){
       $data = array();
-      
+
       $data = $this->classCommonFunction->commonDataForAllPages();
       $data['user_edit_details'] = $get_data;
-      $is_vendor = is_vendor_login(); 
+      $is_vendor = is_vendor_login();
       $sidebar['is_vendor_login'] = $is_vendor;
       $data['sidebar_data'] = $sidebar;
-      
+
       return view('pages.admin.users.update-users', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * users role list content
    *
    * @param null
@@ -107,23 +107,23 @@ class UserController extends Controller
   public function usersRoleListContent(){
     $data = array();
     $search_value = '';
-    
+
     if(isset($_GET['term_user_role']) && $_GET['term_user_role'] != ''){
       $search_value = $_GET['term_user_role'];
     }
-      
+
     $data = $this->classCommonFunction->commonDataForAllPages();
     $data['user_role_list_data'] = $this->getUserRoleListData(true, $search_value);
     $data['search_value']   = $search_value;
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-     
+
     return view('pages.admin.users.user-role-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * users role add content
    *
    * @param null
@@ -131,17 +131,17 @@ class UserController extends Controller
    */
   public function usersRoleAddContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->commonDataForAllPages();
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-      
+
     return view('pages.admin.users.add-users-roles', $data);
   }
-  
+
   /**
-   * 
+   *
    * users profile content
    *
    * @param null
@@ -149,23 +149,23 @@ class UserController extends Controller
    */
   public function userProfileContent(){
     $get_user_data = User::where(['id' => Session::get('shopist_admin_user_id')])->first();
-    
+
     if($get_user_data->count() > 0){
       $data = array();
-    
+
       $data = $this->classCommonFunction->commonDataForAllPages();
       $data['user_profile_data']  = $get_user_data;
-      $is_vendor = is_vendor_login(); 
+      $is_vendor = is_vendor_login();
       $sidebar['is_vendor_login'] = $is_vendor;
       $data['sidebar_data'] = $sidebar;
-      
+
       return view('pages.admin.users.user-profile', $data);
     }
   }
-  
-  
+
+
   /**
-   * 
+   *
    * users role update content
    *
    * @param null
@@ -173,25 +173,25 @@ class UserController extends Controller
    */
   public function usersRoleUpdateContent( $params ){
     $get_role_data = get_roles_details_by_role_id( $params );
-		  
+
     if(!empty($get_role_data)){
       $data = array();
-      
+
       $data = $this->classCommonFunction->commonDataForAllPages();
       $data['user_roles_details'] = $get_role_data;
-      $is_vendor = is_vendor_login(); 
+      $is_vendor = is_vendor_login();
       $sidebar['is_vendor_login'] = $is_vendor;
       $data['sidebar_data'] = $sidebar;
-      
+
       return view('pages.admin.users.update-users-roles', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Create/update user role
    *
    * @param update id
@@ -203,9 +203,9 @@ class UserController extends Controller
       $rules = [
                   'user_role_name'    =>  'required',
                ];
-      
+
       $validator = Validator:: make($input, $rules);
-      
+
       if($validator->fails()){
         return redirect()-> back()
         ->withInput()
@@ -214,20 +214,20 @@ class UserController extends Controller
       else{
         $user_role_permission       =       new UserRolePermission;
         $Role                       =       new Role;
-        
+
         $permissions_list = array();
-        
+
         if(is_array(Request::get('allow_permissions')) && count(Request::get('allow_permissions'))>0){
           $permissions_list = Request::get('allow_permissions');
         }
-        
+
         if(Request::has('allow_permissions_all')){
           array_push($permissions_list, Request::get('allow_permissions_all'));
         }
         else{
           array_push($permissions_list, 'all_checkbox_disable');
         }
-        
+
         if(Request::get('hf_post_type') == 'add'){
           $role_slug = '';
           $check_slug  = Role::where(['slug' => string_slug_format( Request::get('user_role_name') )])->orWhere('slug', 'like', '%' . string_slug_format( Request::get('user_role_name') ) . '%')->get()->count();
@@ -239,7 +239,7 @@ class UserController extends Controller
             $slug_count = $check_slug + 1;
             $role_slug = string_slug_format( Request::get('user_role_name') ). '-' . $slug_count;
           }
-          
+
           $Role->role_name        =    Request::get('user_role_name');
           $Role->slug             =    $role_slug;
 
@@ -258,12 +258,12 @@ class UserController extends Controller
           $role_data =  array(
                               'role_name'   => Request::get('user_role_name')
           );
-          
+
           if( $Role::where(['id' => $params])->update( $role_data )){
             $permission_data = array(
                                     'permissions'   => serialize($permissions_list)
             );
-            
+
             if( $user_role_permission::where(['role_id' => $params])->update( $permission_data )){
               Session::flash('message', Lang::get('admin.successfully_saved_msg') );
               Session::flash('update-message', "");
@@ -272,12 +272,12 @@ class UserController extends Controller
           }
         }
       }
-    } 
+    }
   }
-  
+
   /**
-   * 
-   * Create new user and update 
+   *
+   * Create new user and update
    *
    * @param update id
    * @return response
@@ -290,14 +290,14 @@ class UserController extends Controller
                   'user_name'                  =>  'required',
                   'user_email'                 =>  'required|email'
                ];
-      
+
       if(Request::get('hf_post_type') == 'add'){
-        $rules['user_password']             =   'required|min:5';   
-        $rules['user_secret_key']           =   'required';   
+        $rules['user_password']             =   'required|min:5';
+        $rules['user_secret_key']           =   'required';
       }
-      
+
       $validator = Validator:: make($input, $rules);
-      
+
       if($validator->fails()){
         return redirect()-> back()
         ->withInput()
@@ -307,9 +307,9 @@ class UserController extends Controller
         $User =       new User;
         $Role =       new Role;
         $Roleuser =   new RoleUser;
-        
+
         $role_data = $this->get_role_by_slug(Request::get('user_role'));
-        
+
         if(!empty($role_data)){
           $is_user_name_exists = User::where(['name' => Request::get('user_name')])->first();
           $is_email_exists     = User::where(['email' => Request::get('user_email')])->first();
@@ -318,13 +318,13 @@ class UserController extends Controller
             if(!empty($is_user_name_exists)){
               Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'user name']));
               return redirect()->back();
-            } 
+            }
 
             if(!empty($is_email_exists)){
               Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'email id']));
               return redirect()->back();
-            } 
-          
+            }
+
             $User->display_name       =    Request::get('user_display_name');
             $User->name               =    Request::get('user_name');
             $User->email              =    Request::get('user_email');
@@ -338,35 +338,35 @@ class UserController extends Controller
               $Roleuser->role_id    =    $role_data->id;
 
               if($Roleuser->save()){
-                
+
                 if(Request::get('user_role') == 'vendor'){
                   $Userdetails = new UsersDetail;
                   $classGetFunction  =  new GetFunction();
                   $email_options = get_emails_option_data();
                   $get_package  = VendorPackage::where(['package_type' => 'Default'])->first();
-                  
+
                   $vendor_data['profile_details'] = array('store_name' => '', 'address_line_1' => '', 'address_line_2' => '', 'city' => '', 'state' => '', 'country' => '', 'zip_postal_code' => '', 'phone' => '');
-                  
+
                   $vendor_data['general_details'] = array('cover_img' => '', 'vendor_home_page_cats' => '', 'google_map_app_key' => '', 'latitude' => '-25.363', 'longitude' => '131.044');
-                  
+
                   $vendor_data['social_media'] = array('fb_follow_us_url' => '', 'twitter_follow_us_url' => '', 'linkedin_follow_us_url' => '', 'dribbble_follow_us_url' => '', 'google_plus_follow_us_url' => '', 'instagram_follow_us_url' => '', 'youtube_follow_us_url' => '');
-                  
+
                   $vendor_data['seo'] = array('meta_keywords' => '', 'meta_decription' => '');
-                  
+
                   $vendor_data['shipping_method'] = array('shipping_option' => array('enable_shipping' => false, 'display_mode' => ''), 'flat_rate' => array('enable_option' => false, 'method_title' => '', 'method_cost' => 0), 'free_shipping' => array('enable_option' => false, 'method_title' => '', 'order_amount' => ''), 'local_delivery' => array('enable_option' => false, 'method_title' => '', 'fee_type' => '', 'delivery_fee' => ''));
-                  
+
                   $vendor_data['payment_method'] = array('payment_option' => '', 'dbt' => array('status' => false, 'title' => '', 'description' => '', 'instructions' => '', 'account_name' => '', 'account_number' => '', 'bank_name' => '', 'short_code' => '', 'IBAN' => '', 'SWIFT' =>''), 'cod' => array('status' => false, 'title' => '', 'description' => '', 'instructions' => ''), 'paypal' => array('status' => false, 'title' => '', 'email_id' => '', 'description' => ''), 'stripe' => array('status' => false, 'title' => '', 'email_id' => '', 'card_number' => '', 'cvc' => '', 'expiration_month' => '', 'expiration_year' => '', 'description' => ''), 'twocheckout' => array('status' => false, 'title' => '', 'card_number' => '', 'cvc' => '', 'expiration_month' => '', 'expiration_year' => '', 'description' => ''));
-                  
+
                   if(!empty($get_package)){
                     $vendor_data['package'] = array('package_name' => $get_package->id);
                   }
                   else{
                     $vendor_data['package'] = array('package_name' => '');
                   }
-                  
+
                   $Userdetails->user_id = $User->id;
                   $Userdetails->details = json_encode($vendor_data);
-                  
+
                   if ($Userdetails->save()) {
                     $env = App::environment();
                     if($email_options['vendor_new_account']['enable_disable'] == true && $env === 'production'){
@@ -374,7 +374,7 @@ class UserController extends Controller
                     }
                   }
                 }
-                
+
                 Session::flash('success-message', Lang::get('admin.successfully_saved_msg') );
                 Session::flash('update-message', "");
                 return redirect()->route('admin.update_new_user', $User->id);
@@ -385,32 +385,32 @@ class UserController extends Controller
             if($is_user_name_exists && $is_user_name_exists->id != $id){
               Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'user name']));
               return redirect()->back();
-            } 
+            }
 
             if($is_email_exists && $is_email_exists->id != $id){
               Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'email id']));
               return redirect()->back();
-            } 
-            
+            }
+
             $user_data  =    array(
                                   'display_name'    => Request::get('user_display_name'),
                                   'name'            => Request::get('user_name'),
                                   'email'           => Request::get('user_email')
             );
-            
+
             if(Request::get('user_password')){
               $user_data['password'] = bcrypt(Request::get('user_password'));
             }
-            
+
             if(Request::get('user_secret_key')){
               $user_data['secret_key'] = bcrypt(Request::get('user_secret_key'));
             }
-            
+
             if(User::where('id', $id)->update($user_data)){
               $update_role_data = array(
                                 'role_id'    =>   $role_data->id
               );
-              
+
               if(RoleUser::where('user_id', $id)->update($update_role_data)){
                 Session::flash('success-message', Lang::get('admin.successfully_updated_msg'));
                 return redirect()->back();
@@ -425,9 +425,9 @@ class UserController extends Controller
       }
     }
   }
-		
+
 		/**
-   * 
+   *
    * Get function for available user role
    *
    * @param null
@@ -436,16 +436,16 @@ class UserController extends Controller
 		public function getAvailableUserRole(){
 		$available_roles = array();
     $get_roles = Role::all()->toArray();
-    
+
     if(count($get_roles) > 0){
       $available_roles = $get_roles;
     }
-    
+
     return $available_roles;
 		}
-		
+
 	/**
-   * 
+   *
    * Get function for user role
    *
    * @param role_slug
@@ -454,16 +454,16 @@ class UserController extends Controller
 		public function getRoleNameByRoleSlug( $role_slug ){
     $roles_name = '';
     $roles = Role::where('slug', $role_slug)->first();
-    
+
     if(!empty($roles)){
       $roles_name = $roles->role_name;
     }
-    
+
     return $roles_name;
   }
-  
+
   /**
-   * 
+   *
    * Get user list data
    *
    * @param pagination, search value, status flag
@@ -474,25 +474,25 @@ class UserController extends Controller
    */
 	public function getUserListData( $pagination = false, $search_val = null, $status_flag = -1){
     $user_data  = array();
-    
+
     if($status_flag == -1){
         $where = [];
     }
     else{
         $where = ['user_status' => $status_flag];
     }
-				
+
     if($search_val && $search_val != ''){
       $getuserdata = User::where($where)
-                     ->where('name', 'LIKE', $search_val.'%')  
+                     ->where('name', 'LIKE', $search_val.'%')
                      ->get();
     }
     else{
       $getuserdata = User::where($where)
                      ->get();
     }
-    
-    
+
+
 		if(count($getuserdata) > 0){
 			foreach($getuserdata as $val){
 			  $data['id'] = $val->id;
@@ -501,17 +501,17 @@ class UserController extends Controller
 			  $data['email'] = $val->email;
 			  $data['user_status'] = $val->user_status;
 			  $data['created_at'] = $val->created_at;
-			  
+
 			  if($val->roles->count() >0 && $val->roles[0]){
           $data['user_role'] = $val->roles[0]->role_name;
           $data['role_name_slug'] = $val->roles[0]->slug;
 			  }
-			  
+
 			  array_push($user_data, $data);
 			}
-		}		
-    
-    
+		}
+
+
     if($pagination){
       $currentPage = LengthAwarePaginator::resolveCurrentPage();
       $col = new Collection( $user_data );
@@ -521,7 +521,7 @@ class UserController extends Controller
 
       $user_object->setPath( route('admin.users_list') );
     }
-    
+
     if($pagination){
       return $user_object;
     }
@@ -529,9 +529,9 @@ class UserController extends Controller
       return $user_data;
     }
   }
-  
+
   /**
-   * 
+   *
    * Get function for user role
    *
    * @param role_slug
@@ -541,16 +541,16 @@ class UserController extends Controller
     $role_obj = null;
     $get_role = Role::where(['slug' => $slug])
                 ->first();
-    
+
     if(!empty($get_role)){
       $role_obj = $get_role;
     }
-    
+
     return $role_obj;
   }
-  
+
    /**
-   * 
+   *
    * Get user role list data
    *
    * @param pagination, search value, status flag
@@ -561,17 +561,17 @@ class UserController extends Controller
    */
 	public function getUserRoleListData( $pagination = false, $search_val = null ){
     $user_role_data  = array();
-    
+
     if($search_val && $search_val != ''){
-      $getuserroledata = Role::where('role_name', 'LIKE', $search_val.'%')  
+      $getuserroledata = Role::where('role_name', 'LIKE', $search_val.'%')
                          ->get()
                          ->toArray();
     }
     else{
       $getuserroledata = Role::all()
-                         ->toArray();        
+                         ->toArray();
     }
-    
+
     if($pagination){
       $currentPage = LengthAwarePaginator::resolveCurrentPage();
       $col = new Collection( $getuserroledata );
@@ -581,7 +581,7 @@ class UserController extends Controller
 
       $user_role_object->setPath( route('admin.users_roles_list') );
     }
-    
+
     if($pagination){
       return $user_role_object;
     }
@@ -589,9 +589,9 @@ class UserController extends Controller
       return $user_role_data;
     }
   }
-  
+
   /**
-   * 
+   *
    * Update user profile data
    *
    * @param null
@@ -607,7 +607,7 @@ class UserController extends Controller
                ];
 
       if(Request::get('password')){
-        $rules['password']             =   'min:5';                 
+        $rules['password']             =   'min:5';
       }
 
       $validator = Validator:: make($input, $rules);
@@ -620,17 +620,17 @@ class UserController extends Controller
       else{
         $is_user_name_exists = User::where(['name' => Request::get('user_name')])->first();
         $is_email_exists     = User::where(['email' => Request::get('email_id')])->first();
-        
+
         if($is_user_name_exists && $is_user_name_exists->id != Session::get('shopist_admin_user_id')){
           Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'user name']));
           return redirect()->back();
-        } 
-        
+        }
+
         if($is_email_exists && $is_email_exists->id != Session::get('shopist_admin_user_id')){
           Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'email id']));
           return redirect()->back();
-        } 
-        
+        }
+
         $data = array(
                       'display_name'         =>    Request::get('display_name'),
                       'name'                 =>    Request::get('user_name'),
