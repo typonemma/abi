@@ -44,18 +44,18 @@ class FrontendManagerController extends Controller
     $this->option               =  new OptionController();
     $this->vendors              =  new VendorsController();
   }
-  
+
   /**
-   * 
+   *
    * Home page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function homePageContent(){
     $data = array();
-    
-    $data = $this->classCommonFunction->get_dynamic_frontend_content_data(); 
+
+    $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['advancedData']        =   $this->product->getAdvancedProducts();
     $data['brands_data']         =   $this->product->getTermData( 'product_brands', false, null, 1 );
     $data['testimonials_data']   =   get_all_testimonial_data();
@@ -63,13 +63,13 @@ class FrontendManagerController extends Controller
 
     return view('pages.frontend.frontend-pages.home', $data);
   }
-  
+
   /**
-   * 
+   *
    * Product categories single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function productCategoriesSinglePageContent( $params ){
     $data = array();
@@ -78,19 +78,19 @@ class FrontendManagerController extends Controller
     $price_max = null;
     $selected_colors = null;
     $selected_sizes = null;
-      
+
     if(isset($_GET['sort_by'])){
       $sort = $_GET['sort_by'];
     }
-      
+
     if(isset($_GET['price_min'])){
       $price_min = $_GET['price_min'];
     }
-      
+
     if(isset($_GET['price_max'])){
       $price_max = $_GET['price_max'];
     }
-      
+
     if(isset($_GET['selected_colors'])){
       $selected_colors = $_GET['selected_colors'];
     }
@@ -98,26 +98,26 @@ class FrontendManagerController extends Controller
     if(isset($_GET['selected_sizes'])){
       $selected_sizes = $_GET['selected_sizes'];
     }
-      
+
     $get_cat_product_and_breadcrumb  =  $this->product->getProductByCatSlug($params, array('sort' => $sort, 'price_min' => $price_min, 'price_max' => $price_max, 'selected_colors' => $selected_colors, 'selected_sizes' => $selected_sizes));
 
     if(count($get_cat_product_and_breadcrumb) > 0){
-      $data = $this->classCommonFunction->get_dynamic_frontend_content_data(); 
+      $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['product_by_cat_id']  =   $get_cat_product_and_breadcrumb;
       $data['brands_data']        =   $this->product->getTermData( 'product_brands', false, null, 1 );
       $data['colors_list_data']   =   $this->product->getTermData( 'product_colors', false, null, 1 );
       $data['sizes_list_data']    =   $this->product->getTermData( 'product_sizes', false, null, 1 );
-    
+
       if(count($data['product_by_cat_id']) > 0){
         $data['product_by_cat_id']['action_url'] = Request::url();
-        
+
         $currentQuery = Request::query();
-        
+
         if(count($currentQuery) > 0){
           if(isset($currentQuery['view'])){
             unset($currentQuery['view']);
           }
-          
+
           if(count($currentQuery) > 0){
             $currentQuery['view'] = 'list';
             $data['product_by_cat_id']['action_url_list_view'] = Request::url(). '?' . http_build_query($currentQuery);
@@ -133,39 +133,39 @@ class FrontendManagerController extends Controller
           $data['product_by_cat_id']['action_url_list_view'] = Request::url(). '?view=list';
           $data['product_by_cat_id']['action_url_grid_view'] = Request::url(). '?view=grid';
         }
-        
+
         if(isset($_GET['view']) && $_GET['view'] == 'list'){
-          $data['product_by_cat_id']['selected_view'] = 'list'; 
+          $data['product_by_cat_id']['selected_view'] = 'list';
         }
         elseif(isset($_GET['view']) && $_GET['view'] == 'grid'){
-          $data['product_by_cat_id']['selected_view'] = 'grid'; 
+          $data['product_by_cat_id']['selected_view'] = 'grid';
         }
         else{
           $data['product_by_cat_id']['selected_view'] = 'grid';
         }
       }
-      
+
       return view('pages.frontend.frontend-pages.categories-main', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Testimonial single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function testimonialSinglePageContent( $params ){
     $data = array();
     $testimonial_arr = array();
-    
+
     $get_testimonial = get_testimonial_data_by_slug($params);
     if(count($get_testimonial) > 0 && isset($get_testimonial['post_status']) && $get_testimonial['post_status'] == 1){
-      $data = $this->classCommonFunction->get_dynamic_frontend_content_data(); 
+      $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['testimonials_data_by_slug'] =  $get_testimonial;
       $get_testimonials_data  =   get_all_testimonial_data(1);
 
@@ -183,39 +183,39 @@ class FrontendManagerController extends Controller
       else{
         $data['testimonials_data'] = array();
       }
-      
+
       return view('pages.frontend.frontend-pages.testimonial-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Blog single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function blogSinglePageContent( $params ){
     $data = array();
     $get_blog_details_by_slug = $this->CMS->get_blog_by_slug($params);
-      
+
     if(count($get_blog_details_by_slug) > 0 && isset($get_blog_details_by_slug['post_status']) && $get_blog_details_by_slug['post_status'] == 1){
       $object_id = 0;
 
       if(isset($get_blog_details_by_slug['id'])){
         $object_id = $get_blog_details_by_slug['id'];
       }
-      
+
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['advanced_data']            =   $this->CMS->get_blog_advanced_data($object_id);
       $data['blog_details_by_slug']     =   $get_blog_details_by_slug;
       $data['comments_details']         =   get_comments_data_by_object_id( $object_id, 'blog' );
       $data['comments_rating_details']  =   get_comments_rating_details( $object_id, 'blog' );
 
-      if(!Session::has('shopist_blog_count') || (Session::has('shopist_blog_count') && Session::get('shopist_blog_count') != $get_blog_details_by_slug['id'])){  
+      if(!Session::has('shopist_blog_count') || (Session::has('shopist_blog_count') && Session::get('shopist_blog_count') != $get_blog_details_by_slug['id'])){
         $get_post_meta =  PostExtra::where(['post_id' => $get_blog_details_by_slug['id'], 'key_name' => '_count_visit'])->first();
 
         if(!empty($get_post_meta)){
@@ -254,42 +254,42 @@ class FrontendManagerController extends Controller
       else{
         $data['blog_details_by_slug']['meta_keywords'] = null;
       }
-      
+
       return view('pages.frontend.frontend-pages.blog-single-page', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Brand single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function brandSinglePageContent( $params ){
     $data = array();
     $get_brand_details_by_slug = $this->product->getBrandDataBySlug( $params );
-     
+
     if(count($get_brand_details_by_slug) > 0){
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['brand_details_by_slug'] = $get_brand_details_by_slug;
-      
+
       return view('pages.frontend.frontend-pages.brand-single-page', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Products page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function productsPageContent(){
     $data = array();
@@ -361,41 +361,41 @@ class FrontendManagerController extends Controller
         }
 
         if(isset($_GET['view']) && $_GET['view'] == 'list'){
-          $data['all_products_details']['selected_view'] = 'list'; 
+          $data['all_products_details']['selected_view'] = 'list';
         }
         elseif(isset($_GET['view']) && $_GET['view'] == 'grid'){
-          $data['all_products_details']['selected_view'] = 'grid'; 
+          $data['all_products_details']['selected_view'] = 'grid';
         }
         else{
           $data['all_products_details']['selected_view'] = 'grid';
         }
       }
-      
+
       return view('pages.frontend.frontend-pages.shop', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Product single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function productSinglePageContent( $params ){
     $get_product = Product::where(['slug' => $params, 'status' => 1])->first();
-      
+
     if(!empty($get_product)){
       $data = array();
       $product_id  = $get_product->id;
       $get_current_user_data  =  get_current_frontend_user_info();
-      
+
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['single_product_details']  =  $this->product->getProductDataById( $product_id );
-      
+
       if(is_frontend_user_logged_in() && isset($get_current_user_data['user_role_slug']) && $data['single_product_details']['_is_role_based_pricing_enable'] == 'yes'){
         if(isset($data['single_product_details']['_role_based_pricing'][$get_current_user_data['user_role_slug']])){
 
@@ -415,7 +415,7 @@ class FrontendManagerController extends Controller
             $data['single_product_details']['solid_price'] = 0;
           }
         }
-      }  
+      }
       else{
         if($data['single_product_details']['post_regular_price'] && $data['single_product_details']['post_regular_price'] >0 && $data['single_product_details']['post_sale_price'] && $data['single_product_details']['post_sale_price']>0 && $data['single_product_details']['post_regular_price'] > $data['single_product_details']['post_sale_price'] ){
           $data['single_product_details']['offer_price'] = get_product_price_html_by_filter($data['single_product_details']['post_regular_price']);
@@ -466,7 +466,7 @@ class FrontendManagerController extends Controller
       }
 
       $data['attr_lists']               =   $this->product->getAllAttributes( $product_id );
-      $data['related_items']            =   $this->product->getRelatedItems( $product_id );  
+      $data['related_items']            =   $this->product->getRelatedItems( $product_id );
       $data['comments_details']         =   get_comments_data_by_object_id( $product_id, 'product' );
       $data['comments_rating_details']  =   get_comments_rating_details( $product_id, 'product' );
       $data['vendor_reviews_rating_details']  =   get_comments_rating_details( get_vendor_id_by_product_id($product_id), 'vendor' );
@@ -489,54 +489,54 @@ class FrontendManagerController extends Controller
 
       $data['upsell_products'] = get_upsell_products( $product_id );
       $get_variation_data = get_product_variations_with_data( $product_id );
-      
+
       if(count($get_variation_data) > 0){
         $variation_data = array();
-        
+
         foreach($get_variation_data as $row){
           if(isset($row['_variation_post_price'])){
             $row['_variation_post_price'] = price_html( get_product_price_html_by_filter(get_role_based_price_by_product_id($row['id'], $row['_variation_post_price'])), get_frontend_selected_currency());
           }
-          
+
           $get_current_user_data  =  get_current_frontend_user_info();
-    
+
           if(is_frontend_user_logged_in() && isset($get_current_user_data['user_role_slug']) ){
             if($row['_is_role_based_pricing_enable'] == true){
               if(isset($row['_role_based_pricing_array'][$get_current_user_data['user_role_slug']])){
                 $regular_price =  $row['_role_based_pricing_array'][$get_current_user_data['user_role_slug']]['regular_price'];
                 $sale_price    =  $row['_role_based_pricing_array'][$get_current_user_data['user_role_slug']]['sale_price'];
-                
+
                 $row['regular_price_comp_val'] = $regular_price;
                 $row['sales_price_comp_val']   = $sale_price;
-                
+
                 $row['regular_price'] = price_html( get_product_price_html_by_filter(get_role_based_price_by_product_id($row['id'], $regular_price)), get_frontend_selected_currency());
                 $row['sales_price']   = price_html( get_product_price_html_by_filter(get_role_based_price_by_product_id($row['id'], $sale_price)), get_frontend_selected_currency());
               }
             }
-          } 
-          
+          }
+
           array_push($variation_data, $row);
         }
-         
+
         $data['variations_data'] = $variation_data;
       }
       else{
         $data['variations_data'] = $get_variation_data;
       }
-      
+
       return view('pages.frontend.frontend-pages.product-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Checkout page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function checkoutPageContent(){
     $data = array();
@@ -544,9 +544,9 @@ class FrontendManagerController extends Controller
     $is_user_login = false;
     $get_user_login_data = get_current_frontend_user_info();
     $user_account_parse_data = null;
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
-    
+
     if($this->cart->getItems()->count() > 0){
       foreach($this->cart->getItems() as $item){
         $get_vendor_details = get_vendor_details_by_product_id( $item->product_id );
@@ -557,19 +557,19 @@ class FrontendManagerController extends Controller
         }
       }
     }
-      
+
     if(!empty($vendor_details)){
       $data['shipping_data'] = $this->classCommonFunction->objToArray($vendor_details->shipping_method, true);
     }
     else{
       $data['shipping_data'] = $this->option->getShippingMethodData();
     }
-      
+
     $data['payment_method_data'] = $this->option->getPaymentMethodData();
     $data['stripe_api_key'] = json_encode(get_stripe_api_key());
     $data['twocheckout_api_data'] = json_encode(get_twocheckout_api_data());
-    
-      
+
+
     //coupon applay
     if($this->cart->is_coupon_applyed() && !empty($this->cart->couponCode())){
       $response = $this->classGetFunction->manage_coupon($this->cart->couponCode(), 'update');
@@ -578,11 +578,11 @@ class FrontendManagerController extends Controller
         $this->cart->remove_coupon();
         Session::flash('error-message', Lang::get('validation.coupon_removed_from_cart_msg' ));
       }
-    } 
-         
+    }
+
     if(Session::has('shopist_frontend_user_id') && isset($get_user_login_data['user_id'])){
       $is_user_login = true;
-      $get_data_by_user_id     =  get_user_account_details_by_user_id( $get_user_login_data['user_id'] ); 
+      $get_data_by_user_id     =  get_user_account_details_by_user_id( $get_user_login_data['user_id'] );
       $get_array_shift_data    =  array_shift($get_data_by_user_id);
       $user_account_parse_data =  json_decode($get_array_shift_data['details']);
 
@@ -594,21 +594,21 @@ class FrontendManagerController extends Controller
     $data['is_user_login'] = $is_user_login;
     $data['login_user_account_data'] = $user_account_parse_data;
     $data['_settings_data']   = $this->option->getSettingsData();
-    
+
     return view('pages.frontend.frontend-pages.checkout', $data);
   }
-  
+
   /**
-   * 
+   *
    * Cart page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function cartPageContent(){
     $data = array();
     $vendor_details  = array();
-      
+
     if($this->cart->getItems()->count() > 0){
       foreach($this->cart->getItems() as $item){
         $get_vendor_details = get_vendor_details_by_product_id( $item->product_id );
@@ -619,7 +619,7 @@ class FrontendManagerController extends Controller
         }
       }
     }
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     if(!empty($vendor_details)){
       $data['shipping_data'] = $this->classCommonFunction->objToArray($vendor_details->shipping_method, true);
@@ -639,8 +639,8 @@ class FrontendManagerController extends Controller
         $this->cart->remove_coupon();
         Session::flash('error-message', Lang::get('validation.coupon_removed_from_cart_msg' ));
       }
-    } 
-    
+    }
+
     if($this->cart->getItems()->count() > 0){
       $product_id = array();
       $cross_sell_products = array();
@@ -654,65 +654,65 @@ class FrontendManagerController extends Controller
         }
       }
 
-      $unique_1 = array_unique($product_id); 
-      $unique_2 = array_unique($cross_sell_products); 
+      $unique_1 = array_unique($product_id);
+      $unique_2 = array_unique($cross_sell_products);
 
       $final_unique_cross_sell_products = array_diff($unique_2, $unique_1);
       $data['cross_sell_products'] = $final_unique_cross_sell_products;
     }
-    
+
     return view('pages.frontend.frontend-pages.cart', $data);
   }
-  
+
   /**
-   * 
+   *
    * Blogs page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function blogsPageContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['blogs_all_data']  =   get_all_blogs_data(1);
     $data['categoriesTree']  =   $this->product->get_categories(0, 'blog_cat');
     $data['advanced_data']   =   $this->CMS->get_blog_advanced_data();
-    
+
     return view('pages.frontend.frontend-pages.blogs-main', $data);
   }
-  
+
   /**
-   * 
+   *
    * Blog categories page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function blogCategoriesPageContent( $params ){
     $data = array();
-    
+
     $get_cat_post  =   $this->CMS->getBlogPostByCatSlug( $params );
-      
+
     if(count($get_cat_post) > 0){
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['blogs_cat_post']  =   $get_cat_post;
       $data['advanced_data']   =   $this->CMS->get_blog_advanced_data();
       $data['categoriesTree']  =   $this->product->get_categories(0, 'blog_cat');
-      
+
       return view('pages.frontend.frontend-pages.blog-categories-post', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function singlePageContent( $params ){
     $data = array();
@@ -721,56 +721,56 @@ class FrontendManagerController extends Controller
     if(!empty($get_page_by_filter)){
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['page_data'] = $get_page_by_filter;
-      
+
       return view('pages.frontend.frontend-pages.custom-single-page', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Multivendor store list page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function multivendorStoreListPageContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['vendors_list'] = $this->vendors->getAllVendors( false, null, 1 );
-    
+
     return view('pages.frontend.vendors.vendors-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Multivendor store single page home content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function multivendorStoreSinglePageHomeContent( $params ){
     $data = array();
     $user = $params;
-    
+
     $get_user = User::where(['name' => $user, 'user_status' => 1])->first();
     if(empty($get_user)){
       return view('errors.vendor_not_active');
     }
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['vendor_settings'] = null;
     $data['vendor_selected_cats_id'] = array();
-    
+
     $get_user = User::where(['name' => $user])->first();
     if(!empty($get_user)){
       if(is_vendor_expired( $get_user->id )){
         return view('errors.vendor_expired');
       }
-      
+
       $data['vendor_package_details'] = get_package_details_by_vendor_id($get_user->id);
       $data['vendor_settings'] = null;
       $get_user_details = null;
@@ -778,11 +778,11 @@ class FrontendManagerController extends Controller
 
       if(count($user_details) > 0){
         $get_user_details = json_decode($user_details[0]['details']);
-      } 
+      }
 
       $data['vendor_info'] = $get_user;
       $data['vendor_settings'] = $get_user_details;
-      
+
       $get_global_seo = get_seo_data();
       $store_seo = $get_user_details->seo;
 
@@ -802,11 +802,11 @@ class FrontendManagerController extends Controller
       if(!empty($store_seo->meta_decription)){
         $data['store_seo_meta_description'] = $store_seo->meta_decription;
       }
-      
+
       $data['vendor_home_page_cats'] = array();
       if(!empty($get_user_details->general_details->vendor_home_page_cats)){
         $vendor_home_cats = json_decode($get_user_details->general_details->vendor_home_page_cats);
-        
+
         if(count($vendor_home_cats) > 0){
           foreach($vendor_home_cats as $cat){
             $explod_val = explode('#', $cat);
@@ -820,40 +820,40 @@ class FrontendManagerController extends Controller
 
       $data['vendor_advanced_items'] = $this->product->getVendorAdvancedProducts( $get_user->id );
       $data['vendor_reviews_rating_details']  =  get_comments_rating_details( $get_user->id, 'vendor' );
-      
+
       return view('pages.frontend.vendors.vendor-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Multivendor store single page products content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function multivendorStoreSinglePageProductsContent( $params ){
     $data = array();
     $user = $params;
-    
+
     $get_user = User::where(['name' => $user, 'user_status' => 1])->first();
     if(empty($get_user)){
       return view('errors.vendor_not_active');
     }
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['vendor_settings'] = null;
     $data['vendor_selected_cats_id'] = array();
-    
+
     $get_user = User::where(['name' => $user])->first();
     if(!empty($get_user)){
       if(is_vendor_expired( $get_user->id )){
         return view('errors.vendor_expired');
       }
-      
+
       $data['vendor_package_details'] = get_package_details_by_vendor_id($get_user->id);
       $data['vendor_settings'] = null;
       $get_user_details = null;
@@ -861,11 +861,11 @@ class FrontendManagerController extends Controller
 
       if(count($user_details) > 0){
         $get_user_details = json_decode($user_details[0]['details']);
-      } 
+      }
 
       $data['vendor_info'] = $get_user;
       $data['vendor_settings'] = $get_user_details;
-      
+
       $get_global_seo = get_seo_data();
       $store_seo = $get_user_details->seo;
 
@@ -885,11 +885,11 @@ class FrontendManagerController extends Controller
       if(!empty($store_seo->meta_decription)){
         $data['store_seo_meta_description'] = $store_seo->meta_decription;
       }
-      
+
       $data['vendor_home_page_cats'] = array();
       if(!empty($get_user_details->general_details->vendor_home_page_cats)){
         $vendor_home_cats = json_decode($get_user_details->general_details->vendor_home_page_cats);
-        
+
         if(count($vendor_home_cats) > 0){
           foreach($vendor_home_cats as $cat){
             $explod_val = explode('#', $cat);
@@ -903,7 +903,7 @@ class FrontendManagerController extends Controller
 
       $data['vendor_advanced_items'] = $this->product->getVendorAdvancedProducts( $get_user->id );
       $data['vendor_reviews_rating_details']  =  get_comments_rating_details( $get_user->id, 'vendor' );
-      
+
       //
       $sort = null;
       $price_min = null;
@@ -967,10 +967,10 @@ class FrontendManagerController extends Controller
           }
 
           if(isset($_GET['view']) && $_GET['view'] == 'list'){
-            $data['vendor_products']['selected_view'] = 'list'; 
+            $data['vendor_products']['selected_view'] = 'list';
           }
           elseif(isset($_GET['view']) && $_GET['view'] == 'grid'){
-            $data['vendor_products']['selected_view'] = 'grid'; 
+            $data['vendor_products']['selected_view'] = 'grid';
           }
           else{
             $data['vendor_products']['selected_view'] = 'grid';
@@ -980,40 +980,40 @@ class FrontendManagerController extends Controller
       else{
         return view('errors.no_data');
       }
-      
+
       return view('pages.frontend.vendors.vendor-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Multivendor store single page review content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function multivendorStoreSinglePageReviewContent( $params ){
     $data = array();
     $user = $params;
-    
+
     $get_user = User::where(['name' => $user, 'user_status' => 1])->first();
     if(empty($get_user)){
       return view('errors.vendor_not_active');
     }
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['vendor_settings'] = null;
     $data['vendor_selected_cats_id'] = array();
-    
+
     $get_user = User::where(['name' => $user])->first();
     if(!empty($get_user)){
       if(is_vendor_expired( $get_user->id )){
         return view('errors.vendor_expired');
       }
-      
+
       $data['vendor_package_details'] = get_package_details_by_vendor_id($get_user->id);
       $data['vendor_settings'] = null;
       $get_user_details = null;
@@ -1021,11 +1021,11 @@ class FrontendManagerController extends Controller
 
       if(count($user_details) > 0){
         $get_user_details = json_decode($user_details[0]['details']);
-      } 
+      }
 
       $data['vendor_info'] = $get_user;
       $data['vendor_settings'] = $get_user_details;
-      
+
       $get_global_seo = get_seo_data();
       $store_seo = $get_user_details->seo;
 
@@ -1045,45 +1045,45 @@ class FrontendManagerController extends Controller
       if(!empty($store_seo->meta_decription)){
         $data['store_seo_meta_description'] = $store_seo->meta_decription;
       }
-      
+
       $data['comments_details']               =  get_comments_data_by_object_id( $get_user->id, 'vendor' );
       $data['comments_rating_details']        =  get_comments_rating_details( $get_user->id, 'vendor' );
       $data['vendor_reviews_rating_details']  =  get_comments_rating_details( $get_user->id, 'vendor' );
       $data['user_name']                      =  $user;
-      
+
       return view('pages.frontend.vendors.vendor-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Multivendor store single page products categories content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function multivendorStoreSinglePageProductsCatContent( $params, $params1 ){
     $data = array();
     $user = $params1;
-    
+
     $get_user = User::where(['name' => $user, 'user_status' => 1])->first();
     if(empty($get_user)){
       return view('errors.vendor_not_active');
     }
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['vendor_settings'] = null;
     $data['vendor_selected_cats_id'] = array();
-    
+
     $get_user = User::where(['name' => $user])->first();
     if(!empty($get_user)){
       if(is_vendor_expired( $get_user->id )){
         return view('errors.vendor_expired');
       }
-      
+
       $data['vendor_package_details'] = get_package_details_by_vendor_id($get_user->id);
       $data['vendor_settings'] = null;
       $get_user_details = null;
@@ -1091,11 +1091,11 @@ class FrontendManagerController extends Controller
 
       if(count($user_details) > 0){
         $get_user_details = json_decode($user_details[0]['details']);
-      } 
+      }
 
       $data['vendor_info'] = $get_user;
       $data['vendor_settings'] = $get_user_details;
-      
+
       $get_global_seo = get_seo_data();
       $store_seo = $get_user_details->seo;
 
@@ -1115,11 +1115,11 @@ class FrontendManagerController extends Controller
       if(!empty($store_seo->meta_decription)){
         $data['store_seo_meta_description'] = $store_seo->meta_decription;
       }
-      
+
       $data['vendor_home_page_cats'] = array();
       if(!empty($get_user_details->general_details->vendor_home_page_cats)){
         $vendor_home_cats = json_decode($get_user_details->general_details->vendor_home_page_cats);
-        
+
         if(count($vendor_home_cats) > 0){
           foreach($vendor_home_cats as $cat){
             $explod_val = explode('#', $cat);
@@ -1133,26 +1133,26 @@ class FrontendManagerController extends Controller
 
       $data['vendor_advanced_items'] = $this->product->getVendorAdvancedProducts( $get_user->id );
       $data['vendor_reviews_rating_details']  =  get_comments_rating_details( $get_user->id, 'vendor' );
-      
+
       //
       $sort = null;
       $price_min = null;
       $price_max = null;
       $selected_colors = null;
       $selected_sizes = null;
-      
+
       if(isset($_GET['sort_by'])){
         $sort = $_GET['sort_by'];
       }
-      
+
       if(isset($_GET['price_min'])){
         $price_min = $_GET['price_min'];
       }
-      
+
       if(isset($_GET['price_max'])){
         $price_max = $_GET['price_max'];
       }
-      
+
       if(isset($_GET['selected_colors'])){
         $selected_colors = $_GET['selected_colors'];
       }
@@ -1160,31 +1160,31 @@ class FrontendManagerController extends Controller
       if(isset($_GET['selected_sizes'])){
         $selected_sizes = $_GET['selected_sizes'];
       }
-      
+
 			$data['popular_tags_list']  =   $this->product->getTermData( 'product_tag', false, null, 1 );
       $data['colors_list_data']   =   $this->product->getTermData( 'product_colors', false, null, 1 );
       $data['sizes_list_data']    =   $this->product->getTermData( 'product_sizes', false, null, 1 );
-										
+
       $get_cat_product_and_breadcrumb  =  $this->product->getProductByCatSlug($params, array('sort' => $sort, 'price_min' => $price_min, 'price_max' => $price_max, 'selected_colors' => $selected_colors, 'selected_sizes' => $selected_sizes));
-      
+
       if(count($get_cat_product_and_breadcrumb) > 0){
         $data['vendor_products'] = $get_cat_product_and_breadcrumb;
       }
       else{
         return view('errors.no_data');
       }
-      
-       
+
+
       if(count($data['vendor_products']) > 0){
         $data['vendor_products']['action_url'] = Request::url();
-        
+
         $currentQuery = Request::query();
-        
+
         if(count($currentQuery) > 0){
           if(isset($currentQuery['view'])){
             unset($currentQuery['view']);
           }
-          
+
           if(count($currentQuery) > 0){
             $currentQuery['view'] = 'list';
             $data['vendor_products']['action_url_list_view'] = Request::url(). '?' . http_build_query($currentQuery);
@@ -1200,35 +1200,35 @@ class FrontendManagerController extends Controller
           $data['vendor_products']['action_url_list_view'] = Request::url(). '?view=list';
           $data['vendor_products']['action_url_grid_view'] = Request::url(). '?view=grid';
         }
-        
+
         if(isset($_GET['view']) && $_GET['view'] == 'list'){
-          $data['vendor_products']['selected_view'] = 'list'; 
+          $data['vendor_products']['selected_view'] = 'list';
         }
         elseif(isset($_GET['view']) && $_GET['view'] == 'grid'){
-          $data['vendor_products']['selected_view'] = 'grid'; 
+          $data['vendor_products']['selected_view'] = 'grid';
         }
         else{
           $data['vendor_products']['selected_view'] = 'grid';
         }
       }
-      
+
       return view('pages.frontend.vendors.vendor-details', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Product comparison page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function productComparisonPageContent(){
     $data = array();
-    
+
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['compare_product_data']  = array();
     $data['compare_product_label'] = null;
@@ -1250,48 +1250,48 @@ class FrontendManagerController extends Controller
         array_push($data['compare_product_data'],	$this->product->getProductDataById( $product ));
       }
     }
-    
+
     return view('pages.frontend.frontend-pages.product-comparison', $data);
   }
-  
+
   /**
-   * 
+   *
    * Tag single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function tagSinglePageContent( $params ){
     $data = array();
     $get_tag_by_slug = get_products_by_product_tag_slug( $params );
-      
+
     if(count($get_tag_by_slug) > 0){
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['tag_single_details']  =  $get_tag_by_slug;
       $data['popular_tags_list']   =  $this->product->getTermData( 'product_tag', false, null, 1 );
-      
+
       return view('pages.frontend.frontend-pages.tag-single-page', $data);
     }
     else{
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Designer single page content
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function designerSinglePageContent( $params ){
     $get_product = Product::where(['slug' => $params, 'status' => 1])->first();
-      
+
     if(!empty($get_product)){
       $data = array();
       $product_id  = $get_product->id;
       $get_product_type = get_product_type($product_id);
-      
+
       if($get_product_type == 'customizable_product'){
         $get_current_user_data  =  get_current_frontend_user_info();
 
@@ -1317,7 +1317,7 @@ class FrontendManagerController extends Controller
               $data['single_product_details']['solid_price'] = 0;
             }
           }
-        }  
+        }
         else{
           if($data['single_product_details']['post_regular_price'] && $data['single_product_details']['post_regular_price'] >0 && $data['single_product_details']['post_sale_price'] && $data['single_product_details']['post_sale_price']>0 && $data['single_product_details']['post_regular_price'] > $data['single_product_details']['post_sale_price'] ){
             $data['single_product_details']['offer_price'] = get_product_price_html_by_filter($data['single_product_details']['post_regular_price']);
@@ -1368,7 +1368,7 @@ class FrontendManagerController extends Controller
         }
 
         $data['attr_lists']               =   $this->product->getAllAttributes( $product_id );
-        $data['related_items']            =   $this->product->getRelatedItems( $product_id );  
+        $data['related_items']            =   $this->product->getRelatedItems( $product_id );
         $data['comments_details']         =   get_comments_data_by_object_id( $product_id, 'product' );
         $data['comments_rating_details']  =   get_comments_rating_details( $product_id, 'product' );
         $data['vendor_reviews_rating_details']  =   get_comments_rating_details( get_vendor_id_by_product_id($product_id), 'vendor' );
@@ -1414,9 +1414,9 @@ class FrontendManagerController extends Controller
         else{
           $data['design_json_data'] = null;
         }
-        
+
         $get_variation_data = get_product_variations_with_data( $product_id );
-      
+
         if(count($get_variation_data) > 0){
           $variation_data = array();
 
@@ -1424,9 +1424,9 @@ class FrontendManagerController extends Controller
             if(isset($row['_variation_post_price'])){
               $row['_variation_post_price'] = price_html( get_product_price_html_by_filter(get_role_based_price_by_product_id($row['id'], $row['_variation_post_price'])), get_frontend_selected_currency());
             }
-            
+
             $get_current_user_data  =  get_current_frontend_user_info();
-    
+
             if(is_frontend_user_logged_in() && isset($get_current_user_data['user_role_slug']) ){
               if($row['_is_role_based_pricing_enable'] == true){
                 if(isset($row['_role_based_pricing_array'][$get_current_user_data['user_role_slug']])){
@@ -1440,7 +1440,7 @@ class FrontendManagerController extends Controller
                   $row['sales_price']   = price_html( get_product_price_html_by_filter(get_role_based_price_by_product_id($row['id'], $sale_price)), get_frontend_selected_currency());
                 }
               }
-            } 
+            }
 
             array_push($variation_data, $row);
           }
@@ -1461,40 +1461,40 @@ class FrontendManagerController extends Controller
       return view('errors.no_data');
     }
   }
-  
+
   /**
-   * 
+   *
    * Checkout received order
    *
    * @param order_id, order_processing_id
-   * @return void 
+   * @return void
    */
   public function thankyouPageContent( $params, $params2 ){
     $data = array();
     $get_order_data = $this->classCommonFunction->get_order_details_by_order_id(array('order_id' => $params, 'order_process_id' => $params2));
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
-    
+
     if(count($get_order_data) > 0){
-      $get_order_data['settings'] = $this->option->getSettingsData();  
+      $get_order_data['settings'] = $this->option->getSettingsData();
       $data['order_details_for_thank_you_page'] = $get_order_data;
     }
     else{
       $data['order_details_for_thank_you_page'] = array();
     }
-    
+
     return view('pages.frontend.frontend-pages.thank-you', $data);
   }
 
   /**
-   * 
+   *
    *Manage for cart page
    *
    * @param null
-   * @return void 
+   * @return void
    */
   public function doActionFromCartPage(){
     $data = Request::all();
-            
+
     if( Request::isMethod('post') && isset($data['empty_cart']) && Session::token() == Request::get('_token')){
       $this->cart->clear();
       return redirect()->back();
@@ -1512,7 +1512,7 @@ class FrontendManagerController extends Controller
         foreach($this->cart->getItems() as $items){
           if($items->variation_id && count($items->options) > 0){
             $variation_product_data = $this->classCommonFunction->get_variation_and_data_by_post_id( $items->variation_id );
-            
+
             if($variation_product_data['_variation_post_price'] == 0){
               Session::flash('message', Lang::get('frontend.sorry_label') .' '. get_product_title($variation_product_data['parent_id']) .' '. Lang::get('frontend.price_zero_validation'));
               $this->cart->clear();
@@ -1539,7 +1539,7 @@ class FrontendManagerController extends Controller
           }
           else{
             $product_data = $this->classCommonFunction->get_product_data_by_product_id( $items->id );
-          
+
             if($product_data['product_price'] == 0){
               Session::flash('message', Lang::get('frontend.sorry_label') .' '.$product_data['post_title'] .' '. Lang::get('frontend.price_zero_validation'));
               $this->cart->clear();
@@ -1565,14 +1565,14 @@ class FrontendManagerController extends Controller
             }
           }
         }
-        
+
         return redirect()->route('checkout-page');
       }
     }
   }
 
   /**
-   * 
+   *
    *Item remove from cart
    *
    * @param item id
@@ -1585,9 +1585,9 @@ class FrontendManagerController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    *Remove compare product from list
    *
    * @param product id
@@ -1602,17 +1602,17 @@ class FrontendManagerController extends Controller
             array_push($array, $val);
           }
         }
-        
+
         Session::forget('shopist_selected_compare_product_ids');
         Session::put('shopist_selected_compare_product_ids', $array);
-        
+
         return redirect()->back();
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Force file download for downloadable product
    *
    * @param product id, file key
@@ -1620,24 +1620,24 @@ class FrontendManagerController extends Controller
    */
   public function forceDownload( $post_id, $order_id, $file_key, $target ){
     $get_orders_items  =   OrdersItem::where(['order_id' => $order_id])->first();
-    
+
     if(!empty($get_orders_items)){
       $orders_items = json_decode( $get_orders_items->order_data, TRUE );
     }
-    
+
     if( $this->classCommonFunction->checkDownloadRequired( $orders_items[$post_id]['download_data'], $order_id, $orders_items[$post_id]['download_data']['downloadable_files'][$file_key]['file_name'] ) && isset($orders_items[$post_id]['download_data']['downloadable_files'][$file_key]) && isset($orders_items[$post_id]['download_data']['downloadable_files'][$file_key][$target]) ){
       $parse_url = explode('uploads', $orders_items[$post_id]['download_data']['downloadable_files'][$file_key][$target]);
-      
+
       if(count($parse_url) > 0 && isset($parse_url[1])){
         $file_path = public_path().'/uploads'.$parse_url[1];
-        
+
         if(File::exists($file_path)){
           $get_extension = File::extension($file_path);
           $get_content_type = File::mimeType($file_path);
 
           if(!empty($get_extension) && !empty($get_content_type)){
             $filename = time().'-'.uniqid(true).'.'.$get_extension;
-            
+
             $user_id = 0;
             $get_post = PostExtra::where(['post_id' => $order_id, 'key_name' => '_order_process_key'])->first();
 
@@ -1645,7 +1645,7 @@ class FrontendManagerController extends Controller
               $get_user_info = get_current_frontend_user_info();
               $user_id = $get_user_info['user_id'];
             }
-            
+
             //save download data
             $downloadextra = new DownloadExtra;
             $downloadextra->post_id      =   $post_id;
@@ -1654,7 +1654,7 @@ class FrontendManagerController extends Controller
             $downloadextra->user_id			   =   $user_id;
             $downloadextra->file_name		  =   $orders_items[$post_id]['download_data']['downloadable_files'][$file_key]['file_name'];
             $downloadextra->file_url		   =   $parse_url[1];
-            
+
             if($downloadextra->save()){
               header('Content-Description: File Transfer');
               header('Cache-Control: public');
@@ -1662,13 +1662,13 @@ class FrontendManagerController extends Controller
               header("Content-Transfer-Encoding: binary");
               header('Content-Disposition: attachment; filename='. $filename);
               header('Content-Length: '.filesize($file_path));
-              ob_clean(); 
+              ob_clean();
               flush();
               readfile($file_path);
               exit;
             }
           }
-        } 
+        }
       }
     }
   }
