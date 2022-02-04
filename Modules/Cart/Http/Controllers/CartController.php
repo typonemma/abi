@@ -21,6 +21,10 @@ class CartController extends Controller
     {
         return view('cart::checkout');
     }
+    public function thankyou()
+    {
+        return view('cart::thankyou');
+    }
 
     /**
      * Show the form for creating a new resource.
