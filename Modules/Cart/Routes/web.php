@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('cart')->group(function() {
+Route::prefix('cart-slice')->group(function() {
     Route::get('/', 'CartController@index');
     Route::get('/checkout', 'CartController@checkout');
     Route::get('/thankyou', 'CartController@thankyou');
