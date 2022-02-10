@@ -599,23 +599,23 @@ header{position: fixed; left: 0; top: 0; width: 100%; z-index: 10; -webkit-backf
 .header-bottom .entry{
 	padding-right: 0;
 	vertical-align: middle;
-	font-family: "Raleway"; 
+	font-family: "Raleway";
 	border:0 !important;
 }
 .header-bottom .entry b{
-	
+
 }
 .header-bottom .fa{
-	font-size: 20px; 
+	font-size: 20px;
 }
 .header-bottom .search {
 	vertical-align: middle;
 	padding-top: 30px;
-	position: relative; 
+	position: relative;
 }
 .header-bottom .search input{
 	line-height: 40px;
-	
+
 	width: 210px;
 	border-radius: 20px;
 	border:1px solid #eee;
@@ -1433,7 +1433,7 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 .adsleft{
 	position: absolute;
 	width: 8%;
-	
+
 	left: 1%;
 	top: 500px;
 	display: block !important;
@@ -1480,7 +1480,7 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 	font-weight: 600;
 }
 .button-long-list{
-	display: none;	
+	display: none;
 }
 .view-inline{
 	border:0 !important;
@@ -1498,7 +1498,7 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 	font-size: 12px;
 }
 .underline{
-	text-decoration: underline !important; 
+	text-decoration: underline !important;
 }
 .order-details-entry span{
 	display: block;
@@ -1509,7 +1509,7 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 	padding-top: 30px;
 }
 .otp input{
-	
+
 		width: 50px;
 		height: 50px;
 		color:#000;
@@ -1522,7 +1522,7 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 		font-size: 24px;
 		font-family: 'Raleway', sans-serif;
 		margin: 0 5px;
-	
+
 }
 .table > thead > tr > th{
 	font-weight: 900;

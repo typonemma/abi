@@ -43,14 +43,7 @@
                     <a id="logo" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
                     <div class="text-right">
                         <div class="entry hidden-xs hidden-sm cart">
-                            <a href="cart.html">
-                                <b class="hidden-xs">YOUR CART</b>
-                                <span class="cart-icon">
-                                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                    <span class="cart-label">5</span>
-                                </span>
-                                <span class="cart-title hidden-xs">Rp 200.000</span>
-                            </a>
+                            @yield('cart')
                             <div class="cart-toggle hidden-xs hidden-sm">
                                 <div class="cart-overflow">
                                     <div class="cart-entry clearfix">
@@ -148,7 +141,7 @@
                             </div>
                         </div>
                         <div class="entry hidden-xs hidden-sm"><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
-                        <div class="entry"><a class="open-popup" data-rel="1"><b>login</b></a></div>
+                        {{-- <div class="entry"><a class="open-popup" data-rel="1"><b>login</b></a></div> --}}
                     </div>
                 </div>
             </div>
