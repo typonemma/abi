@@ -101,11 +101,11 @@
             <div class="empty-space col-xs-b15 col-sm-b20"></div>
             <div class="products-content">
                 <div class="products-wrapper">
-                    <div class="row nopadding">
+                    <div class="row nopadding" id="appendProduct">
 
                         {{-- LIST PRODUCT START  HERE --}}
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" style="display: none">
                             <div class="product-shortcode style-1">
                                 <div class="title">
                                     <div class="simple-article size-1 color col-xs-b5"><a href="#">LCD/LED</a></div>
@@ -121,7 +121,6 @@
                                                     <span class="text">SEE DETAIL</span>
                                                 </span>
                                             </a>
-
                                         </div>
                                     </div>
                                 </div>
@@ -193,5 +192,64 @@
 
 </div>
 
+
 @include('partials.ads')
+@endsection
+
+@section('script')
+
+<script>
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    var id  = 0;
+    var selected = [];
+    function ajaxProduct(){
+        var ajaxProduct = $.ajax({
+            type:"POST",
+            url : "{{route('product.ajaxProduct')}}",
+            data:{_token:"{{csrf_token()}}",id:id,location:selected},
+        }).done(function(data){
+                $('#appendProduct').empty();
+            $.each(data, function( index, value ) {
+                //header
+                var str = '<div class="col-sm-4"><div class="product-shortcode style-1">';
+
+                //Title
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">LCD/LED</a></div><div class="h5 animate-to-green"><a href="#">'+value.title+'</a></div></div>';
+
+                //Preview Image
+                var img = "{{URL::asset('/')}}";
+                img = img + value.image_url;
+                str = str + '<div class="preview"><img src="'+img+'" alt="" style="width:200px;height:200px;"><div class="preview-buttons valign-middle"><div class="valign-middle-content"><a class="button size-2 style-3" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">SEE DETAIL</span></span></a></div></div></div>';
+
+                //Price
+                if(value.sale_price > 0){
+                    str = str + '<div class="price"><div class="color-selection"><div class="entry active" style="color: #a7f050;"></div><div class="entry" style="color: #50e3f0;"></div><div class="entry" style="color: #eee;"></div></div><div class="simple-article size-4"><span class="color">Rp. '+numberWithCommas(value.sale_price)+'</span>&nbsp;&nbsp;&nbsp;<span class="line-through">Rp. '+numberWithCommas(value.regular_price)+'</span></div></div>';
+                }else{
+                    str = str + '<div class="price"><div class="color-selection"><div class="entry active" style="color: #a7f050;"></div><div class="entry" style="color: #50e3f0;"></div><div class="entry" style="color: #eee;"></div></div><div class="simple-article size-4"><span class="color">Rp. '+numberWithCommas(value.regular_price)+'</span></div></div>';
+                }
+
+                //Description
+                str = str + '<div class="description"><div class="simple-article text size-2">'+unescape(value.content)+'</div><div class="icons"><a class="entry"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+
+                //Footer
+                str = str + '</div></div>';
+
+                $('#appendProduct').append(str);
+            });
+        });
+    }
+    $(".menuSelect").on("click",function(){
+         id = $(this).data("id");
+         ajaxProduct();
+    });
+    $(".checkboxProduct").on("change",function(){
+        selected = [];
+        $('.checkboxP input:checked').each(function() {
+            selected.push($(this).val());
+        });
+        ajaxProduct();
+    });
+</script>
 @endsection

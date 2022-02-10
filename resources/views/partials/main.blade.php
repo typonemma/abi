@@ -354,6 +354,7 @@
                 <script src="{{URL::asset('public/custom/js/jquery.classycountdown.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/jquery.knob.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/jquery.throttle.js')}}"></script>
+                @yield('script')
             </body>
         </html>
 
