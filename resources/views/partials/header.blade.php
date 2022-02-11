@@ -8,21 +8,21 @@
                         <nav>
                             <ul>
                                 <li class="active">
-                                    <a href="index.html">Home</a>
+                                    <a href="home">Home</a>
                                 </li>
                                 <li>
-                                    <a href="about.html">about us</a>
+                                    <a href="aboutus">about us</a>
                                 </li>
                                 <li class="">
-                                    <a href="products.html">products</a>
+                                    <a href="products">products</a>
                                 </li>
                                 <li>
-                                    <a href="services.html">Shipment</a>
+                                    <a href="shipment">Shipment</a>
                                 </li>
                                 <li>
-                                    <a href="blog.html">blogs</a>
+                                    <a href="blogs">blogs</a>
                                 </li>
-                                <li><a href="contact.html">contact us</a></li>
+                                <li><a href="contact">contact us</a></li>
                             </ul>
                             <div class="navigation-title">
                                 Navigation
@@ -40,7 +40,7 @@
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         <span class="cart-label">5</span>
                     </div>-->
-                    <a id="logo" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
+                    <a id="logo" href="home" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
                     <div class="text-right">
                         <div class="entry hidden-xs hidden-sm cart">
                             <a href="cart.html">

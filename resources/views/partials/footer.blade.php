@@ -47,12 +47,12 @@
                             <div class="footer-column-links">
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <a href="#">home</a>
-                                        <a href="#">products</a>
-                                        <a href="#">about us</a>
-                                        <a href="#">shipment</a>
-                                        <a href="#">blogs</a>
-                                        <a href="#">contact us</a>
+                                        <a href="home">home</a>
+                                        <a href="products">products</a>
+                                        <a href="aboutus">about us</a>
+                                        <a href="shipment">shipment</a>
+                                        <a href="blogs">blogs</a>
+                                        <a href="contact">contact us</a>
                                     </div>
                                     <div class="col-xs-6">
                                         <a href="#">privacy policy</a>
