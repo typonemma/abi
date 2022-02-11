@@ -28,7 +28,10 @@ Route::prefix('auth')->group(function() {
     Route::get('/profile-detail', 'AuthController@profile_detail');
     Route::post('/saveAccountChanges', 'AuthController@saveAccountChanges');
 
+    // Profile history
     Route::get('/profile-history', 'AuthController@profile_history');
+
+    // Profile your order
     Route::get('/profile-yourorder', 'AuthController@profile_yourorder');
 
     // Logout

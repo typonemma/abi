@@ -24,7 +24,7 @@
                     <div class="col-sm-6 text-right">
                         <a class="button size-2 style-3" onclick="Login()">
                             <span class="button-wrapper">
-                                <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                                <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                 <span class="text">login</span>
                             </span>
                         </a>
@@ -46,7 +46,7 @@
                 <div class="col-sm-4 col-xs-b10 col-sm-b0">
                     <a class="button facebook-button size-2 style-4 block" href="#">
                         <span class="button-wrapper">
-                            <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                            <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                             <span class="text">facebook</span>
                         </span>
                     </a>
@@ -54,7 +54,7 @@
                 <div class="col-sm-4 col-xs-b10 col-sm-b0">
                     <a class="button twitter-button size-2 style-4 block" href="#">
                         <span class="button-wrapper">
-                            <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                            <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                             <span class="text">twitter</span>
                         </span>
                     </a>
@@ -62,7 +62,7 @@
                 <div class="col-sm-4">
                     <a class="button google-button size-2 style-4 block" href="#">
                         <span class="button-wrapper">
-                            <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                            <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                             <span class="text">google+</span>
                         </span>
                     </a>

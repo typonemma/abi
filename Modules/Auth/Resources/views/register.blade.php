@@ -26,7 +26,7 @@
                     <div class="col-sm-5 text-right">
                         <a class="button size-2 style-3" onclick="Register()">
                             <span class="button-wrapper">
-                                <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                                <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                 <span class="text">register</span>
                             </span>
                         </a>

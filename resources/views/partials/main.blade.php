@@ -27,7 +27,7 @@
                 <div>
                 @include('partials.footer')
                 </div>
-                <div class="popup-wrapper">
+                {{-- <div class="popup-wrapper">
                     <div class="bg-layer"></div>
                     <div class="popup-content" data-rel="1">
                         <div class="layer-close"></div>
@@ -344,7 +344,7 @@
                             <div class="button-close"></div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <script src="{{URL::asset('public/custom/js/jquery-2.2.4.min.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/swiper.jquery.min.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/global.js')}}"></script>

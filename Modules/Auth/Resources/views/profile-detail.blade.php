@@ -6,14 +6,14 @@
     $last_name = count($arr) == 1 ? '' : $arr[count($arr) - 1];
 ?>
 @section('cart')
-    <a href="cart.html">
-        <b class="hidden-xs">YOUR CART</b>
-        <span class="cart-icon">
-            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-            <span class="cart-label">5</span>
-        </span>
-        <span class="cart-title hidden-xs">Rp 200.000</span>
-    </a>
+<a href="cart.html">
+    <b class="hidden-xs">YOUR CART</b>
+    <span class="cart-icon">
+        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+        <span class="cart-label">5</span>
+    </span>
+    <span class="cart-title hidden-xs">Rp {{ $user->wallet }}</span>
+</a>
 @endsection
 @section('content')
 <div class="container">
@@ -21,9 +21,9 @@
         <div class="col-sm-3">
             <div class="h3">PROFILE</div>
             <ul class="profile-menu ">
-                <li><a href="profile-detail">Account Details</a></li>
+                <li><a href="profile-detail" class="active">Account Details</a></li>
                 <li><a href="profile-addresses">Addresses</a></li>
-                <li><a href="profile-yourorder" class="active">Your Order</a></li>
+                <li><a href="profile-yourorder">Your Order</a></li>
                 <li><a href="profile-history">History Order</a></li>
                 <li><a href="logout">Log Out</a></li>
             </ul>
@@ -43,7 +43,7 @@
                         <div class="empty-space col-xs-b20"></div>
                         <div class="button size-2 style-3">
                             <span class="button-wrapper">
-                                <span class="icon"><img src="img/icon-4.png" alt=""></span>
+                                <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>
                                 <span class="text">save changes</span>
                             </span>
                             <input type="submit" value="" onclick="SaveChanges()">
