@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="empty-space col-xs-b15 col-sm-b30"></div>
                 <div class="breadcrumbs">
-                    <a href="#">blog</a>
+                    <a href="blogs">blog</a>
                     <a href="#" class="color underline">cara membersihkan keyboard laptop</a>
                 </div>
                 <div class="empty-space col-xs-b15 col-sm-b30 col-md-b50"></div>
