@@ -19,4 +19,8 @@ Route::prefix('general')->group(function() {
     Route::get('/blogs', 'GeneralController@blogs');
     Route::get('/contact', 'GeneralController@contact');    
     Route::get('/shipment', 'GeneralController@shipment');
+    Route::get('/blog_detail', 'GeneralController@blog_detail');
+    Route::get('/product_detail', 'GeneralController@product_detail');
+
+    
 });

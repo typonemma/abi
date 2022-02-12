@@ -1,172 +1,83 @@
 @extends('partials.main')
 
 @section('content')
-        <div id="content-block">
+        <div id="content-block">            
             <div class="container">
-                <div class="empty-space col-xs-b25 col-sm-b60"></div>
-                
-                <div class="text-center">
-                    
-                    <div class="h2">BLOGS</div>
-                    <div class="title-underline center"><span></span></div>
+                <div class="empty-space col-xs-b15 col-sm-b30"></div>
+                <div class="breadcrumbs">
+                    <a href="#">blog</a>
+                    <a href="#" class="color underline">cara membersihkan keyboard laptop</a>
                 </div>
+                <div class="empty-space col-xs-b15 col-sm-b30 col-md-b50"></div>
             </div>
-            <div class="empty-space col-xs-b35 col-md-b70"></div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span> 
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="empty-space col-xs-b15 col-md-b30"></div>
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span>
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="empty-space col-xs-b15 col-md-b30"></div>
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span>
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="empty-space col-xs-b35 col-md-b70"></div>
-
-                    <div class="row">
-                        <div class="col-sm-3 hidden-xs">
-                            <a class="button size-1 style-5" href="#">
-                                <span class="button-wrapper">
-                                    <span class="icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                                    <span class="text">prev page</span>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 text-center">
-                            <div class="pagination-wrapper">
-                                <a class="pagination active">1</a>
-                                <a class="pagination">2</a>
-                                <a class="pagination">3</a>
-                                <a class="pagination">4</a>
-                                <span class="pagination">...</span>
-                                <a class="pagination">23</a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="simple-article size-1 grey uppercase col-xs-b10">apr 07 / 15</div>
+                                <h1 class="h3 col-xs-b5 col-sm-b30">cara membersihkan keyboard pada laptop</h1>
+                            </div>
+                            <div class="col-sm-4 col-sm-text-right">
+                                
                             </div>
                         </div>
-                        <div class="col-sm-3 hidden-xs text-right">
-                            <a class="button size-1 style-5" href="#">
-                                <span class="button-wrapper">
-                                    <span class="icon"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                                    <span class="text">prev page</span>
-                                </span>
-                            </a>
+                        <div class="simple-article size-2">
+                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
+                            <!-- <img src="img/blog-big.jpg"> -->
+                            <h5>Praesent lobortis leo mi</h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque faucibus, lacus a pretium facilisis, urna lectus efficitur quam, ac posuere justo leo nec diam. Integer dapibus dolor non arcu consectetur volutpat. Nunc auctor, mi vitae cursus tempor, ipsum tortor sagittis ante, nec euismod massa nisl in mi. Quisque sed dignissim turpis. Vestibulum et risus nec dolor maximus tempor nec vel lorem.</p>
+                            <p>Etiam lobortis, sapien et aliquam scelerisque, sapien augue mattis orci, dignissim varius augue nisi ut lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Donec porttitor semper dictum. Ut sed sapien aliquam.</p>
+                            <h5>In hac habitasse platea dictumst</h5>
+                            <p>Aliquam eu pellentesque libero. Morbi ipsum diam, vestibulum sit amet sapien a, euismod fermentum dolor. Nunc accumsan sed dolor nec gravida. Morbi maximus leo eu semper ultrices. Nam ornare ultricies dapibus. Vestibulum consectetur iaculis suscipit. Integer eget rhoncus augue.</p>
+                            <img src="{{URL::asset('public/custom/img/blog-big2.jpg')}}">
+                            <!-- <img src="img/blog-big2.jpg"> -->
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque faucibus, lacus a pretium facilisis, urna lectus efficitur quam, ac posuere justo leo nec diam. Integer dapibus dolor non arcu consectetur volutpat. Nunc auctor, mi vitae cursus tempor, ipsum tortor sagittis ante, nec euismod massa nisl in mi. Quisque sed dignissim turpis. Vestibulum et risus nec dolor maximus tempor nec vel lorem.</p>
+                            <p>Etiam lobortis, sapien et aliquam scelerisque, sapien augue mattis orci, dignissim varius augue nisi ut lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Donec porttitor semper dictum. Ut sed sapien aliquam.</p>
                         </div>
-                    </div>
-
-                    <div class="empty-space col-xs-b35 col-md-b70"></div>
-
-                </div>
-                <div class="col-md-3">
-                   
-                    <div class="h4 col-xs-b25">related blog</div>
-                    <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
-                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" />
-                            <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
-                        </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Phasellus rhoncus in nunc sit</a></div>
                         
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                    </div>
-                    <div class="empty-space col-xs-b25"></div>
-                    <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
-                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
-                            <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                        </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
+                        <div class="empty-space col-xs-b35 col-md-b70"></div>
                         
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
                     </div>
-                    <div class="empty-space col-xs-b25"></div>
-                    <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
-                        <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
-                            <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                        </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
+                    <div class="col-md-3">
                         
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                        <div class="h4 col-xs-b25">related blog</div>
+                        <div class="blog-shortcode style-2">
+                            <a href="#" class="preview rounded-image simple-mouseover">
+                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" />
+                            </a>
+                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
+                            <div class="title h6"><a href="#">Phasellus rhoncus in nunc sit</a></div>
+                            
+                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                        </div>
+                        <div class="empty-space col-xs-b25"></div>
+                        <div class="blog-shortcode style-2">
+                            <a href="#" class="preview rounded-image simple-mouseover">
+                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
+                                <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
+                            </a>
+                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
+                            <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
+                            
+                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                        </div>
+                        <div class="empty-space col-xs-b25"></div>
+                        <div class="blog-shortcode style-2">
+                            <a href="#" class="preview rounded-image simple-mouseover">
+                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
+                                <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
+                            </a>
+                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
+                            <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
+                            
+                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                        </div>
+                        <div class="empty-space col-xs-b25 col-sm-b50"></div>
                     </div>
-                    
-
-
-                    <div class="empty-space col-xs-b25 col-sm-b50"></div>
-
                 </div>
             </div>
-        </div>
-
-        <div class="empty-space col-xs-b35 col-md-b70"></div>            
+            <div class="empty-space col-xs-b35 col-md-b70"></div>            
                 <div class="popup-wrapper">
                     <div class="bg-layer"></div>
                     <div class="popup-content" data-rel="1">

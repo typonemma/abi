@@ -47,6 +47,16 @@ class GeneralController extends Controller
         return view('general::shipment');
     }
 
+    public function blog_detail()
+    {
+        return view('general::blog_detail');
+    }
+
+    public function product_detail()
+    {
+        return view('general::product_detail');
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
