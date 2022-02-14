@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-b10 col-sm-b0">
                         <div class="empty-space col-sm-b5"></div>
-                        <a class="simple-link open-popup" data-rel="3">Forgot password?</a>
+                        <a class="simple-link" href="forgot-password-1">Forgot password?</a>
                         <div class="empty-space col-xs-b5"></div>
                         <a class="simple-link" href="register">register now</a>
                     </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="row m5">
                 <div class="col-sm-4 col-xs-b10 col-sm-b0">
-                    <a class="button facebook-button size-2 style-4 block" href="#">
+                    <a class="button facebook-button size-2 style-4 block" href="facebook">
                         <span class="button-wrapper">
                             <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                             <span class="text">facebook</span>

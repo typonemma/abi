@@ -52,7 +52,7 @@
                     <div class="col-sm-4">
                         <input name="last_name" class="simple-input" type="text" value="{{ $last_name }}" placeholder="Last Name">
                         <div class="empty-space col-xs-b20"></div>
-                        <input name="password" class="simple-input" type="password" value="" placeholder="Current Password">
+                        <input name="phone_number" class="simple-input" type="text" value="{{ $user->phone_number }}" placeholder="Phone Number">
                         <div class="empty-space col-xs-b20"></div>
                         <input id="confpasswd" name="confpasswd" class="simple-input" type="password" value="" placeholder="Confirm Your Password">
                         <div class="empty-space col-xs-b20"></div>

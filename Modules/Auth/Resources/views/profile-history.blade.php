@@ -93,7 +93,7 @@
             @endforeach
 
             <div class="empty-space col-xs-b25 col-md-b30"></div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-3 hidden-xs">
                     <a class="button size-1 style-5" href="#">
                         <span class="button-wrapper">
@@ -120,7 +120,7 @@
                         </span>
                     </a>
                 </div>
-            </div>
+            </div> --}}
             <div class="empty-space col-xs-b35 col-md-b70"></div>
 
         </div>

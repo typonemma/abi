@@ -16,6 +16,16 @@ Route::prefix('auth')->group(function() {
     Route::get('/login', 'AuthController@login');
     Route::post('doLogin', 'AuthController@doLogin');
 
+    // Forgot password
+    Route::get('/forgot-password-1', 'AuthController@forgotPassword1');
+    Route::get('resendOTP', 'AuthController@sendOTP');
+    Route::get('/forgot-password-2', 'AuthController@forgotPassword2');
+    Route::post('verifyPassword', 'AuthController@verifyPassword');
+
+    // Facebook login
+    Route::get('/facebook', 'AuthController@redirectToFacebook');
+    Route::get('/facebook/callback', 'AuthController@handleFacebookCallback');
+
     // Register
     Route::get('/register', 'AuthController@register');
     Route::post('doRegister', 'AuthController@doRegister');

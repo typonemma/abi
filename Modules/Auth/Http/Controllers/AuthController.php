@@ -3,6 +3,8 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\OTP6digit;
+use App\Rules\OTPmatch;
 use App\Rules\PasswordCheck;
 use App\Rules\PasswordMatch;
 use App\Rules\UserExists;
@@ -10,12 +12,27 @@ use App\Rules\UserNotExist;
 use App\UserBillingAddress;
 use App\UserOrder;
 use App\UserShippingAddress;
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+
+    public function DisplayName($name)
+    {
+        $arr = explode(' ', $name);
+        $display_name = '';
+        foreach ($arr as $x) {
+            $display_name = $display_name . ucfirst($x) . ' ';
+        }
+        $display_name = substr($display_name, 0, strlen($display_name) - 1);
+        return $display_name;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -48,6 +65,69 @@ class AuthController extends Controller
         return redirect('/auth/profile-detail');
     }
 
+    public function forgotPassword1()
+    {
+        if (session('user')) {
+            return back();
+        }
+        session()->put('phone_number', '08113116991');
+        return view('auth::forgot-password-1');
+    }
+
+    public function forgotPassword2()
+    {
+        if (session('user')) {
+            return back();
+        }
+        return view('auth::forgot-password-2');
+    }
+
+    public function verifyPassword(Request $request)
+    {
+        $rules = [
+            'new_password' => 'required|max:60',
+            'temp' => new PasswordMatch,
+            'phone_number' => new UserExists
+        ];
+        $messages = [
+            'new_password.required' => 'New password is required',
+            'new_password.max' => 'New password must be at most 60 characters'
+        ];
+        $request->validate($rules, $messages);
+        $phone_number = session('phone_number');
+        $user = User::where('phone_number', '=', $phone_number)->first();
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        $request->session()->forget('phone_number');
+        return redirect('/auth/login');
+    }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+            $create['display_name'] = $this->DisplayName($user->getName());
+            $create['name'] = $user->getName();
+            $create['email'] = $user->getEmail();
+            $create['password'] = '';
+            $create['user_status'] = 1;
+            $create['fb_id'] = $user->getId();
+            $userModel = new User;
+            $createdUser = $userModel->addNewFB($create);
+            session()->put('user', $createdUser);
+            Auth::loginUsingId($createdUser->id);
+            return redirect('/auth/profile-detail');
+        }
+        catch (Exception $ex) {
+            return redirect('auth/facebook');
+        }
+    }
+
     public function register()
     {
         if (session('user')) {
@@ -74,11 +154,7 @@ class AuthController extends Controller
             'password.max' => 'Password must be at most 60 characters',
         ];
         $request->validate($rules, $messages);
-        $arr = explode(' ', $request->name);
-        $display_name = '';
-        foreach ($arr as $x) {
-            $display_name = $display_name . ucfirst($x) . ' ';
-        }
+        $display_name = $this->DisplayName($request->name);
         User::create([
             'display_name' => $display_name,
             'name' => $request->name,
@@ -224,6 +300,7 @@ class AuthController extends Controller
             'first_name' => 'required|max:30',
             'last_name' => 'max:30',
             'email' => 'nullable|email|max:128',
+            'phone_number' => 'nullable|numeric|bail|digits_between:0,30',
             'new_password' => 'max:60',
             'temp' => new PasswordMatch
         ];
@@ -232,12 +309,15 @@ class AuthController extends Controller
             'first_name.max' => 'First name must be at most 30 characters',
             'email.email' => 'Invalid email',
             'email.max' => 'Email must be at most 128 characters',
+            'phone_number.numeric' => 'Phone number must be numeric',
+            'phone_number.digits_between' => 'Phone number must be at most 30 characters',
             'new_password.max' => 'New password must be at most 60 characters'
         ];
         $request->validate($rules, $messages);
         $display_name = ucfirst($request->first_name) . ' ' . ucfirst($request->last_name);
         $name = $request->first_name . ' ' . $request->last_name;
         $email = $request->email;
+        $phone_number = $request->phone_number;
         $new_password = $request->new_password;
         $u = session('user');
         $user = User::find($u->id);
@@ -245,6 +325,9 @@ class AuthController extends Controller
         $user->name = $name;
         if (trim($email, ' ') != '') {
             $user->email = $email;
+        }
+        if (trim($phone_number, ' ') != '') {
+            $user->phone_number = $phone_number;
         }
         if (trim($new_password, ' ') != '') {
             $user->password = bcrypt($new_password);
