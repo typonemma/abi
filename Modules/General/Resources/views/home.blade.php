@@ -39,7 +39,7 @@
                     <div class="empty-space col-xs-b40 col-sm-b80"></div>
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-9 col-md-push-3">
+                            <div class="col-md-9 col-md-push-3">                            
                                 <div class="tabs-block">
                                     <div class="h4 col-xs-b25">BEST SELLER PRODUCTS</div>
                                     <div class="tab-entry visible">
@@ -55,7 +55,7 @@
                                                         <!-- <img src="img/product-7.jpg" alt="" /> -->
                                                         <div class="preview-buttons valign-middle">
                                                             <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
+                                                                <a class="button size-2 style-2" href="product_detail">
                                                                     <span class="button-wrapper">
                                                                         <span class="icon">
                                                                             <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
@@ -425,10 +425,10 @@
                             <div class="col-md-3 col-md-pull-9">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-12">
-                                        <div class="h4 col-xs-b25">latest blog</div>
+                                        <div class="h4 col-xs-b25">latest blog &emsp;&emsp;<U><a class="h6" href="blogs">SEE ALL BLOGS</a></U></div>                                                                               
                                         <div class="row m5 ">
                                             <div class="blog-shortcode style-1">
-                                                <a href="#" class="preview simple-mouseover">
+                                                <a href="blog_detail" class="preview simple-mouseover">
                                                     <img src="{{URL::asset('public/custom/img/blog1.jpg')}}">
                                                     <!-- <img src="img/blog1.jpg" alt="" /> -->
                                                 </a>
