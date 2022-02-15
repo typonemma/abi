@@ -7,6 +7,7 @@
         <div class="popup-align">
             <h3 class="h3 text-center">forgot password</h3>
             <form id="forgotPassword2Form" method="post" action="verifyPassword">
+                @csrf
                 <div class="empty-space col-xs-b20"></div>
                 <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Please input your new password</h6>
                 <div class="empty-space col-xs-b20"></div>
@@ -25,7 +26,7 @@
                     </a>
                 </div>
                 @if ($errors->any())
-                    <ul style="list-style-type:none;color:red;">
+                    <ul style="list-style-type:none;color:red;margin-left:28%;">
                         @foreach ($errors->all() as $error)
                             <br>
                             <li>{{ $error }}</li>

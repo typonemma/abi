@@ -70,7 +70,7 @@ class AuthController extends Controller
         if (session('user')) {
             return back();
         }
-        session()->put('phone_number', '08113116991');
+        session()->put('phone_number', '+628113116991');
         return view('auth::forgot-password-1');
     }
 
@@ -87,7 +87,6 @@ class AuthController extends Controller
         $rules = [
             'new_password' => 'required|max:60',
             'temp' => new PasswordMatch,
-            'phone_number' => new UserExists
         ];
         $messages = [
             'new_password.required' => 'New password is required',

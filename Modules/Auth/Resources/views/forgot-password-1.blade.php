@@ -6,7 +6,8 @@
     <div class="popup-container size-1">
         <div class="popup-align">
             <h3 class="h3 text-center">forgot password</h3>
-            <form id="forgotPassword1Form" method="post" action="forgot-password-2">
+            <form id="forgotPassword1Form" method="post" action="#">
+                @csrf
                 <div class="empty-space col-xs-b20"></div>
                 <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Enter the OTP code that has been sent to your phone number</h6>
                 <div class="empty-space col-xs-b20"></div>
@@ -23,12 +24,12 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-b10 col-sm-b0">
                         <div class="empty-space col-sm-b5"></div>
-                        <a class="simple-link" onclick="SendOTP()">RESEND CODE</a>
+                        <a class="simple-link" onclick="otpSend()">RESEND CODE</a>
                         <div class="empty-space col-xs-b5"></div>
                         <a class="simple-link" href="login">BACK TO LOGIN</a>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <a class="button size-2 style-3" onclick="VerifyOTP()">
+                        <a class="button size-2 style-3" onclick="otpVerify()">
                             <span class="button-wrapper">
                                 <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                 <span class="text">submit</span>
@@ -49,49 +50,52 @@
     </div>
 </div>
 <div style="display:none" id="recaptcha-container"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
-<script>
-   const firebaseConfig = {
-      apiKey: "AIzaSyBWBs5b2LgRvhSzgQ1ROu2t81zdiuXuE8c",
-      authDomain: "laravel-otp-authenticati-b8b94.firebaseapp.com",
-      projectId: "laravel-otp-authenticati-b8b94",
-      storageBucket: "laravel-otp-authenticati-b8b94.appspot.com",
-      messagingSenderId: "616261656632",
-      appId: "1:616261656632:web:abdfb97eb6bd71a3d2c6cd"
+<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+<script type="text/javascript">
+    const config = {
+        apiKey: "AIzaSyBWBs5b2LgRvhSzgQ1ROu2t81zdiuXuE8c",
+        authDomain: "laravel-otp-authenticati-b8b94.firebaseapp.com",
+        projectId: "laravel-otp-authenticati-b8b94",
+        storageBucket: "laravel-otp-authenticati-b8b94.appspot.com",
+        messagingSenderId: "616261656632",
+        appId: "1:616261656632:web:abdfb97eb6bd71a3d2c6cd",
+        measurementId: "G-85TM774S3P"
     };
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(config);
 </script>
-<script>
-    coderesult = '';
-    window.onload = function() {
-        render();
-        SendOTP();
-    };
-    function render() {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-        recaptchaVerifier.render();
-    }
-    function SendOTP() {
-        let phone_number = document.getElementById('phone_number').value;
-        firebase.auth().signInWithPhoneNumber(phone_number, window.recaptchaVerifier).then(function (confirmationResult) {
+<script type="text/javascript">
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+            onSignInSubmit();
+        }
+    });
+
+    function otpSend() {
+        var phoneNumber = document.getElementById('phone_number').value;
+        const appVerifier = window.recaptchaVerifier;
+        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
             window.confirmationResult = confirmationResult;
-            coderesult = confirmationResult;
-        }).catch(function (error) {
+        }).catch((error) => {
             console.log(error.message);
         });
     }
-    function VerifyOTP() {
+
+    otpSend();
+
+    function otpVerify() {
         let code = '';
         for (let i = 1; i <= 6; i++) {
             let digit = document.getElementById('digit-' + i.toString()).value;
             code += digit;
         }
-        coderesult.confirm(code).then(function (result) {
+        confirmationResult.confirm(code).then(function (result) {
             var user = result.user;
-            console.log(user);
+            location.href = '/auth/forgot-password-2';
         }).catch(function (error) {
-            console.log(error.message);
+            alert(error.message);
         });
     }
 </script>
