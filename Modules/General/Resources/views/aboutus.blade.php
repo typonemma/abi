@@ -1,8 +1,9 @@
 @extends('partials.main')
 
 @section('content')
-        <div id="content-block">                        
-            <div class="block-entry fixed-background" style="background-image: url(public/custom/img/banner-about.jpg);">
+        <div id="content-block">                      
+            <div class="block-entry fixed-background" style="background-image: url({{url('public/custom/img/banner-about.jpg')}});">  
+            <!-- <div class="block-entry fixed-background" style="background-image: url(img/banner-about.jpg);"> -->
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">

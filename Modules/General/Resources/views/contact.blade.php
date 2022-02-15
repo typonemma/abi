@@ -1,8 +1,9 @@
 @extends('partials.main')
 
 @section('content')
-        <div id="content-block">            
-            <div class="block-entry fixed-background" style="background-image: url(img/bg-contact.jpg);">
+        <div id="content-block">   
+            <div class="block-entry fixed-background" style="background-image: url({{url('public/custom/img/bg-contact.jpg')}});">        
+            <!-- <div class="block-entry fixed-background" style="background-image: url(img/bg-contact.jpg);"> -->
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
@@ -127,7 +128,8 @@
             <div class="empty-space col-xs-b25 col-sm-b50"></div>
             
             <div class="container">
-                <div class="row" style="background: url(img/bg-banner-contact.jpg) no-repeat;">
+                <div class="row" style="background: url({{url('public/custom/img/bg-banner-contact.jpg')}}) no-repeat;">            
+                <!-- <div class="row" style="background: url(img/bg-banner-contact.jpg) no-repeat;"> -->
                     <div class="col-sm-6"></div>
                     <div class="col-sm-6 text-center">
                         <div class="empty-space col-xs-b25 col-sm-b100"></div>
@@ -138,9 +140,12 @@
                         </p>
                         <p class="h6 light">tokopedia.com/radiantkomputer</p>
                         <div class="empty-space col-sm-b10"></div>
-                        <a class="button size-1 style-1" href="#">
+                        <a class="button size-1 style-1" href="https://www.tokopedia.com/radiantkomputer?source=universe&st=product">
                             <span class="button-wrapper">
-                                <span class="icon"><img src="img/icon-1.png" alt=""></span>
+                                <span class="icon">
+                                    <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
+                                    <!-- <img src="img/icon-1.png" alt=""> -->
+                                </span>
                                 <span class="text">visit shop</span>
                             </span>
                         </a>
