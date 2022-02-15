@@ -126,7 +126,7 @@
                    
                     <div class="h4 col-xs-b25">related blog</div>
                     <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
+                        <a href="blog_detail" class="preview rounded-image simple-mouseover">
                             <img class="rounded-image" src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" />
                             <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
                         </a>

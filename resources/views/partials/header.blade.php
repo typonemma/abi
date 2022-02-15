@@ -7,8 +7,9 @@
                         <div class="nav-close-layer"></div>
                         <nav>
                             <ul>
+                                <!-- <li class="nav-item" class="{{Request::is('home')?'active':''}}"> -->
                                 <li class="active">
-                                    <a href="home">Home</a>
+                                    <a href="home" class="nav-link">Home</a>
                                 </li>
                                 <li>
                                     <a href="aboutus">about us</a>
