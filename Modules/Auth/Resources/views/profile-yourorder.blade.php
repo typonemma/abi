@@ -9,7 +9,7 @@
             <i class="fa fa-shopping-bag" aria-hidden="true"></i>
             <span class="cart-label">5</span>
         </span>
-        <span class="cart-title hidden-xs">Rp {{ $user->wallet }}</span>
+        <span class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
     </a>
 @endsection
 @section('content')
@@ -31,7 +31,7 @@
 
 
             @foreach ($user_order as $uo)
-                <div class="grey-box">
+                <div class="grey-box" style="background-color:#D3D3D3">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="h6">invoice number: {{ $uo->invoice_number }}</div>
@@ -55,12 +55,12 @@
                                     x{{ $uod->quantity }}<br/>
                                 </td>
                                 <td>
-                                    Rp {{ $uod->price }}<br/>
+                                    Rp {{ number_format($uod->price, 0, '.', '.') }}<br/>
                                 </td>
                                 @if ($ctr == count($user_order_details))
                                     <td>
                                         TOTAL:<br/>
-                                        Rp {{ $uo->total }}
+                                        Rp {{ number_format($uo->total, 0, '.', '.') }}
                                     </td>
                                     <td>
                                         DELIVERY STATUS:<br/>
@@ -80,7 +80,7 @@
                                 <tr>
                                     <td>SHIPPING COST</td>
                                     <td></td>
-                                    <td>Rp {{ $uod->shipping_cost }}</td>
+                                    <td>Rp {{ number_format($uod->shipping_cost, 0, '.', '.') }}</td>
                                     <td></td>
                                     <td></td>
                                 </tr>

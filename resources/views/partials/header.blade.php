@@ -40,7 +40,7 @@
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         <span class="cart-label">5</span>
                     </div>-->
-                    <a id="logo" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
+                    <a id="logo" style="padding-left:4%" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
                     <div class="text-right">
                         <div class="entry hidden-xs hidden-sm cart">
                             @yield('cart')
@@ -141,7 +141,17 @@
                             </div>
                         </div>
                         <div class="entry hidden-xs hidden-sm"><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
-                        {{-- <div class="entry"><a class="open-popup" data-rel="1"><b>login</b></a></div> --}}
+                        <div class="entry">
+                            @if (session('user'))
+                                <a data-rel="1">
+                                    <b>profile</b>
+                                </a>
+                            @else
+                                <a class="open-popup" data-rel="1">
+                                    <b>login</b>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

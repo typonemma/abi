@@ -12,7 +12,7 @@
         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
         <span class="cart-label">5</span>
     </span>
-    <span class="cart-title hidden-xs">Rp {{ $user->wallet }}</span>
+    <span class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
 </a>
 @endsection
 @section('content')

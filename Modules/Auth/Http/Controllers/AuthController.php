@@ -3,8 +3,6 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Models\User;
-use App\Rules\OTP6digit;
-use App\Rules\OTPmatch;
 use App\Rules\PasswordCheck;
 use App\Rules\PasswordMatch;
 use App\Rules\UserExists;
@@ -17,6 +15,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -33,17 +32,18 @@ class AuthController extends Controller
         return $display_name;
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function login()
+    public function home()
     {
         if (session('user')) {
             return back();
         }
-        return view('auth::login');
+        return view('auth::home');
     }
+
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
 
     public function doLogin(Request $request)
     {
@@ -59,27 +59,17 @@ class AuthController extends Controller
             'password.required' => 'Password is required',
             'password.max' => 'Password must be at most 60 characters'
         ];
-        $request->validate($rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            return response()->json(array(
+                'success' => false,
+                'message' => 'There are incorect values in the form!',
+                'errors' => $validator->getMessageBag()->toArray()
+            ), 422);
+        }
         $user = User::where('phone_number', '=', $request->phone_number)->first();
         $request->session()->put('user', $user);
-        return redirect('/auth/profile-detail');
-    }
-
-    public function forgotPassword1()
-    {
-        if (session('user')) {
-            return back();
-        }
-        session()->put('phone_number', '+628113116991');
-        return view('auth::forgot-password-1');
-    }
-
-    public function forgotPassword2()
-    {
-        if (session('user')) {
-            return back();
-        }
-        return view('auth::forgot-password-2');
+        //return redirect('/auth/profile-detail');
     }
 
     public function verifyPassword(Request $request)
@@ -98,7 +88,7 @@ class AuthController extends Controller
         $user->password = bcrypt($request->new_password);
         $user->save();
         $request->session()->forget('phone_number');
-        return redirect('/auth/login');
+        return redirect('/auth');
     }
 
     public function redirectToFacebook()
@@ -125,14 +115,6 @@ class AuthController extends Controller
         catch (Exception $ex) {
             return redirect('auth/facebook');
         }
-    }
-
-    public function register()
-    {
-        if (session('user')) {
-            return back();
-        }
-        return view('auth::register');
     }
 
     public function doRegister(Request $request)
@@ -163,7 +145,7 @@ class AuthController extends Controller
             'user_status' => 1,
             'secret_key' => ''
         ]);
-        return redirect('/auth/login');
+        return redirect('/auth');
     }
 
     public function profile_addresses()
@@ -359,7 +341,7 @@ class AuthController extends Controller
     public function logout()
     {
         session()->forget('user');
-        return redirect('/auth/login');
+        return redirect('/auth');
     }
 
     /**
