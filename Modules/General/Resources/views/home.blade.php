@@ -44,14 +44,20 @@
                                     <div class="h4 col-xs-b25">BEST SELLER PRODUCTS</div>
                                     <div class="tab-entry visible">
                                         <div class="row nopadding">
-                                            <div class="col-sm-4">
+
+                                        @foreach ($bestsellerproduct_list as $b)
+                                        <div class="col-sm-4">
                                                 <div class="product-shortcode style-1">
                                                     <div class="title">
-                                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                                        <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
+                                                        <div class="simple-article size-1 color col-xs-b5">
+                                                            <a href="#">{{ $b->kategori }}</a>
+                                                        </div>
+                                                        <div class="h6 animate-to-green">
+                                                            <a href="#">{{ $b->nama }}</a>
+                                                        </div>
                                                     </div>
                                                     <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-7.jpg')}}">
+                                                        <img src="{{URL::asset('public/storage/' . $b->foto)}}">
                                                         <!-- <img src="img/product-7.jpg" alt="" /> -->
                                                         <div class="preview-buttons valign-middle">
                                                             <div class="valign-middle-content">
@@ -77,10 +83,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="price">
-                                                        <div class="simple-article size-4 dark">$630.00</div>
+                                                        <div class="simple-article size-4 dark">Rp.{{ $b->harga }}</div>
                                                     </div>
                                                     <div class="description">
-                                                        <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
+                                                        <div class="simple-article text size-2">{{ $b->keterangan }}</div>
                                                         <div class="icons">
                                                             <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                             <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -89,32 +95,35 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                        @endforeach 
+
+
+                                            <!-- <div class="col-sm-4">
                                                 <div class="product-shortcode style-1">
                                                     <div class="title">
                                                         <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
                                                         <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
                                                     </div>
                                                     <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-8.jpg')}}">
-                                                        <!-- <img src="img/product-8.jpg" alt="" /> -->
-                                                        <div class="preview-buttons valign-middle">
+                                                        <img src="{{URL::asset('public/custom/img/product-7.jpg')}}"> -->
+                                                        <!-- <img src="img/product-7.jpg" alt="" /> -->
+                                                        <!-- <div class="preview-buttons valign-middle">
                                                             <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
+                                                                <a class="button size-2 style-2" href="product_detail">
                                                                     <span class="button-wrapper">
                                                                         <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
+                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}"> -->
                                                                             <!-- <img src="img/icon-1.png" alt=""> -->
-                                                                        </span>
+                                                                        <!-- </span>
                                                                         <span class="text">Learn More</span>
                                                                     </span>
                                                                 </a>
                                                                 <a class="button size-2 style-3" href="#">
                                                                     <span class="button-wrapper">
                                                                         <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
+                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}"> -->
                                                                             <!-- <img src="img/icon-3.png" alt=""> -->
-                                                                        </span>
+                                                                        <!-- </span>
                                                                         <span class="text">Add To Cart</span>
                                                                     </span>
                                                                 </a>
@@ -133,199 +142,33 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="product-shortcode style-1">
-                                                    <div class="title">
-                                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                                        <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
-                                                    </div>
-                                                    <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-9.jpg')}}">
-                                                        <!-- <img src="img/product-9.jpg" alt="" /> -->
-                                                        <div class="preview-buttons valign-middle">
-                                                            <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
-                                                                            <!-- <img src="img/icon-1.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Learn More</span>
-                                                                    </span>
-                                                                </a>
-                                                                <a class="button size-2 style-3" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
-                                                                            <!-- <img src="img/icon-3.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Add To Cart</span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="price">
-                                                        <div class="simple-article size-4"><span class="color">$630.00</span>&nbsp;&nbsp;&nbsp;<span class="line-through">$350.00</span></div>
-                                                    </div>
-                                                    <div class="description">
-                                                        <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
-                                                        <div class="icons">
-                                                            <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                            <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="product-shortcode style-1">
-                                                    <div class="title">
-                                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                                        <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
-                                                    </div>
-                                                    <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-10.jpg')}}">
-                                                        <!-- <img src="img/product-10.jpg" alt="" /> -->
-                                                        <div class="preview-buttons valign-middle">
-                                                            <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
-                                                                            <!-- <img src="img/icon-1.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Learn More</span>
-                                                                    </span>
-                                                                </a>
-                                                                <a class="button size-2 style-3" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
-                                                                            <!-- <img src="img/icon-3.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Add To Cart</span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="price">
-                                                        <div class="simple-article size-4 dark">$630.00</div>
-                                                    </div>
-                                                    <div class="description">
-                                                        <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
-                                                        <div class="icons">
-                                                            <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                            <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="product-shortcode style-1">
-                                                    <div class="title">
-                                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                                        <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
-                                                    </div>
-                                                    <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-11.jpg')}}">
-                                                        <!-- <img src="img/product-11.jpg" alt="" /> -->
-                                                        <div class="preview-buttons valign-middle">
-                                                            <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
-                                                                            <!-- <img src="img/icon-1.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Learn More</span>
-                                                                    </span>
-                                                                </a>
-                                                                <a class="button size-2 style-3" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
-                                                                            <!-- <img src="img/icon-3.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Add To Cart</span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="price">
-                                                        <div class="simple-article size-4 dark">$630.00</div>
-                                                    </div>
-                                                    <div class="description">
-                                                        <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
-                                                        <div class="icons">
-                                                            <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                            <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="product-shortcode style-1">
-                                                    <div class="title">
-                                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                                        <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
-                                                    </div>
-                                                    <div class="preview">
-                                                        <img src="{{URL::asset('public/custom/img/product-12.jpg')}}">
-                                                        <!-- <img src="img/product-12.jpg" alt="" /> -->
-                                                        <div class="preview-buttons valign-middle">
-                                                            <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
-                                                                            <!-- <img src="img/icon-1.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Learn More</span>
-                                                                    </span>
-                                                                </a>
-                                                                <a class="button size-2 style-3" href="#">
-                                                                    <span class="button-wrapper">
-                                                                        <span class="icon">
-                                                                            <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
-                                                                            <!-- <img src="img/icon-3.png" alt=""> -->
-                                                                        </span>
-                                                                        <span class="text">Add To Cart</span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="price">
-                                                        <div class="simple-article size-4 dark">$630.00</div>
-                                                    </div>
-                                                    <div class="description">
-                                                        <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
-                                                        <div class="icons">
-                                                            <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                            <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </div> -->
+
                                         </div>
                                     </div>
                                 </div>
+                                <div class="container" style="margin-top: 50px;">
+                                    <center>
+                                        <a class="button size-2 style-3" href="products">
+                                            <span class="button-wrapper">
+                                                <span class="icon">
+                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
+                                                    <!-- <img src="img/icon-4.png" alt=""> -->
+                                                </span>
+                                                <span class="text">SEE MORE</span>
+                                            </span>
+                                        </a>
+                                    </center>
+                                </div>
                                 <div class="empty-space col-xs-b35 col-md-b70"></div>
-                                <div class="container">
+                                <div class="container" style="margin-top: -25px;">
                                     <div class="text-center">
                                         <div class="h2">testimonials</div>
                                         <div class="title-underline center"><span></span></div>
                                     </div>
                                 </div>
                                 <div class="empty-space col-xs-b35 col-md-b70"></div>
-                                <div class="container">
+                                <div class="container" style="margin-top: -40px;">
                                     <div class="slider-wrapper our-team-slider">
                                         <div class="swiper-button-prev hidden-xs hidden-sm"></div>
                                         <div class="swiper-button-next hidden-xs hidden-sm"></div>
@@ -408,7 +251,7 @@
                                         <div class="title-underline center"><span></span></div>
                                     </div>
                                 </div>
-                                <div class="container">
+                                <div class="container" style="margin-top: 50px;">
                                     <div class="row">
                                         <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/tokopedia.jpg')}}"></div>
                                         <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/shopee.jpg')}}"></div>
@@ -426,49 +269,30 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-12">
                                         <div class="h4 col-xs-b25">latest blog &emsp;&emsp;<U><a class="h6" href="blogs">SEE ALL BLOGS</a></U></div>                                                                               
-                                        <div class="row m5 ">
+                                        @foreach ($relatedblog_list as $a)
+                                        <div class="row m5 ">                                            
                                             <div class="blog-shortcode style-1">
                                                 <a href="blog_detail" class="preview simple-mouseover">
-                                                    <img src="{{URL::asset('public/custom/img/blog1.jpg')}}">
+                                                    <img src="{{URL::asset('public/storage/' . $a->foto)}}">
                                                     <!-- <img src="img/blog1.jpg" alt="" /> -->
                                                 </a>
                                                 <div class="description">
-                                                    <div class="simple-article size-1 grey col-xs-b5">APR 07 / 15</div>
-                                                    <h6 class="h6 col-xs-b10"><a href="#">Phasellus rhoncus in</a></h6>
-                                                    <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                                                    <div class="simple-article size-1 grey col-xs-b5">{{ $a->tanggal }}</div>
+                                                    <h6 class="h6 col-xs-b10"><a href="#">{{ $a->judul }}</a></h6>
+                                                    <div class="simple-article size-2">{{ $a->keterangan }}cus</div>
                                                 </div>
-                                            </div>
-                                            <div class="blog-shortcode style-1">
-                                                <a href="#" class="preview simple-mouseover">
-                                                    <img src="{{URL::asset('public/custom/img/blog2.jpg')}}">
-                                                    <!-- <img src="img/blog2.jpg" alt="" /> -->
-                                                </a>
-                                                <div class="description">
-                                                    <div class="simple-article size-1 grey col-xs-b5">APR 07 / 15</div>
-                                                    <h6 class="h6 col-xs-b10"><a href="#">Phasellus rhoncus in</a></h6>
-                                                    <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                                                </div>
-                                            </div>
-                                            <div class="blog-shortcode style-1">
-                                                <a href="#" class="preview simple-mouseover">
-                                                    <img src="{{URL::asset('public/custom/img/blog3.jpg')}}">
-                                                    <!-- <img src="img/blog3.jpg" alt="" /> -->
-                                                </a>
-                                                <div class="description">
-                                                    <div class="simple-article size-1 grey col-xs-b5">APR 07 / 15</div>
-                                                    <h6 class="h6 col-xs-b10"><a href="#">Phasellus rhoncus in</a></h6>
-                                                    <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                                                </div>
-                                            </div>
+                                            </div>                                                                                        
                                         </div>
                                         <div class="empty-space col-xs-b25 col-sm-b50"></div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-12">
                                         <div class="banner-shortcode style-2">
-                                            <div class="content">
-                                                <div class="background" style="background-image: url(img/promo1.jpg);"></div>
+                                            <div class="content">                                                
+                                                <div class="background" style="background-image: url({{url('public/custom/img/promo1.jpg')}});"></div>
+                                                <!-- <div class="background" style="background-image: url(img/promo1.jpg);"></div> -->
                                                 <div class="description valign-middle">
                                                     <div class="valign-middle-content">
                                                         <div class="simple-article size-1 color"><a href="#">BLACK FRIDAY PROMO</a></div>
@@ -480,7 +304,8 @@
                                         </div>
                                         <div class="banner-shortcode style-2">
                                             <div class="content">
-                                                <div class="background" style="background-image: url(img/promo1.jpg);"></div>
+                                                <div class="background" style="background-image: url({{url('public/custom/img/promo1.jpg')}});"></div>
+                                                <!-- <div class="background" style="background-image: url(img/promo1.jpg);"></div> -->
                                                 <div class="description valign-middle">
                                                     <div class="valign-middle-content">
                                                         <div class="simple-article size-1 color"><a href="#">BLACK FRIDAY PROMO</a></div>

@@ -5,6 +5,9 @@ namespace Modules\General\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\blogs_list;
+use App\bestsellerproduct_list;
+use App\relatedblog_list;
 
 class GeneralController extends Controller
 {
@@ -19,7 +22,9 @@ class GeneralController extends Controller
 
     public function home()
     {
-        return view('general::home');
+        $bestsellerproduct_list = bestsellerproduct_list::all();
+        $relatedblog_list = relatedblog_list::all();
+        return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list], ['relatedblog_list' => $relatedblog_list]);
     }
 
     public function aboutus()
@@ -34,7 +39,9 @@ class GeneralController extends Controller
 
     public function blogs()
     {
-        return view('general::blogs');
+        $blogs_list = blogs_list::all();
+        $relatedblog_list = relatedblog_list::all();
+        return view('general::blogs', ['blogs_list' => $blogs_list], ['relatedblog_list' => $relatedblog_list]);
     }
 
     public function contact()

@@ -16,80 +16,38 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span> 
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="empty-space col-xs-b15 col-md-b30"></div>
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span>
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="empty-space col-xs-b15 col-md-b30"></div>
-                    <div class="blog-shortcode style-3">
-                        <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
-                        </a>
-                        <div class="date">
-                            <span>25</span> apr / 15 
-                        </div>
-                        <div class="content">
-                            
-                            <h4 class="title h4"><a href="#">cara membersihkan keyborad pada laptop dengan benar</a></h4>
-                            <div class="description-article simple-article size-2">Duis fringilla felis et faucibus semper. Aliquam gravida elit et lectus viverra porta. Proin ultricies, massa eu aliquam tristique, sapien tellus gravida eros, eget sollicitudin nisl mi id tortor. Cras enim elit, convallis at imperdiet at, viverra eget diam consectetur euismod enim</div>
-                            <a class="button size-1 style-3" href="blog_detail">
-                                <span class="button-wrapper">
-                                    <span class="icon">
-                                        <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                        <!-- <img src="img/icon-4.png" alt=""> -->
-                                    </span>
-                                    <span class="text">read more</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="empty-space col-xs-b35 col-md-b70"></div>
+                    @foreach ($blogs_list as $b)
+                        <div class="blog-shortcode style-3">
 
+                            <a class="preview  simple-mouseover" href="#">
+                                <img src="{{URL::asset('public/storage/' . $b->foto)}}">
+                                <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
+                            </a>
+
+                            <div class="date">
+                                <span>{{ $b->tanggal }}</span>{{ $b->bulantahun }}
+                            </div>
+
+                            <div class="content">                            
+                                <h4 class="title h4">
+                                    <a href="#">{{ $b->judul }}</a>
+                                </h4>
+                                <div class="description-article simple-article size-2">
+                                    {{ $b->isi }}
+                                </div>
+                                <a class="button size-1 style-3" href="blog_detail">
+                                    <span class="button-wrapper">
+                                        <span class="icon">
+                                            <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
+                                            <!-- <img src="img/icon-4.png" alt=""> -->
+                                        </span> 
+                                        <span class="text">read more</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>   
+                        <div class="empty-space col-xs-b35 col-md-b70"></div>                             
+                    @endforeach                                            
                     <div class="row">
                         <div class="col-sm-3 hidden-xs">
                             <a class="button size-1 style-5" href="#">
@@ -125,43 +83,33 @@
                 <div class="col-md-3">
                    
                     <div class="h4 col-xs-b25">related blog</div>
+
+                    @foreach ($relatedblog_list as $a)
                     <div class="blog-shortcode style-2">
                         <a href="blog_detail" class="preview rounded-image simple-mouseover">
-                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" />
+                            <img class="rounded-image" src="{{URL::asset('public/storage/' . $a->foto)}}" alt="" />
                             <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
                         </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Phasellus rhoncus in nunc sit</a></div>
+                        <div class="description simple-article size-1 grey uppercase">{{ $a->tanggal }} &nbsp;&nbsp;</div>
+                        <div class="title h6"><a href="#">{{ $a->judul }}</a></div>
                         
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
+                        <div class="simple-article size-2">{{ $a->keterangan }}</div>
                     </div>
                     <div class="empty-space col-xs-b25"></div>
-                    <div class="blog-shortcode style-2">
+                    @endforeach
+
+                    <!-- <div class="blog-shortcode style-2">
                         <a href="#" class="preview rounded-image simple-mouseover">
-                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
+                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" /> -->
                             <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                        </a>
+                        <!-- </a>
                         <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
                         <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
                         
                         <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
                     </div>
-                    <div class="empty-space col-xs-b25"></div>
-                    <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
-                        <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
-                            <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                        </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
-                        
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                    </div>
+                    <div class="empty-space col-xs-b25"></div> -->
                     
-
-
-                    <div class="empty-space col-xs-b25 col-sm-b50"></div>
-
                 </div>
             </div>
         </div>
