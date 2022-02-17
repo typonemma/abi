@@ -147,7 +147,7 @@
                                     <b>profile</b>
                                 </a>
                             @else
-                                <a class="open-popup" data-rel="1">
+                                <a class="open-popup" data-rel="1" onclick="Load()">
                                     <b>login</b>
                                 </a>
                             @endif
@@ -176,3 +176,17 @@
         </div>
     </div>
 </header>
+<script>
+    function Load() {
+        let ul = document.getElementsByTagName("ul");
+        let input = document.getElementsByTagName("input");
+        for (let i = 0; i < ul.length; i++) {
+            const element = ul[i];
+            element.innerHTML = "";
+        }
+        for (let i = 0; i < input.length; i++) {
+            const element = input[i];
+            element.value = "";
+        }
+    }
+</script>

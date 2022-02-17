@@ -61,15 +61,16 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($request->ajax()) {
-            return response()->json(array(
-                'success' => false,
-                'message' => 'There are incorect values in the form!',
-                'errors' => $validator->getMessageBag()->toArray()
-            ), 422);
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
         }
         $user = User::where('phone_number', '=', $request->phone_number)->first();
         $request->session()->put('user', $user);
-        //return redirect('/auth/profile-detail');
     }
 
     public function verifyPassword(Request $request)
@@ -82,13 +83,21 @@ class AuthController extends Controller
             'new_password.required' => 'New password is required',
             'new_password.max' => 'New password must be at most 60 characters'
         ];
-        $request->validate($rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
+        }
         $phone_number = session('phone_number');
         $user = User::where('phone_number', '=', $phone_number)->first();
         $user->password = bcrypt($request->new_password);
         $user->save();
         $request->session()->forget('phone_number');
-        return redirect('/auth');
     }
 
     public function redirectToFacebook()
@@ -134,18 +143,24 @@ class AuthController extends Controller
             'password.required' => 'Password is required',
             'password.max' => 'Password must be at most 60 characters',
         ];
-        $request->validate($rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
+        }
         $display_name = $this->DisplayName($request->name);
         User::create([
             'display_name' => $display_name,
             'name' => $request->name,
-            'email' => '',
             'phone_number' => $request->phone_number,
             'password' => bcrypt($request->password),
             'user_status' => 1,
-            'secret_key' => ''
         ]);
-        return redirect('/auth');
     }
 
     public function profile_addresses()

@@ -7,8 +7,7 @@
         <div class="popup-container size-1">
             <div class="popup-align">
                 <h3 class="h3 text-center">Log in</h3>
-                <form id="loginForm">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <form>
                     <div class="empty-space col-xs-b30"></div>
                     <input id="phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
@@ -19,7 +18,7 @@
                             <div class="empty-space col-sm-b5"></div>
                             <a class="simple-link open-popup" data-rel="3" onclick="ForgotPassword()">Forgot password?</a>
                             <div class="empty-space col-xs-b5"></div>
-                            <a class="simple-link open-popup" data-rel="2">register now</a>
+                            <a class="simple-link open-popup" data-rel="2" onclick="Load()">register now</a>
                         </div>
                         <input id="temp" name="temp" type="hidden" value="">
                         <div class="col-sm-6 text-right">
@@ -31,14 +30,9 @@
                             </a>
                         </div>
                     </div>
-                    @if ($errors->any())
-                        <ul style="list-style-type:none;color:red;">
-                            @foreach ($errors->all() as $error)
-                                <br>
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul class="errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                 </form>
                 <div class="popup-or">
                     <span>or</span>
@@ -77,12 +71,11 @@
         <div class="popup-container size-1">
             <div class="popup-align">
                 <h3 class="h3 text-center">register</h3>
-                <form id="regForm" method="post" action="doRegister">
-                    @csrf
+                <form>
                     <div class="empty-space col-xs-b30"></div>
-                    <input id="name" class="simple-input" type="text" value="" placeholder="Your name" />
+                    <input id="name" name="name" class="simple-input" type="text" value="" placeholder="Your name" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
-                    <input id="reg_phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                    <input id="reg_phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="reg_password" name="password" class="simple-input" type="password" value="" placeholder="Enter password" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
@@ -91,11 +84,11 @@
                     <div class="row">
                         <div class="col-sm-7 col-xs-b10 col-sm-b0">
                             <div class="empty-space col-sm-b15"></div>
-                            <a class="simple-link size-3 open-popup" data-rel="1">BACK TO LOGIN</a>
+                            <a class="simple-link size-3 open-popup" data-rel="1" onclick="Load()">BACK TO LOGIN</a>
                         </div>
-                        <input id="reg_temp" type="hidden" value="">
+                        <input id="reg_temp" name="temp" type="hidden" value="">
                         <div class="col-sm-5 text-right">
-                            <a class="button size-2 style-3" onclick="Register()">
+                            <a class="button size-2 style-3 register">
                                 <span class="button-wrapper">
                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                     <span class="text">register</span>
@@ -103,14 +96,9 @@
                             </a>
                         </div>
                     </div>
-                    @if ($errors->any())
-                        <ul style="list-style-type:none;color:red;">
-                            @foreach ($errors->all() as $error)
-                                <br>
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul class="reg-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                 </form>
             </div>
         </div>
@@ -120,8 +108,7 @@
         <div class="popup-container size-1">
             <div class="popup-align">
                 <h3 class="h3 text-center">forgot password</h3>
-                <form id="forgotPassword1Form" method="post" action="#">
-                    @csrf
+                <form>
                     <div class="empty-space col-xs-b20"></div>
                     <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Enter the OTP code that has been sent to your phone number</h6>
                     <div class="empty-space col-xs-b20"></div>
@@ -132,7 +119,7 @@
                         <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
                         <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
                         <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
-                        <input id="fp_phone_number" type="hidden" value="{{ session('phone_number') }}">
+                        <input id="fp1_phone_number" type="hidden" value="+628113116991">
                     </div>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <div class="row">
@@ -140,10 +127,10 @@
                             <div class="empty-space col-sm-b5"></div>
                             <a class="simple-link" onclick="otpSend()">RESEND CODE</a>
                             <div class="empty-space col-xs-b5"></div>
-                            <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
+                            <a class="simple-link open-popup" data-rel="1" onclick="Load()">BACK TO LOGIN</a>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a class="button size-2 style-3 open-popup" data-rel="4" onclick="otpVerify()">
+                            <a id="verifyOTP" class="button size-2 style-3" data-rel="4" onclick="otpVerify()">
                                 <span class="button-wrapper">
                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                     <span class="text">submit</span>
@@ -151,14 +138,9 @@
                             </a>
                         </div>
                     </div>
-                    @if ($errors->any())
-                        <ul style="list-style-type:none;color:red;">
-                            @foreach ($errors->all() as $error)
-                                <br>
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul class="fp1-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                 </form>
             </div>
         </div>
@@ -169,7 +151,6 @@
             <div class="popup-align">
                 <h3 class="h3 text-center">forgot password</h3>
                 <form id="forgotPassword2Form" method="post" action="verifyPassword">
-                    @csrf
                     <div class="empty-space col-xs-b20"></div>
                     <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Please input your new password</h6>
                     <div class="empty-space col-xs-b20"></div>
@@ -178,23 +159,18 @@
                     <input id="confnewpasswd" name="confnewpasswd" class="simple-input" type="password" value="" placeholder="Confirm New password" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="fp_temp" name="fp_temp" type="hidden" value="">
-                    <input name="fp_phone_number" type="hidden" value="{{ session('phone_number') }}">
+                    <input id="fp2_phone_number" type="hidden" value="+628113116991">
                     <div class="row text-center">
-                        <a class="button size-2 style-3" onclick="VerifyPassword()">
+                        <a class="button size-2 style-3 verify-password">
                             <span class="button-wrapper">
                                 <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                 <span class="text">make new password</span>
                             </span>
                         </a>
                     </div>
-                    @if ($errors->any())
-                        <ul style="list-style-type:none;color:red;margin-left:28%;">
-                            @foreach ($errors->all() as $error)
-                                <br>
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul class="fp2-errors" style="list-style-type:none;color:red;margin-left:27%">
+
+                    </ul>
                 </form>
             </div>
         </div>
@@ -239,24 +215,86 @@
                     location.href = "/auth/profile-detail"
                 },
                 error: function(jqXhr, json, errorThrown) {
+                    Load();
                     let errors = jqXhr.responseJSON;
                     let errorsHtml = '';
                     $.each(errors['errors'], function (index, value) {
-                        errorsHtml += '<br><li>' + value + '</li>';
+                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
                     });
+                    $('.errors').append(errorsHtml);
+                }
+            });
+        });
+
+        $('.register').click(function(e){
+            let name = $('#name').val();
+            let phone_number = $('#reg_phone_number').val();
+            let password = $('#reg_password').val();
+            let confpasswd = $('#repeat_password').val();
+            let temp = password + '-' + confpasswd;
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                }
+            });
+            $.ajax({
+                method: "POST",
+                url: "/auth/doRegister",
+                data : {
+                    name : name,
+                    phone_number : phone_number,
+                    password : password,
+                    temp : temp
+                },
+                success: function() {
+                    location.href = "/auth"
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    Load();
+                    let errors = jqXhr.responseJSON;
+                    let errorsHtml = '';
+                    $.each(errors['errors'], function (index, value) {
+                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                    });
+                    $('.reg-errors').append(errorsHtml);
+                }
+            });
+        });
+
+        $('.verify-password').click(function(e){
+            let password = $('#new-password').val();
+            let confpasswd = $('#confnewpasswd').val();
+            let temp = password + '-' + confpasswd;
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                }
+            });
+            $.ajax({
+                method: "POST",
+                url: "/auth/verifyPassword",
+                data : {
+                    new_password : password,
+                    temp : temp
+                },
+                success: function() {
+                    location.href = "/auth"
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    Load();
+                    let errors = jqXhr.responseJSON;
+                    let errorsHtml = '';
+                    $.each(errors['errors'], function (index, value) {
+                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                    });
+                    $('.fp2-errors').append(errorsHtml);
                 }
             });
         });
     });
 
-    function Register() {
-        let password = document.getElementById('password').value;
-        let repeat_password = document.getElementById('repeat_password').value;
-        document.getElementById('temp').value = password + '-' + repeat_password;
-        document.getElementById('regForm').submit();
-    }
-
     function ForgotPassword() {
+        Load();
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible',
             'callback': (response) => {
@@ -267,7 +305,7 @@
     }
 
     function otpSend() {
-        var phoneNumber = document.getElementById('fp_phone_number').value;
+        var phoneNumber = document.getElementById('fp1_phone_number').value;
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
         .then((confirmationResult) => {
@@ -284,18 +322,10 @@
             code += digit;
         }
         confirmationResult.confirm(code).then(function (result) {
-            var user = result.user;
-            location.href = '/auth/forgot-password-2';
+            document.getElementById('verifyOTP').classList.add('open-popup');
         }).catch(function (error) {
             alert(error.message);
         });
-    }
-
-    function VerifyPassword() {
-        let new_password = document.getElementById('new-password').value;
-        let confnewpasswd = document.getElementById('confnewpasswd').value;
-        document.getElementById('temp').value = new_password + '-' + confnewpasswd;
-        document.getElementById('forgotPassword2Form').submit();
     }
 </script>
 @endsection
