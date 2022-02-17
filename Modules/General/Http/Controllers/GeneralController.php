@@ -5,6 +5,7 @@ namespace Modules\General\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\blogs_list;
 use App\bestsellerproduct_list;
 use App\relatedblog_list;
@@ -62,6 +63,35 @@ class GeneralController extends Controller
     public function product_detail()
     {
         return view('general::product_detail');
+    }
+
+    public function email_template()
+    {
+        return view('general::email_template');
+    }
+
+    public function sendEmail(Request $request){
+        // Siapkan Data
+        $subject = $request->subject;
+        $email = $request->email;
+        $data = array(
+                'name' => $request->name,
+                'email_body' => $request->email_body,
+                'phone' => $request->phone
+            );
+
+        // Kirim Email
+        Mail::send('general::email_template', $data, function($mail) use($subject, $email) {
+            $mail->to('wasni337@gmail.com', 'no-reply')
+                    ->subject($subject);
+            $mail->from('asepyalabae@gmail.com', $email);
+        });
+
+        // Cek kegagalan
+        if (Mail::failures()) {
+            return "Gagal mengirim Email";
+        }
+        return "Email berhasil dikirim!";
     }
 
     /**

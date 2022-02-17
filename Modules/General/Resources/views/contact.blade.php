@@ -158,7 +158,9 @@
                 <h4 class="h4 text-center col-xs-b25">have a questions?</h4>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <form class="contact-form">
+
+                        <form action="{{ route('send.email') }}" method="POST" class="contact-form">
+                            @csrf
                             <div class="row m5">
                                 <div class="col-sm-6">
                                     <input class="simple-input col-xs-b20" type="text" value="" placeholder="Name" name="name" />
@@ -173,7 +175,7 @@
                                     <input class="simple-input col-xs-b20" type="text" value="" placeholder="Subject" name="subject" />
                                 </div>
                                 <div class="col-sm-12">
-                                    <textarea class="simple-input col-xs-b20" placeholder="Your message" name="message"></textarea>
+                                    <textarea class="simple-input col-xs-b20" placeholder="Your message" name="email_body"></textarea>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="text-center">
@@ -191,6 +193,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

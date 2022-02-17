@@ -21,6 +21,7 @@ Route::prefix('general')->group(function() {
     Route::get('/shipment', 'GeneralController@shipment');
     Route::get('/blog_detail', 'GeneralController@blog_detail');
     Route::get('/product_detail', 'GeneralController@product_detail');
-
     
+    Route::get('/email_template', 'GeneralController@email_template');
+    Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');
 });
