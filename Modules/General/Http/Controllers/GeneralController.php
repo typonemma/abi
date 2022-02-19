@@ -6,9 +6,11 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\str;
 use App\blogs_list;
 use App\bestsellerproduct_list;
 use App\relatedblog_list;
+use App\ads_list;
 
 class GeneralController extends Controller
 {
@@ -16,6 +18,7 @@ class GeneralController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
+
     public function index()
     {
         return view('general::index');
@@ -23,9 +26,15 @@ class GeneralController extends Controller
 
     public function home()
     {
-        $bestsellerproduct_list = bestsellerproduct_list::all();
-        $relatedblog_list = relatedblog_list::all();
-        return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list], ['relatedblog_list' => $relatedblog_list]);
+        $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
+        $relatedblog_list = relatedblog_list::orderBy('id', 'DESC')->paginate(3);
+        // $relatedblog_list->post_content = relatedblog_list::limit($relatedblog_list->post_content, 30);
+        $ads_list = ads_list::all();
+        return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list, 
+        'relatedblog_list' => $relatedblog_list,  
+        'ads_list' => $ads_list
+        // compact('relatedblog_list')
+        ]);
     }
 
     public function aboutus()
@@ -40,9 +49,10 @@ class GeneralController extends Controller
 
     public function blogs()
     {
-        $blogs_list = blogs_list::all();
-        $relatedblog_list = relatedblog_list::all();
-        return view('general::blogs', ['blogs_list' => $blogs_list], ['relatedblog_list' => $relatedblog_list]);
+        $blogs_list = blogs_list::paginate(3);
+        $relatedblog_list = relatedblog_list::orderBy('id', 'DESC')->paginate(3);
+        return view('general::blogs', ['blogs_list' => $blogs_list, 
+        'relatedblog_list' => $relatedblog_list]);
     }
 
     public function contact()
@@ -89,9 +99,10 @@ class GeneralController extends Controller
 
         // Cek kegagalan
         if (Mail::failures()) {
-            return "Gagal mengirim Email";
+            return view('general::contact');
         }
-        return "Email berhasil dikirim!";
+        $request->session()->flash('success', 'success');
+        return view('general::contact');
     }
 
     /**

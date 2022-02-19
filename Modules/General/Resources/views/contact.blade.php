@@ -185,9 +185,14 @@
                                                     <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
                                                     <!-- <img src="img/icon-4.png" alt=""> -->
                                                 </span> 
-                                                <span class="text">send message</span>
+                                                <span class="text">send message</span>                                                
                                             </span>
                                             <input type="submit"/>
+                                            @if (session('success'))
+                                                <script>
+                                                    alert('success');
+                                                </script>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

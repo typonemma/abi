@@ -23,17 +23,17 @@
                                 <img src="{{URL::asset('public/storage/' . $b->foto)}}">
                                 <!-- <img class="" src="img/blog-big.jpg" alt="" /> -->
                             </a>
-
+                            <!-- tanggal -->
                             <div class="date">
-                                <span>{{ $b->tanggal }}</span>{{ $b->bulantahun }}
+                                <span></span>
                             </div>
 
                             <div class="content">                            
                                 <h4 class="title h4">
-                                    <a href="#">{{ $b->judul }}</a>
+                                    <a href="#">{{ $b->post_title }}</a>
                                 </h4>
                                 <div class="description-article simple-article size-2">
-                                    {{ $b->isi }}
+                                    {{ $b->post_content }}
                                 </div>
                                 <a class="button size-1 style-3" href="blog_detail">
                                     <span class="button-wrapper">
@@ -53,7 +53,7 @@
                             <a class="button size-1 style-5" href="#">
                                 <span class="button-wrapper">
                                     <span class="icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                                    <span class="text">prev page</span>
+                                    <span class="text"> prev page </span>
                                 </span>
                             </a>
                         </div>
@@ -90,10 +90,11 @@
                             <img class="rounded-image" src="{{URL::asset('public/storage/' . $a->foto)}}" alt="" />
                             <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
                         </a>
-                        <div class="description simple-article size-1 grey uppercase">{{ $a->tanggal }} &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">{{ $a->judul }}</a></div>
+                        <!-- tanggal -->
+                        <div class="description simple-article size-1 grey uppercase"> &nbsp;&nbsp;</div>
+                        <div class="title h6"><a href="#">{{Str::limit($a->post_title, 25, '..')}}</a></div>
                         
-                        <div class="simple-article size-2">{{ $a->keterangan }}</div>
+                        <div class="simple-article size-2">{{Str::limit($a->post_content, 80, '')}}</div>
                     </div>
                     <div class="empty-space col-xs-b25"></div>
                     @endforeach

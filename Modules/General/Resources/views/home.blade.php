@@ -50,14 +50,14 @@
                                                 <div class="product-shortcode style-1">
                                                     <div class="title">
                                                         <div class="simple-article size-1 color col-xs-b5">
-                                                            <a href="#">{{ $b->kategori }}</a>
+                                                            <a href="#">{{ $b->type }}</a>
                                                         </div>
                                                         <div class="h6 animate-to-green">
-                                                            <a href="#">{{ $b->nama }}</a>
+                                                            <a href="#">{{ $b->title }}</a>
                                                         </div>
                                                     </div>
                                                     <div class="preview">
-                                                        <img src="{{URL::asset('public/storage/' . $b->foto)}}">
+                                                        <img src="{{URL::asset('public/storage/' . $b->image_url)}}">
                                                         <!-- <img src="img/product-7.jpg" alt="" /> -->
                                                         <div class="preview-buttons valign-middle">
                                                             <div class="valign-middle-content">
@@ -83,10 +83,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="price">
-                                                        <div class="simple-article size-4 dark">Rp.{{ $b->harga }}</div>
+                                                        <div class="simple-article size-4 dark">Rp.{{ $b->price }}</div>
                                                     </div>
                                                     <div class="description">
-                                                        <div class="simple-article text size-2">{{ $b->keterangan }}</div>
+                                                        <div class="simple-article text size-2">{{ $b->content }}</div>
                                                         <div class="icons">
                                                             <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                             <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -273,14 +273,23 @@
                                         <div class="row m5 ">                                            
                                             <div class="blog-shortcode style-1">
                                                 <a href="blog_detail" class="preview simple-mouseover">
-                                                    <img src="{{URL::asset('public/storage/' . $a->foto)}}">
-                                                    <!-- <img src="img/blog1.jpg" alt="" /> -->
+                                                    <!-- <img src="{{URL::asset('public/storage/' . $a->foto)}}"> -->
+                                                    <img src="{{URL::asset('public/custom/img/blog1.jpg')}}">
                                                 </a>
                                                 <div class="description">
-                                                    <div class="simple-article size-1 grey col-xs-b5">{{ $a->tanggal }}</div>
-                                                    <h6 class="h6 col-xs-b10"><a href="#">{{ $a->judul }}</a></h6>
-                                                    <div class="simple-article size-2">{{ $a->keterangan }}cus</div>
-                                                </div>
+                                                    <!-- Tanggal -->                                                    
+                                                    <div class="simple-article size-1 grey col-xs-b5">{{ $a->created_at }}</div>
+                                                    <h6 class="h6 col-xs-b10">
+                                                        <a href="#">
+                                                        {{Str::limit($a->post_title, 25, '..')}}
+                                                        <!-- {{ $a->post_title }} -->
+                                                        </a>
+                                                    </h6>
+                                                    <div class="simple-article size-2">
+                                                        {{Str::limit($a->post_content, 80, '')}}
+                                                        <!-- {{ $a->post_content }} -->
+                                                    </div>
+                                                </div>                                                
                                             </div>                                                                                        
                                         </div>
                                         <div class="empty-space col-xs-b25 col-sm-b50"></div>
@@ -483,12 +492,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="adsleft">
-                    <a href="#"><img src="{{URL::asset('public/custom/img/ads1.jpg')}}"></a>
-                    <a href="#"><img src="{{URL::asset('public/custom/img/ads2.jpg')}}"></a>
+                @foreach ($ads_list as $ads)
+                <div class="adsleft">                    
+                    <a href="#">
+                        <?php
+                            $ads = App\ads_list::find(5);
+                        ?>
+                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                        <!-- <img src="{{URL::asset('public/custom/img/ads1.jpg')}}"> -->
+                    </a>
+                    <a href="#">
+                        <?php
+                            $ads = App\ads_list::find(6);
+                        ?>
+                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                    </a>
                 </div>
                 <div class="ads-right">
-                    <a href="#"><img src="{{URL::asset('public/custom/img/ads1.jpg')}}"></a>
-                    <a href="#"><img src="{{URL::asset('public/custom/img/ads2.jpg')}}"></a>
+                    <a href="#">
+                        <?php
+                            $ads = App\ads_list::find(7);
+                        ?>
+                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                    </a>
+                    <a href="#">
+                        <?php
+                            $ads = App\ads_list::find(8);
+                        ?>
+                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                    </a>
                 </div>
+                @endforeach
 @endsection
