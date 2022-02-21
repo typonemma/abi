@@ -1546,3 +1546,23 @@ body.loaded .big-slider-product .description, body.loaded .big-slider-product .p
 	color:#fff;
 	background: #155690;
 }
+.grey-box{
+	background: #f4f4f4;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+.grey-box .row{
+	margin-bottom: 20px;
+}
+.grey-box table tr td{
+	padding: 5px 15px;
+	line-height: 1.2em;
+	color:#888;
+	border-right: 1px solid #e1e1;
+}
+.grey-box table tr td:first-child{
+	text-transform: uppercase;
+}
+.grey-box table tr td:last-child{
+	border:0;
+}

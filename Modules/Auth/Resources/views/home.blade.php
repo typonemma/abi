@@ -10,8 +10,14 @@
                 <form>
                     <div class="empty-space col-xs-b30"></div>
                     <input id="phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                    <ul class="phone-number-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="password" name="password" class="simple-input" type="password" value="" placeholder="Password" />
+                    <ul class="password-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <div class="row">
                         <div class="col-sm-6 col-xs-b10 col-sm-b0">
@@ -30,9 +36,6 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="errors" style="list-style-type:none;color:red;">
-
-                    </ul>
                 </form>
                 <div class="popup-or">
                     <span>or</span>
@@ -74,10 +77,19 @@
                 <form>
                     <div class="empty-space col-xs-b30"></div>
                     <input id="name" name="name" class="simple-input" type="text" value="" placeholder="Your name" />
+                    <ul class="name-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="reg_phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                    <ul class="reg-phone-number-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="reg_password" name="password" class="simple-input" type="password" value="" placeholder="Enter password" />
+                    <ul class="reg-password-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="repeat_password" name="repeat_password" class="simple-input" type="password" value="" placeholder="Repeat password" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
@@ -119,7 +131,6 @@
                         <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
                         <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
                         <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
-                        <input id="fp1_phone_number" type="hidden" value="+628113116991">
                     </div>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <div class="row">
@@ -155,11 +166,13 @@
                     <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Please input your new password</h6>
                     <div class="empty-space col-xs-b20"></div>
                     <input id="new-password" name="new_password" class="simple-input" type="password" value="" placeholder="New password" />
+                    <ul class="fp2-password-errors" style="list-style-type:none;color:red;margin-left:27%">
+
+                    </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="confnewpasswd" name="confnewpasswd" class="simple-input" type="password" value="" placeholder="Confirm New password" />
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
                     <input id="fp_temp" name="fp_temp" type="hidden" value="">
-                    <input id="fp2_phone_number" type="hidden" value="+628113116991">
                     <div class="row text-center">
                         <a class="button size-2 style-3 verify-password">
                             <span class="button-wrapper">
@@ -168,9 +181,6 @@
                             </span>
                         </a>
                     </div>
-                    <ul class="fp2-errors" style="list-style-type:none;color:red;margin-left:27%">
-
-                    </ul>
                 </form>
             </div>
         </div>
@@ -218,10 +228,35 @@
                     Load();
                     let errors = jqXhr.responseJSON;
                     let errorsHtml = '';
-                    $.each(errors['errors'], function (index, value) {
-                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
-                    });
-                    $('.errors').append(errorsHtml);
+                    if ('phone_number' in errors['errors']) {
+                        if (errors['errors']['phone_number'].length > 0) {
+                            $('#phone_number').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['phone_number'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.phone-number-errors').append(errorsHtml);
+                    }
+                    if ('password' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['password'].length > 0) {
+                            $('#password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['password'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.password-errors').append(errorsHtml);
+                    }
+                    if ('temp' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['temp'].length > 0) {
+                            $('#password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['temp'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.password-errors').append(errorsHtml);
+                    }
                 }
             });
         });
@@ -247,16 +282,51 @@
                     temp : temp
                 },
                 success: function() {
-                    location.href = "/auth"
+                    $('.login-popup').click();
                 },
                 error: function(jqXhr, json, errorThrown) {
                     Load();
                     let errors = jqXhr.responseJSON;
                     let errorsHtml = '';
-                    $.each(errors['errors'], function (index, value) {
-                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
-                    });
-                    $('.reg-errors').append(errorsHtml);
+                    if ('name' in errors['errors']) {
+                        if (errors['errors']['name'].length > 0) {
+                            $('#name').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['name'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.name-errors').append(errorsHtml);
+                    }
+                    if ('phone_number' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['phone_number'].length > 0) {
+                            $('#reg_phone_number').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['phone_number'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.reg-phone-number-errors').append(errorsHtml);
+                    }
+                    if ('password' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['password'].length > 0) {
+                            $('#reg_password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['password'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.reg-password-errors').append(errorsHtml);
+                    }
+                    if ('temp' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['temp'].length > 0) {
+                            $('#reg_password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['temp'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.reg-password-errors').append(errorsHtml);
+                    }
                 }
             });
         });
@@ -284,10 +354,25 @@
                     Load();
                     let errors = jqXhr.responseJSON;
                     let errorsHtml = '';
-                    $.each(errors['errors'], function (index, value) {
-                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
-                    });
-                    $('.fp2-errors').append(errorsHtml);
+                    if ('new_password' in errors['errors']) {
+                        if (errors['errors']['new_password'].length > 0) {
+                            $('#new-password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['new_password'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.fp2-password-errors').append(errorsHtml);
+                    }
+                    if ('temp' in errors['errors']) {
+                        errorsHtml = '';
+                        if (errors['errors']['temp'].length > 0) {
+                            $('#new-password').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['temp'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.fp2-password-errors').append(errorsHtml);
+                    }
                 }
             });
         });
@@ -305,7 +390,7 @@
     }
 
     function otpSend() {
-        var phoneNumber = document.getElementById('fp1_phone_number').value;
+        var phoneNumber = '+628113116991';
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
         .then((confirmationResult) => {
@@ -316,16 +401,20 @@
     }
 
     function otpVerify() {
-        let code = '';
-        for (let i = 1; i <= 6; i++) {
-            let digit = document.getElementById('digit-' + i.toString()).value;
-            code += digit;
+        let verifyOTP = document.getElementById('verifyOTP');
+        if (!verifyOTP.classList.contains('open-popup')) {
+            let code = '';
+            for (let i = 1; i <= 6; i++) {
+                let digit = document.getElementById('digit-' + i.toString()).value;
+                code += digit;
+            }
+            confirmationResult.confirm(code).then(function (result) {
+                verifyOTP.classList.add('open-popup');
+                verifyOTP.click();
+            }).catch(function (error) {
+                alert(error.message);
+            });
         }
-        confirmationResult.confirm(code).then(function (result) {
-            document.getElementById('verifyOTP').classList.add('open-popup');
-        }).catch(function (error) {
-            alert(error.message);
-        });
     }
 </script>
 @endsection

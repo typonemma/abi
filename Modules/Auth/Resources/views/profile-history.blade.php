@@ -91,11 +91,10 @@
                 </div>
                 <br><br>
             @endforeach
-
             <div class="empty-space col-xs-b25 col-md-b30"></div>
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-sm-3 hidden-xs">
-                    <a class="button size-1 style-5" href="#">
+                    <a class="button size-1 style-5" href="{{ "profile-history?page=" . max($page - 1, 1) }}">
                         <span class="button-wrapper">
                             <span class="icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
                             <span class="text">prev page</span>
@@ -104,23 +103,45 @@
                 </div>
                 <div class="col-sm-6 text-center">
                     <div class="pagination-wrapper">
-                        <a class="pagination active">1</a>
-                        <a class="pagination">2</a>
-                        <a class="pagination">3</a>
-                        <a class="pagination">4</a>
-                        <span class="pagination">...</span>
-                        <a class="pagination">23</a>
+                        <?php
+                            $start = 0;
+                            $end = 0;
+                            if ($page + 4 <= $page_count) {
+                                if ($page - 4 < 1) {
+                                   $start = 1;
+                                   $end = 5;
+                                }
+                                else {
+                                    $start = $page - 2;
+                                    $end = $page + 2;
+                                }
+                            }
+                            else {
+                                $start = $page_count - 4;
+                                $end = $page_count;
+                            }
+                        ?>
+                        @for ($i = $start; $i <= $end; $i++)
+                            @if ($i == $page)
+                                <a class="pagination active" href="profile-history?page={{ $i }}">{{ $i }}</a>
+                            @else
+                                <a class="pagination" href="profile-history?page={{ $i }}">{{ $i }}</a>
+                            @endif
+                        @endfor
+                        @if ($page + 5 <= $page_count)
+                            <a class="pagination" href="profile-history?page={{ $page + 5 }}">...</a>
+                        @endif
                     </div>
                 </div>
                 <div class="col-sm-3 hidden-xs text-right">
-                    <a class="button size-1 style-5" href="#">
+                    <a class="button size-1 style-5" href="{{ "profile-history?page=" . min($page + 1, $page_count)}}">
                         <span class="button-wrapper">
                             <span class="icon"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                             <span class="text">next page</span>
                         </span>
                     </a>
                 </div>
-            </div> --}}
+            </div>
             <div class="empty-space col-xs-b35 col-md-b70"></div>
 
         </div>

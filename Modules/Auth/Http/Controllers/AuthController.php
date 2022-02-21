@@ -279,6 +279,7 @@ class AuthController extends Controller
                 'user_id' => $user->id
             ]);
         }
+        $request->session()->flash('success', 'success');
         return redirect('/auth/profile-addresses');
     }
 
@@ -330,6 +331,7 @@ class AuthController extends Controller
         }
         $user->save();
         $request->session()->put('user', $user);
+        $request->session()->flash('success', 'success');
         return redirect('/auth/profile-detail');
     }
 
@@ -339,8 +341,16 @@ class AuthController extends Controller
             return back();
         }
         $user = session('user');
-        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '!=', 0)->get();
-        return view('auth::profile-history', ['user_order' => $user_order]);
+        $per_page = 2;
+        if (!isset($_GET['page'])) {
+            $_GET['page'] = 1;
+        }
+        $page = intval($_GET['page']);
+        $offset = $per_page * ($page - 1);
+        $user_order_all = UserOrder::where('user_id', '=', $user->id)->where('status', '!=', 0)->get();
+        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '!=', 0)->limit($per_page)->offset($offset)->get();
+        $page_count = ceil(count($user_order_all) / $per_page);
+        return view('auth::profile-history', ['user_order' => $user_order, 'page' => $page, 'page_count' => $page_count]);
     }
 
     public function profile_yourorder()

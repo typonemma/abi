@@ -28,10 +28,8 @@
         <div class="col-sm-9">
             <div class="h4">YOUR ORDER</div>
             <div class="empty-space col-xs-b30"></div>
-
-
             @foreach ($user_order as $uo)
-                <div class="grey-box" style="background-color:#D3D3D3">
+                <div class="grey-box">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="h6">invoice number: {{ $uo->invoice_number }}</div>
