@@ -13,6 +13,7 @@
     </a>
 @endsection
 @section('content')
+<div class="empty-space col-xs-b35 col-md-b70"></div>
 <div class="container">
     <div class="row">
         <div class="col-sm-3">
@@ -100,4 +101,5 @@
     </div>
 </div>
 </div>
+<div class="empty-space col-xs-b35 col-md-b70"></div>
 @endsection

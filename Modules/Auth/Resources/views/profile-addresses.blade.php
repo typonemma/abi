@@ -13,6 +13,7 @@
     </a>
 @endsection
 @section('content')
+<div class="empty-space col-xs-b35 col-md-b70"></div>
 <div class="container">
     <div class="row">
         <div class="col-sm-3">
@@ -128,10 +129,9 @@
                             @if ($errors->has('bill_city'))
                                 <select id="bill_city" name="bill_city" class="SlectBox" style="border-color:red">
                                     <option disabled="disabled" selected="selected">City</option>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    @foreach ($kota as $kt)
+                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                    @endforeach
                                 </select>
                                 <ul style="list-style-type:none;color:red;">
                                     @foreach ($errors->getMessages()['bill_city'] as $error)
@@ -141,19 +141,17 @@
                             @else
                                 <select id="bill_city" name="bill_city" class="SlectBox">
                                     <option disabled="disabled" selected="selected">City</option>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    @foreach ($kota as $kt)
+                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                    @endforeach
                                 </select>
                             @endif
                         @else
                             <select id="bill_city" name="bill_city" class="SlectBox">
                                 <option disabled="disabled" selected="selected">City</option>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
+                                @foreach ($kota as $kt)
+                                    <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                @endforeach
                             </select>
                         @endif
                         <div class="empty-space col-xs-b20"></div>
@@ -289,10 +287,9 @@
                             @if ($errors->has('ship_city'))
                                 <select id="ship_city" name="ship_city" class="SlectBox" style="border-color:red">
                                     <option disabled="disabled" selected="selected">City</option>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    @foreach ($kota as $kt)
+                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                    @endforeach
                                 </select>
                                 <ul style="list-style-type:none;color:red;">
                                     @foreach ($errors->getMessages()['ship_city'] as $error)
@@ -302,19 +299,17 @@
                             @else
                                 <select id="ship_city" name="ship_city" class="SlectBox">
                                     <option disabled="disabled" selected="selected">City</option>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    @foreach ($kota as $kt)
+                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                    @endforeach
                                 </select>
                             @endif
                         @else
                             <select id="ship_city" name="ship_city" class="SlectBox">
                                 <option disabled="disabled" selected="selected">City</option>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
+                                @foreach ($kota as $kt)
+                                    <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                                @endforeach
                             </select>
                         @endif
                         <div class="empty-space col-xs-b20"></div>
@@ -367,6 +362,7 @@
         </form>
     </div>
 </div>
+<div class="empty-space col-xs-b35 col-md-b70"></div>
 <script>
     let bill_city = document.getElementById('bill_city');
     let temp_bill_city = document.getElementById('temp_bill_city').value;

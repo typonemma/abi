@@ -11,9 +11,9 @@
 |
 */
 
-Route::prefix('auth')->group(function() {
+Route::prefix('/')->group(function() {
     //Home
-    Route::get('/', 'AuthController@home');
+    Route::get('', 'AuthController@home');
 
     // Login
     Route::post('doLogin', 'AuthController@doLogin');

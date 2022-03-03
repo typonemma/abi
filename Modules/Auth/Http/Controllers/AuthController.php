@@ -10,6 +10,7 @@ use App\Rules\UserNotExist;
 use App\UserBillingAddress;
 use App\UserOrder;
 use App\UserShippingAddress;
+use App\Kota;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -119,7 +120,7 @@ class AuthController extends Controller
             $createdUser = $userModel->addNewFB($create);
             session()->put('user', $createdUser);
             Auth::loginUsingId($createdUser->id);
-            return redirect('/auth/profile-detail');
+            return redirect('/profile-detail');
         }
         catch (Exception $ex) {
             return redirect('auth/facebook');
@@ -171,14 +172,18 @@ class AuthController extends Controller
         $user = session('user');
         $user_billing_address = UserBillingAddress::where('user_id', '=', $user->id)->first();
         $user_shipping_address = UserShippingAddress::where('user_id', '=', $user->id)->first();
-        if ($user_billing_address == null && $user_shipping_address == null) {
+        if ($user_billing_address == null) {
             $user_billing_address = new UserBillingAddress();
+        }
+        if ($user_shipping_address == null) {
             $user_shipping_address = new UserShippingAddress();
         }
+        $kota = Kota::all();
         return view('auth::profile-addresses',
                         [
                             'user_billing_address' => $user_billing_address,
-                            'user_shipping_address' => $user_shipping_address
+                            'user_shipping_address' => $user_shipping_address,
+                            'kota' => $kota
                         ]
                     );
     }
@@ -280,7 +285,7 @@ class AuthController extends Controller
             ]);
         }
         $request->session()->flash('success', 'success');
-        return redirect('/auth/profile-addresses');
+        return redirect('/profile-addresses');
     }
 
     public function profile_detail()
@@ -332,7 +337,7 @@ class AuthController extends Controller
         $user->save();
         $request->session()->put('user', $user);
         $request->session()->flash('success', 'success');
-        return redirect('/auth/profile-detail');
+        return redirect('/profile-detail');
     }
 
     public function profile_history()
@@ -366,7 +371,7 @@ class AuthController extends Controller
     public function logout()
     {
         session()->forget('user');
-        return redirect('/auth');
+        return redirect('/');
     }
 
     /**
