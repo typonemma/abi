@@ -49,14 +49,14 @@ class AuthController extends Controller
     public function doLogin(Request $request)
     {
         $rules = [
-            'phone_number' => ['required', 'numeric', 'bail', 'digits_between:1,30', new UserExists],
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new UserExists],
             'password' => 'required|max:60',
             'temp' => new PasswordCheck
         ];
         $messages = [
             'phone_number.required' => 'Phone number is required',
-            'phone_number.numeric' => 'Phone number must be numeric',
-            'phone_number.digits' => 'Phone number must be at most 30 characters',
+            'phone_number.regex' => 'Phone number must be numeric',
+            'phone_number.digits_between' => 'Phone number must be at most 30 characters',
             'password.required' => 'Password is required',
             'password.max' => 'Password must be at most 60 characters'
         ];
@@ -72,6 +72,28 @@ class AuthController extends Controller
         }
         $user = User::where('phone_number', '=', $request->phone_number)->first();
         $request->session()->put('user', $user);
+    }
+
+    public function verifyPhoneNumber(Request $request)
+    {
+        $rules = [
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30']
+        ];
+        $messages = [
+            'phone_number.required' => 'Phone number is required',
+            'phone_number.regex' => 'Phone number must be numeric',
+            'phone_number.digits_between' => 'Phone number must be at most 30 characters'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
+        }
     }
 
     public function verifyPassword(Request $request)
@@ -131,7 +153,7 @@ class AuthController extends Controller
     {
         $rules = [
             'name' => 'required|max:60',
-            'phone_number' => ['required', 'numeric', 'bail', 'digits_between:1,30', new UserNotExist],
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new UserNotExist],
             'password' => 'required|max:60',
             'temp' => new PasswordMatch
         ];
@@ -139,8 +161,8 @@ class AuthController extends Controller
             'name.required' => 'Name is required',
             'name.max' => 'Name must be at most 60 characters',
             'phone_number.required' => 'Phone number is required',
-            'phone_number.numeric' => 'Phone number must be numeric',
-            'phone_number.digits' => 'Phone number must be at most 30 characters',
+            'phone_number.regex' => 'Phone number must be numeric',
+            'phone_number.digits_between' => 'Phone number must be at most 30 characters',
             'password.required' => 'Password is required',
             'password.max' => 'Password must be at most 60 characters',
         ];
@@ -194,44 +216,44 @@ class AuthController extends Controller
             'bill_fname' => 'max:30',
             'bill_lname' => 'max:30',
             'bill_email' => 'nullable|email|max:128',
-            'bill_phone' => 'nullable|numeric|bail|digits_between:0,30',
+            'bill_phone' => 'nullable|regex:/^[0-9]+$/|bail|digits_between:0,30',
             'bill_address' => 'max:255',
             'bill_city' => 'max:30',
             'bill_district' => 'max:30',
-            'bill_zipcode' => 'nullable|numeric|bail|digits_between:0,10',
+            'bill_zipcode' => 'nullable|regex:/^[0-9]+$/|bail|digits_between:0,10',
 
             'ship_fname' => 'max:30',
             'ship_lname' => 'max:30',
             'ship_email' => 'nullable|email|max:128',
-            'ship_phone' => 'nullable|numeric|bail|digits_between:0,30',
+            'ship_phone' => 'nullable|regex:/^[0-9]+$/|bail|digits_between:0,30',
             'ship_address' => 'max:255',
             'ship_city' => 'max:30',
             'ship_district' => 'max:30',
-            'ship_zipcode' => 'nullable|numeric|bail|digits_between:0,10'
+            'ship_zipcode' => 'nullable|regex:/^[0-9]+$/|bail|digits_between:0,10'
         ];
         $messages = [
             'bill_fname.max' => 'Billing first name must be at most 30 characters',
             'bill_lname.max' => 'Billing last name must be at most 30 characters',
             'bill_email.email' => 'Invalid billing email',
             'bill_email.max' => 'Billing email must be at most 128 characters',
-            'bill_phone.numeric' => 'Billing phone number must be numeric',
+            'bill_phone.regex' => 'Billing phone number must be numeric',
             'bill_phone.digits_between' => 'Billing phone number must be at most 30 characters',
             'bill_address.max' => 'Billing address must be at most 255 characters',
             'bill_city.max' => 'Billing city must be at most 30 characters',
             'bill_district.max' => 'Billing district must be at most 30 characters',
-            'bill_zipcode.numeric' => 'Billing zipcode must be numeric',
+            'bill_zipcode.regex' => 'Billing zipcode must be numeric',
             'bill_zipcode.digits_between' => 'Billing zipcode must be at most 10 characters',
 
             'ship_fname.max' => 'Shipping first name must be at most 30 characters',
             'ship_lname.max' => 'Shipping last name must be at most 30 characters',
             'ship_email.email' => 'Invalid shipping email',
             'ship_email.max' => 'Shipping email must be at most 128 characters',
-            'ship_phone.numeric' => 'Shipping phone number must be numeric',
+            'ship_phone.regex' => 'Shipping phone number must be numeric',
             'ship_phone.digits_between' => 'Shipping phone number must be at most 30 characters',
             'ship_address.max' => 'Shipping address must be at most 255 characters',
             'ship_city.max' => 'Shipping city must be at most 30 characters',
             'ship_district.max' => 'Shipping district must be at most 30 characters',
-            'ship_zipcode.numeric' => 'Shipping zipcode must be numeric',
+            'ship_zipcode.regex' => 'Shipping zipcode must be numeric',
             'ship_zipcode.digits_between' => 'Shipping zipcode must be at most 10 characters'
         ];
         $request->validate($rules, $messages);
@@ -302,7 +324,7 @@ class AuthController extends Controller
             'first_name' => 'required|max:30',
             'last_name' => 'max:30',
             'email' => 'nullable|email|max:128',
-            'phone_number' => 'nullable|numeric|bail|digits_between:0,30',
+            'phone_number' => 'nullable|regex:/^[0-9]+$/|bail|digits_between:0,30',
             'new_password' => 'max:60',
             'temp' => new PasswordMatch
         ];
@@ -311,7 +333,7 @@ class AuthController extends Controller
             'first_name.max' => 'First name must be at most 30 characters',
             'email.email' => 'Invalid email',
             'email.max' => 'Email must be at most 128 characters',
-            'phone_number.numeric' => 'Phone number must be numeric',
+            'phone_number.regex' => 'Phone number must be numeric',
             'phone_number.digits_between' => 'Phone number must be at most 30 characters',
             'new_password.max' => 'New password must be at most 60 characters'
         ];

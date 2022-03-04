@@ -678,7 +678,39 @@
         <div class="popup-container size-1">
             <div class="popup-align">
                 <h3 class="h3 text-center">forgot password</h3>
-                <form>
+                <div class="empty-space col-xs-b20"></div>
+                <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">We will send you an OTP code, please input your phone number. </h6>
+                <div class="empty-space col-xs-b20"></div>
+                <input id="fp1-phone-number" name="fp1_phone_number" type="text" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                <ul class="fp1-phone-errors" style="list-style-type:none;color:red;margin-left:27%">
+
+                </ul>
+                <div class="empty-space col-xs-b10 col-sm-b20"></div>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-b10 col-sm-b0">
+                        <div class="empty-space col-sm-b5"></div>
+                        <div class="empty-space col-sm-b5"></div>
+
+                        <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a id="verifyPhoneNumber" class="button size-2 style-3 open-popup verify-phone-number" data-rel="4" href="#">
+                        <span class="button-wrapper">
+                            <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                            <span class="text">submit</span>
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                </div>
+                <div class="button-close"></div>
+            </div>
+        </div>
+        <div class="popup-content" data-rel="4">
+            <div class="layer-close"></div>
+            <div class="popup-container size-1">
+                <div class="popup-align">
+                    <h3 class="h3 text-center">forgot password</h3>
                     <div class="empty-space col-xs-b20"></div>
                     <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Enter the OTP code that has been sent to your phone number</h6>
                     <div class="empty-space col-xs-b20"></div>
@@ -694,27 +726,26 @@
                     <div class="row">
                         <div class="col-sm-6 col-xs-b10 col-sm-b0">
                             <div class="empty-space col-sm-b5"></div>
-                            <a class="simple-link" onclick="otpSend()">RESEND CODE</a>
+                            <a class="simple-link">RESEND CODE</a>
                             <div class="empty-space col-xs-b5"></div>
-                            <a class="simple-link open-popup" data-rel="1" onclick="Load()">BACK TO LOGIN</a>
+                            <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a id="verifyOTP" class="button size-2 style-3" data-rel="4" onclick="otpVerify()">
+                            <a id="verifyOTP" class="button size-2 style-3 open-popup" data-rel="5" href="#">
                                 <span class="button-wrapper">
-                                    <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
+                                    <span class="icon"><img src="img/icon-4.png" alt="" /></span>
                                     <span class="text">submit</span>
                                 </span>
                             </a>
                         </div>
                     </div>
-                    <ul class="fp1-errors" style="list-style-type:none;color:red;">
 
-                    </ul>
-                </form>
+                </div>
+                <div class="button-close"></div>
             </div>
         </div>
     </div>
-    <div class="popup-content" data-rel="4">
+    <div class="popup-content" data-rel="5">
         <div class="layer-close"></div>
         <div class="popup-container size-1">
             <div class="popup-align">
@@ -889,6 +920,42 @@
             });
         });
 
+        $('.verify-phone-number').click(function(e){
+            let phone_number = $('#fp1-phone-number').val();
+            let verifyPhoneNumber = document.getElementById('verifyPhoneNumber');
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                }
+            });
+            $.ajax({
+                method: "POST",
+                url: "/verifyPhoneNumber",
+                data : {
+                    phone_number : phone_number,
+                },
+                success: function() {
+                    verifyPhoneNumber.classList.add('open-popup');
+                    verifyPhoneNumber.click();
+                    otpSend();
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    Load();
+                    let errors = jqXhr.responseJSON;
+                    let errorsHtml = '';
+                    if ('phone_number' in errors['errors']) {
+                        if (errors['errors']['phone_number'].length > 0) {
+                            $('#fp1-phone-number').attr('style', 'border-color:red');
+                        }
+                        $.each(errors['errors']['phone_number'], function (index, value) {
+                            errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                        });
+                        $('.fp1-phone-errors').append(errorsHtml);
+                    }
+                }
+            });
+        });
+
         $('.verify-password').click(function(e){
             let password = $('#new-password').val();
             let confpasswd = $('#confnewpasswd').val();
@@ -944,11 +1011,10 @@
                 onSignInSubmit();
             }
         });
-        otpSend();
     }
 
     function otpSend() {
-        var phoneNumber = '+628113116991';
+        var phoneNumber = document.getElementById('fp1-phone-number').value;
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
         .then((confirmationResult) => {

@@ -11,23 +11,23 @@
 |
 */
 
-Route::prefix('/')->group(function() {
+Route::prefix('')->group(function() {
     //Home
-    Route::get('', 'AuthController@home');
+    Route::get('/', 'AuthController@home');
 
     // Login
-    Route::post('doLogin', 'AuthController@doLogin');
+    Route::post('/doLogin', 'AuthController@doLogin');
 
     // Forgot password
-    Route::get('resendOTP', 'AuthController@sendOTP');
-    Route::post('verifyPassword', 'AuthController@verifyPassword');
+    Route::post('/verifyPhoneNumber', 'AuthController@verifyPhoneNumber');
+    Route::post('/verifyPassword', 'AuthController@verifyPassword');
 
     // Facebook login
     Route::get('/facebook', 'AuthController@redirectToFacebook');
     Route::get('/facebook/callback', 'AuthController@handleFacebookCallback');
 
     // Register
-    Route::post('doRegister', 'AuthController@doRegister');
+    Route::post('/doRegister', 'AuthController@doRegister');
 
     // Profile addresses
     Route::get('/profile-addresses', 'AuthController@profile_addresses');
