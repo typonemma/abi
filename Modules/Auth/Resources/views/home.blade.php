@@ -165,7 +165,7 @@
                                         <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
                                     </div>
                                     <div class="preview">
-                                        <img src="{{URL::asset('public/custom/img/product10.jpg')}}" alt="" />
+                                        <img src="{{URL::asset('public/custom/img/product-10.jpg')}}" alt="" />
                                         <div class="preview-buttons valign-middle">
                                             <div class="valign-middle-content">
                                                 <a class="button size-2 style-2" href="#">
@@ -203,7 +203,7 @@
                                         <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
                                     </div>
                                     <div class="preview">
-                                        <img src="img/product-11.jpg" alt="" />
+                                        <img src="{{URL::asset('public/custom/img/product-11.jpg')}}" alt="" />
                                         <div class="preview-buttons valign-middle">
                                             <div class="valign-middle-content">
                                                 <a class="button size-2 style-2" href="#">
@@ -241,7 +241,7 @@
                                         <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
                                     </div>
                                     <div class="preview">
-                                        <img src="img/product-12.jpg" alt="" />
+                                        <img src="{{URL::asset('public/custom/img/product-12.jpg')}}" alt="" />
                                         <div class="preview-buttons valign-middle">
                                             <div class="valign-middle-content">
                                                 <a class="button size-2 style-2" href="#">
@@ -386,7 +386,7 @@
                         <div class="h4 col-xs-b25">latest blog</div>
                         <div class="row m5 ">
                             <div class="blog-shortcode style-1">
-                                <a href="#" class="preview simple-mouseover"><img src="img/blog1.jpg" alt="" /></a>
+                                <a href="#" class="preview simple-mouseover"><img src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" /></a>
                                 <div class="description">
                                     <div class="simple-article size-1 grey col-xs-b5">APR 07 / 15</div>
                                     <h6 class="h6 col-xs-b10"><a href="#">Phasellus rhoncus in</a></h6>
@@ -595,7 +595,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="popup-or">
+                {{-- <div class="popup-or">
                     <span>or</span>
                 </div>
                 <div class="row m5">
@@ -623,7 +623,7 @@
                             </span>
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -681,7 +681,7 @@
                 <div class="empty-space col-xs-b20"></div>
                 <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">We will send you an OTP code, please input your phone number. </h6>
                 <div class="empty-space col-xs-b20"></div>
-                <input id="fp1-phone-number" name="fp1_phone_number" type="text" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                <input id="fp1-phone-number" name="fp1_phone_number" type="text" class="simple-input" type="text" value="" placeholder="Phone Number (+62xxxxxxxxxx)" />
                 <ul class="fp1-phone-errors" style="list-style-type:none;color:red;margin-left:27%">
 
                 </ul>
@@ -694,9 +694,10 @@
                         <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <a id="verifyPhoneNumber" class="button size-2 style-3 open-popup verify-phone-number" data-rel="4" href="#">
-                        <span class="button-wrapper">
-                            <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                        <a id="temp1" class="button size-2 style-3 open-popup" style="display:none" data-rel="4" href="#">
+                        <a id="verifyPhoneNumber" class="button size-2 style-3 verify-phone-number">
+                            <span class="button-wrapper">
+                            <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                             <span class="text">submit</span>
                         </span>
                     </a>
@@ -731,9 +732,10 @@
                             <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a id="verifyOTP" class="button size-2 style-3 open-popup" data-rel="5" href="#">
+                            <a id="temp2" class="button size-2 style-3 open-popup" style="display:none" data-rel="5" href="#">
+                            <a id="verifyOTP" class="button size-2 style-3" onclick="otpVerify()">
                                 <span class="button-wrapper">
-                                    <span class="icon"><img src="img/icon-4.png" alt="" /></span>
+                                    <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="" /></span>
                                     <span class="text">submit</span>
                                 </span>
                             </a>
@@ -922,7 +924,6 @@
 
         $('.verify-phone-number').click(function(e){
             let phone_number = $('#fp1-phone-number').val();
-            let verifyPhoneNumber = document.getElementById('verifyPhoneNumber');
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -935,9 +936,8 @@
                     phone_number : phone_number,
                 },
                 success: function() {
-                    verifyPhoneNumber.classList.add('open-popup');
-                    verifyPhoneNumber.click();
                     otpSend();
+                    $('#temp1').click();
                 },
                 error: function(jqXhr, json, errorThrown) {
                     Load();
@@ -973,7 +973,7 @@
                     temp : temp
                 },
                 success: function() {
-                    location.href = ""
+                    $('.login-popup').click();
                 },
                 error: function(jqXhr, json, errorThrown) {
                     Load();
@@ -1033,8 +1033,7 @@
                 code += digit;
             }
             confirmationResult.confirm(code).then(function (result) {
-                verifyOTP.classList.add('open-popup');
-                verifyOTP.click();
+                $('#temp2').click();
             }).catch(function (error) {
                 alert(error.message);
             });

@@ -77,12 +77,12 @@ class AuthController extends Controller
     public function verifyPhoneNumber(Request $request)
     {
         $rules = [
-            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30']
+            'phone_number' => ['required', 'regex:/(62)[0-9]+$/', 'bail', 'max:30']
         ];
         $messages = [
             'phone_number.required' => 'Phone number is required',
-            'phone_number.regex' => 'Phone number must be numeric',
-            'phone_number.digits_between' => 'Phone number must be at most 30 characters'
+            'phone_number.regex' => 'Phone number is not valid',
+            'phone_number.max' => 'Phone number must be at most 30 characters'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($request->ajax()) {

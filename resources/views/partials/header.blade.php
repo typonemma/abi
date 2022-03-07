@@ -182,8 +182,6 @@
     function Load() {
         let ul = document.getElementsByTagName("ul");
         let input = document.getElementsByTagName("input");
-        document.getElementById('verifyPhoneNumber').classList.remove('open-popup');
-        document.getElementById('verifyOTP').classList.remove('open-popup');
         for (let i = 1; i < ul.length; i++) {
             const element = ul[i];
             element.innerHTML = "";
