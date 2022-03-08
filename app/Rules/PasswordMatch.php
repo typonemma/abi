@@ -26,10 +26,7 @@ class PasswordMatch implements Rule
     public function passes($attribute, $value)
     {
         $arr = explode('-', $value);
-        if (trim($arr[0], ' ') != '' && trim($arr[1], ' ') != '') {
-            return $arr[0] == $arr[1];
-        }
-        return true;
+        return count($arr) == 2 && $arr[0] == $arr[1];
     }
 
     /**

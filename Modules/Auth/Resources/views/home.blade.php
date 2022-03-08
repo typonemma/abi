@@ -639,7 +639,7 @@
 
                     </ul>
                     <div class="empty-space col-xs-b10 col-sm-b20"></div>
-                    <input id="reg_phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number" />
+                    <input id="reg_phone_number" name="phone_number" class="simple-input" type="text" value="" placeholder="Phone Number (08xxxxxxxxxx)" />
                     <ul class="reg-phone-number-errors" style="list-style-type:none;color:red;">
 
                     </ul>
@@ -681,7 +681,7 @@
                 <div class="empty-space col-xs-b20"></div>
                 <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">We will send you an OTP code, please input your phone number. </h6>
                 <div class="empty-space col-xs-b20"></div>
-                <input id="fp1-phone-number" name="fp1_phone_number" type="text" class="simple-input" type="text" value="" placeholder="Phone Number (+62xxxxxxxxxx)" />
+                <input id="fp1-phone-number" name="fp1_phone_number" type="text" class="simple-input" type="text" value="" placeholder="Phone Number (08xxxxxxxxxx)" />
                 <ul class="fp1-phone-errors" style="list-style-type:none;color:red;margin-left:27%">
 
                 </ul>
@@ -746,13 +746,12 @@
                 <div class="button-close"></div>
             </div>
         </div>
-    </div>
-    <div class="popup-content" data-rel="5">
-        <div class="layer-close"></div>
-        <div class="popup-container size-1">
-            <div class="popup-align">
-                <h3 class="h3 text-center">forgot password</h3>
-                <form id="forgotPassword2Form" method="post" action="verifyPassword">
+
+        <div class="popup-content" data-rel="5">
+            <div class="layer-close"></div>
+            <div class="popup-container size-1">
+                <div class="popup-align">
+                    <h3 class="h3 text-center">forgot password</h3>
                     <div class="empty-space col-xs-b20"></div>
                     <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Please input your new password</h6>
                     <div class="empty-space col-xs-b20"></div>
@@ -772,9 +771,10 @@
                             </span>
                         </a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 <div style="display:none" id="recaptcha-container"></div>
@@ -970,7 +970,7 @@
                 url: "/verifyPassword",
                 data : {
                     new_password : password,
-                    temp : temp
+                    fp_temp : temp
                 },
                 success: function() {
                     $('.login-popup').click();
@@ -988,12 +988,12 @@
                         });
                         $('.fp2-password-errors').append(errorsHtml);
                     }
-                    if ('temp' in errors['errors']) {
+                    if ('fp_temp' in errors['errors']) {
                         errorsHtml = '';
-                        if (errors['errors']['temp'].length > 0) {
+                        if (errors['errors']['fp_temp'].length > 0) {
                             $('#new-password').attr('style', 'border-color:red');
                         }
-                        $.each(errors['errors']['temp'], function (index, value) {
+                        $.each(errors['errors']['fp_temp'], function (index, value) {
                             errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
                         });
                         $('.fp2-password-errors').append(errorsHtml);
@@ -1015,6 +1015,7 @@
 
     function otpSend() {
         var phoneNumber = document.getElementById('fp1-phone-number').value;
+        phoneNumber = '+62' + phoneNumber.substring(1);
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
         .then((confirmationResult) => {
@@ -1025,19 +1026,16 @@
     }
 
     function otpVerify() {
-        let verifyOTP = document.getElementById('verifyOTP');
-        if (!verifyOTP.classList.contains('open-popup')) {
-            let code = '';
-            for (let i = 1; i <= 6; i++) {
-                let digit = document.getElementById('digit-' + i.toString()).value;
-                code += digit;
-            }
-            confirmationResult.confirm(code).then(function (result) {
-                $('#temp2').click();
-            }).catch(function (error) {
-                alert(error.message);
-            });
+        let code = '';
+        for (let i = 1; i <= 6; i++) {
+            let digit = document.getElementById('digit-' + i.toString()).value;
+            code += digit;
         }
+        confirmationResult.confirm(code).then(function (result) {
+            $('#temp2').click();
+        }).catch(function (error) {
+            alert(error.message);
+        });
     }
 </script>
 @endsection

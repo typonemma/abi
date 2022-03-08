@@ -11,13 +11,11 @@ use App\UserBillingAddress;
 use App\UserOrder;
 use App\UserShippingAddress;
 use App\Kota;
-use Exception;
+use App\Rules\PhoneNumberCheck;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -49,7 +47,7 @@ class AuthController extends Controller
     public function doLogin(Request $request)
     {
         $rules = [
-            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new UserExists],
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new PhoneNumberCheck, new UserExists],
             'password' => 'required|max:60',
             'temp' => new PasswordCheck
         ];
@@ -70,18 +68,19 @@ class AuthController extends Controller
                 ), 422);
             }
         }
-        $user = User::where('phone_number', '=', $request->phone_number)->first();
+        $phone_number = '+62' . substr($request->phone_number, 1);
+        $user = User::where('phone_number', '=', $phone_number)->first();
         $request->session()->put('user', $user);
     }
 
     public function verifyPhoneNumber(Request $request)
     {
         $rules = [
-            'phone_number' => ['required', 'regex:/(62)[0-9]+$/', 'bail', 'max:30']
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'max:30', new PhoneNumberCheck, new UserExists]
         ];
         $messages = [
             'phone_number.required' => 'Phone number is required',
-            'phone_number.regex' => 'Phone number is not valid',
+            'phone_number.regex' => 'Phone number must be numeric',
             'phone_number.max' => 'Phone number must be at most 30 characters'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -94,13 +93,15 @@ class AuthController extends Controller
                 ), 422);
             }
         }
+        $phone_number = '+62' . substr($request->phone_number, 1);
+        $request->session()->put('phone_number', $phone_number);
     }
 
     public function verifyPassword(Request $request)
     {
         $rules = [
             'new_password' => 'required|max:60',
-            'temp' => new PasswordMatch,
+            'fp_temp' => new PasswordMatch,
         ];
         $messages = [
             'new_password.required' => 'New password is required',
@@ -123,37 +124,11 @@ class AuthController extends Controller
         $request->session()->forget('phone_number');
     }
 
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function handleFacebookCallback()
-    {
-        try {
-            $user = Socialite::driver('facebook')->user();
-            $create['display_name'] = $this->DisplayName($user->getName());
-            $create['name'] = $user->getName();
-            $create['email'] = $user->getEmail();
-            $create['password'] = '';
-            $create['user_status'] = 1;
-            $create['fb_id'] = $user->getId();
-            $userModel = new User;
-            $createdUser = $userModel->addNewFB($create);
-            session()->put('user', $createdUser);
-            Auth::loginUsingId($createdUser->id);
-            return redirect('/profile-detail');
-        }
-        catch (Exception $ex) {
-            return redirect('auth/facebook');
-        }
-    }
-
     public function doRegister(Request $request)
     {
         $rules = [
             'name' => 'required|max:60',
-            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new UserNotExist],
+            'phone_number' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30', new PhoneNumberCheck, new UserNotExist],
             'password' => 'required|max:60',
             'temp' => new PasswordMatch
         ];
@@ -177,10 +152,11 @@ class AuthController extends Controller
             }
         }
         $display_name = $this->DisplayName($request->name);
+        $phone_number = '+62' . substr($request->phone_number, 1);
         User::create([
             'display_name' => $display_name,
             'name' => $request->name,
-            'phone_number' => $request->phone_number,
+            'phone_number' => $phone_number,
             'password' => bcrypt($request->password),
             'user_status' => 1,
         ]);

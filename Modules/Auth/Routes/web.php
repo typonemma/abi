@@ -22,10 +22,6 @@ Route::prefix('')->group(function() {
     Route::post('/verifyPhoneNumber', 'AuthController@verifyPhoneNumber');
     Route::post('/verifyPassword', 'AuthController@verifyPassword');
 
-    // Facebook login
-    Route::get('/facebook', 'AuthController@redirectToFacebook');
-    Route::get('/facebook/callback', 'AuthController@handleFacebookCallback');
-
     // Register
     Route::post('/doRegister', 'AuthController@doRegister');
 

@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
-class UserExists implements Rule
+class PhoneNumberCheck implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,9 +25,7 @@ class UserExists implements Rule
      */
     public function passes($attribute, $value)
     {
-        $phone_number = '+62' . substr($value, 1);
-        $user = User::where('phone_number', '=', $phone_number)->first();
-        return $user != null;
+        return substr($value, 0, 2) == '08';
     }
 
     /**
@@ -38,6 +35,6 @@ class UserExists implements Rule
      */
     public function message()
     {
-        return 'Phone number not registered';
+        return 'Phone number not valid';
     }
 }

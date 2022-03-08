@@ -26,7 +26,8 @@ class UserNotExist implements Rule
      */
     public function passes($attribute, $value)
     {
-        $user = User::where('phone_number', '=', $value)->first();
+        $phone_number = '+62' . substr($value, 1);
+        $user = User::where('phone_number', '=', $phone_number)->first();
         return $user == null;
     }
 
