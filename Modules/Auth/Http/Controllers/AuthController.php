@@ -307,6 +307,7 @@ class AuthController extends Controller
         $messages = [
             'first_name.required' => 'First name is required',
             'first_name.max' => 'First name must be at most 30 characters',
+            'last_name.max' => 'Last name must be at most 30 characters',
             'email.email' => 'Invalid email',
             'email.max' => 'Email must be at most 128 characters',
             'phone_number.regex' => 'Phone number must be numeric',
@@ -317,7 +318,7 @@ class AuthController extends Controller
         $display_name = ucfirst($request->first_name) . ' ' . ucfirst($request->last_name);
         $name = $request->first_name . ' ' . $request->last_name;
         $email = $request->email;
-        $phone_number = $request->phone_number;
+        $phone_number = '+62' . substr($request->phone_number, 1);
         $new_password = $request->new_password;
         $u = session('user');
         $user = User::find($u->id);

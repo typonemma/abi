@@ -28,10 +28,12 @@ class PasswordCheck implements Rule
     public function passes($attribute, $value)
     {
         $arr = explode('-', $value);
-        $phone_number = '+62' . substr($arr[0], 1);
-        $user = User::where('phone_number', '=', $phone_number)->first();
         if (trim($arr[0], ' ') != '' && trim($arr[1], ' ') != '') {
-            return Hash::check($arr[1], $user->password);
+            $phone_number = '+62' . substr($arr[0], 1);
+            $user = User::where('phone_number', '=', $phone_number)->first();
+            if ($user != null) {
+                return Hash::check($arr[1], $user->password);
+            }
         }
         return true;
     }

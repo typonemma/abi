@@ -4,6 +4,7 @@
     $arr = explode(' ', $user->display_name);
     $first_name = $arr[0];
     $last_name = count($arr) == 1 ? '' : $arr[count($arr) - 1];
+    $phone_number = '0' . substr($user->phone_number, 3);
 ?>
 @section('cart')
 <a href="cart.html">
@@ -129,10 +130,10 @@
                                     @endforeach
                                 </ul>
                             @else
-                                <input name="phone_number" class="simple-input" type="text" value="{{ $user->phone_number }}" placeholder="Phone Number">
+                                <input name="phone_number" class="simple-input" type="text" value="{{ $phone_number }}" placeholder="Phone Number">
                             @endif
                         @else
-                            <input name="phone_number" class="simple-input" type="text" value="{{ $user->phone_number }}" placeholder="Phone Number">
+                            <input name="phone_number" class="simple-input" type="text" value="{{ $phone_number }}" placeholder="Phone Number">
                         @endif
                         <div class="empty-space col-xs-b20"></div>
                         <input id="confpasswd" name="confpasswd" class="simple-input" type="password" value="" placeholder="Confirm Your Password">
