@@ -7,23 +7,7 @@
                         <div class="nav-close-layer"></div>
                         <nav>
                             <ul>
-                                <!-- <li class="nav-item" class="{{Request::is('home')?'active':''}}"> -->
-                                <li class="active">
-                                    <a href="home" class="nav-link">Home</a>
-                                </li>
-                                <li>
-                                    <a href="aboutus">about us</a>
-                                </li>
-                                <li class="">
-                                    <a href="products">products</a>
-                                </li>
-                                <li>
-                                    <a href="shipment">Shipment</a>
-                                </li>
-                                <li>
-                                    <a href="blogs">blogs</a>
-                                </li>
-                                <li><a href="contact">contact us</a></li>
+                                @yield('navbar')
                             </ul>
                             <div class="navigation-title">
                                 Navigation

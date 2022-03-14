@@ -1,5 +1,24 @@
 @extends('partials.main')
-
+@section('navbar')
+    <li class="active">
+        <a href="home" class="nav-link">Home</a>
+    </li>
+    <li>
+        <a href="aboutus">about us</a>
+    </li>
+    <li>
+        <a href="products">products</a>
+    </li>
+    <li>
+        <a href="shipment">Shipment</a>
+    </li>
+    <li>
+        <a href="blogs">blogs</a>
+    </li>
+    <li>
+        <a href="contact">contact us</a>
+    </li>
+@endsection
 @section('content')       
             <div class="container">
                 <div class="text-center">
@@ -57,11 +76,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="preview">
-                                                        <img src="{{URL::asset('public/storage/' . $b->image_url)}}">
+                                                        <img src="{{URL::asset($b->image_url)}}">
                                                         <!-- <img src="img/product-7.jpg" alt="" /> -->
                                                         <div class="preview-buttons valign-middle">
                                                             <div class="valign-middle-content">
-                                                                <a class="button size-2 style-2" href="product_detail">
+                                                                <a class="button size-2 style-2" href="product_detail/<?= $b->post_slug ?>">
                                                                     <span class="button-wrapper">
                                                                         <span class="icon">
                                                                             <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
@@ -86,7 +105,7 @@
                                                         <div class="simple-article size-4 dark">Rp.{{ $b->price }}</div>
                                                     </div>
                                                     <div class="description">
-                                                        <div class="simple-article text size-2">{{ $b->content }}</div>
+                                                        <div class="simple-article text size-2">{!! htmlspecialchars_decode($b->content)!!}</div>
                                                         <div class="icons">
                                                             <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                             <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -253,15 +272,9 @@
                                 </div>
                                 <div class="container" style="margin-top: 50px;">
                                     <div class="row">
-                                        <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/tokopedia.jpg')}}"></div>
-                                        <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/shopee.jpg')}}"></div>
-                                        <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/bukalapak.jpg')}}"></div>
-                                        <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/blibli.jpg')}}"></div>
-                                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/lazada.jpg')}}"></div>
-                                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/jdid.jpg')}}"></div>
-                                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/tokopedia.jpg')}}"></div>
-                                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/shopee.jpg')}}"></div>
-                                        
+                                        @foreach ($availableAt as $x)
+                                            <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/' . $x->name . '.jpg')}}"></div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -273,14 +286,18 @@
                                         <div class="row m5 ">                                            
                                             <div class="blog-shortcode style-1">
                                                 <a href="blog_detail" class="preview simple-mouseover">
-                                                    <!-- <img src="{{URL::asset('public/storage/' . $a->foto)}}"> -->
-                                                    <img src="{{URL::asset('public/custom/img/blog1.jpg')}}">
+                                                    <img src="{{URL::asset($a->image)}}">                                                 
                                                 </a>
                                                 <div class="description">
                                                     <!-- Tanggal -->                                                    
-                                                    <div class="simple-article size-1 grey col-xs-b5">{{ $a->created_at }}</div>
+                                                    <div class="simple-article size-1 grey col-xs-b5">
+                                                        <?php
+                                                            $tanggal = $a->created_at;
+                                                            echo date ("F d / Y", strtotime($tanggal));
+                                                        ?>
+                                                    </div>
                                                     <h6 class="h6 col-xs-b10">
-                                                        <a href="#">
+                                                        <a href="blog_detail/<?= $a->post_slug ?>">
                                                         {{Str::limit($a->post_title, 25, '..')}}
                                                         <!-- {{ $a->post_title }} -->
                                                         </a>
@@ -498,14 +515,13 @@
                         <?php
                             $ads = App\ads_list::find(5);
                         ?>
-                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
-                        <!-- <img src="{{URL::asset('public/custom/img/ads1.jpg')}}"> -->
+                        <img src="{{URL::asset($ads->image)}}">
                     </a>
                     <a href="#">
                         <?php
                             $ads = App\ads_list::find(6);
                         ?>
-                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                        <img src="{{URL::asset($ads->image)}}">
                     </a>
                 </div>
                 <div class="ads-right">
@@ -513,13 +529,13 @@
                         <?php
                             $ads = App\ads_list::find(7);
                         ?>
-                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                        <img src="{{URL::asset($ads->image)}}">
                     </a>
                     <a href="#">
                         <?php
                             $ads = App\ads_list::find(8);
                         ?>
-                        <img src="{{URL::asset('public/storage/' . $ads->image)}}">
+                        <img src="{{URL::asset($ads->image)}}">
                     </a>
                 </div>
                 @endforeach

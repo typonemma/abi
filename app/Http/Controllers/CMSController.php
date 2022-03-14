@@ -111,6 +111,7 @@ class CMSController extends Controller
     
     $data = $common_obj->commonDataForAllPages();
     $data['blog_categories_lists'] = $product_obj->get_categories( 0, 'blog_cat');
+    // $data['featured_image'] = ;
 
     $is_vendor = is_vendor_login(); 
     $sidebar['is_vendor_login'] = $is_vendor;

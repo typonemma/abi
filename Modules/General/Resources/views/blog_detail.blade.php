@@ -1,78 +1,78 @@
 @extends('partials.main')
-
+@section('navbar')
+    <li>
+        <a href="/general/home" class="nav-link">Home</a>
+    </li>
+    <li>
+        <a href="/general/aboutus">about us</a>
+    </li>
+    <li>
+        <a href="/general/products">products</a>
+    </li>
+    <li>
+        <a href="/general/shipment">Shipment</a>
+    </li>
+    <li class="active">
+        <a href="/general/blogs">blogs</a>
+    </li>
+    <li>
+        <a href="/general/contact">contact us</a>
+    </li>
+@endsection
 @section('content')
         <div id="content-block">            
             <div class="container">
                 <div class="empty-space col-xs-b15 col-sm-b30"></div>
                 <div class="breadcrumbs">
-                    <a href="blogs">blog</a>
-                    <a href="#" class="color underline">cara membersihkan keyboard laptop</a>
+                    <a href="/general/blogs">blog</a>
+                    <a href="#" class="color underline">
+                        {{ $blog_detail->post_title }}
+                    </a>                        
                 </div>
                 <div class="empty-space col-xs-b15 col-sm-b30 col-md-b50"></div>
             </div>
-            <div class="container">
+            <div class="container">                
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-9">                        
                         <div class="row">
                             <div class="col-sm-8">
-                                <div class="simple-article size-1 grey uppercase col-xs-b10">apr 07 / 15</div>
-                                <h1 class="h3 col-xs-b5 col-sm-b30">cara membersihkan keyboard pada laptop</h1>
-                            </div>
-                            <div class="col-sm-4 col-sm-text-right">
-                                
+                                <div class="simple-article size-1 grey uppercase col-xs-b10">                                
+                                    <?php
+                                        $tanggal = $blog_detail->created_at;
+                                        echo date ("F d / Y", strtotime($tanggal));
+                                    ?>
+                                </div>
+                                <h1 class="h3 col-xs-b5 col-sm-b30">{{ $blog_detail->post_title }}</h1>
+                            </div>                            
+                            <div class="col-sm-4 col-sm-text-right">                                
                             </div>
                         </div>
                         <div class="simple-article size-2">
-                            <img src="{{URL::asset('public/custom/img/blog-big.jpg')}}">
-                            <!-- <img src="img/blog-big.jpg"> -->
-                            <h5>Praesent lobortis leo mi</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque faucibus, lacus a pretium facilisis, urna lectus efficitur quam, ac posuere justo leo nec diam. Integer dapibus dolor non arcu consectetur volutpat. Nunc auctor, mi vitae cursus tempor, ipsum tortor sagittis ante, nec euismod massa nisl in mi. Quisque sed dignissim turpis. Vestibulum et risus nec dolor maximus tempor nec vel lorem.</p>
-                            <p>Etiam lobortis, sapien et aliquam scelerisque, sapien augue mattis orci, dignissim varius augue nisi ut lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Donec porttitor semper dictum. Ut sed sapien aliquam.</p>
-                            <h5>In hac habitasse platea dictumst</h5>
-                            <p>Aliquam eu pellentesque libero. Morbi ipsum diam, vestibulum sit amet sapien a, euismod fermentum dolor. Nunc accumsan sed dolor nec gravida. Morbi maximus leo eu semper ultrices. Nam ornare ultricies dapibus. Vestibulum consectetur iaculis suscipit. Integer eget rhoncus augue.</p>
-                            <img src="{{URL::asset('public/custom/img/blog-big2.jpg')}}">
-                            <!-- <img src="img/blog-big2.jpg"> -->
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque faucibus, lacus a pretium facilisis, urna lectus efficitur quam, ac posuere justo leo nec diam. Integer dapibus dolor non arcu consectetur volutpat. Nunc auctor, mi vitae cursus tempor, ipsum tortor sagittis ante, nec euismod massa nisl in mi. Quisque sed dignissim turpis. Vestibulum et risus nec dolor maximus tempor nec vel lorem.</p>
-                            <p>Etiam lobortis, sapien et aliquam scelerisque, sapien augue mattis orci, dignissim varius augue nisi ut lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Donec porttitor semper dictum. Ut sed sapien aliquam.</p>
-                        </div>
-                        
-                        <div class="empty-space col-xs-b35 col-md-b70"></div>
-                        
+                            <img src="{{URL::asset($blog_detail->image)}}" width="868" height="450">                            
+                            <p>
+                                {!! htmlspecialchars_decode($blog_detail->post_content)!!}
+                            </p>
+                        </div>                        
+                        <div class="empty-space col-xs-b35 col-md-b70"></div>                        
                     </div>
-                    <div class="col-md-3">
-                        
+                    <div class="col-md-3">                        
                         <div class="h4 col-xs-b25">related blog</div>
-                        <div class="blog-shortcode style-2">
-                            <a href="#" class="preview rounded-image simple-mouseover">
-                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog1.jpg')}}" alt="" />
-                            </a>
-                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                            <div class="title h6"><a href="#">Phasellus rhoncus in nunc sit</a></div>
-                            
-                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                        </div>
-                        <div class="empty-space col-xs-b25"></div>
-                        <div class="blog-shortcode style-2">
-                            <a href="#" class="preview rounded-image simple-mouseover">
-                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
-                                <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                            </a>
-                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                            <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
-                            
-                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                        </div>
-                        <div class="empty-space col-xs-b25"></div>
-                        <div class="blog-shortcode style-2">
-                            <a href="#" class="preview rounded-image simple-mouseover">
-                                <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" />
-                                <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                            </a>
-                            <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                            <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
-                            
-                            <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                        </div>
+                            @foreach ($relatedblog_list as $a)
+                                <div class="blog-shortcode style-2">
+                                    <a href="blog_detail" class="preview rounded-image simple-mouseover">
+                                        <img class="rounded-image" src="{{URL::asset($a->image)}}" alt="" />
+                                    </a>
+                                    <div class="description simple-article size-1 grey uppercase">
+                                        <?php
+                                            $tanggal = $a->created_at;
+                                            echo date ("F d / Y", strtotime($tanggal));
+                                        ?> &nbsp;&nbsp;
+                                    </div>
+                                    <div class="title h6"><a href="blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
+                                    <div class="simple-article size-2">{{Str::limit($a->post_content, 80, '')}}</div>
+                                </div>
+                                <div class="empty-space col-xs-b25"></div>
+                            @endforeach                        
                         <div class="empty-space col-xs-b25 col-sm-b50"></div>
                     </div>
                 </div>

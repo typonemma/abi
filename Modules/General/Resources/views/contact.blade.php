@@ -1,5 +1,24 @@
 @extends('partials.main')
-
+@section('navbar')
+    <li>
+        <a href="home" class="nav-link">Home</a>
+    </li>
+    <li>
+        <a href="aboutus">about us</a>
+    </li>
+    <li>
+        <a href="products">products</a>
+    </li>
+    <li>
+        <a href="shipment">Shipment</a>
+    </li>
+    <li>
+        <a href="blogs">blogs</a>
+    </li>
+    <li class="active">
+        <a href="contact">contact us</a>
+    </li>
+@endsection
 @section('content')
         <div id="content-block">   
             <div class="block-entry fixed-background" style="background-image: url({{url('public/custom/img/bg-contact.jpg')}});">        
@@ -35,25 +54,47 @@
                             <img src="{{URL::asset('public/custom/img/icon-25.png')}}">
                             <!-- <img class="icon" src="img/icon-25.png" alt=""> -->
                             <div class="title h6">address</div>
+                            @foreach ($contactus_list as $contactus)
                             <div class="description simple-article size-2">
                                 <p>
-                                    <b>SURABAYA</b><br/>
-                                    HI-TECH MALL - Lt. Dasar Blok A1/12-12A<br/>
-                                    Kusuma Bangsa 116 - 118, Surabaya, Jawa Timur
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(11);
+                                        $potong_kalimat = substr("$contactus->post_title",8);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>SEMARANG</b><br/>
-                                    PLAZA SIMPANG LIMA I - SCC Lt. 5 <br/>No. 64-65, Semarang, Jawa Tengah
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(12);
+                                        $potong_kalimat = substr("$contactus->post_title",8);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>DENPASAR</b><br/>
-                                    RIMO TRADE CENTRE - Lt. 3 No. 40<br/>
-                                    Jl. Diponegoro no 136, Denpasar, Bali
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(13);
+                                        $potong_kalimat = substr("$contactus->post_title",8);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>MATARAM</b><br/>
-                                    Jalan Catur Warga no.16 D<br/>
-                                    Mataram, Nusa Tenggara Barat
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(14);
+                                        $potong_kalimat = substr("$contactus->post_title",8);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                             </div>
                         </div>
@@ -65,22 +106,44 @@
                             <div class="title h6">phone</div>
                             <div class="description simple-article size-2">
                                 <p>
-                                    <b>SURABAYA</b><br/>
-                                    (031) 5325340, 5329905<br/>
-                                    wa: 087853221379
-                                </p>
-                                <p><b>SEMARANG</b><br/>
-                                    (024) 8457038<br/>
-                                WA: 087832993898</p>
-                                <p>
-                                    <b>DENPASAR</b><br/>
-                                    (0361) 242806<br/>
-                                    WA: 087861722876
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(15);
+                                        $potong_kalimat = substr("$contactus->post_title",6);
+                                        echo $potong_kalimat;
+                                    ?></b><br>                                    
+                                        {!! htmlspecialchars_decode($contactus->post_content)!!}                          
+                                    </div>                                  
                                 </p>
                                 <p>
-                                    <b>MATARAM</b><br/>
-                                    (0370) 7503116<br/>
-                                    WA: 087865311946
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(16);
+                                        $potong_kalimat = substr("$contactus->post_title",6);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>
+                                </p>
+                                <p>
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(17);
+                                        $potong_kalimat = substr("$contactus->post_title",6);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
+                                </p>
+                                <p>
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(18);
+                                        $potong_kalimat = substr("$contactus->post_title",6);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                             </div>
                         </div>
@@ -92,27 +155,46 @@
                             <div class="title h6">working hours</div>
                             <div class="description simple-article size-2">
                                 <p>
-                                    <b>SURABAYA</b><br/>
-                                    Senin - Sabtu 10.00-17.00 WIB<br/>
-                                    Minggu dan Tanggal Merah Libur
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(19);
+                                        $potong_kalimat = substr("$contactus->post_title",14);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>SEMARANG</b><br/>
-                                    Senin - Minggu 10.00-18.00 WIB<br/>
-                                    Hari Raya Nasional Libur
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(20);
+                                        $potong_kalimat = substr("$contactus->post_title",14);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>DENPASAR</b><br/>
-                                    Senin - Minggu 11.00-20.00 WITA<br/>
-                                    Hari Raya Nasional Libur
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(21);
+                                        $potong_kalimat = substr("$contactus->post_title",14);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
                                 <p>
-                                    <b>MATARAM</b><br/>
-                                    Senin - Sabtu 09.00-19.00 WITA<br/>
-                                    Minggu dan Tanggal Merah Libur
+                                    <div class="simple-article">
+                                    <b><?php
+                                        $contactus = App\contactus_list::find(22);
+                                        $potong_kalimat = substr("$contactus->post_title",14);
+                                        echo $potong_kalimat;
+                                    ?></b><br>
+                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    </div>  
                                 </p>
-                            </div>
-                            
+                            </div>                            
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -120,13 +202,17 @@
                             <img src="{{URL::asset('public/custom/img/icon-28.png')}}">
                             <!-- <img class="icon" src="img/icon-28.png" alt=""> -->
                             <div class="title h6">email</div>
-                            <div class="description simple-article size-2"><a href="mailto:sales@pusatbaterai.com">sales@pusatbaterai.com</a></div>
+                            <div class="description simple-article size-2">
+                                <b><?php
+                                        $contactus = App\contactus_list::find(23);
+                                    ?></b><br>
+                                <a href="mailto: {{ $contactus->post_content }}">{!! htmlspecialchars_decode($contactus->post_content)!!}</a></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="empty-space col-xs-b25 col-sm-b50"></div>
-            
+            @endforeach
             <div class="container">
                 <div class="row" style="background: url({{url('public/custom/img/bg-banner-contact.jpg')}}) no-repeat;">            
                 <!-- <div class="row" style="background: url(img/bg-banner-contact.jpg) no-repeat;"> -->
@@ -189,8 +275,8 @@
                                             </span>
                                             <input type="submit"/>
                                             @if (session('success'))
-                                                <script>
-                                                    alert('success');
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js">
+                                                    swal("Our First Alert");
                                                 </script>
                                             @endif
                                         </div>
