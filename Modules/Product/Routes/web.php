@@ -14,4 +14,8 @@
 Route::prefix('product')->group(function() {
     Route::get('/', 'ProductController@index');
     Route::get('/details', 'ProductController@details');
+    Route::get('/ajaxProduct', 'ProductController@ajaxProduct')->name('product.ajaxProduct');
+    Route::post('/ajaxProductPromo', 'ProductController@ajaxProductPromo')->name('product.ajaxProductPromo');
+    Route::post('/ajaxGetDetail', 'ProductController@ajaxGetDetail')->name('product.ajaxGetDetail');
+    Route::get('/detail/{id}','ProductController@details')->name('product.details');
 });

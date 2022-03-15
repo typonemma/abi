@@ -7,22 +7,22 @@
                         <div class="nav-close-layer"></div>
                         <nav>
                             <ul>
-                                <li class="active">
-                                    <a href="index.html">Home</a>
+                                <li id="home">
+                                    <a href="/">Home</a>
                                 </li>
-                                <li>
+                                <li id="about-us">
                                     <a href="about.html">about us</a>
                                 </li>
-                                <li class="">
-                                    <a href="products.html">products</a>
+                                <li id="product">
+                                    <a href="/product">products</a>
                                 </li>
-                                <li>
+                                <li id="shipment">
                                     <a href="services.html">Shipment</a>
                                 </li>
-                                <li>
+                                <li id="blog">
                                     <a href="blog.html">blogs</a>
                                 </li>
-                                <li><a href="contact.html">contact us</a></li>
+                                <li id="contact-us"><a href="contact.html">contact us</a></li>
                             </ul>
                             <div class="navigation-title">
                                 Navigation

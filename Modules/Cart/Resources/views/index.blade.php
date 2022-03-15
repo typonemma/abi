@@ -24,63 +24,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td data-title=" ">
-                    <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                </td>
-                <td data-title=" "><h5 class="h5"><a href="#">charger asus a455l</a></h5></td>
-                <td data-title="Price: ">Rp 200.000</td>
-                <td data-title="Quantity: ">
-                    <div class="quantity-select">
-                        <span class="minus"></span>
-                        <span class="number">1</span>
-                        <span class="plus"></span>
-                    </div>
-                </td>
+            @foreach(Cart::items() as $index => $items)
+                <tr>
+                    <td data-title=" ">
+                        <a class="cart-entry-thumbnail" href="#"><img src="{{ get_image_url($items->img_src) }}" alt="" style="widht:85px;height:85px"></a>
+                    </td>
+                    <td data-title=" "><h5 class="h5"><a href="#">{!! $items->name !!}</a></h5></td>
+                    <td data-title="Price: " class="price" data-price="{!!$items->price!!}">Rp. {!!  number_format($items->price,0,',','.') !!}</td>
+                    <td data-title="Quantity: ">
+                        <div class="quantity-select">
+                            <span class="minus" class="minus"></span>
+                            <span class="number">{{ $items->quantity }}</span>
+                            <span class="plus" class="plus"></span>
+                        </div>
+                    </td>
 
-                <td data-title="Total:">Rp 200.000</td>
-                <td data-title="">
-                    <div class="button-close"></div>
-                </td>
-            </tr>
-            <tr>
-                <td data-title=" ">
-                    <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                </td>
-                <td data-title=" "><h5 class="h5"><a href="#">charger asus a455l</a></h5></td>
-                <td data-title="Price: ">Rp 200.000</td>
-                <td data-title="Quantity: ">
-                    <div class="quantity-select">
-                        <span class="minus"></span>
-                        <span class="number">1</span>
-                        <span class="plus"></span>
-                    </div>
-                </td>
-
-                <td data-title="Total:">Rp 200.000</td>
-                <td data-title="">
-                    <div class="button-close"></div>
-                </td>
-            </tr>
-            <tr>
-                <td data-title=" ">
-                    <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                </td>
-                <td data-title=" "><h5 class="h5"><a href="#">charger asus a455l</a></h5></td>
-                <td data-title="Price: ">Rp 200.000</td>
-                <td data-title="Quantity: ">
-                    <div class="quantity-select">
-                        <span class="minus"></span>
-                        <span class="number">1</span>
-                        <span class="plus"></span>
-                    </div>
-                </td>
-
-                <td data-title="Total:">Rp 200.000</td>
-                <td data-title="">
-                    <div class="button-close"></div>
-                </td>
-            </tr>
+                    <td data-title="Total:" class="final" data-price="{{$items->price}}" data-total="{{$items->price * $items->quantity}}">Rp.{!! number_format($items->price * $items->quantity,0,',','.') !!}</td>
+                    <td data-title="">
+                        <a class="button-close" href="{{ route('removed-item-from-cart', $index)}}"></a>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -197,13 +161,13 @@
             <div class="h4">COUPON CODE</div>
             <div class="empty-space col-xs-b15 col-md-b20"></div>
             <div class="single-line-form">
-                <input class="simple-input" type="text" value="" placeholder="Enter your coupon code" />
+                <input class="simple-input" type="text" value="" id="coupon" placeholder="Enter your coupon code" />
                 <div class="button size-2 style-3">
                     <span class="button-wrapper">
                         <span class="icon"><img src="img/icon-4.png" alt=""></span>
                         <span class="text">submit</span>
                     </span>
-                    <input type="submit" value="">
+                    <input type="button" id="submitCoupon" value="">
                 </div>
             </div>
         </div>
@@ -215,7 +179,7 @@
                         cart subtotal
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp 200.000</div>
+                        <div class="color" id="subtotal">RP. {!! number_format(Cart::getTotal(),0,',','.') !!}</div>
                     </div>
                 </div>
             </div>
@@ -273,4 +237,77 @@
     </div>
     <div class="empty-space col-xs-b35 col-md-b70"></div>
 </div>
+@endsection
+@section('script')
+<script>
+    $(document).on('click','.plus',function(){
+        var number = $(this).parent().find('.number').text();
+        var price = $(this).parent().parent().parent().find('.final');
+        number = parseInt(number)+1;
+        price.text('Rp. '+numberWithCommas(number * price.data("price")));
+        price.attr("data-total",(number*price.data("price")));
+        refreshSubtotal()
+    });
+    $(document).on('click','.minus',function(){
+        var number = $(this).parent().find('.number').text();
+        var price = $(this).parent().parent().parent().find('.final');
+        number = parseInt(number);
+        price.text('Rp. '+numberWithCommas(number * price.data("price")));
+        price.attr("data-total",(number*price.data("price")));
+        refreshSubtotal()
+    });
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    function refreshSubtotal(){
+        var price = $('.final');
+        var total = 0;
+        $.each(price,function(key,value){
+            total = total + parseInt($(value).attr("data-total"));
+        });
+        $('#subtotal').text('Rp. '+numberWithCommas(total));
+    }
+
+    $(document).on('click','#submitCoupon',function(){
+        var coupon = $('#coupon').val();
+        var ajaxCoupon = $.ajax({
+            type:"POST",
+            url : "{{route('user-coupon-apply')}}",
+            headers: { 'X-CSRF-TOKEN' : "{{csrf_token()}}" },
+            data:{_couponCode:coupon},
+        }).success(function(data){
+
+            if(data.error == true && data.error_type == 'no_coupon_data'){
+                console.log('asd');
+              alert("Coupon does not exist");
+            }
+			else if(data.error == true && data.error_type == 'less_from_min_amount' && data.min_amount){
+              alert('The minimum spend for this coupon is '+ data.min_amount);
+            }
+			else if(data.error == true && data.error_type == 'exceed_from_max_amount' && data.max_amount){
+              alert('The maximum spend for this coupon is '+ data.max_amount);
+            }
+			else if(data.error == true && data.error_type == 'no_login'){
+              alert("need to login as a user for using this coupon");
+            }
+			else if(data.error == true && data.error_type == 'user_role_not_match' && data.role_name){
+              alert( data.role_name +' need to login as a user for using this coupon');
+            }
+			else if(data.error == true && data.error_type == 'coupon_expired'){
+              alert( "Now this coupon has expired" );
+            }
+            else if(data.error == true && data.error_type == 'coupon_already_apply'){
+              alert( 'Sorry, this coupon already exist' );
+            }
+            else if(data.success == true && (data.success_type == 'discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'discount_from_total_cart' || data.success_type == 'percentage_discount_from_total_cart')){
+              alert( 'Your coupon successfully added' );
+
+              shopist_frontend.event.remove_user_coupon();
+            }
+            else if(data.error == true && data.error_type == 'exceed_from_cart_total'){
+              alert( 'Discount price can not be greater than from cart total' );
+            }
+        });
+    });
+</script>
 @endsection

@@ -19,13 +19,13 @@ class UserAccountManageController extends Controller
   public $classCommonFunction;
   public $carbonObject;
 
-  public function __construct(){
+  public function __construct(){ 
     $this->classCommonFunction  =  new CommonFunction();
     $this->carbonObject         =  new Carbon();
   }
-
+  
   /**
-   *
+   * 
    * User account page content
    *
    * @param null
@@ -33,7 +33,7 @@ class UserAccountManageController extends Controller
    */
   public function userAccountPageContent(){
     $data = array();
-
+    
     $dashboard_total['total_order']   = 0;
     $dashboard_total['todays_order']  = 0;
     $dashboard_total['recent_coupon'] = 0;
@@ -47,18 +47,18 @@ class UserAccountManageController extends Controller
 
       $dashboard_total['total_order']   = count($total_order);
       $dashboard_total['todays_order']  = count($todays_order);
-      $dashboard_total['recent_coupon'] = count($recent_coupon);
+      $dashboard_total['recent_coupon'] = count($recent_coupon);  
     }
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['dashboard_data'] =  $dashboard_total;
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account address add/edit page content
    *
    * @param null
@@ -66,7 +66,7 @@ class UserAccountManageController extends Controller
    */
   public function userAccountAddressPageContent(){
     $data = array();
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $get_current_user_id = get_current_frontend_user_info();
     $get_data_by_user_id = get_user_account_details_by_user_id( $get_current_user_id['user_id'] );
@@ -74,12 +74,12 @@ class UserAccountManageController extends Controller
 
     $data['frontend_account_details'] = json_decode($get_array_shift_data['details']);
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account orders page content
    *
    * @param null
@@ -87,10 +87,10 @@ class UserAccountManageController extends Controller
    */
   public function userAccountOrdersPageContent(){
     $data = array();
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['orders_list_data'] = array();
-
+        
     $get_shop_order_data = Post::where(['post_author_id' => Session::get('shopist_frontend_user_id'), 'post_status' => 1, 'post_type' => 'shop_order'])->orderBy('id', 'DESC')->get()->toArray();
 
     if(count($get_shop_order_data) > 0){
@@ -115,17 +115,17 @@ class UserAccountManageController extends Controller
           array_push($order_list_data, $order_postmeta);
         }
       }
-
+      
       $data['orders_list_data']   =   $order_list_data;
     }
-
+    
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account coupons page content
    *
    * @param null
@@ -134,7 +134,7 @@ class UserAccountManageController extends Controller
   public function userAccountCouponsPageContent(){
     $data = array();
     $coupon_data = array();
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $get_current_user_id = get_current_frontend_user_info();
 
@@ -190,17 +190,17 @@ class UserAccountManageController extends Controller
           }
           array_push($coupon_data, $data);
         }
-      }
+      }     
     }
 
     $data['login_user_coupon_data'] =  $coupon_data;
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account downloads page content
    *
    * @param null
@@ -208,10 +208,10 @@ class UserAccountManageController extends Controller
    */
   public function userAccountDownloadPageContent(){
     $data = array();
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $data['orders_list_data'] = array();
-
+       
     $get_shop_order_data = Post::where(['post_author_id' => Session::get('shopist_frontend_user_id'), 'post_status' => 1, 'post_type' => 'shop_order'])->orderBy('id', 'DESC')->get()->toArray();
 
     if(count($get_shop_order_data) > 0){
@@ -234,7 +234,7 @@ class UserAccountManageController extends Controller
             $order_postmeta[$postmeta_row['key_name']] = $postmeta_row['key_value'];
             }
           }
-
+          
           $get_order_data_by_id = OrdersItem::where(['order_id' => $row['id']])->first();
           $parse_order_data     = json_decode($get_order_data_by_id->order_data, true);
 
@@ -250,16 +250,16 @@ class UserAccountManageController extends Controller
           array_push($order_list_data, $order_postmeta);
         }
       }
-
+      
       $data['orders_list_data'] = $order_list_data;
     }
-
+    
     $data['login_user_details'] =  get_current_frontend_user_info();
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account profile page content
    *
    * @param null
@@ -267,17 +267,17 @@ class UserAccountManageController extends Controller
    */
   public function userAccountProfilePageContent(){
     $data = array();
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $get_current_user_id = get_current_frontend_user_info();
     $data['user_details'] = get_user_details( $get_current_user_id['user_id'] );
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
-
+  
   /**
-   *
+   * 
    * User account order details
    *
    * @param order_id, order_process_id
@@ -286,25 +286,25 @@ class UserAccountManageController extends Controller
   public function userAccountOrderDetailsContent($params, $params2){
     $data = array();
     $get_order_data = $this->classCommonFunction->get_order_details_by_order_id(array('order_id' => $params, 'order_process_id' => $params2));
-
+    
     $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
     $get_current_user_id = get_current_frontend_user_info();
     $data['user_details'] = get_user_details( $get_current_user_id['user_id'] );
     $data['login_user_details'] =  get_current_frontend_user_info();
-
+      
     if(count($get_order_data) > 0){
       $data['order_details_by_order_id'] = $get_order_data;
     }
     else{
       $data['order_details_by_order_id'] = array();
     }
-
+    
     return view('pages.frontend.user-account.user-account-pages', $data);
   }
 
 
   /**
-   *
+   * 
    * Save/Update frontend user account data
    *
    * @param null
@@ -322,7 +322,7 @@ class UserAccountManageController extends Controller
                  'account_bill_adddress_line_1'             =>  'required',
                  'account_bill_town_or_city'                =>  'required',
                  'account_bill_zip_or_postal_code'          =>  'required',
-
+                 
                  'account_shipping_first_name'              =>  'required',
                  'account_shipping_last_name'               =>  'required',
                  'account_shipping_email_address'           =>  'required|email',
@@ -331,9 +331,9 @@ class UserAccountManageController extends Controller
                  'account_shipping_adddress_line_1'         =>  'required',
                  'account_shipping_town_or_city'            =>  'required',
                  'account_shipping_zip_or_postal_code'      =>  'required',
-
+                 
         ];
-
+        
         $messages = [
                     'account_bill_first_name.required' => Lang::get('validation.account_bill_first_name'),
                     'account_bill_last_name.required' => Lang::get('validation.account_bill_last_name'),
@@ -354,16 +354,16 @@ class UserAccountManageController extends Controller
                     'account_shipping_zip_or_postal_code.required' => Lang::get('validation.account_shipping_zip_or_postal_code'),
                     'account_shipping_phone_number.required' => Lang::get('validation.account_shipping_phone_number_name')
         ];
-
+      
         $validator = Validator::make(Request::all(), $rules, $messages);
-
+        
         if($validator->fails()){
           return redirect()-> back()
           ->withInput()
           ->withErrors( $validator );
         }
         else{
-
+          
           $address_data_ary = array();
           $address_data_ary['account_bill_title']                   =         Request::Input('account_bill_title');
           $address_data_ary['account_bill_company_name']            =         Request::Input('account_bill_company_name');
@@ -377,7 +377,7 @@ class UserAccountManageController extends Controller
           $address_data_ary['account_bill_town_or_city']            =         Request::Input('account_bill_town_or_city');
           $address_data_ary['account_bill_zip_or_postal_code']      =         Request::Input('account_bill_zip_or_postal_code');
           $address_data_ary['account_bill_fax_number']              =         Request::Input('account_bill_fax_number');
-
+          
           $address_data_ary['account_shipping_title']               =         Request::Input('account_shipping_title');
           $address_data_ary['account_shipping_company_name']        =         Request::Input('account_shipping_company_name');
           $address_data_ary['account_shipping_first_name']          =         Request::Input('account_shipping_first_name');
@@ -390,15 +390,15 @@ class UserAccountManageController extends Controller
           $address_data_ary['account_shipping_town_or_city']        =         Request::Input('account_shipping_town_or_city');
           $address_data_ary['account_shipping_zip_or_postal_code']  =         Request::Input('account_shipping_zip_or_postal_code');
           $address_data_ary['account_shipping_fax_number']          =         Request::Input('account_shipping_fax_number');
-
+          
           $address_data = array('post_type' => 'address', 'details' => $address_data_ary);
-
-
+          
+         
           if($this->classCommonFunction->frontendUserAccountDataProcess( $address_data )){
             Session::flash('message', Lang::get('frontend.address_saved_msg'));
             return redirect()->route('my-address-page');
           }
-
+          
         }
       }
     }
@@ -406,9 +406,9 @@ class UserAccountManageController extends Controller
       return redirect()-> back();
     }
   }
-
+  
   /**
-   *
+   * 
    * Update frontend user profile data
    *
    * @param null
@@ -427,7 +427,7 @@ class UserAccountManageController extends Controller
 
       if(Request::Input('password'))
       {
-        $rules['password']             =   'min:5';
+        $rules['password']             =   'min:5';                 
       }
 
       $validator = Validator:: make($input, $rules);
@@ -442,18 +442,18 @@ class UserAccountManageController extends Controller
       {
         $is_user_name_exists = User::where(['name' => Request::Input('user_name')])->first();
         $is_email_exists     = User::where(['email' => Request::Input('email_id')])->first();
-
+        
         if($is_user_name_exists && $is_user_name_exists->id != Session::get('shopist_frontend_user_id'))
         {
           Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'user name']));
           return redirect()->back();
-        }
-
+        } 
+        
         if($is_email_exists && $is_email_exists->id != Session::get('shopist_frontend_user_id'))
         {
           Session::flash('error-message', Lang::get('validation.unique', ['attribute' => 'email id']));
           return redirect()->back();
-        }
+        } 
 
         $data = array(
                       'display_name'         =>    Request::Input('display_name'),
@@ -482,14 +482,14 @@ class UserAccountManageController extends Controller
         }
       }
     }
-    else
+    else 
     {
       return redirect()-> back();
     }
   }
-
+  
   /**
-   *
+   * 
    * Frontend user logout
    *
    * @param null

@@ -28,21 +28,21 @@ class FrontendAjaxController extends Controller
   public $product;
 
 
-  public function __construct() 
+  public function __construct()
   {
     $this->classGetFunction     = new GetFunction();
     $this->classCommonFunction  =  new CommonFunction();
     $this->option   =  new OptionController();
     $this->product   =  new ProductsController();
-    
-    
+
+
     $this->shipping = $this->option->getShippingMethodData();
     $this->settingsData   = $this->option->getSettingsData();
     $this->currency_symbol = $this->classCommonFunction->get_currency_symbol( $this->settingsData['general_settings']['currency_options']['currency_name'] );
   }
-  
+
   /**
-   * 
+   *
    *Products search by products title
    *
    * @param null
@@ -53,18 +53,18 @@ class FrontendAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-XSRF-TOKEN'))
     {
       $input = Request::all();
-      
-       
+
+
       $get_posts_by_filter = Product::where(['status' => 1])-> where('title', 'LIKE', '%' .$input['data']. '%')->paginate(15);
-     
+
       $returnHTML = view('pages.ajax-pages.products')->with(['filter_data' => $get_posts_by_filter, '_currency_symbol' => $this->currency_symbol])->render();
-      
+
       return response()->json(array('success' => true, 'html'=> $returnHTML));
     }
   }
-  
+
   /**
-   * 
+   *
    *Products add to cart initialize
    *
    * @param null
@@ -74,7 +74,7 @@ class FrontendAjaxController extends Controller
   {
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-     
+
       if(isset($input['variation_id']) && $input['variation_id']){
         $this->classCommonFunction->add_to_cart($input['product_id'], $input['qty'], $input['variation_id'], $input['selected_option']);
       }
@@ -83,10 +83,10 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
-   *Cart update using shipping method 
+   *
+   *Cart update using shipping method
    *
    * @param null
    * @return html
@@ -98,25 +98,25 @@ class FrontendAjaxController extends Controller
       $vendor_details = array();
       $shipping_cost  = 0;
       $shipping_details = array();
-      
+
       if(Cart::items()->count() > 0){
         foreach(Cart::items() as $item){
           $get_vendor_details = get_vendor_details_by_product_id( $item->product_id );
-          
+
           if(count($get_vendor_details) > 0 && $get_vendor_details['user_role_slug'] == 'vendor'){
            $vendor_details = json_decode($get_vendor_details['details']);
            break;
           }
         }
       }
-      
+
       if(is_array($vendor_details) && count($vendor_details) > 0){
         $shipping_details = $this->classCommonFunction->objToArray($vendor_details->shipping_method, true);
       }
       else{
         $shipping_details = $this->shipping;
       }
-      
+
       if($input['data'] == 'flat_rate'){
         $shipping_cost = $shipping_details['flat_rate']['method_cost'];
       }
@@ -134,19 +134,19 @@ class FrontendAjaxController extends Controller
           $shipping_cost = Cart::getLocalDeliveryShippingPerProductTotal();
         }
       }
-      
+
       $shipping_array = array('shipping_method' => $input['data'], 'shipping_cost' => $shipping_cost);
-      
-      if(count($shipping_array) > 0){   
+
+      if(count($shipping_array) > 0){
         if(Cart::setShippingMethod( $shipping_array )){
-          echo  price_html( get_product_price_html_by_filter(Cart::getCartTotal()) ); 
+          echo  price_html( get_product_price_html_by_filter(Cart::getCartTotal()) );
         }
       }
     }
   }
-  
+
   /**
-   * 
+   *
    *Save custom design image
    *
    * @param null
@@ -154,34 +154,34 @@ class FrontendAjaxController extends Controller
    */
   public function saveCustomDesignImage(){
     if(Request::isMethod('post')){
-      
+
       if(Session::token() == Request::header('X-CSRF-TOKEN')){
-       
+
         $input = Request::all();
         //$destinationPath = 'uploads';
         $destinationPath = public_path('uploads');
         $fileName        = '';
         $upload_success  = '';
         $accessToken = uniqid (rand(), true);
-        
-        
+
+
         if(count($input) >0){
-          foreach($input as $key => $val){        
+          foreach($input as $key => $val){
             $fileName = uniqid(time(), true). '.' .'png';
             $upload_success = Request::file($key)->move($destinationPath, $fileName);
-            
+
             if ($upload_success) {
               if(Session::has('_recent_saved_custom_design_images')){
                 $get_img_ary = Session::get('_recent_saved_custom_design_images');
                 $parse_ary = unserialize($get_img_ary);
-                
+
                 if(isset($parse_ary[$accessToken])){
                   array_push($parse_ary[$accessToken], $fileName);
                 }
                 else{
                   $parse_ary[$accessToken] = array($fileName);
                 }
-                
+
                 Session::forget('_recent_saved_custom_design_images');
                 Session::put('_recent_saved_custom_design_images', serialize($parse_ary));
               }
@@ -190,8 +190,8 @@ class FrontendAjaxController extends Controller
                 Session::put('_recent_saved_custom_design_images', serialize($img_ary) );
               }
             }
-          } 
-          
+          }
+
           if(Session::has('_recent_saved_custom_design_images')){
             return response()->json(array('status' => 'success', '_access_token' => $accessToken));
           }
@@ -199,9 +199,9 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    *Customize products add to cart initialize
    *
    * @param null
@@ -210,10 +210,10 @@ class FrontendAjaxController extends Controller
   public function customizeProductAddToCart(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-      
+
       if(isset($input['customizeData'])){
         $expiresAt = Carbon::now()->addMinutes(50);
-        
+
         if(Cache::add($input['accessToken'], $input['customizeData'], $expiresAt)){
           if(isset($input['variation_id']) && $input['variation_id']){
             $this->classCommonFunction->add_to_cart($input['product_id'], $input['qty'], $input['variation_id'], null, $input['accessToken'], $input['customizeData']);
@@ -225,9 +225,9 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Request product data save
    *
    * @param null
@@ -238,21 +238,21 @@ class FrontendAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
       $request_product  =  new RequestProduct;
-      
+
       $request_product->product_id    =   $input['product_id'];
       $request_product->name          =   urldecode($input['product_name']);
       $request_product->email         =   urldecode($input['email']);
       $request_product->phone_number	=   urldecode($input['phone_number']);
       $request_product->description   =   urldecode($input['description']);
-      
+
       if($request_product->save()){
         return response()->json(array('status' => 'saved'));
       }
     }
   }
-  
+
    /**
-   * 
+   *
    * Subscription data save
    *
    * @param null
@@ -264,35 +264,35 @@ class FrontendAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN'))
     {
       $input = Request::all();
-      
+
       if($input['type'] == 'custom'){
         $subscriptions  =  new Subscription;
-        
+
         $subscriptions->name    =   urldecode($input['name']);
         $subscriptions->email   =   urldecode($input['email']);
-        
+
         if($subscriptions->save()){
           return response()->json(array('status' => 'saved'));
         }
-      }   
+      }
       elseif($input['type'] == 'mailchimp'){
         $subscribe_data = get_subscription_data();
-        
+
         if(isset($subscribe_data['mailchimp']['api_key']) && isset($subscribe_data['mailchimp']['list_id'])){
           $api_key = $subscribe_data['mailchimp']['api_key'];
           $listId  = $subscribe_data['mailchimp']['list_id'];
           $email   = urldecode($input['email']);
-          $name    = urldecode($input['name']); 
-          
+          $name    = urldecode($input['name']);
+
           $data = [
               'email'     =>  $email,
               'status'    =>  'subscribed',
               'firstname' =>  $name,
               'lastname'  =>  ''
           ];
-          
+
           $response = $this->classGetFunction->store_mailchimp_subscriber_data($api_key, $listId, $data);
-          
+
           if($response['status'] == 400){
             return response()->json(array('status' => 'error'));
           }
@@ -303,10 +303,10 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-  * 
-  * Set cookie for subscription popup 
+  *
+  * Set cookie for subscription popup
   *
   * @param null
   * @return response
@@ -318,7 +318,7 @@ class FrontendAjaxController extends Controller
   }
 
    /**
-   * 
+   *
    * Frontend user logout
    *
    * @param null
@@ -335,9 +335,9 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Frontend user wishlist data save
    *
    * @param null
@@ -351,13 +351,13 @@ class FrontendAjaxController extends Controller
       $get_current_user_id =  get_current_frontend_user_info();
       $user_details        =  new UsersDetail;
       $get_data_by_user_id =  array();
-      
+
       if(isset($get_current_user_id['user_id']) && $get_current_user_id['user_id']){
         $wishlist[$input['data']] = $input['data'];
         $wishlist_data = array('post_type' => 'wishlist', 'details' => $wishlist);
 
         $get_data_by_user_id = get_user_account_details_by_user_id( $get_current_user_id['user_id'] );
-        
+
         if( count($get_data_by_user_id) == 0){
           $account_data_details = array('address_details' => '', 'wishlists_details' => '');
 
@@ -368,14 +368,14 @@ class FrontendAjaxController extends Controller
 
           $get_data_by_user_id = get_user_account_details_by_user_id( $get_current_user_id['user_id'] );
         }
-        
+
         if(count($get_data_by_user_id) > 0){
           $array_shift   = array_shift($get_data_by_user_id );
           $parse_details = json_decode($array_shift['details'], true);
-          
+
           if(isset($parse_details['wishlists_details'])){
             $get_wishlist = $parse_details['wishlists_details'];
-            
+
             if(!empty($get_wishlist) && count($get_wishlist) > 0 && array_key_exists(key($wishlist_data['details']), $get_wishlist)){
               return response()->json(array('status' => 'error', 'notice_type' => 'item_already_exists'));
             }
@@ -392,9 +392,9 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Manage multi language
    *
    * @param null
@@ -403,13 +403,13 @@ class FrontendAjaxController extends Controller
   public function multiLangProcessing(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-     
+
       return response()->json(array('status' => 'success'))->withCookie( cookie()->forever('shopist_multi_lang', $input['data']) );
     }
   }
-  
+
   /**
-   * 
+   *
    * Manage multi currency
    *
    * @param null
@@ -421,9 +421,9 @@ class FrontendAjaxController extends Controller
       return response()->json(array('status' => 'success'))->withCookie( cookie()->forever('shopist_multi_currency', $input['data']) );
     }
   }
-  
+
   /**
-   * 
+   *
    * Get function for products quick view
    *
    * @param null
@@ -431,23 +431,23 @@ class FrontendAjaxController extends Controller
    */
   public function getQuickViewProductData(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $data = array();
-      
+
       $data = $this->classCommonFunction->get_dynamic_frontend_content_data();
       $data['single_product_details']  =  $this->product->getProductDataById( $input['product_id'] );
       $data['attr_lists']              =  $this->product->getAllAttributes( $input['product_id'] );
       $data['comments_rating_details'] =  get_comments_rating_details( $input['product_id'], 'product' );
-          
+
       $returnHTML = view('pages.ajax-pages.quick-view-content')->with( $data )->render();
 
       return response()->json(array('success' => true, 'html'=> $returnHTML));
     }
   }
-  
+
   /**
-   * 
+   *
    * Check and apply user coupon
    *
    * @param coupon code
@@ -455,11 +455,11 @@ class FrontendAjaxController extends Controller
    */
   public function applyUserCoupon(){
     $input = Request::all();
-    
+
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $response = $this->classGetFunction->manage_coupon($input['_couponCode'], 'new_add');
       $coupon_response = $this->classGetFunction->get_coupon_response( $input['_couponCode'] );
-      
+
       if(!empty($response) && $response == 'no_coupon_data'){
         return response()->json(array('error' => true, 'error_type'=> 'no_coupon_data'));
       }
@@ -499,9 +499,9 @@ class FrontendAjaxController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * user coupon remove
    *
    * @param null
@@ -512,9 +512,9 @@ class FrontendAjaxController extends Controller
       return response()->json(array('success' => true, 'grand_total'=> price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
     }
   }
-  
+
   /**
-   * 
+   *
    * delete item from wishlist
    *
    * @param null
@@ -524,7 +524,7 @@ class FrontendAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input               =  Request::all();
       $get_current_user_id =  get_current_frontend_user_info();
-      
+
       if(!empty($get_current_user_id) && count($get_current_user_id) > 0){
         $get_data_by_user_id = get_user_account_details_by_user_id( $get_current_user_id['user_id'] );
 
@@ -537,7 +537,7 @@ class FrontendAjaxController extends Controller
 
             if(!empty($get_wishlist) && count($get_wishlist) > 0 && array_key_exists($input['data'], $get_wishlist)){
               $unsetData =  array_diff($get_wishlist, array($input['data'] => $input['data']));
-              
+
               $wishlist_data = array('post_type' => 'wishlist','post_action' => 'delete', 'details' => $unsetData);
               if($this->classCommonFunction->frontendUserAccountDataProcess( $wishlist_data )){
                 return response()->json(array('status' => 'success', 'notice_type' => 'deleted_item'));
@@ -545,12 +545,12 @@ class FrontendAjaxController extends Controller
             }
           }
         }
-      }  
+      }
     }
   }
-  
+
   /**
-   * 
+   *
    * Get Mini cart data
    *
    * @param null
@@ -560,20 +560,20 @@ class FrontendAjaxController extends Controller
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input =  Request::all();
       $returnHTML = '';
-      
+
       if($input['mini_cart_id'] == 1){
         $returnHTML = view('pages.ajax-pages.mini-cart-html')->render();
       }
       elseif($input['mini_cart_id'] == 2){
         $returnHTML = view('pages.ajax-pages.mini-cart-html2')->render();
       }
-      
+
       return response()->json(array('status' => 'success', 'type' => 'mini_cart_data', 'html'=> $returnHTML));
     }
   }
-  
+
   /**
-   * 
+   *
    * Product compare data process
    *
    * @param null
@@ -582,14 +582,14 @@ class FrontendAjaxController extends Controller
   public function productCompareDataSaved(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $input = Request::all();
-      
+
       if(!Session::has('shopist_selected_compare_product_ids')){
         Session::put('shopist_selected_compare_product_ids', array($input['id']));
         return response()->json(array('status' => 'success', 'notice_type' => 'compare_data_saved', 'item_count' => 1));
       }
       elseif(Session::has('shopist_selected_compare_product_ids')){
         $get_data = Session::get('shopist_selected_compare_product_ids');
-        
+
         if(in_array($input['id'], $get_data)){
           return response()->json(array('status' => 'error', 'notice_type' => 'already_saved', 'item_count' => count($get_data)));
         }
@@ -605,13 +605,13 @@ class FrontendAjaxController extends Controller
             return response()->json(array('status' => 'error', 'notice_type' => 'compare_data_exceed_limit', 'item_count' => count($get_data)));
           }
         }
-       
+
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Contact with vendor via email
    *
    * @param name, message
@@ -619,14 +619,14 @@ class FrontendAjaxController extends Controller
    */
   public function contactWithVendorEmail(){
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
-      $input = Request::all(); 
+      $input = Request::all();
       $mailData = array();
-      
+
       $mailData['source']           =   'contact_to_vendor_mail';
       $mailData['data']             =   array('_mail_to' => base64_decode($input['vendor_mail']), '_mail_from' => base64_decode($input['customer_email']), '_subject' => base64_decode($input['name']), '_message' => base64_decode($input['message']));
 
       $this->classGetFunction->sendCustomMail( $mailData );
-      
+
       return response()->json(array('status' => 'success'));
     }
   }
