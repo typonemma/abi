@@ -1,6 +1,6 @@
 <div class="h4 col-xs-b25">location</div>
     <label class="checkbox-entry">
-        <input type="checkbox"><span>all location</span>
+        <input id="all-loc" type="checkbox"><span>all location</span>
     </label>
     @foreach ($tags as $tag)
         <div class="empty-space col-xs-b10"></div>

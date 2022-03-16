@@ -47,8 +47,8 @@
                             <div class="footer-column-links">
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <a href="#">home</a>
-                                        <a href="#">products</a>
+                                        <a href="/">home</a>
+                                        <a href="/product">products</a>
                                         <a href="#">about us</a>
                                         <a href="#">shipment</a>
                                         <a href="#">blogs</a>

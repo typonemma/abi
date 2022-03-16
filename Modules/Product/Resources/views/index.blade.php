@@ -260,19 +260,6 @@
         }
     }
 
-    $('#nextPage').on("click",function(){
-        if((page+1) <= lastPage){
-            page = page+1;
-            ajaxProduct();
-        }
-    });
-    $('#prevPage').on("click",function(){
-        if((page-1) > 0){
-            page = page-1;
-            ajaxProduct();
-        }
-    });
-
     function changePage(changed){
         page = changed;
         ajaxProduct();
@@ -317,142 +304,154 @@
     $(document).ready(function(){
          ajaxProduct();
          ajaxProductPromo();
-    });
-    $(".menuSelect").on("click",function(){
-         id = $(this).data("id");
-         ajaxProduct();
-         ajaxProductPromo();
-    });
-    $("#limit").on("change",function(){
-         limit = $(this).val();
-         ajaxProduct();
-    });
-    $(".checkboxProduct").on("change",function(){
-        selected = [];
-        $('.checkboxP input:checked').each(function() {
-            selected.push($(this).val());
+         $('#nextPage').on("click",function(){
+            if((page+1) <= lastPage){
+                page = page+1;
+                ajaxProduct();
+            }
         });
-        ajaxProduct();
-        ajaxProductPromo();
-    });
-    $(document).on('click', '.open-popup', function(e){
-        var ajax = $.ajax({
-            type:'POST',
-            url:"{{route('product.ajaxGetDetail')}}",
-            data:{_token:"{{csrf_token()}}",id:$(this).data("id")},
-        }).done(function(data){
-            var gallery = JSON.parse(data.product_related_img_json).product_gallery_images;
-            var str = "";
-            //Header
-            str = str + '<div class="layer-close"></div><div class="popup-container size-2"><div class="popup-align"><div class="row"><div class="col-sm-6 col-xs-b30 col-sm-b0"><div class="main-product-slider-wrapper swipers-couple-wrapper">';
-
-            //Image Preloader header
-            str = str + '<div class="swiper-container swiper-control-top"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
-
-            //Image Preloader Body (Loopable)
-
-            $.each(gallery, function( index, value ) {
-                str = str + '<div class="swiper-slide"><div class="swiper-lazy-preloader"></div><div class="product-big-preview-entry swiper-lazy" data-background="'+value.url+'"  style="width:470px;height:470px" ></div></div>';
+        $('#prevPage').on("click",function(){
+            if((page-1) > 0){
+                page = page-1;
+                ajaxProduct();
+            }
+        });
+         $(".menuSelect").on("click",function(){
+            id = $(this).data("id");
+            ajaxProduct();
+            ajaxProductPromo();
+        });
+        $("#limit").on("change",function(){
+            limit = $(this).val();
+            ajaxProduct();
+        });
+        $(".checkboxProduct").on("change",function(){
+            selected = [];
+            $('.checkboxP input:checked').each(function() {
+                selected.push($(this).val());
             });
-            //Image Preloader Footer
-            str = str + '</div></div>';
+            ajaxProduct();
+            ajaxProductPromo();
+        });
+        $(document).on('click', '.open-popup', function(e){
+            var ajax = $.ajax({
+                type:'POST',
+                url:"{{route('product.ajaxGetDetail')}}",
+                data:{_token:"{{csrf_token()}}",id:$(this).data("id")},
+            }).done(function(data){
+                var gallery = JSON.parse(data.product_related_img_json).product_gallery_images;
+                var str = "";
+                //Header
+                str = str + '<div class="layer-close"></div><div class="popup-container size-2"><div class="popup-align"><div class="row"><div class="col-sm-6 col-xs-b30 col-sm-b0"><div class="main-product-slider-wrapper swipers-couple-wrapper">';
+
+                //Image Preloader header
+                str = str + '<div class="swiper-container swiper-control-top"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
+
+                //Image Preloader Body (Loopable)
+
+                $.each(gallery, function( index, value ) {
+                    str = str + '<div class="swiper-slide"><div class="swiper-lazy-preloader"></div><div class="product-big-preview-entry swiper-lazy" data-background="'+value.url+'"  style="width:470px;height:470px" ></div></div>';
+                });
+                //Image Preloader Footer
+                str = str + '</div></div>';
 
 
-            //Swiper Header
-            str = str + '<div class="empty-space col-xs-b30 col-sm-b60"></div><div class="swiper-container swiper-control-bottom" data-breakpoints="1" data-xs-slides="3" data-sm-slides="3" data-md-slides="4" data-lt-slides="5" data-slides-per-view="5" data-center="1" data-click="1"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
+                //Swiper Header
+                str = str + '<div class="empty-space col-xs-b30 col-sm-b60"></div><div class="swiper-container swiper-control-bottom" data-breakpoints="1" data-xs-slides="3" data-sm-slides="3" data-md-slides="4" data-lt-slides="5" data-slides-per-view="5" data-center="1" data-click="1"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
 
-            //Swipper Body (Loopable)
-            $.each(gallery, function( index, value ) {
-                str = str + '<div class="swiper-slide"><div class="product-small-preview-entry"><img src="'+value.url+'" alt="" style="width:70px;height:70px" /></div></div>';
+                //Swipper Body (Loopable)
+                $.each(gallery, function( index, value ) {
+                    str = str + '<div class="swiper-slide"><div class="product-small-preview-entry"><img src="'+value.url+'" alt="" style="width:70px;height:70px" /></div></div>';
+                });
+                //Swiper Footer
+                str = str + '</div></div></div></div>';
+
+                //Content | Category
+                var tags = data.tags;
+                if(tags == null){
+                    tags = '-';
+                }
+                str = str + '<div class="col-sm-6"><div class="simple-article size-3 grey col-xs-b5">'+tags+'</div>';
+
+                //Content | Product Name
+                str = str + ' <div class="h3 col-xs-b25">'+data.title+'</div>';
+
+                //Content | Price
+                str = str + '<div class="row col-xs-b25"><div class="col-sm-6"><div class="simple-article size-5 grey">PRICE: <span class="color">Rp. '+numberWithCommas(data.regular_price)+'</span></div></div>';
+
+                //Content | Review
+                // str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></div><div class="simple-article size-2 align-inline">128 Reviews</div></div></div>';
+                str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"></div></div></div>';
+
+                //Content | SKU
+                var sku = data.sku;
+                if(sku == ""){
+                    sku = '-';
+                }
+                str = str + '<div class="row"><div class="col-sm-6"><div class="simple-article size-3 col-xs-b5">SKU : <span class="grey">'+sku+'</span></div></div>';
+
+                //Content | Availibility
+                var avail = "YES";
+                if(data.status == 0){
+                    avail = "NO";
+                }
+                str = str + '<div class="col-sm-6 col-sm-text-right"><div class="simple-article size-3 col-xs-b20">AVAILABLE.: <span class="grey">'+avail+'</span></div></div></div>';
+
+                //Content | Description
+                str = str + '<div class="simple-article size-3 col-xs-b30">'+unescape(data.content)+'</div>';
+
+                if(data.size.length > 0){
+                    //Content | Size (Header)
+                    str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">size:</div></div><div class="col-sm-9">';
+
+                    //Choose size disabled
+                    str = str + '<select class="SlectBox"><option disabled="disabled" selected="selected">Choose size</option>';
+
+                    //Content | Size (Body) Loopable
+                    $.each(data.size, function( index, value ) {
+                        console.log(value.name);
+                        str = str + '<option value="'+value.term_id+'">'+value.name+'</option>';
+                    });
+
+                    //Content | Size (Footer)
+                    str = str + '</select></div></div>';
+                }
+
+                if(data.color.length > 0){
+
+                    //Content | Color (Header)
+                    str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title">color:</div></div><div class="col-sm-9"><div class="color-selection size-1">';
+
+                    //Content | Color (Body) Loopable
+                    $.each(data.color, function( index, value ) {
+                        str = str + '<div class="entry" style="color: #'+value.color_code+';"></div>';
+                    });
+                    //Content | Color (Footer)
+                    str = str + '</div></div></div>';
+
+                }
+
+                //Quantity Input
+                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span class="number">1</span><span class="plus"></span></div></div></div>';
+
+                //Add to cart
+                str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
+
+                //Add to Whislist
+                str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
+
+                //Share
+                str = str + '<div class="row"><div class="col-sm-3"><div class="h6 detail-data-title size-2">share:</div></div><div class="col-sm-9"><div class="follow light"><a class="entry" href="#"><i class="fa fa-facebook"></i></a><a class="entry" href="#"><i class="fa fa-twitter"></i></a><a class="entry" href="#"><i class="fa fa-linkedin"></i></a><a class="entry" href="#"><i class="fa fa-google-plus"></i></a><a class="entry" href="#"><i class="fa fa-pinterest-p"></i></a></div></div></div>';
+
+                //Footer
+                str = str + '</div></div></div><div class="button-close"></div></div>';
+
+                $('#popupProduct').empty();
+                $('#popupProduct').append(str);
+                _functions.initSwiper();
+                _functions.initSelect();
+
             });
-            //Swiper Footer
-            str = str + '</div></div></div></div>';
-
-            //Content | Category
-            var tags = data.tags;
-            if(tags == null){
-                tags = '-';
-            }
-            str = str + '<div class="col-sm-6"><div class="simple-article size-3 grey col-xs-b5">'+tags+'</div>';
-
-            //Content | Product Name
-            str = str + ' <div class="h3 col-xs-b25">'+data.title+'</div>';
-
-            //Content | Price
-            str = str + '<div class="row col-xs-b25"><div class="col-sm-6"><div class="simple-article size-5 grey">PRICE: <span class="color">Rp. '+numberWithCommas(data.regular_price)+'</span></div></div>';
-
-            //Content | Review
-            // str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></div><div class="simple-article size-2 align-inline">128 Reviews</div></div></div>';
-            str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"></div></div></div>';
-
-            //Content | SKU
-            var sku = data.sku;
-            if(sku == ""){
-                sku = '-';
-            }
-            str = str + '<div class="row"><div class="col-sm-6"><div class="simple-article size-3 col-xs-b5">SKU : <span class="grey">'+sku+'</span></div></div>';
-
-            //Content | Availibility
-            var avail = "YES";
-            if(data.status == 0){
-                avail = "NO";
-            }
-            str = str + '<div class="col-sm-6 col-sm-text-right"><div class="simple-article size-3 col-xs-b20">AVAILABLE.: <span class="grey">'+avail+'</span></div></div></div>';
-
-            //Content | Description
-            str = str + '<div class="simple-article size-3 col-xs-b30">'+unescape(data.content)+'</div>';
-
-            if(data.size.length > 0){
-                //Content | Size (Header)
-                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">size:</div></div><div class="col-sm-9">';
-
-                //Choose size disabled
-                str = str + '<select class="SlectBox"><option disabled="disabled" selected="selected">Choose size</option>';
-
-                //Content | Size (Body) Loopable
-                $.each(data.size, function( index, value ) {
-                    console.log(value.name);
-                    str = str + '<option value="'+value.term_id+'">'+value.name+'</option>';
-                });
-
-                //Content | Size (Footer)
-                str = str + '</select></div></div>';
-            }
-
-            if(data.color.length > 0){
-
-                //Content | Color (Header)
-                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title">color:</div></div><div class="col-sm-9"><div class="color-selection size-1">';
-
-                //Content | Color (Body) Loopable
-                $.each(data.color, function( index, value ) {
-                    str = str + '<div class="entry" style="color: #'+value.color_code+';"></div>';
-                });
-                //Content | Color (Footer)
-                str = str + '</div></div></div>';
-
-            }
-
-            //Quantity Input
-            str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span class="number">1</span><span class="plus"></span></div></div></div>';
-
-            //Add to cart
-            str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
-
-            //Add to Whislist
-            str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
-
-            //Share
-            str = str + '<div class="row"><div class="col-sm-3"><div class="h6 detail-data-title size-2">share:</div></div><div class="col-sm-9"><div class="follow light"><a class="entry" href="#"><i class="fa fa-facebook"></i></a><a class="entry" href="#"><i class="fa fa-twitter"></i></a><a class="entry" href="#"><i class="fa fa-linkedin"></i></a><a class="entry" href="#"><i class="fa fa-google-plus"></i></a><a class="entry" href="#"><i class="fa fa-pinterest-p"></i></a></div></div></div>';
-
-            //Footer
-            str = str + '</div></div></div><div class="button-close"></div></div>';
-
-            $('#popupProduct').empty();
-            $('#popupProduct').append(str);
-            _functions.initSwiper();
-            _functions.initSelect();
-
         });
     });
 </script>

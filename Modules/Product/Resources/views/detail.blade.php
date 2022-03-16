@@ -20,8 +20,7 @@
                             <div class="swiper-button-next hidden"></div>
                             <div class="swiper-wrapper">
                                 <?php
-                                    $slider = json_decode($product->product_related_img_json)->product_gallery_images
-
+                                    $slider = json_decode($product->product_related_img_json)->product_gallery_images;
                                 ?>
                                 @foreach ($slider as $value)
                                     <div class="swiper-slide">
@@ -88,7 +87,7 @@
                         <div class="col-sm-6 col-xs-b10 col-sm-b0">
                             <a class="button size-2 style-3 block" href="#">
                                 <span class="button-wrapper">
-                                    <span class="icon"><img src="img/icon-2.png" alt=""></span>
+                                    <span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span>
                                     <span class="text">add to cart</span>
                                 </span>
                             </a>
@@ -108,10 +107,10 @@
                         </div>
                         <div class="col-sm-9">
                             <div class="follow light">
-                                <a class="entry" href="#"><i class="fa fa-whatsapp"></i></a>
-                                <a class="entry" href="#"><i class="fa fa-facebook"></i></a>
-                                <a class="entry" href="#"><i class="fa fa-envelope"></i></a>
-                                <a class="entry" href="#"><i class="fa fa-chain"></i></a>
+                                <a id="wa" class="entry" href=""><i class="fa fa-whatsapp"></i></a>
+                                <a id="fb" class="entry" href="" target="_blank"><i class="fa fa-facebook"></i></a>
+                                <a id="mail" class="entry" href=""><i class="fa fa-envelope"></i></a>
+                                <a class="entry" onclick="copyToClipboard()"><i class="fa fa-chain"></i></a>
                             </div>
                         </div>
                     </div>
@@ -310,4 +309,14 @@
         @include('product::partial.productCategory')
     </div>
 </div>
+<script>
+    let body = "Hey%20I%20am%20in%20PusatBaterai,%20checkout%20this%20product:%20" + location.href;
+    document.getElementById("wa").href = "whatsapp://send?text=" + body;
+    document.getElementById("fb").href = "https://www.facebook.com/sharer/sharer.php?u=" + location.href;
+    document.getElementById("mail").href = "mailto:?subject=PusatBaterai%20Product&body=" + body;
+    function copyToClipboard() {
+        navigator.clipboard.writeText(location.href);
+        alert("Copied link !");
+    }
+</script>
 @endsection
