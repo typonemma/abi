@@ -130,9 +130,9 @@ class ProductController extends Controller
         // object_relationships
 
         // dd($product);
-        // foreach ($product as $val) {
-        //     $val->content = htmlspecialchars($val->content);
-        // }
+        foreach ($product as $val) {
+            $val->content = htmlspecialchars_decode($val->content);
+        }
         return $product;
     }
 
