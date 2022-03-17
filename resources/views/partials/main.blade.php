@@ -440,12 +440,12 @@
                     firebase.initializeApp(config);
                 </script>
                 <script>
-                    let id = location.href.split("/")[3];
-                    if (id === "") {
+                    let nav = location.href.split("/")[3];
+                    if (nav === "") {
                         document.getElementById("home").classList.add("active");
                     }
                     else {
-                        document.getElementById(id).classList.add("active");
+                        document.getElementById(nav).classList.add("active");
                     }
                     $(function(){
                         $('.login').click(function(e){

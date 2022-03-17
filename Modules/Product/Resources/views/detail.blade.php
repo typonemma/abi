@@ -262,7 +262,7 @@
                                         <img src="{{$value['post_image_url']}}" alt="" style="width: 200px;height:200px">
                                         <div class="preview-buttons valign-middle">
                                             <div class="valign-middle-content">
-                                                <a class="button size-2 style-3" href="#">
+                                                <a class="button size-2 style-3" href="/product/detail/{{$value['id']}}">
                                                     <span class="button-wrapper">
                                                         <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>
                                                         <span class="text">SEE DETAIL</span>
