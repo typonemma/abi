@@ -14,6 +14,7 @@ use App\ads_list;
 use App\availableAt_list;
 use App\aboutus_list;
 use App\contactus_list;
+use App\bank_list;
 
 class GeneralController extends Controller
 {
@@ -62,7 +63,7 @@ class GeneralController extends Controller
         $page = intval($_GET['page']);
         $offset = $per_page * ($page - 1);
         $blogs_list_all = blogs_list::where('post_type', '=', 'post-blog')->get();   
-        $blogs_list = blogs_list::where('post_type', '=', 'post-blog')->limit($per_page)->offset($offset)->get();
+        $blogs_list = blogs_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit($per_page)->offset($offset)->get();
         $page_count = ceil(count($blogs_list_all) / $per_page);
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit($per_page)->get();
         return view('general::blogs', ['blogs_list' => $blogs_list, 
@@ -90,7 +91,7 @@ class GeneralController extends Controller
         //     $blog_detail = blogs_list::find($_GET['id']);
         // }
         $blogs_list = blogs_list::paginate(1);
-        $relatedblog_list = relatedblog_list::orderBy('id', 'DESC')->paginate(3);
+        $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();;
         return view('general::blog_detail', ['blog_detail' => $blog_detail, 
         'blogs_list' => $blogs_list,
         'relatedblog_list' => $relatedblog_list]);
@@ -104,6 +105,17 @@ class GeneralController extends Controller
         "availableAt_list" => $availableAt_list]);
     }
 
+    public function thank_you()
+    {
+        return view('general::thank_you');
+    }
+
+    public function checkout()
+    {
+        $bank_list = bank_list::paginate(1);
+        return view('general::checkout', ['bank_list' => $bank_list]);
+    }
+    
     public function email_template()
     {
         return view('general::email_template');

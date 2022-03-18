@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('general')->group(function() {
+Route::prefix('')->group(function() {
     Route::get('/', 'GeneralController@home');
     Route::get('/home', 'GeneralController@home');
     Route::get('/aboutus', 'GeneralController@aboutus');
@@ -21,6 +21,8 @@ Route::prefix('general')->group(function() {
     Route::get('/shipment', 'GeneralController@shipment');
     Route::get('/blog_detail/{slug}', 'GeneralController@blog_detail');
     Route::get('/product_detail/{slug}', 'GeneralController@product_detail');
+    Route::get('/thank_you', 'GeneralController@thank_you');
+    Route::get('/checkout', 'GeneralController@checkout');
     
     Route::get('/email_template', 'GeneralController@email_template');
     Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');

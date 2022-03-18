@@ -66,7 +66,6 @@
                                             <!-- <img src="img/icon-4.png" alt=""> -->
                                         </span> 
                                         <span class="text">
-
                                             read more
                                         </span>
                                     </span>
@@ -146,24 +145,11 @@
                                 echo date ("F d / Y", strtotime($tanggal));
                             ?> &nbsp;&nbsp;
                         </div>
-                        <div class="title h6"><a href="blog_detail/<?= $b->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
+                        <div class="title h6"><a href="blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
                         <div class="simple-article size-2">{{Str::limit($a->post_content, 80, '')}}</div>
                     </div>
                     <div class="empty-space col-xs-b25"></div>
-                    @endforeach
-
-                    <!-- <div class="blog-shortcode style-2">
-                        <a href="#" class="preview rounded-image simple-mouseover">
-                            <img class="rounded-image" src="{{URL::asset('public/custom/img/blog2.jpg')}}" alt="" /> -->
-                            <!-- <img class="rounded-image" src="img/blog2.jpg" alt="" /> -->
-                        <!-- </a>
-                        <div class="description simple-article size-1 grey uppercase">apr 07 / 15 &nbsp;&nbsp;</div>
-                        <div class="title h6"><a href="#">Fusce viverra id diam nec</a></div>
-                        
-                        <div class="simple-article size-2">Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus</div>
-                    </div>
-                    <div class="empty-space col-xs-b25"></div> -->
-                    
+                    @endforeach                    
                 </div>
             </div>
         </div>

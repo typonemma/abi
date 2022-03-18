@@ -49,6 +49,7 @@
             <div class="empty-space col-sm-b15 col-md-b50"></div>
             <div class="container">
                 <div class="row">
+
                     <div class="col-sm-3">
                         <div class="icon-description-shortcode style-1">
                             <img src="{{URL::asset('public/custom/img/icon-25.png')}}">
@@ -57,45 +58,17 @@
                             @foreach ($contactus_list as $contactus)
                             <div class="description simple-article size-2">
                                 <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(11);
-                                        $potong_kalimat = substr("$contactus->post_title",8);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    <div class="simple-article">                                        
+                                    <?php
+                                        $contactus = App\contactus_list::where('post_title', 'LIKE', '%address%')->get();
+                                        foreach ($contactus as $cu) {
+                                            $potong_kalimat = substr("$cu->post_title",8);
+                                            echo '<b>' . $potong_kalimat . '</b>' . '<br>';
+                                            echo htmlspecialchars_decode($cu->post_content) . '<br>' . '<br>';
+                                        }
+                                    ?>
                                     </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(12);
-                                        $potong_kalimat = substr("$contactus->post_title",8);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(13);
-                                        $potong_kalimat = substr("$contactus->post_title",8);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(14);
-                                        $potong_kalimat = substr("$contactus->post_title",8);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
+                                </p>                                
                             </div>
                         </div>
                     </div>
@@ -104,47 +77,17 @@
                             <img src="{{URL::asset('public/custom/img/icon-23.png')}}">
                             <!-- <img class="icon" src="img/icon-23.png" alt=""> -->
                             <div class="title h6">phone</div>
-                            <div class="description simple-article size-2">
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(15);
-                                        $potong_kalimat = substr("$contactus->post_title",6);
-                                        echo $potong_kalimat;
-                                    ?></b><br>                                    
-                                        {!! htmlspecialchars_decode($contactus->post_content)!!}                          
-                                    </div>                                  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(16);
-                                        $potong_kalimat = substr("$contactus->post_title",6);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(17);
-                                        $potong_kalimat = substr("$contactus->post_title",6);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(18);
-                                        $potong_kalimat = substr("$contactus->post_title",6);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
+                            <div class="description simple-article size-2">                                
+                                <div class="simple-article">
+                                    <?php
+                                        $contactus = App\contactus_list::where('post_title', 'LIKE', '%phone%')->get();
+                                        foreach ($contactus as $cu) {
+                                            $potong_kalimat = substr("$cu->post_title",6);
+                                            echo '<b>' . $potong_kalimat . '</b>' . '<br>';
+                                            echo htmlspecialchars_decode($cu->post_content);
+                                        }
+                                    ?>             
+                                </div>                                                                  
                             </div>
                         </div>
                     </div>
@@ -156,44 +99,16 @@
                             <div class="description simple-article size-2">
                                 <p>
                                     <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(19);
-                                        $potong_kalimat = substr("$contactus->post_title",14);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
+                                    <?php                                    
+                                        $contactus = App\contactus_list::where('post_title', 'LIKE', '%working hours%')->get();
+                                        foreach ($contactus as $cu) {
+                                            $potong_kalimat = substr("$cu->post_title",14);
+                                            echo '<b>' . $potong_kalimat . '</b>' . '<br>';
+                                            echo htmlspecialchars_decode($cu->post_content);
+                                        }
+                                    ?>
                                     </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(20);
-                                        $potong_kalimat = substr("$contactus->post_title",14);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(21);
-                                        $potong_kalimat = substr("$contactus->post_title",14);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
-                                <p>
-                                    <div class="simple-article">
-                                    <b><?php
-                                        $contactus = App\contactus_list::find(22);
-                                        $potong_kalimat = substr("$contactus->post_title",14);
-                                        echo $potong_kalimat;
-                                    ?></b><br>
-                                    {!! htmlspecialchars_decode($contactus->post_content)!!}
-                                    </div>  
-                                </p>
+                                </p>                                
                             </div>                            
                         </div>
                     </div>
@@ -203,10 +118,14 @@
                             <!-- <img class="icon" src="img/icon-28.png" alt=""> -->
                             <div class="title h6">email</div>
                             <div class="description simple-article size-2">
-                                <b><?php
-                                        $contactus = App\contactus_list::find(23);
-                                    ?></b><br>
-                                <a href="mailto: {{ $contactus->post_content }}">{!! htmlspecialchars_decode($contactus->post_content)!!}</a></div>
+                                <?php
+                                    $contactus = App\contactus_list::where('post_title', 'LIKE', '%email%')->get();
+                                    foreach ($contactus as $cu) {
+                                        $to = htmlspecialchars_decode($cu->post_content);
+                                        echo '<a href="mailto:' . $to . '">' . $to . '</a>';
+                                    }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>

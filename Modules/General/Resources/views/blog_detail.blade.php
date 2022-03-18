@@ -1,22 +1,22 @@
 @extends('partials.main')
 @section('navbar')
     <li>
-        <a href="/general/home" class="nav-link">Home</a>
+        <a href="/home" class="nav-link">Home</a>
     </li>
     <li>
-        <a href="/general/aboutus">about us</a>
+        <a href="/aboutus">about us</a>
     </li>
     <li>
-        <a href="/general/products">products</a>
+        <a href="/products">products</a>
     </li>
     <li>
-        <a href="/general/shipment">Shipment</a>
+        <a href="/shipment">Shipment</a>
     </li>
     <li class="active">
-        <a href="/general/blogs">blogs</a>
+        <a href="/blogs">blogs</a>
     </li>
     <li>
-        <a href="/general/contact">contact us</a>
+        <a href="/contact">contact us</a>
     </li>
 @endsection
 @section('content')
@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="empty-space col-xs-b15 col-sm-b30"></div>
                 <div class="breadcrumbs">
-                    <a href="/general/blogs">blog</a>
+                    <a href="/blogs">blog</a>
                     <a href="#" class="color underline">
                         {{ $blog_detail->post_title }}
                     </a>                        
@@ -68,7 +68,7 @@
                                             echo date ("F d / Y", strtotime($tanggal));
                                         ?> &nbsp;&nbsp;
                                     </div>
-                                    <div class="title h6"><a href="blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
+                                    <div class="title h6"><a href="/blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
                                     <div class="simple-article size-2">{{Str::limit($a->post_content, 80, '')}}</div>
                                 </div>
                                 <div class="empty-space col-xs-b25"></div>
