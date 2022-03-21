@@ -6,16 +6,6 @@
     $last_name = count($arr) == 1 ? '' : $arr[count($arr) - 1];
     $phone_number = '0' . substr($user->phone_number, 3);
 ?>
-@section('cart')
-<a href="cart.html">
-    <b class="hidden-xs">YOUR CART</b>
-    <span class="cart-icon">
-        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-        <span class="cart-label">5</span>
-    </span>
-    <span class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
-</a>
-@endsection
 @section('content')
 <div class="empty-space col-xs-b35 col-md-b70"></div>
 <div class="container">

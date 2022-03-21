@@ -690,6 +690,25 @@
                             alert(error.message);
                         });
                     }
+
+                    function ajaxUpdateCartItem(d, id){
+                        var ajaxUpdateCartItem = $.ajax({
+                            type:"get",
+                            url:"/cart-slice/update/" + id,
+                            data: {d:d}
+                        }).done(function () {
+                            $('#total').load(' #total');
+                        });
+                    }
+
+                    function ajaxDeleteFromCart(id){
+                        var ajaxDeleteFromCart = $.ajax({
+                            type:"get",
+                            url :"/cart-slice/delete/" + id
+                        }).done(function () {
+                            $('#cart-detail').load(' #cart-detail');
+                        });
+                    }
                 </script>
             </body>
 

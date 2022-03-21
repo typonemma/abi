@@ -72,20 +72,21 @@
 
 
                     <div class="row col-xs-b40">
+                        <input id="product-id" type="hidden" value="{{$product->id}}">
                         <div class="col-sm-3">
                             <div class="h6 detail-data-title size-1">quantity:</div>
                         </div>
                         <div class="col-sm-9">
                             <div class="quantity-select">
                                 <span class="minus"></span>
-                                <span class="number">1</span>
+                                <span id="quantity" class="number">1</span>
                                 <span class="plus"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row m5 col-xs-b40">
                         <div class="col-sm-6 col-xs-b10 col-sm-b0">
-                            <a class="button size-2 style-3 block" href="#">
+                            <a class="button size-2 style-3 block" onclick="ajaxAddToCart()">
                                 <span class="button-wrapper">
                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span>
                                     <span class="text">add to cart</span>
@@ -285,7 +286,7 @@
                                             <a class="entry"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
                                             <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                            <a class="button size-1 style-3 button-long-list" href="#">
+                                            <a class="button size-1 style-3 button-long-list">
                                                 <span class="button-wrapper">
                                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>
                                                     <span class="text">ADD TO CART</span>
@@ -317,6 +318,17 @@
     function copyToClipboard() {
         navigator.clipboard.writeText(location.href);
         alert("Copied link !");
+    }
+    let id = document.getElementById("product-id").value;
+    function ajaxAddToCart(){
+        let quantity = document.getElementById("quantity").innerText;
+        var ajaxAddToCart = $.ajax({
+            type:"post",
+            url : "/cart-slice/insert",
+            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+        }).done(function(){
+            alert('Item added to cart successfully !');
+        });
     }
 </script>
 @endsection

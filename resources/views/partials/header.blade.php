@@ -34,17 +34,27 @@
                             </div>
                         </nav>
                     </div>
-                    <!--<div class="header-bottom-icon toggle-search"><i class="fa fa-search" aria-hidden="true"></i></div>-->
-                    <!--<div class="header-bottom-icon visible-rd"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
+                    <div class="header-bottom-icon toggle-search"><i class="fa fa-search" aria-hidden="true"></i></div>-->
+                    <div class="header-bottom-icon visible-rd"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
                     <div class="header-bottom-icon visible-rd">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         <span class="cart-label">5</span>
-                    </div>-->
+                    </div>
                     <a id="logo" style="padding-left:4%" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
                     <div class="text-right">
                         @if (session('user'))
                             <div class="entry hidden-xs hidden-sm cart">
-                                @yield('cart')
+                                <?php
+                                    $user = session('user');
+                                ?>
+                                <a href="/cart-slice">
+                                    <b class="hidden-xs">YOUR CART</b>
+                                    <span class="cart-icon">
+                                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                        <span class="cart-label">5</span>
+                                    </span>
+                                    <span class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
+                                </a>
                                 <div class="cart-toggle hidden-xs hidden-sm">
                                     <div class="cart-overflow">
                                         <div class="cart-entry clearfix">
