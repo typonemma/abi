@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -107,20 +108,16 @@ class CartController extends Controller
             'postcode.numeric' => 'Postcode must be numeric',
             'address.required' => 'Address is required'
         ];
-        $request->validate($rules, $messages);
-        return redirect('/cart-slice');
-    }
-
-    public function couponCode(Request $request)
-    {
-        $rules = [
-            'coupon' => 'required'
-        ];
-        $messages = [
-            'coupon.required' => 'Coupon code is required'
-        ];
-        $request->validate($rules, $messages);
-        return redirect('/cart-slice');
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
+        }
     }
 
     public function insert(Request $request)
@@ -135,7 +132,7 @@ class CartController extends Controller
             $cart->save();
         }
         $product = Product::find($request->id);
-        $cart_detail = CartDetail::where('product_id', $product->id)->first();
+        $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->where('product_id', '=', $product->id)->first();
         if ($cart_detail == null) {
             $cart_detail = new CartDetail;
             $cart_detail->cart_id = $cart->id;
@@ -146,9 +143,10 @@ class CartController extends Controller
             $cart->total += $cart_detail->subtotal;
         }
         else {
-            $cart_detail->quantity = $cart_detail->quantity + $request->quantity;
+            $cart->total -= $cart_detail->subtotal;
+            $cart_detail->quantity += $request->quantity;
             $cart_detail->subtotal = $product->regular_price * $cart_detail->quantity;
-            $cart->total = $product->regular_price * $cart_detail->quantity;
+            $cart->total += $cart_detail->subtotal;
         }
         $cart_detail->save();
         $cart->save();
@@ -165,6 +163,7 @@ class CartController extends Controller
         $cart_detail->save();
         $cart->total += $cart_detail->subtotal;
         $cart->save();
+        return $cart_detail->subtotal;
     }
 
     public function delete($id)

@@ -11,7 +11,7 @@
 </div>
 <div class="empty-space col-xs-b35 col-md-b70"></div>
 <div class="container">
-    <table class="cart-table">
+    <table id="cart-detail" class="cart-table">
         <thead>
             <tr>
                 <th style="width: 95px;"></th>
@@ -23,7 +23,7 @@
                 <th style="width: 70px;"></th>
             </tr>
         </thead>
-        <tbody id="cart-detail">
+        <tbody>
             @foreach($cart_detail as $items)
                 <tr>
                     <td data-title=" ">
@@ -39,7 +39,7 @@
                         </div>
                     </td>
 
-                    <td data-title="Total:" id="total" class="final" data-price="{{$items->price}}" data-total="{{$items->price * $items->quantity}}">Rp.{!! number_format($items->price * $items->quantity,0,',','.') !!}</td>
+                    <td data-title="Total:" id="total-{{$items->id}}" class="final" data-price="{{$items->price}}" data-total="{{$items->price * $items->quantity}}">Rp.{!! number_format($items->price * $items->quantity,0,',','.') !!}</td>
                     <td data-title="">
                         <a class="button-close" onclick="ajaxDeleteFromCart({{$items->id}})"></a>
                     </td>
@@ -52,87 +52,44 @@
     <div class="row">
         <div class="col-md-6 col-xs-b50 col-md-b0">
             <h4 class="h4 col-xs-b25">calculate shipping</h4>
-
             <div class="empty-space col-xs-b20"></div>
-            <form action="/cart-slice/calculateShipping" method="post">
-                @csrf
-                <div class="row m10">
-                    <div class="col-sm-6">
-                        @if ($errors->any())
-                            @if ($errors->has('city'))
-                                <select name="city" class="SlectBox" style="border-color:red">
-                                    <option disabled="disabled" selected="selected">Choose city for shipping</option>
-                                    @foreach ($kota as $kt)
-                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
-                                    @endforeach
-                                </select>
-                                <ul style="list-style-type:none;color:red;">
-                                    @foreach ($errors->getMessages()['city'] as $error)
-                                        {{ $error }}
-                                    @endforeach
-                                </ul>
-                            @else
-                                <select name="city" class="SlectBox">
-                                    <option disabled="disabled" selected="selected">Choose city for shipping</option>
-                                    @foreach ($kota as $kt)
-                                        <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                        @else
-                            <select name="city" class="SlectBox">
-                                <option disabled="disabled" selected="selected">Choose city for shipping</option>
-                                @foreach ($kota as $kt)
-                                    <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
-                                @endforeach
-                            </select>
-                         @endif
-                    </div>
-                    <div class="col-sm-6">
-                        @if ($errors->any())
-                            @if ($errors->has('postcode'))
-                                <input name="postcode" class="simple-input" style="border-color:red" type="text" value="" placeholder="Postcode / Zip" />
-                                <ul style="list-style-type:none;color:red;">
-                                    @foreach ($errors->getMessages()['postcode'] as $error)
-                                        {{ $error }}
-                                    @endforeach
-                                </ul>
-                            @else
-                                <input name="postcode" class="simple-input" type="text" value="" placeholder="Postcode / Zip" />
-                            @endif
-                        @else
-                            <input name="postcode" class="simple-input" type="text" value="" placeholder="Postcode / Zip" />
-                         @endif
-                        <div class="empty-space col-xs-b20"></div>
-                    </div>
+            <div class="row m10">
+                <div class="col-sm-6">
+                    <select id="city" class="SlectBox">
+                        <option disabled="disabled" selected="selected">Choose city for shipping</option>
+                        @foreach ($kota as $kt)
+                            <option value="{{ $kt->nama_kota }}">{{ $kt->nama_kota }}</option>
+                        @endforeach
+                    </select>
+                    <ul id="city-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                 </div>
-                <div>
-                    @if ($errors->any())
-                        @if ($errors->has('address'))
-                            <input name="address" class="simple-input" style="border-color:red" type="text" value="" placeholder="Address" />
-                            <ul style="list-style-type:none;color:red;">
-                                @foreach ($errors->getMessages()['address'] as $error)
-                                    {{ $error }}
-                                @endforeach
-                            </ul>
-                        @else
-                            <input name="address" class="simple-input" type="text" value="" placeholder="Address" />
-                        @endif
-                    @else
-                        <input name="address" class="simple-input" type="text" value="" placeholder="Address" />
-                    @endif
+                <div class="col-sm-6">
+                    <input id="postcode" class="simple-input" type="text" value="" placeholder="Postcode / Zip" />
+                    <ul id="postcode-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b20"></div>
                 </div>
-                <div class="button size-2 style-2">
-                    <span class="button-wrapper">
-                        <span class="icon"><img src="{{URL::asset('public/custom/img/icon-1.png')}}" alt=""></span>
-                        <span class="text">calculate</span>
-                    </span>
-                    <input type="submit"/>
+                <div>
+                    <input id="address" class="simple-input" type="text" value="" placeholder="Address" />
+                    <ul id="address-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
+                    <div class="empty-space col-xs-b20"></div>
                 </div>
-            </form>
+            </div>
+            <div class="button size-2 style-2" onclick="ajaxCalcShipping()">
+                <span class="button-wrapper">
+                    <span class="icon"><img src="{{URL::asset('public/custom/img/icon-1.png')}}" alt=""></span>
+                    <span class="text">calculate</span>
+                </span>
+            </div>
             <div class="empty-space col-xs-b15 col-md-b40"></div>
             <div class="h4">result</div>
+            <br>
+            <div id="shipping-cost">Rp. 0</div>
             <div class="order-details-entry simple-article size-3 grey uppercase">
                 <div class="row">
                     <div class="col-xs-1">
@@ -211,30 +168,14 @@
             <div class="h4">COUPON CODE</div>
             <div class="empty-space col-xs-b15 col-md-b20"></div>
             <div class="single-line-form">
-                <form action="/cart-slice/couponCode" method="post">
-                    @csrf
-                    @if ($errors->any())
-                        @if ($errors->has('coupon'))
-                            <input class="simple-input" type="text" style="border-color:red" value="" id="coupon" name="coupon" placeholder="Enter your coupon code" />
-                            <ul style="list-style-type:none;color:red;">
-                                @foreach ($errors->getMessages()['coupon'] as $error)
-                                    {{ $error }}
-                                @endforeach
-                            </ul>
-                        @else
-                            <input class="simple-input" type="text" value="" id="coupon" name="coupon" placeholder="Enter your coupon code" />
-                        @endif
-                    @else
-                        <input class="simple-input" type="text" value="" id="coupon" name="coupon" placeholder="Enter your coupon code" />
-                    @endif
-                    <div class="button size-2 style-3">
-                        <span class="button-wrapper">
-                            <span class="icon"><img src="img/icon-4.png" alt=""></span>
-                            <span class="text">submit</span>
-                        </span>
-                        <input type="submit" id="submitCoupon" value="">
-                    </div>
-                </form>
+                <input class="simple-input" type="text" value="" id="coupon" name="coupon" placeholder="Enter your coupon code" />
+                <div id="submit-coupon" class="button size-2 style-3" onclick="submitCoupon()">
+                    <span class="button-wrapper">
+                        <span class="icon"><img src="img/icon-4.png" alt=""></span>
+                        <span class="text">submit</span>
+                    </span>
+                    <input type="submit" id="submitCoupon" value="">
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -245,7 +186,7 @@
                         cart subtotal
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color" id="subtotal">RP. {!! number_format(Cart::getTotal(),0,',','.') !!}</div>
+                        <div class="color" id="subtotal">RP. {!! number_format(App\Cart::where('user_id', '=', session('user')->id)->first()->total,0,',','.') !!}</div>
                     </div>
                 </div>
             </div>
@@ -333,47 +274,5 @@
         });
         $('#subtotal').text('Rp. '+numberWithCommas(total));
     }
-
-    $(document).on('click','#submitCoupon',function(){
-        var coupon = $('#coupon').val();
-        var ajaxCoupon = $.ajax({
-            type:"POST",
-            url : "{{route('user-coupon-apply')}}",
-            headers: { 'X-CSRF-TOKEN' : "{{csrf_token()}}" },
-            data:{_couponCode:coupon},
-        }).success(function(data){
-
-            if(data.error == true && data.error_type == 'no_coupon_data'){
-                console.log('asd');
-              alert("Coupon does not exist");
-            }
-			else if(data.error == true && data.error_type == 'less_from_min_amount' && data.min_amount){
-              alert('The minimum spend for this coupon is '+ data.min_amount);
-            }
-			else if(data.error == true && data.error_type == 'exceed_from_max_amount' && data.max_amount){
-              alert('The maximum spend for this coupon is '+ data.max_amount);
-            }
-			else if(data.error == true && data.error_type == 'no_login'){
-              alert("need to login as a user for using this coupon");
-            }
-			else if(data.error == true && data.error_type == 'user_role_not_match' && data.role_name){
-              alert( data.role_name +' need to login as a user for using this coupon');
-            }
-			else if(data.error == true && data.error_type == 'coupon_expired'){
-              alert( "Now this coupon has expired" );
-            }
-            else if(data.error == true && data.error_type == 'coupon_already_apply'){
-              alert( 'Sorry, this coupon already exist' );
-            }
-            else if(data.success == true && (data.success_type == 'discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'discount_from_total_cart' || data.success_type == 'percentage_discount_from_total_cart')){
-              alert( 'Your coupon successfully added' );
-
-              shopist_frontend.event.remove_user_coupon();
-            }
-            else if(data.error == true && data.error_type == 'exceed_from_cart_total'){
-              alert( 'Discount price can not be greater than from cart total' );
-            }
-        });
-    });
 </script>
 @endsection

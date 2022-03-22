@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    header("Access-Control-Allow-Origin: *");
+?>
 <html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -691,13 +694,23 @@
                         });
                     }
 
+                    function numberWithCommas(x) {
+                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    }
+
                     function ajaxUpdateCartItem(d, id){
                         var ajaxUpdateCartItem = $.ajax({
                             type:"get",
                             url:"/cart-slice/update/" + id,
                             data: {d:d}
-                        }).done(function () {
-                            $('#total').load(' #total');
+                        }).done(function (data) {
+                            $('#total-'+id).text('Rp. '+numberWithCommas(data));
+                            $('#calculate').load(' #calculate');
+                            $('#cart-count').load(' #cart-count');
+                            $('#user-wallet').load(' #user-wallet');
+                            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+                            $('#cart-total').load(' #cart-total');
+                            $('#subtotal').load(' #subtotal');
                         });
                     }
 
@@ -707,6 +720,142 @@
                             url :"/cart-slice/delete/" + id
                         }).done(function () {
                             $('#cart-detail').load(' #cart-detail');
+                            $('#calculate').load(' #calculate');
+                            $('#cart-count').load(' #cart-count');
+                            $('#user-wallet').load(' #user-wallet');
+                            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+                            $('#cart-total').load(' #cart-total');
+                            $('#subtotal').load(' #subtotal');
+                        });
+                    }
+
+                    function ajaxCalcShipping() {
+                        let selected_city = $('#city').val();
+                        let postcode = $('#postcode').val();
+                        let address = $('#address').val();
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                            }
+                        });
+                        $.ajax({
+                            method: "POST",
+                            url: "/cart-slice/calculateShipping",
+                            data : {
+                                city:selected_city,
+                                postcode:postcode,
+                                address:address
+                            },
+                            success: function() {
+                                $.ajax({
+                                    type:"get",
+                                    url :"https://api.rajaongkir.com/starter/city",
+                                    headers : {
+                                        'key': '359e9d75c5ca6ec1a671c8212df4563e'
+                                    }
+                                }).done(function (data) {
+                                    let id = -1;
+                                    for (let i = 0; i < data.rajaongkir.results.length; i++) {
+                                        let city = data.rajaongkir.results[i];
+                                        if (city.city_name === selected_city) {
+                                            id = city.city_id;
+                                            break;
+                                        }
+                                    }
+                                    $.ajax({
+                                        type:"post",
+                                        url :"https://api.rajaongkir.com/starter/cost",
+                                        headers : {
+                                            'key': '359e9d75c5ca6ec1a671c8212df4563e'
+                                        },
+                                        data : {
+                                            origin: 444,
+                                            destination: id,
+                                            weight: 1,
+                                            courier: 'jne'
+                                        }
+                                    }).done(function (data) {
+                                        let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
+                                        $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
+                                    });
+                                });
+                            },
+                            error: function(jqXhr, json, errorThrown) {
+                                Load();
+                                let errors = jqXhr.responseJSON;
+                                let errorsHtml = '';
+                                if ('city' in errors['errors']) {
+                                    if (errors['errors']['city'].length > 0) {
+                                        $('#city').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['city'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#city-errors').append(errorsHtml);
+                                }
+                                if ('postcode' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['postcode'].length > 0) {
+                                        $('#postcode').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['postcode'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#postcode-errors').append(errorsHtml);
+                                }
+                                if ('address' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['address'].length > 0) {
+                                        $('#address').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['address'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#address-errors').append(errorsHtml);
+                                }
+                            }
+                        });
+                    }
+
+                    function submitCoupon() {
+                        var coupon = $('#coupon').val();
+                        var ajaxCoupon = $.ajax({
+                            type:"POST",
+                            url : "{{route('user-coupon-apply')}}",
+                            headers: { 'X-CSRF-TOKEN' : "{{csrf_token()}}" },
+                            data:{_couponCode:coupon},
+                        }).success(function(data){
+
+                            if(data.error == true && data.error_type == 'no_coupon_data'){
+                                console.log('asd');
+                            alert("Coupon does not exist");
+                            }
+                            else if(data.error == true && data.error_type == 'less_from_min_amount' && data.min_amount){
+                            alert('The minimum spend for this coupon is '+ data.min_amount);
+                            }
+                            else if(data.error == true && data.error_type == 'exceed_from_max_amount' && data.max_amount){
+                            alert('The maximum spend for this coupon is '+ data.max_amount);
+                            }
+                            else if(data.error == true && data.error_type == 'no_login'){
+                            alert("need to login as a user for using this coupon");
+                            }
+                            else if(data.error == true && data.error_type == 'user_role_not_match' && data.role_name){
+                            alert( data.role_name +' need to login as a user for using this coupon');
+                            }
+                            else if(data.error == true && data.error_type == 'coupon_expired'){
+                            alert( "Now this coupon has expired" );
+                            }
+                            else if(data.error == true && data.error_type == 'coupon_already_apply'){
+                            alert( 'Sorry, this coupon already exist' );
+                            }
+                            else if(data.success == true && (data.success_type == 'discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'discount_from_total_cart' || data.success_type == 'percentage_discount_from_total_cart')){
+                            alert( 'Your coupon successfully added' );
+
+                            shopist_frontend.event.remove_user_coupon();
+                            }
+                            else if(data.error == true && data.error_type == 'exceed_from_cart_total'){
+                            alert( 'Discount price can not be greater than from cart total' );
+                            }
                         });
                     }
                 </script>

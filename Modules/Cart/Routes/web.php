@@ -16,7 +16,6 @@ Route::prefix('cart-slice')->group(function() {
     Route::get('/checkout', 'CartController@checkout');
     Route::get('/thankyou', 'CartController@thankyou');
     Route::post('/calculateShipping', 'CartController@calculateShipping');
-    Route::post('/couponCode', 'CartController@couponCode');
     Route::post('/insert', 'CartController@insert');
     Route::get('/update/{id}', 'CartController@update');
     Route::get('/delete/{id}', 'CartController@delete');

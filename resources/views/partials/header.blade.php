@@ -44,104 +44,70 @@
                     <div class="text-right">
                         @if (session('user'))
                             <div class="entry hidden-xs hidden-sm cart">
-                                <?php
-                                    $user = session('user');
-                                ?>
+                                <div id="calculate">
+                                    <?php
+                                        $user = session('user');
+                                        $cart = App\Cart::where('user_id', '=', $user->id)->first();
+                                        $cart_detail = array();
+                                        if ($cart != null) {
+                                            $cart_detail = App\CartDetail::where('cart_id', '=', $cart->id)->get();
+                                        }
+                                        else {
+                                            $cart = new Cart;
+                                            $cart->total = 0;
+                                        }
+                                    ?>
+                                </div>
                                 <a href="/cart-slice">
                                     <b class="hidden-xs">YOUR CART</b>
                                     <span class="cart-icon">
                                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                        <span class="cart-label">5</span>
+                                        <span class="cart-label"><div id="cart-count">{{count($cart_detail)}}</div></span>
                                     </span>
-                                    <span class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
+                                    <span id="user-wallet" class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
                                 </a>
                                 <div class="cart-toggle hidden-xs hidden-sm">
-                                    <div class="cart-overflow">
-                                        <div class="cart-entry clearfix">
-                                            <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                                            <div class="cart-entry-description">
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="h6"><a href="#">modern beat ht</a></div>
-                                                                <div class="simple-article size-1">QUANTITY: 2</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="simple-article size-3 grey">$155.00</div>
-                                                                <div class="simple-article size-1">TOTAL: $310.00</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="cart-color" style="background: #eee;"></div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="button-close"></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                    <div id="cart-detail-dropdown" class="cart-overflow">
+                                        @foreach ($cart_detail as $cd)
+                                            <?php
+                                                $product = App\Models\Product::find($cd->product_id);
+                                            ?>
+                                            <div class="cart-entry clearfix">
+                                                <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
+                                                <div class="cart-entry-description">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="h6"><a href="#">{{$product->title}}</a></div>
+                                                                    <div class="simple-article size-1">QUANTITY: {{$cd->quantity}}</div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="simple-article size-3 grey">${{number_format($product->regular_price, 0, '.', '.')}}</div>
+                                                                    <div class="simple-article size-1">TOTAL: ${{number_format($product->regular_price * $cd->quantity, 0, '.', '.')}}</div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="cart-color" style="background: #eee;"></div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="button-close" onclick="ajaxDeleteFromCart({{$cd->id}})"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="cart-entry clearfix">
-                                            <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-2.png')}}" alt=""></a>
-                                            <div class="cart-entry-description">
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="h6"><a href="#">modern beat ht</a></div>
-                                                                <div class="simple-article size-1">QUANTITY: 2</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="simple-article size-3 grey">$155.00</div>
-                                                                <div class="simple-article size-1">TOTAL: $310.00</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="cart-color" style="background: #bf584b;"></div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="button-close"></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="cart-entry clearfix">
-                                            <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-3.png')}}" alt=""></a>
-                                            <div class="cart-entry-description">
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="h6"><a href="#">modern beat ht</a></div>
-                                                                <div class="simple-article size-1">QUANTITY: 2</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="simple-article size-3 grey">$155.00</div>
-                                                                <div class="simple-article size-1">TOTAL: $310.00</div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="cart-color" style="background: #facc22;"></div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="button-close"></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                     <div class="empty-space col-xs-b40"></div>
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div class="cell-view empty-space col-xs-b50">
-                                                <div class="simple-article size-5 grey">TOTAL <span class="color">$1195.00</span></div>
+                                                <div id="cart-total" class="simple-article size-5 grey">TOTAL <span class="color">${{number_format($cart->total, 0, '.', '.')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 text-right">
-                                            <a class="button size-2 style-3" href="checkout1.html">
+                                            <a class="button size-2 style-3" href="/cart-slice/checkout">
                                                 <span class="button-wrapper">
                                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>
                                                     <span class="text">proceed to checkout</span>
@@ -201,5 +167,18 @@
             element.value = "";
             element.setAttribute("style", "border-color:none");
         }
+    }
+    function ajaxDeleteFromCart(id){
+        var ajaxDeleteFromCart = $.ajax({
+            type:"get",
+            url :"/cart-slice/delete/" + id
+        }).done(function () {
+            $('#cart-detail').load(' #cart-detail');
+            $('#calculate').load(' #calculate');
+            $('#cart-count').load(' #cart-count');
+            $('#user-wallet').load(' #user-wallet');
+            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+            $('#cart-total').load(' #cart-total');
+        });
     }
 </script>

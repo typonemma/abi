@@ -310,6 +310,7 @@
         @include('product::partial.productCategory')
     </div>
 </div>
+<script src="{{URL::asset('public/custom/js/jquery-2.2.4.min.js')}}"></script>
 <script>
     let body = "Hey%20I%20am%20in%20PusatBaterai,%20checkout%20this%20product:%20" + location.href;
     document.getElementById("wa").href = "whatsapp://send?text=" + body;
@@ -327,6 +328,11 @@
             url : "/cart-slice/insert",
             data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
         }).done(function(){
+            $('#calculate').load(' #calculate');
+            $('#cart-count').load(' #cart-count');
+            $('#user-wallet').load(' #user-wallet');
+            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+            $('#cart-total').load(' #cart-total');
             alert('Item added to cart successfully !');
         });
     }
