@@ -747,6 +747,7 @@
                                 address:address
                             },
                             success: function() {
+                                $('#shipping-cost').text('Loading...');
                                 $.ajax({
                                     type:"get",
                                     url :"https://api.rajaongkir.com/starter/city",
@@ -815,6 +816,129 @@
                                 }
                             }
                         });
+                    }
+
+                    function toggleCheck(cb) {
+                        if (cb.checked) {
+                            $('#ppa').val('1');
+                        }
+                        else {
+                            $('#ppa').val('');
+                        }
+                    }
+
+                    function ajaxPlaceOrder() {
+                        let country = $('#country').val();
+                        let fname = $('#fname').val();
+                        let email = $('#email').val();
+                        let phone = $('#phone').val();
+                        let address = $('#address').val();
+                        let note = $('#note').val();
+                        let ppa = $('#ppa').val();
+                        let payment = $('#payment').val();
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                            }
+                        });
+                        $.ajax({
+                            method: "POST",
+                            url: "/cart-slice/placeOrder",
+                            data : {
+                                country:country,
+                                fname:fname,
+                                email:email,
+                                phone:phone,
+                                address:address,
+                                note:note,
+                                ppa:ppa,
+                                payment:payment
+                            },
+                            success: function() {
+                                location.href = '/cart-slice/thankyou';
+                            },
+                            error: function(jqXhr, json, errorThrown) {
+                                Load();
+                                let errors = jqXhr.responseJSON;
+                                let errorsHtml = '';
+                                if ('country' in errors['errors']) {
+                                    if (errors['errors']['country'].length > 0) {
+                                        $('#country').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['country'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#country-errors').append(errorsHtml);
+                                }
+                                if ('fname' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['fname'].length > 0) {
+                                        $('#fname').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['fname'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#fname-errors').append(errorsHtml);
+                                }
+                                if ('email' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['email'].length > 0) {
+                                        $('#email').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['email'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#email-errors').append(errorsHtml);
+                                }
+                                if ('phone' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['phone'].length > 0) {
+                                        $('#phone').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['phone'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#phone-errors').append(errorsHtml);
+                                }
+                                if ('address' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['address'].length > 0) {
+                                        $('#address').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['address'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#address-errors').append(errorsHtml);
+                                }
+                                if ('note' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['note'].length > 0) {
+                                        $('#note').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['note'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#note-errors').append(errorsHtml);
+                                }
+                                if ('ppa' in errors['errors']) {
+                                    errorsHtml = '';
+                                    if (errors['errors']['ppa'].length > 0) {
+                                        $('#ppa').attr('style', 'border-color:red');
+                                    }
+                                    $.each(errors['errors']['ppa'], function (index, value) {
+                                        errorsHtml += '<br><li style="font-size:15px">' + value + '</li>';
+                                    });
+                                    $('#ppa-errors').append(errorsHtml);
+                                }
+                            }
+                        });
+                    }
+
+                    function checkChanged(rb) {
+                        if (rb.checked) {
+                            let payment = $('#pay-'+rb.id).text();
+                            $('#payment').val(payment);
+                        }
                     }
 
                     function submitCoupon() {

@@ -64,7 +64,7 @@
                                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                                         <span class="cart-label"><div id="cart-count">{{count($cart_detail)}}</div></span>
                                     </span>
-                                    <span id="user-wallet" class="cart-title hidden-xs">Rp {{ number_format($user->wallet, 0, '.', '.') }}</span>
+                                    <span class="cart-title hidden-xs">Rp {{ number_format($cart->total, 0, '.', '.') }}</span>
                                 </a>
                                 <div class="cart-toggle hidden-xs hidden-sm">
                                     <div id="cart-detail-dropdown" class="cart-overflow">

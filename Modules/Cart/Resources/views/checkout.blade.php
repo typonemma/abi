@@ -14,98 +14,83 @@
     <div class="row">
         <div class="col-md-6 col-xs-b50 col-md-b0">
             <h4 class="h4 col-xs-b25">billing details</h4>
-            <select class="SlectBox disabled">
-                <option disabled="disabled" selected="selected">Indonesia</option>
-
+            <select id="country" class="SlectBox">
+                <option selected="selected">Indonesia</option>
             </select>
+            <ul id="country-errors" style="list-style-type:none;color:red;">
+
+            </ul>
             <div class="empty-space col-xs-b20"></div>
             <div class="row m10">
                 <div class="col-sm-12">
-                    <input class="simple-input" type="text" value="" placeholder="Full name" />
+                    <input id="fname" class="simple-input" type="text" value="" placeholder="Full name" />
+                    <ul id="fname-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b20"></div>
                 </div>
 
             </div>
             <div class="row m10">
                 <div class="col-sm-6">
-                    <input class="simple-input" type="text" value="" placeholder="Email" />
+                    <input id="email" class="simple-input" type="text" value="" placeholder="Email" />
+                    <ul id="email-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b20"></div>
                 </div>
                 <div class="col-sm-6">
-                    <input class="simple-input" type="text" value="" placeholder="Phone" />
+                    <input id="phone" class="simple-input" type="text" value="" placeholder="Phone" />
+                    <ul id="phone-errors" style="list-style-type:none;color:red;">
+
+                    </ul>
                     <div class="empty-space col-xs-b20"></div>
                 </div>
             </div>
-            <input class="simple-input" type="text" value="" placeholder="Street address" />
+            <input id="address" class="simple-input" type="text" value="" placeholder="Street address" />
+            <ul id="address-errors" style="list-style-type:none;color:red;">
+
+            </ul>
             <div class="empty-space col-xs-b20"></div>
-            <textarea class="simple-input" placeholder="Note about your order"></textarea>
+            <textarea id="note" class="simple-input" placeholder="Note about your order"></textarea>
+            <ul id="note-errors" style="list-style-type:none;color:red;">
+
+            </ul>
             <div class="empty-space col-xs-b20"></div>
             <label class="checkbox-entry">
-                <input type="checkbox" checked><span>Privacy policy agreement</span>
+                <input id="ppa" type="checkbox" checked value="1" onclick="toggleCheck(this)"><span>Privacy policy agreement</span>
+                <ul id="ppa-errors" style="list-style-type:none;color:red;">
+
+                </ul>
             </label>
             <div class="empty-space col-xs-b30"></div>
             <h4 class="h4 col-xs-b25">your order</h4>
             {{-- Start Product --}}
-            <div class="cart-entry clearfix">
-                <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                <div class="cart-entry-description">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="h6"><a href="#">charger asus a455l</a></div>
-                                    <div class="simple-article size-1">QUANTITY: 2</div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="simple-article size-3 grey">Rp 200.000</div>
-                                    <div class="simple-article size-1">TOTAL: Rp 200.000</div>
-                                </td>
+            @foreach ($cart_detail as $cd)
+                <?php
+                    $product = App\Models\Product::find($cd->product_id);
+                ?>
+                <div class="cart-entry clearfix">
+                    <a class="cart-entry-thumbnail" href="/product/detail/{{$product->id}}"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
+                    <div class="cart-entry-description">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="h6"><a href="#">{{$product->title}}</a></div>
+                                        <div class="simple-article size-1">QUANTITY: {{$cd->quantity}}</div>
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="simple-article size-3 grey">Rp. {{number_format($product->regular_price,0,',','.')}}</div>
+                                        <div class="simple-article size-1">TOTAL: Rp. {{number_format($product->regular_price * $cd->quantity,0,',','.')}}</div>
+                                    </td>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="cart-entry clearfix">
-                <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                <div class="cart-entry-description">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="h6"><a href="#">charger asus a455l</a></div>
-                                    <div class="simple-article size-1">QUANTITY: 2</div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="simple-article size-3 grey">Rp 200.000</div>
-                                    <div class="simple-article size-1">TOTAL: Rp 200.000</div>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="cart-entry clearfix">
-                <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
-                <div class="cart-entry-description">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="h6"><a href="#">charger asus a455l</a></div>
-                                    <div class="simple-article size-1">QUANTITY: 2</div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="simple-article size-3 grey">Rp 200.000</div>
-                                    <div class="simple-article size-1">TOTAL: Rp 200.000</div>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            @endforeach
             {{-- End Product --}}
         </div>
         <div class="col-md-6">
@@ -116,7 +101,7 @@
                         cart subtotal
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp 200.000</div>
+                        <div class="color">Rp. {{number_format($cart->total,0,',','.')}}</div>
                     </div>
                 </div>
             </div>
@@ -156,15 +141,15 @@
                         order total
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp 200.000</div>
+                        <div class="color">Rp {{number_format($cart->total+20000,0,',','.')}}</div>
                     </div>
                 </div>
             </div>
             <div class="empty-space col-xs-b50"></div>
             <h4 class="h4 col-xs-b25">payment method (bank transfer only)</h4>
             <label class="checkbox-entry radio">
-                <input type="radio" name="1" checked="">
-                <span style="text-transform: none;">
+                <input id="1" type="radio" name="1" checked="" onchange="checkChanged(this)">
+                <span id="pay-1" style="text-transform: none;">
                     BCA - Cabang : HR Muhammad Surabaya<br/>
                     No. Rek. : 8290332959<br/>
                     Nama : Raffles Indonesia, CV
@@ -172,8 +157,8 @@
             </label>
             <div class="empty-space col-xs-b10"></div>
             <label class="checkbox-entry radio">
-                <input type="radio" name="1" checked="">
-                <span style="text-transform: none;">
+                <input id="2" type="radio" name="1" checked="" onchange="checkChanged(this)">
+                <span id="pay-2" style="text-transform: none;">
                     BCA - Cabang : HR Muhammad Surabaya<br/>
                     No. Rek. : 8290871281<br/>
                     Nama : Benny Widjaja
@@ -181,13 +166,14 @@
             </label>
             <div class="empty-space col-xs-b10"></div>
             <label class="checkbox-entry radio">
-                <input type="radio" name="1" checked="">
-                <span style="text-transform: none;">
+                <input id="3" type="radio" name="1" checked="" onchange="checkChanged(this)">
+                <span id="pay-3" style="text-transform: none;">
                     MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya<br/>
                     No. Rek. : 140-00-1051414-0<br/>
                     Nama : Oei Hwang Ie al Benny Widjaja
                 </span>
             </label>
+            <input id="payment" type="hidden" value="MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya No. Rek. : 140-00-1051414-0 Nama : Oei Hwang Ie al Benny Widjaja">
             <div class="empty-space col-xs-b10"></div>
             <div class="simple-article size-2">* Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus sollicitudin facilisis. Lorem ipsum dolor sit amet semper ante vehicula ociis natoq.</div>
             <div class="empty-space col-xs-b30"></div>
@@ -196,8 +182,9 @@
                     <span class="icon"><img src="img/icon-4.png" alt=""></span>
                     <span class="text">place order</span>
                 </span>
-                <input type="submit"/>
+                <input type="submit" onclick="ajaxPlaceOrder()"/>
             </div>
+            <br>
         </div>
     </div>
 </div>

@@ -1,5 +1,8 @@
 @extends('partials.main')
 @section('content')
+@if (session('empty'))
+    <script>alert('Cart cannot be empty !')</script>
+@endif
 <div class="container">
     <div class="empty-space col-xs-b25 col-sm-b50"></div>
 
@@ -27,7 +30,7 @@
             @foreach($cart_detail as $items)
                 <tr>
                     <td data-title=" ">
-                        <a class="cart-entry-thumbnail" href="#"><img src="{{ get_image_url($items->img_src) }}" alt="" style="widht:85px;height:85px"></a>
+                        <a class="cart-entry-thumbnail" href="#"><img src="" alt="" style="widht:85px;height:85px"></a>
                     </td>
                     <td data-title=" "><h5 class="h5"><a href="/product/detail/{{$items->prod_id}}">{!! $items->title !!}</a></h5></td>
                     <td data-title="Price: " class="price" data-price="{!!$items->price!!}">Rp. {!!  number_format($items->price,0,',','.') !!}</td>
@@ -186,7 +189,14 @@
                         cart subtotal
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color" id="subtotal">RP. {!! number_format(App\Cart::where('user_id', '=', session('user')->id)->first()->total,0,',','.') !!}</div>
+                        <?php
+                            $cart = App\Cart::where('user_id', '=', session('user')->id)->first();
+                            if ($cart == null) {
+                                $cart = new App\Cart;
+                                $cart->total = 0;
+                            }
+                        ?>
+                        <div class="color" id="subtotal">RP. {!! number_format($cart->total,0,',','.') !!}</div>
                     </div>
                 </div>
             </div>
@@ -226,7 +236,7 @@
                         order total
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp 200.000</div>
+                        <div class="color">Rp {{number_format($cart->total+20000,0,',','.')}}</div>
                     </div>
                 </div>
             </div>

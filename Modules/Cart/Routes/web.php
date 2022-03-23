@@ -19,4 +19,5 @@ Route::prefix('cart-slice')->group(function() {
     Route::post('/insert', 'CartController@insert');
     Route::get('/update/{id}', 'CartController@update');
     Route::get('/delete/{id}', 'CartController@delete');
+    Route::post('/placeOrder', 'CartController@placeOrder');
 });
