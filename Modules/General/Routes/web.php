@@ -23,6 +23,7 @@ Route::prefix('')->group(function() {
     Route::get('/product_detail/{slug}', 'GeneralController@product_detail');
     Route::get('/thank_you', 'GeneralController@thank_you');
     Route::get('/checkout', 'GeneralController@checkout');
+    Route::get('/placeOrder', 'GeneralController@placeOrder');
     
     Route::get('/email_template', 'GeneralController@email_template');
     Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');

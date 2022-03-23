@@ -9,7 +9,6 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="footer-contact"><i class="fa fa-mobile" aria-hidden="true"></i> contact us:<br/>
-                                    <p>
                                         <?php
                                             $contactus = App\contactus_list::where('post_title', 'LIKE', '%phone%')->get();
                                             foreach ($contactus as $cu) {
@@ -17,8 +16,7 @@
                                                 echo '<h6 class="h6 light">' . $potong_kalimat . '</h6>';
                                                 echo htmlspecialchars_decode($cu->post_content);
                                             }
-                                        ?>
-                                    </p>                                                                     
+                                        ?>                                                                  
                                 </div>
                                     <div class="footer-contact"><i class="fa fa-envelope-o" aria-hidden="true"></i> email: <br/>
                                         <?php
@@ -30,19 +28,18 @@
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8">     
                                     <div class="footer-contact"><i class="fa fa-map-marker" aria-hidden="true"></i> address: <br/>
-                                        <p>
-                                            <?php
-                                                $contactus = App\contactus_list::where('post_title', 'LIKE', '%address%')->get();
-                                                foreach ($contactus as $cu) {
-                                                    $potong_kalimat = substr("$cu->post_title",8);
-                                                    echo '<h6 class="h6 light">' . $potong_kalimat . '</h6>';
-                                                    echo htmlspecialchars_decode($cu->post_content). '<br>' . '<br>';
-                                                }
-                                            ?>
-                                        </p>                                        
-                                    </div>
+                                        <?php
+                                            $contactus = App\contactus_list::where('post_title', 'LIKE', '%address%')->get();
+                                            foreach ($contactus as $cu) {
+                                                $potong_kalimat = substr("$cu->post_title",8);
+                                                echo '<h6 class="h6 light">' . $potong_kalimat . '</h6>';
+                                                echo htmlspecialchars_decode($cu->post_content);
+                                                echo '<div class="empty-space col-xs-b35 col-md-b10"></div>';
+                                            }
+                                        ?>                                
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>

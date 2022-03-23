@@ -91,7 +91,7 @@ class GeneralController extends Controller
         //     $blog_detail = blogs_list::find($_GET['id']);
         // }
         $blogs_list = blogs_list::paginate(1);
-        $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();;
+        $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
         return view('general::blog_detail', ['blog_detail' => $blog_detail, 
         'blogs_list' => $blogs_list,
         'relatedblog_list' => $relatedblog_list]);
@@ -105,14 +105,21 @@ class GeneralController extends Controller
         "availableAt_list" => $availableAt_list]);
     }
 
-    public function thank_you()
-    {
-        return view('general::thank_you');
-    }
-
-    public function checkout()
+    public function placeOrder(Request $request)
     {
         $bank_list = bank_list::paginate(1);
+        session()->put('payment', $request->payment);
+    }
+
+    public function thank_you()
+    {
+        $bank_list = bank_list::paginate(1);  
+        return view('general::thank_you', ['bank_list' => $bank_list]);
+    }
+
+    public function checkout(Request $request)
+    {
+        $bank_list = bank_list::paginate(1);    
         return view('general::checkout', ['bank_list' => $bank_list]);
     }
     

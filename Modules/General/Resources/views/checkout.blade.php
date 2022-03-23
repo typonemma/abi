@@ -177,36 +177,38 @@
                         </div>
                     </div>
                 </div>
+                <div>
                 <div class="empty-space col-xs-b50"></div>
                 <h4 class="h4 col-xs-b25">payment method (bank transfer only)</h4> 
+                <?php
+                    $bank_list = App\bank_list::where('post_title', 'LIKE', '%bank%')->get();
+                    $i = 1;
+                ?>
                 @foreach ($bank_list as $checkout)   
-                        <label class="checkbox-entry radio">
-                        <input type="radio" name="1" checked="">
-                        <span style="text-transform: none;">
+                    <label class="checkbox-entry radio">
+                        <input id="{{$i}}" type="radio" name="1" checked="" value="" onchange="checkChanged(this)">
+                        <span id="pay-{{$i}}" style="text-transform: none;">
                             <?php
-                                $checkout = App\bank_list::where('post_title', 'LIKE', '%bank%')->get();
-                                foreach ($checkout as $cu) {
-                                    $potong_kalimat = substr("$cu->post_title",5);
-                                    echo $potong_kalimat . htmlspecialchars_decode($cu->post_content) . '<br>';
-                                }
+                                $potong_kalimat = substr("$checkout->post_title",5);
+                                echo $potong_kalimat . htmlspecialchars_decode($checkout->post_content) . '<br>';
+                                $i++;
                             ?>
                         </span>
                     </label>
-                @endforeach
+                    <input id="payment" type="hidden" value="MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya No. Rek. : 140-00-1051414-0 Nama : Oei Hwang Ie al Benny Widjaja">
+                @endforeach                
                 <div class="empty-space col-xs-b10"></div>
                 <div class="simple-article size-2">* Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus sollicitudin facilisis. Lorem ipsum dolor sit amet semper ante vehicula ociis natoq.</div>
                 <div class="empty-space col-xs-b30"></div>
-                <form action="/thank_you">
-                    <div class="button block size-2 style-3">                        
-                        <span class="button-wrapper">
-                            <span class="icon">
-                                <img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt="">
-                            </span>
-                            <span class="text">place order</span>
-                        </span>
-                        <input type="submit"/>
-                    </div>
-                </form>
+                <div class="button block size-2 style-3">
+                    <span class="button-wrapper">
+                        <span class="icon"><img src="img/icon-4.png" alt=""></span>
+                        <span class="text">place order</span>
+                    </span>
+                    <input type="submit" onclick="ajaxPlaceOrder()"/>
+                </div>
+                <br>
+                </div>
             </div>
         </div>
     </div>

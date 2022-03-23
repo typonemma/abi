@@ -355,6 +355,38 @@
                 <script src="{{URL::asset('public/custom/js/jquery.knob.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/jquery.throttle.js')}}"></script>
                 @yield('script')
+                <script>
+                function ajaxPlaceOrder() {
+                        let payment = $('#payment').val();
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                            }
+                        });
+                        $.ajax({
+                            method: "GET",
+                            url: "/placeOrder",
+                            data : {
+                                payment:payment
+                            },
+                            success: function() {
+                                location.href = '/thank_you';
+                            }
+                        });
+                    }
+
+                    function checkChanged(rb) {
+                        if (rb.checked) {
+                            let payment = $('#pay-'+rb.id).text();
+                            $('#payment').val(payment);
+                        }
+                    }
+
+                    function copyToClipboard(id) {
+                        document.getElementById(id).select();
+                        document.execCommand('copy');
+                    }
+                    </script>                
             </body>
         </html>
 

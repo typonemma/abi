@@ -30,13 +30,13 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="simple-article size-4 grey">Please complete your payment within 1x24 hours. Payment details: </div>                
                     <div class="simple-article size-3 text-center color">
-                        <p>
-                            BCA - Cabang : HR Muhammad Surabaya<br/>
-                            No. Rek. : 8290332959<br/>
-                            Nama : Raffles Indonesia, CV
+                        <p id="copy_{{ session('payment') }}" value="{{ session('payment') }}">
+                            {{ session('payment') }}
                         </p>
                         <p>
-                            <i class="fa fa-copy"></i> <a href="" class="underline">Copy Account Number</a>
+                            <i class="fa fa-copy"></i>
+                            <button value="copy" onclick="copyToClipboard('{{ session('payment') }}')">Copy Account Number
+                            <!-- <a href="" class="underline">Copy Account Number</a> -->
                         </p>
                     </div>
                     <div class="empty-space col-xs-b20 col-sm-b15 col-md-b30"></div>
