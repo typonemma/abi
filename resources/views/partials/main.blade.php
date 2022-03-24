@@ -711,6 +711,7 @@
                             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
                             $('#cart-total').load(' #cart-total');
                             $('#subtotal').load(' #subtotal');
+                            $('#order-total').load(' #order-total');
                         });
                     }
 
@@ -726,6 +727,7 @@
                             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
                             $('#cart-total').load(' #cart-total');
                             $('#subtotal').load(' #subtotal');
+                            $('#order-total').load(' #order-total');
                         });
                     }
 
@@ -778,11 +780,22 @@
                                     }).done(function (data) {
                                         let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
                                         $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
+                                        $('#ship-cost').text('Rp. ' + numberWithCommas(cost));
+                                        let order_total = $('#temp-total').val();
+                                        order_total = parseInt(order_total) + parseInt(cost);
+                                        $('#order-total').text('Rp. ' + numberWithCommas(order_total));
+                                        $.ajax({
+                                            type:"post",
+                                            url :"/cart-slice/getShippingCost",
+                                            data : {
+                                                cost: cost
+                                            }
+                                        })
                                     });
                                 });
                             },
                             error: function(jqXhr, json, errorThrown) {
-                                Load();
+                                Load2();
                                 let errors = jqXhr.responseJSON;
                                 let errorsHtml = '';
                                 if ('city' in errors['errors']) {
@@ -858,7 +871,7 @@
                                 location.href = '/cart-slice/thankyou';
                             },
                             error: function(jqXhr, json, errorThrown) {
-                                Load();
+                                Load3();
                                 let errors = jqXhr.responseJSON;
                                 let errorsHtml = '';
                                 if ('country' in errors['errors']) {

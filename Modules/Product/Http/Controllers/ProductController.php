@@ -39,6 +39,8 @@ class ProductController extends Controller
 
     public function index()
     {
+        session()->forget('ship');
+        session()->forget('ship-error');
 
         $category = Term::where('status',1)
                     ->where('parent',0)
@@ -69,6 +71,9 @@ class ProductController extends Controller
 
     public function details(Request $request,$id)
     {
+        session()->forget('ship');
+        session()->forget('ship-error');
+
         $category = Term::where('status',1)
         ->where('parent',0)
         ->where('type','product_cat')

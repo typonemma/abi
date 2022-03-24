@@ -36,6 +36,8 @@ class AuthController extends Controller
         if (session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
         return view('auth::home');
     }
 
@@ -291,6 +293,8 @@ class AuthController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
         return view('auth::profile-detail');
     }
 
@@ -344,6 +348,8 @@ class AuthController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
         $user = session('user');
         $per_page = 2;
         if (!isset($_GET['page'])) {
@@ -362,6 +368,8 @@ class AuthController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
         $user = session('user');
         $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '=', 0)->get();
         return view('auth::profile-yourorder', ['user_order' => $user_order]);

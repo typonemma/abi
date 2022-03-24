@@ -168,6 +168,31 @@
             element.setAttribute("style", "border-color:none");
         }
     }
+    function Load2() {
+        let input = document.getElementsByTagName("input");
+        document.getElementById("city-errors").innerHTML = "";
+        document.getElementById("postcode-errors").innerHTML = "";
+        document.getElementById("address-errors").innerHTML = "";
+        for (let i = 0; i < input.length; i++) {
+            const element = input[i];
+            element.value = "";
+            element.setAttribute("style", "border-color:none");
+        }
+    }
+    function Load3() {
+        let input = document.getElementsByTagName("input");
+        document.getElementById("country-errors").innerHTML = "";
+        document.getElementById("fname-errors").innerHTML = "";
+        document.getElementById("email-errors").innerHTML = "";
+        document.getElementById("phone-errors").innerHTML = "";
+        document.getElementById("address-errors").innerHTML = "";
+        document.getElementById("note-errors").innerHTML = "";
+        for (let i = 0; i < input.length; i++) {
+            const element = input[i];
+            element.value = "";
+            element.setAttribute("style", "border-color:none");
+        }
+    }
     function ajaxDeleteFromCart(id){
         var ajaxDeleteFromCart = $.ajax({
             type:"get",

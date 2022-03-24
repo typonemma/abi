@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Mar 2022 pada 06.12
+-- Waktu pembuatan: 24 Mar 2022 pada 12.13
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.4.5
 
@@ -77,6 +77,12 @@ CREATE TABLE `cart` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `date`, `total`) VALUES(25, 11, '2022-03-24', 700000);
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +97,12 @@ CREATE TABLE `cart_detail` (
   `quantity` int(11) NOT NULL,
   `subtotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `cart_detail`
+--
+
+INSERT INTO `cart_detail` (`id`, `cart_id`, `product_id`, `price`, `quantity`, `subtotal`) VALUES(46, 25, 3, 350000, 2, 700000);
 
 -- --------------------------------------------------------
 
@@ -1298,6 +1310,10 @@ INSERT INTO `user_billing_address` (`id`, `first_name`, `last_name`, `email`, `p
 CREATE TABLE `user_order` (
   `id` int(11) NOT NULL,
   `invoice_number` varchar(30) NOT NULL,
+  `shipping_city` varchar(255) NOT NULL,
+  `postcode` varchar(255) NOT NULL,
+  `shipping_address` varchar(255) NOT NULL,
+  `courier` varchar(255) NOT NULL,
   `country` varchar(30) NOT NULL,
   `full_name` varchar(60) NOT NULL,
   `email` varchar(30) NOT NULL,
@@ -1315,13 +1331,15 @@ CREATE TABLE `user_order` (
 -- Dumping data untuk tabel `user_order`
 --
 
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(4, '27QA-308964', '', '', '', '', '', NULL, '', 100000, '17/02/2022', 0, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(21, '27QA-308965', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(22, '27QA-308966', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(23, '27QA-308967', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(24, '27QA-308968', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(25, '27QA-677981', '', '', '', '', '', NULL, '', 1000000, '09/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(27, '', 'Indonesia', 't', 't@gmail.com', '1234', 'Ngagel jaya 100', NULL, 'BCA - Cabang : HR Muhammad Surabaya\n                    No. Rek. : 8290332959\n                    Nama : Raffles Indonesia, CV', 700000, '2022-03-23', 0, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(4, '27QA-308964', '', '', '', '', '', '', '', '', '', NULL, '', 100000, '17/02/2022', 0, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(21, '27QA-308965', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(22, '27QA-308966', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(23, '27QA-308967', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(24, '27QA-308968', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(25, '27QA-677981', '', '', '', '', '', '', '', '', '', NULL, '', 1000000, '09/03/2022', 1, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(27, '', '', '', '', '', 'Indonesia', 't', 't@gmail.com', '1234', 'Ngagel jaya 100', NULL, 'BCA - Cabang : HR Muhammad Surabaya\n                    No. Rek. : 8290332959\n                    Nama : Raffles Indonesia, CV', 700000, '2022-03-23', 0, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(28, '', '', '', '', '', 'Indonesia', 'abiansyah', 'terpuji99@gmail.com', '082157406708', 'rajawali 8', 'yang bagus ya', 'BCA - Cabang : HR Muhammad Surabaya\n                    No. Rek. : 8290871281\n                    Nama : Benny Widjaja', 900000, '2022-03-23', 0, 11);
+INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(29, '', 'Aceh Barat', '73112', 'rajawali 8', 'jne', 'Indonesia', 't', 't@gmail.com', '1234', 'rajawali 8', NULL, 'MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya No. Rek. : 140-00-1051414-0 Nama : Oei Hwang Ie al Benny Widjaja', 600000, '2022-03-24', 0, 11);
 
 -- --------------------------------------------------------
 
@@ -1352,6 +1370,8 @@ INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `ship
 INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(10, 3, 350000, 3, 20000, 4);
 INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(11, 2, 350000, 2, 20000, 4);
 INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(13, 2, 350000, 2, 20000, 27);
+INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(14, 4, 300000, 3, 20000, 28);
+INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(15, 4, 300000, 2, 20000, 29);
 
 -- --------------------------------------------------------
 
@@ -1738,13 +1758,13 @@ ALTER TABLE `api_tokens`
 -- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `cart_detail`
 --
 ALTER TABLE `cart_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT untuk tabel `comments`
@@ -1894,13 +1914,13 @@ ALTER TABLE `user_billing_address`
 -- AUTO_INCREMENT untuk tabel `user_order`
 --
 ALTER TABLE `user_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_order_details`
 --
 ALTER TABLE `user_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role_permissions`

@@ -3,6 +3,9 @@
 @if (session('empty'))
     <script>alert('Cart cannot be empty !')</script>
 @endif
+@if (session('ship-error'))
+    <script>alert('Please calculate the shipping cost first !')</script>
+@endif
 <div class="container">
     <div class="empty-space col-xs-b25 col-sm-b50"></div>
 
@@ -215,16 +218,14 @@
                     <div class="col-xs-6">
                         shipping and handling
                         <br/>
-                        <span>JNE (Sub - sub)</span>
-                        <span>jne (dps - sub)</span>
+                        <span>JNE</span>
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
                         <div class="color">
                             &nbsp;
                             <br/>
                             <div class="color">
-                                <span>Rp 20.000</span>
-                                <span>Rp 20.000</span>
+                                <span id="ship-cost">Rp 0</span>
                             </div>
                         </div>
                     </div>
@@ -236,7 +237,8 @@
                         order total
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp {{number_format($cart->total+20000,0,',','.')}}</div>
+                        <div id="order-total" class="color">Rp. {{number_format($cart->total,0,',','.')}}</div>
+                        <input id="temp-total" type="hidden" value="{{$cart->total}}">
                     </div>
                 </div>
             </div>

@@ -1,4 +1,7 @@
 @extends('partials.main')
+<?php
+    $ship = session('ship');
+?>
 @section('content')
 <div class="container">
     <div class="empty-space col-xs-b15 col-sm-b50"></div>
@@ -120,16 +123,14 @@
                     <div class="col-xs-6">
                         shipping and handling
                         <br/>
-                        <span>JNE (Sub - sub)</span>
-                        <span>jne (dps - sub)</span>
+                        <span>JNE</span>
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
                         <div class="color">
                             &nbsp;
                             <br/>
                             <div class="color">
-                                <span>Rp 20.000</span>
-                                <span>Rp 20.000</span>
+                                <span>Rp {{number_format($ship->cost,0,',','.')}}</span>
                             </div>
                         </div>
                     </div>
@@ -141,7 +142,7 @@
                         order total
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">Rp {{number_format($cart->total+20000,0,',','.')}}</div>
+                        <div id="order-total" class="color">Rp {{number_format($cart->total+$ship->cost,0,',','.')}}</div>
                     </div>
                 </div>
             </div>

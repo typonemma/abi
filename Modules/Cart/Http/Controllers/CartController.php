@@ -13,6 +13,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 class CartController extends Controller
 {
@@ -25,6 +26,7 @@ class CartController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
         $kota = Kota::all();
         $user = session('user');
         $cart = Cart::where('user_id', '=', $user->id)->first();
@@ -38,6 +40,10 @@ class CartController extends Controller
     public function checkout()
     {
         if (!session('user')) {
+            return back();
+        }
+        if (!session('ship')) {
+            session()->flash('ship-error', 'Please calculate the shipping cost first !');
             return back();
         }
         $user = session('user');
@@ -62,6 +68,8 @@ class CartController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
         return view('cart::thankyou');
     }
 
@@ -148,6 +156,19 @@ class CartController extends Controller
                 ), 422);
             }
         }
+        $ship = new stdClass;
+        $ship->city = $request->city;
+        $ship->postcode = $request->postcode;
+        $ship->address = $request->address;
+        $ship->courier = 'jne';
+        $request->session()->put('ship', $ship);
+    }
+
+    public function getShippingCost(Request $request)
+    {
+        $ship = session('ship');
+        $ship->cost = $request->cost;
+        $request->session()->put('ship', $ship);
     }
 
     public function insert(Request $request)
@@ -242,11 +263,16 @@ class CartController extends Controller
             }
         }
         $user = session('user');
+        $ship = session('ship');
         $cart = Cart::where('user_id', '=', $user->id)->first();
         $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->get();
         $user_order = new UserOrder;
         $user_order->id = 0;
         $user_order->invoice_number = '';
+        $user_order->shipping_city = $ship->city;
+        $user_order->postcode = $ship->postcode;
+        $user_order->shipping_address = $ship->address;
+        $user_order->courier = 'jne';
         $user_order->country = $request->country;
         $user_order->full_name = $request->fname;
         $user_order->email = $request->email;
