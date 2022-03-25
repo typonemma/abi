@@ -712,6 +712,8 @@
                             $('#cart-total').load(' #cart-total');
                             $('#subtotal').load(' #subtotal');
                             $('#order-total').load(' #order-total');
+                            $('#temp-total').load(' #temp-total');
+                            $('#cart-title-total').load(' #cart-title-total');
                         });
                     }
 
@@ -728,6 +730,8 @@
                             $('#cart-total').load(' #cart-total');
                             $('#subtotal').load(' #subtotal');
                             $('#order-total').load(' #order-total');
+                            $('#temp-total').load(' #temp-total');
+                            $('#cart-title-total').load(' #cart-title-total');
                         });
                     }
 
