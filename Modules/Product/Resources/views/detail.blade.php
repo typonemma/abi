@@ -333,6 +333,7 @@
             $('#user-wallet').load(' #user-wallet');
             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
             $('#cart-total').load(' #cart-total');
+            $('#cart-title-total').load(' #cart-title-total');
             alert('Item added to cart successfully !');
         });
     }
