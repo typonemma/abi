@@ -41,6 +41,7 @@
                     </div>
                     <div class="empty-space col-xs-b20 col-sm-b15 col-md-b30"></div>
                     <div class="button size-1 style-3">
+                    <a class="button size-2 style-3" href="home">
                         <span class="button-wrapper">
                             <span class="icon">
                                 <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
@@ -48,6 +49,7 @@
                             <span class="text">OK</span>
                         </span>
                         <input type="submit"/>
+                    </a>
                     </div>
                 </div>
             </div>

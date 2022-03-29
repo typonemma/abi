@@ -180,6 +180,9 @@ return [
         Nexmo\Laravel\NexmoServiceProvider::class,
         App\Providers\CartServiceProvider::class,
         'Barryvdh\Debugbar\ServiceProvider',
+
+        Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
+
     ],
 
     /*
@@ -235,7 +238,9 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
         'Cart'   =>  App\Cart\Facades\Cart::class,
-        'Debugbar' => 'Barryvdh\Debugbar\Facade'
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+
+        'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
     ],
 
 ];

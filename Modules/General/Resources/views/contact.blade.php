@@ -95,18 +95,16 @@
                         <!-- <img class="icon" src="img/open.png" alt=""> -->
                         <div class="title h6">working hours</div>
                         <div class="description simple-article size-2">
-                            <p>
-                                <div class="simple-article">
-                                <?php                                    
-                                    $contactus = App\contactus_list::where('post_title', 'LIKE', '%working hours%')->get();
-                                    foreach ($contactus as $cu) {
-                                        $potong_kalimat = substr("$cu->post_title",14);
-                                        echo '<b>' . $potong_kalimat . '</b>' . '<br>';
-                                        echo htmlspecialchars_decode($cu->post_content);
-                                    }
-                                ?>
-                                </div>  
-                            </p>                                
+                            <div class="simple-article">
+                            <?php                                    
+                                $contactus = App\contactus_list::where('post_title', 'LIKE', '%working hours%')->get();
+                                foreach ($contactus as $cu) {
+                                    $potong_kalimat = substr("$cu->post_title",14);
+                                    echo '<b>' . $potong_kalimat . '</b>' . '<br>';
+                                    echo htmlspecialchars_decode($cu->post_content);
+                                }
+                            ?>
+                            </div>                                 
                         </div>                            
                     </div>
                 </div>
