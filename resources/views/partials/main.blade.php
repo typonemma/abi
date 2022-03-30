@@ -381,11 +381,6 @@
                             $('#payment').val(payment);
                         }
                     }
-
-                    function copyToClipboard(id) {
-                        document.getElementById(id).select();
-                        document.execCommand('copy');
-                    }
                     </script>                
             </body>
         </html>

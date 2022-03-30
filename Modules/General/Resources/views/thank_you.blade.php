@@ -30,14 +30,12 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="simple-article size-4 grey">Please complete your payment within 1x24 hours. Payment details: </div>                
                     <div class="simple-article size-3 text-center color">
-                        <p id="copy_{{ session('payment') }}" value="{{ session('payment') }}">
-                            {{ session('payment') }}
-                        </p>
-                        <p>
+                        <textarea id="textArea" rows="4" style="text-align: center;">
+                            {{ session('payment') }}                            
+                        </textarea>
                             <i class="fa fa-copy"></i>
-                            <button value="copy" onclick="copyToClipboard('{{ session('payment') }}')">Copy Account Number
-                            <!-- <a href="" class="underline">Copy Account Number</a> -->
-                        </p>
+                            <a class="entry" onclick="copyToClipboard()">Copy Account Number</a>                            
+                            <!-- <a href="" class="underline">Copy Account Number</a> -->                        
                     </div>
                     <div class="empty-space col-xs-b20 col-sm-b15 col-md-b30"></div>
                     <div class="button size-1 style-3">
@@ -57,4 +55,13 @@
     </div>
     <div class="empty-space col-xs-b35 col-md-b70"></div>
     <div class="empty-space col-xs-b35 col-md-b70"></div>
+
+    <script>
+        function copyToClipboard() {
+        var content = document.getElementById('textArea');
+        content.select();
+        document.execCommand('copy');
+        alert("Copied!");
+    }
+    </script>
 @endsection

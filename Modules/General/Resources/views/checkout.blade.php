@@ -185,7 +185,7 @@
                     $i = 1;
                 ?>
                 @foreach ($bank_list as $checkout)   
-                    <label class="checkbox-entry radio">
+                    <label class="checkbox-entry radio">                        
                         <input id="{{$i}}" type="radio" name="1" checked="" value="" onchange="checkChanged(this)">
                         <span id="pay-{{$i}}" style="text-transform: none;">
                             <?php
@@ -195,7 +195,7 @@
                             ?>
                         </span>
                     </label>
-                    <input id="payment" type="hidden" value="MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya No. Rek. : 140-00-1051414-0 Nama : Oei Hwang Ie al Benny Widjaja">
+                    <input id="payment" type="hidden" value="">
                 @endforeach                
                 <div class="empty-space col-xs-b10"></div>
                 <div class="simple-article size-2">* Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus sollicitudin facilisis. Lorem ipsum dolor sit amet semper ante vehicula ociis natoq.</div>

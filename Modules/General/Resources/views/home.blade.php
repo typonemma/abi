@@ -349,34 +349,40 @@
         </div>
     </div>                
     </div>
-    @foreach ($ads_list as $ads)
-    <div class="adsleft">                    
+    
+    <!-- ADS -->
+    <?php
+        use Edujugon\GoogleAds\GoogleAds;
+        use Google\AdsApi\AdWords\v201809\cm\CampaignService;
+    ?>
+    <div class="adsleft">                            
         <a href="#">
             <?php
-                $ads = App\ads_list::find(5);
+                $ads = new GoogleAds();
+                $ads->service(CampaignService::class);
+                // $campaigns = $ads->service(CampaignService::class)->select(['Id'])->get();
+                
+                // $ads->service(CampaignService::class)
+                //     ->select(['Id', 'Name', 'Status', 'ServingStatus', 'StartDate', 'EndDate'])
+                //     ->get();
             ?>
-            <img src="{{URL::asset($ads->image)}}">
         </a>
         <a href="#">
             <?php
-                $ads = App\ads_list::find(6);
+                $ads = new GoogleAds();
             ?>
-            <img src="{{URL::asset($ads->image)}}">
         </a>
     </div>
     <div class="ads-right">
         <a href="#">
             <?php
-                $ads = App\ads_list::find(7);
+                $ads = new GoogleAds();
             ?>
-            <img src="{{URL::asset($ads->image)}}">
         </a>
         <a href="#">
             <?php
-                $ads = App\ads_list::find(8);
+                $ads = new GoogleAds();
             ?>
-            <img src="{{URL::asset($ads->image)}}">
         </a>
     </div>
-    @endforeach
 @endsection

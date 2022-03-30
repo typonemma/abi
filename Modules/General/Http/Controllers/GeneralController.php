@@ -16,6 +16,7 @@ use App\aboutus_list;
 use App\contactus_list;
 use App\bank_list;
 
+
 class GeneralController extends Controller
 {
     /**

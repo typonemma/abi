@@ -77,6 +77,7 @@
                         <div class="title h6">phone</div>
                         <div class="description simple-article size-2">                                
                             <div class="simple-article">
+                            <!-- style="line-height:1px;" -->
                                 <?php
                                     $contactus = App\contactus_list::where('post_title', 'LIKE', '%phone%')->get();
                                     foreach ($contactus as $cu) {
