@@ -698,6 +698,34 @@
                         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                     }
 
+                    function ajaxInsertToCart(id){
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                            }
+                        });
+                        var ajaxInsertToCart = $.ajax({
+                            type:"post",
+                            url :"/cart-slice/insert",
+                            data : {
+                                id: id,
+                                quantity: 1
+                            },
+                        }).done(function () {
+                            $('#cart-detail').load(' #cart-detail');
+                            $('#calculate').load(' #calculate');
+                            $('#cart-count').load(' #cart-count');
+                            $('#user-wallet').load(' #user-wallet');
+                            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+                            $('#cart-total').load(' #cart-total');
+                            $('#subtotal').load(' #subtotal');
+                            $('#order-total').load(' #order-total');
+                            $('#temp-total').load(' #temp-total');
+                            $('#cart-title-total').load(' #cart-title-total');
+                            alert('Item successfully added !');
+                        });
+                    }
+
                     function ajaxUpdateCartItem(d, id){
                         var ajaxUpdateCartItem = $.ajax({
                             type:"get",
