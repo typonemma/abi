@@ -377,7 +377,7 @@
 
                     function checkChanged(rb) {
                         if (rb.checked) {
-                            let payment = $('#pay-'+rb.id).text();
+                            let payment = $('#pay-'+rb.id).html();
                             $('#payment').val(payment);
                         }
                     }

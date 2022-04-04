@@ -49,7 +49,6 @@
         <div class="empty-space col-sm-b15 col-md-b50"></div>
         <div class="container">
             <div class="row">
-
                 <div class="col-sm-3">
                     <div class="icon-description-shortcode style-1">
                         <img src="{{URL::asset('public/custom/img/icon-25.png')}}">
@@ -82,8 +81,8 @@
                                     $contactus = App\contactus_list::where('post_title', 'LIKE', '%phone%')->get();
                                     foreach ($contactus as $cu) {
                                         $potong_kalimat = substr("$cu->post_title",6);
-                                        echo '<b>' . $potong_kalimat . '</b>' . '<br>';
-                                        echo htmlspecialchars_decode($cu->post_content);
+                                        echo '<b>' . $potong_kalimat . '</b>' . '<br>' ;
+                                        echo htmlspecialchars_decode($cu->post_content) ;
                                     }
                                 ?>             
                             </div>                                                                  

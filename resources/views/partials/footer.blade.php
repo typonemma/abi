@@ -14,7 +14,7 @@
                                             foreach ($contactus as $cu) {
                                                 $potong_kalimat = substr("$cu->post_title",6);
                                                 echo '<h6 class="h6 light">' . $potong_kalimat . '</h6>';
-                                                echo htmlspecialchars_decode($cu->post_content);
+                                                echo '<font color="#f7f7f7">' . htmlspecialchars_decode($cu->post_content) . '</font>';
                                             }
                                         ?>                                                                  
                                 </div>

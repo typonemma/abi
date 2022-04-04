@@ -30,12 +30,23 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="simple-article size-4 grey">Please complete your payment within 1x24 hours. Payment details: </div>                
                     <div class="simple-article size-3 text-center color">
-                        <textarea id="textArea" rows="4" style="text-align: center;">
-                            {{ session('payment') }}                            
+                            <span style="text-transform: none;">
+                                <?php
+                                    echo html_entity_decode(session('payment'));
+                                ?>    
+                            </span>
+                        <textarea id="textArea" rows="4" style="text-align: center; color:white; margin-top:-80px; margin-left:9999px;">
+                             <?php
+                                $norek = html_entity_decode(session('payment'));
+                                $potong_kalimat = substr("$norek",48,11);
+                                echo $potong_kalimat;
+                            ?>                       
                         </textarea>
                             <i class="fa fa-copy"></i>
                             <a class="entry" onclick="copyToClipboard()">Copy Account Number</a>                            
-                            <!-- <a href="" class="underline">Copy Account Number</a> -->                        
+                            <!-- <a href="" class="underline">Copy Account Number</a> -->      
+
+                            <!-- {!! html_entity_decode(session('payment')) !!}                             -->                  
                     </div>
                     <div class="empty-space col-xs-b20 col-sm-b15 col-md-b30"></div>
                     <div class="button size-1 style-3">
