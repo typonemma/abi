@@ -135,7 +135,7 @@
                 <div class="h4 col-xs-b25">related blog</div>
                 @foreach ($relatedblog_list as $a)
                 <div class="blog-shortcode style-2">
-                    <a href="blog_detail" class="preview rounded-image simple-mouseover">
+                    <a href="blog_detail/<?= $a->post_slug ?>" class="preview rounded-image simple-mouseover">
                         <img class="rounded-image" src="{{URL::asset($a->image)}}" alt="" />
                         <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
                     </a>
