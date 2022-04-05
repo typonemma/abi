@@ -15,6 +15,8 @@ use App\availableAt_list;
 use App\aboutus_list;
 use App\contactus_list;
 use App\bank_list;
+use App\testimonial_list;
+use App\categori_list;
 
 
 class GeneralController extends Controller
@@ -34,12 +36,18 @@ class GeneralController extends Controller
         $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
         // $relatedblog_list->post_content = relatedblog_list::limit($relatedblog_list->post_content, 30);
+        $testimonial_list = testimonial_list::where('post_type', '=', 'testimonial')->orderBy('id', 'DESC')->get();
         $ads_list = ads_list::all();
-        $availableAt = availableAt_list::orderBy('term_id', 'desc')->limit(8)->orderBy('term_id', 'asc')->get();
+
+        $availableAt = availableAt_list::where('key_name', '=', '_brand_logo_img_url')->orderBy('term_id', 'desc')->limit(8)->get();
+        
+        $categori_list = categori_list::where('type', '=', 'product_cat')->orderBy('term_id', 'asc')->get();
         return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list, 
         'relatedblog_list' => $relatedblog_list,  
+        'testimonial_list' => $testimonial_list,
         'ads_list' => $ads_list,
-        'availableAt' => $availableAt
+        'availableAt' => $availableAt,
+        'categori_list' => $categori_list
         // compact('relatedblog_list')
         ]);
     }

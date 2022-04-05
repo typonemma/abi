@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class availableAt_list extends Model
+class testimonial_list extends Model
 {
     //
-    protected $table = 'term_extras';
+    protected $table = 'posts';
     protected $guarded = [];
     public $timestamps = false;
 }

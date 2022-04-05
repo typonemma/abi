@@ -31,11 +31,10 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-2  selecthome">
                 <select class="SlectBox">
-                    <option disabled="disabled" selected="selected">SEMUA</option>
-                    <option value="volvo">CATEGORY</option>
-                    <option value="saab">CATEGORY</option>
-                    <option value="mercedes">CATEGORY</option>
-                    <option value="audi">CATEGORY</option>
+                    <option selected="selected">SEMUA</option>
+                    @foreach ($categori_list as $kl)
+                    <option value="volvo">{{ $kl->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-sm-4">
@@ -102,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="price">
-                                            <div class="simple-article size-4 dark">Rp.{{ $b->price }}</div>
+                                            <div class="simple-article size-4 dark">${{number_format($b->price,0,',','.')}}</div>
                                         </div>
                                         <div class="description">
                                             <div class="simple-article text size-2">{!! htmlspecialchars_decode($b->content)!!}</div>
@@ -115,54 +114,6 @@
                                     </div>
                                 </div>
                             @endforeach 
-
-
-                                <!-- <div class="col-sm-4">
-                                    <div class="product-shortcode style-1">
-                                        <div class="title">
-                                            <div class="simple-article size-1 color col-xs-b5"><a href="#">SMART PHONES</a></div>
-                                            <div class="h6 animate-to-green"><a href="#">Smartphone vibe x2</a></div>
-                                        </div>
-                                        <div class="preview">
-                                            <img src="{{URL::asset('public/custom/img/product-7.jpg')}}"> -->
-                                            <!-- <img src="img/product-7.jpg" alt="" /> -->
-                                            <!-- <div class="preview-buttons valign-middle">
-                                                <div class="valign-middle-content">
-                                                    <a class="button size-2 style-2" href="product_detail">
-                                                        <span class="button-wrapper">
-                                                            <span class="icon">
-                                                                <img src="{{URL::asset('public/custom/img/icon-1.png')}}"> -->
-                                                                <!-- <img src="img/icon-1.png" alt=""> -->
-                                                            <!-- </span>
-                                                            <span class="text">Learn More</span>
-                                                        </span>
-                                                    </a>
-                                                    <a class="button size-2 style-3" href="#">
-                                                        <span class="button-wrapper">
-                                                            <span class="icon">
-                                                                <img src="{{URL::asset('public/custom/img/icon-3.png')}}"> -->
-                                                                <!-- <img src="img/icon-3.png" alt=""> -->
-                                                            <!-- </span>
-                                                            <span class="text">Add To Cart</span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="price">
-                                            <div class="simple-article size-4 dark">$630.00</div>
-                                        </div>
-                                        <div class="description">
-                                            <div class="simple-article text size-2">Mollis nec consequat at In feugiat mole stie tortor a malesuada</div>
-                                            <div class="icons">
-                                                <a class="entry"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
                             </div>
                         </div>
                     </div>
@@ -191,74 +142,24 @@
                         <div class="slider-wrapper our-team-slider">
                             <div class="swiper-button-prev hidden-xs hidden-sm"></div>
                             <div class="swiper-button-next hidden-xs hidden-sm"></div>
-                            <div class="swiper-container" data-breakpoints="1" data-xs-slides="1" data-sm-slides="2" data-md-slides="3" data-lt-slides="3"  data-slides-per-view="3">
+                            <div class="swiper-container" data-breakpoints="1" data-xs-slides="1" data-sm-slides="2" data-md-slides="3" data-lt-slides="3"  data-slides-per-view="3">                                                        
                                 <div class="swiper-wrapper">
+                                @foreach ($testimonial_list as $tl)
                                     <div class="swiper-slide">
                                         <div class="product-shortcode style-9">
                                             <div class="preview">
-                                                <div class="main-testi">
+                                                <div class="main-testi">                                                
                                                     <div class="text-center">
-                                                        <span>ADMIN</span>
-                                                        <H4>MONICA RAJAN</H4>
-                                                        <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet</p>
-                                                    </div>
+                                                        <span>{{ $tl->post_title }}</span>
+                                                        <H4>{{ $tl->post_title }}</H4>
+                                                        <p>{!! htmlspecialchars_decode($tl->post_content)!!}</p>
+                                                    </div>                                                
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-9">
-                                            <div class="preview">
-                                                <div class="main-testi">
-                                                    <div class="text-center">
-                                                        <span>ADMIN</span>
-                                                        <H4>MONICA RAJAN</H4>
-                                                        <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-9">
-                                            <div class="preview">
-                                                <div class="main-testi">
-                                                    <div class="text-center">
-                                                        <span>ADMIN</span>
-                                                        <H4>MONICA RAJAN</H4>
-                                                        <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-9">
-                                            <div class="preview">
-                                                <div class="main-testi">
-                                                    <div class="text-center">
-                                                        <span>ADMIN</span>
-                                                        <H4>MONICA RAJAN</H4>
-                                                        <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-9">
-                                            <div class="preview">
-                                                <div class="main-testi">
-                                                    <div class="text-center">
-                                                        <span>ADMIN</span>
-                                                        <H4>MONICA RAJAN</H4>
-                                                        <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+                                </div>                                                        
                                 <div class="swiper-pagination relative-pagination visible-xs visible-sm"></div>
                             </div>
                         </div>
@@ -273,7 +174,11 @@
                     <div class="container" style="margin-top: 50px;">
                         <div class="row">
                             @foreach ($availableAt as $x)
-                                <div class="col-sm-3 col-md-b10"><img src="{{URL::asset('public/custom/img/' . $x->name . '.jpg')}}"></div>
+                                <div class="col-sm-3 col-md-b10">
+                                    <a href="$x->key_value">
+                                        <img src="{{URL::asset($x->key_value)}}" width="202" height="130">  
+                                    </a>                                                                        
+                                </div>
                             @endforeach
                         </div>
                     </div>

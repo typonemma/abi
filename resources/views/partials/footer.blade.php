@@ -73,7 +73,7 @@
                             @foreach ($relatedblog_list as $blog)
                                 <div class="empty-space col-xs-b20"></div>
                                 <div class="footer-post-preview clearfix">
-                                    <a class="image" href="blog_detail/<?= $a->post_slug ?>"><img src="{{URL::asset($blog->image)}}" alt="" /></a>
+                                    <a class="image" href="/blog_detail/<?= $blog->post_slug ?>"><img src="{{URL::asset($blog->image)}}" alt="" /></a>
                                     <div class="description">
                                         <div class="date">
                                             <?php
