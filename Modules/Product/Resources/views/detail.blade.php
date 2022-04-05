@@ -94,7 +94,7 @@
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a class="button size-2 style-1 block noshadow" href="#">
+                            <a class="button size-2 style-1 block noshadow" onclick="ajaxAddToWishlist()">
                                 <span class="button-wrapper">
                                     <span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                     <span class="text">add to favourites</span>
@@ -335,6 +335,16 @@
             $('#cart-total').load(' #cart-total');
             $('#cart-title-total').load(' #cart-title-total');
             alert('Item added to cart successfully !');
+        });
+    }
+    function ajaxAddToWishlist(){
+        let quantity = document.getElementById("quantity").innerText;
+        var ajaxAddToWishlist = $.ajax({
+            type:"post",
+            url : "/insertWishlist",
+            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+        }).done(function(){
+            alert('Item added to wishlist successfully !');
         });
     }
 </script>

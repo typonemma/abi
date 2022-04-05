@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use App\Rules\PasswordCheck;
 use App\Rules\PasswordMatch;
@@ -12,6 +13,8 @@ use App\UserOrder;
 use App\UserShippingAddress;
 use App\Kota;
 use App\Rules\PhoneNumberCheck;
+use App\Wishlist;
+use App\WishlistDetail;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -33,9 +36,6 @@ class AuthController extends Controller
 
     public function home()
     {
-        if (session('user')) {
-            return back();
-        }
         session()->forget('ship');
         session()->forget('ship-error');
         return view('auth::home');
@@ -371,8 +371,67 @@ class AuthController extends Controller
         session()->forget('ship');
         session()->forget('ship-error');
         $user = session('user');
-        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '=', 0)->get();
+        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '=', 0)->orderby('date', 'desc')->get();
         return view('auth::profile-yourorder', ['user_order' => $user_order]);
+    }
+
+    public function wishlist()
+    {
+        if (!session('user')) {
+            return back();
+        }
+        session()->forget('ship');
+        session()->forget('ship-error');
+        $user = session('user');
+        $user_wishlist = Wishlist::where('user_id', '=', $user->id)->first();
+        $user_wishlist_detail = [];
+        if ($user_wishlist != null) {
+            $user_wishlist_detail = WishlistDetail::where('wishlist_id', '=', $user_wishlist->id)->get();
+        }
+        return view('pages.frontend.user-account.my-wishlist', ['user_wishlist_detail' => $user_wishlist_detail]);
+    }
+
+    public function insertWishlist(Request $request)
+    {
+        $user = session('user');
+        $wishlist = Wishlist::where('user_id', '=', $user->id)->first();
+        if ($wishlist == null) {
+            $wishlist = new Wishlist;
+            $wishlist->user_id = $user->id;
+            $wishlist->save();
+        }
+        $product = Product::find($request->id);
+        $wishlist_detail = WishlistDetail::where('wishlist_id', '=', $wishlist->id)->where('wishlist_id', '=', $wishlist->id)->first();
+        if ($wishlist_detail == null) {
+            $wishlist_detail = new WishlistDetail;
+            $wishlist_detail->wishlist_id = $wishlist->id;
+            $wishlist_detail->product_id = $product->id;
+            $wishlist_detail->price = $product->regular_price;
+            $wishlist_detail->quantity = $request->quantity;
+        }
+        else {
+            $wishlist_detail->quantity += $request->quantity;
+        }
+        $wishlist_detail->save();
+        $wishlist->save();
+    }
+
+    public function updateWishlist($id, Request $request)
+    {
+        $wishlist_detail = WishlistDetail::find($id);
+        $wishlist = Wishlist::find($wishlist_detail->wishlist_id);
+        $wishlist->save();
+        $wishlist_detail->quantity += $request->d;
+        $wishlist_detail->save();
+        $wishlist->save();
+    }
+
+    public function deleteWishlist($id)
+    {
+        $wishlist_detail = WishlistDetail::find($id);
+        $wishlist = Wishlist::find($wishlist_detail->wishlist_id);
+        $wishlist->save();
+        WishlistDetail::destroy($id);
     }
 
     public function logout()

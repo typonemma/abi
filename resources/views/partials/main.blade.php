@@ -722,7 +722,25 @@
                             $('#order-total').load(' #order-total');
                             $('#temp-total').load(' #temp-total');
                             $('#cart-title-total').load(' #cart-title-total');
-                            alert('Item successfully added !');
+                            alert('Item successfully added to cart !');
+                        });
+                    }
+
+                    function ajaxInsertToWishlist(id){
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                            }
+                        });
+                        var ajaxInsertToWishlist = $.ajax({
+                            type:"post",
+                            url :"/insertWishlist",
+                            data : {
+                                id: id,
+                                quantity: 1
+                            },
+                        }).done(function () {
+                            alert('Item successfully added to wishlist !');
                         });
                     }
 
@@ -811,11 +829,15 @@
                                         }
                                     }).done(function (data) {
                                         let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
+                                        let etd = data.rajaongkir.results[0].costs[0].cost[0].etd;
+                                        let city = data.rajaongkir.destination_details.city_name;
                                         $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
                                         $('#ship-cost').text('Rp. ' + numberWithCommas(cost));
                                         let order_total = $('#temp-total').val();
                                         order_total = parseInt(order_total) + parseInt(cost);
                                         $('#order-total').text('Rp. ' + numberWithCommas(order_total));
+                                        $('#jne-city').text('SURABAYA - ' + city.toUpperCase() + '(' + etd + 'DAYS)');
+                                        $('#jne-city-cost').text('Rp ' + numberWithCommas(cost));
                                         $.ajax({
                                             type:"post",
                                             url :"/cart-slice/getShippingCost",

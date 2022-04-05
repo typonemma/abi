@@ -39,6 +39,12 @@ Route::prefix('')->group(function() {
     // Profile your order
     Route::get('/profile-yourorder', 'AuthController@profile_yourorder');
 
+    // Wishlist
+    Route::get('/wishlist', 'AuthController@wishlist');
+    Route::post('/insertWishlist', 'AuthController@insertWishlist');
+    Route::post('/updateWishlist/{id}', 'AuthController@updateWishlist');
+    Route::get('/deleteWishlist/{id}', 'AuthController@deleteWishlist');
+
     // Logout
     Route::get('/logout', 'AuthController@logout');
 });

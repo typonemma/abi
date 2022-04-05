@@ -107,13 +107,11 @@
                         <img src="{{URL::asset('public/custom/img/jne.png')}}">
                     </div>
                     <div class="col-xs-6">
-                        <span>Surabaya - Surabaya (2-4days)</span>
-                        <span>Surabaya - Surabaya (1-2days)</span>
+                        <span id="jne-city">Surabaya - Surabaya (1-2days)</span>
                     </div>
                     <div class="col-xs-3 col-xs-text-right">
                         <div class="">
-                            <span>Rp 7.000</span>
-                            <span>Rp 17.000</span>
+                            <span id="jne-city-cost">Rp 7.000</span>
                         </div>
                     </div>
                 </div>

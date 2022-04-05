@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="empty-space col-xs-b35 col-md-b50"></div>
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-sm-7">
                     <div class="align-inline spacing-1">
                         <div class="h4">keyboard laptop</div>
@@ -94,7 +94,7 @@
                         </select>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
             <div class="empty-space col-xs-b15 col-sm-b20"></div>
@@ -239,7 +239,7 @@
                 }
 
                 //Description
-                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry" href="/product/detail/'+value.id+'" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry" href="/product/detail/'+value.id+'" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
 
                 //Footer
                 str = str + '</div></div>';

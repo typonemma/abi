@@ -118,10 +118,10 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="entry hidden-xs hidden-sm"><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
+                        <div class="entry hidden-xs hidden-sm"><a href="/wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
                         <div class="entry">
                             @if (session('user'))
-                                <a data-rel="1">
+                                <a href="/profile-detail">
                                     <b>profile</b>
                                 </a>
                             @else
@@ -164,8 +164,10 @@
         }
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            element.value = "";
-            element.setAttribute("style", "border-color:none");
+            if (element.type != 'hidden' && element.type != 'checkbox') {
+                element.value = "";
+                element.setAttribute("style", "border-color:none");
+            }
         }
     }
     function Load2() {
@@ -175,8 +177,10 @@
         document.getElementById("address-errors").innerHTML = "";
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            element.value = "";
-            element.setAttribute("style", "border-color:none");
+            if (element.type != 'hidden' && element.type != 'checkbox') {
+                element.value = "";
+                element.setAttribute("style", "border-color:none");
+            }
         }
     }
     function Load3() {
@@ -187,10 +191,13 @@
         document.getElementById("phone-errors").innerHTML = "";
         document.getElementById("address-errors").innerHTML = "";
         document.getElementById("note-errors").innerHTML = "";
+        document.getElementById("ppa-errors").innerHTML = "";
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            element.value = "";
-            element.setAttribute("style", "border-color:none");
+            if (element.type != 'hidden' && element.type != 'checkbox') {
+                element.value = "";
+                element.setAttribute("style", "border-color:none");
+            }
         }
     }
     function ajaxDeleteFromCart(id){

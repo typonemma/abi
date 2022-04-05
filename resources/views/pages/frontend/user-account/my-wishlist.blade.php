@@ -1,8 +1,8 @@
 <div id="wishlists_details">
   <h5><label>{{ trans('frontend.frontend_my_saved_items') }}</label></h5><hr>
-  
-  @if(!empty($frontend_account_details) && $frontend_account_details->wishlists_details)
-  <div class="table-responsive"> 
+
+  @if(!empty($user_wishlist_detail))
+  <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr class="cart_menu">
@@ -13,7 +13,10 @@
           <td class="action">{{ trans('frontend.action') }}</td>
         </tr>
       </thead>
-      @foreach($frontend_account_details->wishlists_details as $items)
+      @foreach($user_wishlist_detail as $item)
+        <?php
+            $items = App\Models\Product::find($item->product_id);
+        ?>
         <tr>
           <td>
             @if(get_product_image($items) && get_product_image($items) != '/images/no-image.png')
@@ -36,7 +39,7 @@
           </td>
         </tr>
       @endforeach
-    </table>  
+    </table>
   </div>
   @else
     <p>{{ trans('frontend.no_saved_items_yet_label') }}</p>
