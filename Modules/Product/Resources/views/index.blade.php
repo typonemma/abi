@@ -224,7 +224,11 @@
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
-                img = img + value.image_url;
+                var file = value.image_url;
+                if (file == '') {
+                    file = '/public/uploads/no-image.jpeg';
+                }
+                img = img + file;
 
                 var url = "{{route('product.details',-99)}}";
                 url = url.replace('-99',value.id);
@@ -284,7 +288,11 @@
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
-                img = img + value.image_url;
+                var file = value.image_url;
+                if (file == '') {
+                    file = '/public/uploads/no-image.jpeg';
+                }
+                img = img + file;
                 var url = "{{route('product.details',-99)}}";
                 url = url.replace('-99',value.id);
                 str = str + '<div class="preview"><img src="'+img+'" alt="" style="width:150px;height:150px"><div class="preview-buttons valign-middle"><div class="valign-middle-content"><a class="button size-2 style-3" href="'+url+'"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">SEE DETAIL</span></span></a></div></div></div>';
