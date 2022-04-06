@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class bestsellerproduct_list extends Model
+class product_etras extends Model
 {
     //
-    protected $table = 'products';
+    protected $table = 'product_extras';
     // protected $table = 'list_bestsellerproducts';
     protected $guarded = [];
     public $timestamps = false;
-    public function ProductExtras() {
-        return $this->belongsTo('product_etras', 'id', 'product_id');
+    public function Product() {
+        return $this->hasMany('bestsellerproduct_list', 'product_id', 'id');
     }
 }

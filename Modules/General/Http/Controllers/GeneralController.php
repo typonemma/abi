@@ -39,7 +39,7 @@ class GeneralController extends Controller
         $testimonial_list = testimonial_list::where('post_type', '=', 'testimonial')->orderBy('id', 'DESC')->get();
         $ads_list = ads_list::all();
 
-        $availableAt = availableAt_list::where('key_name', '=', '_brand_logo_img_url')->orderBy('term_id', 'desc')->limit(8)->get();
+        $availableAt = availableAt_list::paginate(8);
         
         $categori_list = categori_list::where('type', '=', 'product_cat')->orderBy('term_id', 'asc')->get();
         return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list, 

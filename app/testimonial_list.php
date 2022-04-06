@@ -10,4 +10,7 @@ class testimonial_list extends Model
     protected $table = 'posts';
     protected $guarded = [];
     public $timestamps = false;
+    public function TestimonialExtras() {
+        return $this->belongsTo('testimonial_extras', 'id', 'product_id');
+    }
 }

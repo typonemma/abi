@@ -64,26 +64,44 @@
                             <div class="row nopadding">
 
                             @foreach ($bestsellerproduct_list as $b)
+                            <?php
+                                $pe = App\product_etras::where('product_id', '=', $b->id)->get();
+                                $key_value = '';
+                                foreach ($pe as $x) {
+                                    if ($x->key_name == '_product_seo_title') {
+                                        $key_value = $x->key_value;
+                                        break;
+                                    }
+                                }
+                            ?>
                             <div class="col-sm-4">
                                     <div class="product-shortcode style-1">
                                         <div class="title">
                                             <div class="simple-article size-1 color col-xs-b5">
-                                                <a href="#">{{ $b->type }}</a>
+                                                <a href="#">{{ $key_value }}</a>
                                             </div>
                                             <div class="h6 animate-to-green">
                                                 <a href="#">{{ $b->title }}</a>
                                             </div>
                                         </div>
-                                        <div class="preview">
-                                            <img src="{{URL::asset($b->image_url)}}">
-                                            <!-- <img src="img/product-7.jpg" alt="" /> -->
+                                        <div class="preview"> 
+
+                                            <?php
+                                                $filename = $_SERVER['DOCUMENT_ROOT'] . $b->image_url;
+                                                if (file_exists($filename)) {
+                                                    echo "<img src='$b->image_url'>";
+                                                } else {                                                    
+                                                    // echo "<img src='/public/uploads/no-image.png'>";
+                                                    echo "<img src='/public/uploads/no-image.jpg'>";
+                                                    
+                                                }
+                                            ?> 
                                             <div class="preview-buttons valign-middle">
                                                 <div class="valign-middle-content">
                                                     <a class="button size-2 style-2" href="product_detail/<?= $b->post_slug ?>">
                                                         <span class="button-wrapper">
                                                             <span class="icon">
                                                                 <img src="{{URL::asset('public/custom/img/icon-1.png')}}">
-                                                                <!-- <img src="img/icon-1.png" alt=""> -->
                                                             </span>
                                                             <span class="text">Learn More</span>
                                                         </span>
@@ -92,7 +110,6 @@
                                                         <span class="button-wrapper">
                                                             <span class="icon">
                                                                 <img src="{{URL::asset('public/custom/img/icon-3.png')}}">
-                                                                <!-- <img src="img/icon-3.png" alt=""> -->
                                                             </span>
                                                             <span class="text">Add To Cart</span>
                                                         </span>
@@ -145,12 +162,22 @@
                             <div class="swiper-container" data-breakpoints="1" data-xs-slides="1" data-sm-slides="2" data-md-slides="3" data-lt-slides="3"  data-slides-per-view="3">                                                        
                                 <div class="swiper-wrapper">
                                 @foreach ($testimonial_list as $tl)
+                                    <?php
+                                        $pe = App\testimonial_extras::where('post_id', '=', $tl->id)->get();
+                                        $key_value = '';
+                                        foreach ($pe as $x) {
+                                            if ($x->key_name == '_testimonial_job_title') {
+                                                $key_value = $x->key_value;
+                                                break;
+                                            }
+                                        }
+                                    ?>
                                     <div class="swiper-slide">
                                         <div class="product-shortcode style-9">
                                             <div class="preview">
                                                 <div class="main-testi">                                                
                                                     <div class="text-center">
-                                                        <span>{{ $tl->post_title }}</span>
+                                                        <span>{{ $key_value }}</span>
                                                         <H4>{{ $tl->post_title }}</H4>
                                                         <p>{!! htmlspecialchars_decode($tl->post_content)!!}</p>
                                                     </div>                                                
@@ -174,9 +201,26 @@
                     <div class="container" style="margin-top: 50px;">
                         <div class="row">
                             @foreach ($availableAt as $x)
+                                <?php
+                                    $pe = App\term_extras::where('term_id', '=', $x->term_id)->get();
+                                    $key_value = '';
+                                    $key_value2 = '';
+                                    foreach ($pe as $x2) {
+                                        if ($x2->key_name == '_brand_logo_img_url') {
+                                            $key_value = $x2->key_value;
+                                            echo $key_value;
+                                            break;
+                                        }
+                                        else if ($x2->key_name == '_brand_short_description'){
+                                            $key_value2 = $x2->key_value2;
+                                            echo $key_value2;
+                                            break;
+                                        }
+                                    }
+                                ?>
                                 <div class="col-sm-3 col-md-b10">
-                                    <a href="$x->key_value">
-                                        <img src="{{URL::asset($x->key_value)}}" width="202" height="130">  
+                                    <a href="">                                    
+                                        <!-- <img src="{{URL::asset($key_value)}}" width="202" height="130">   -->
                                     </a>                                                                        
                                 </div>
                             @endforeach
