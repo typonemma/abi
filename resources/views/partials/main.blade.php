@@ -173,7 +173,7 @@
                                     <div class="row">
                                         <div class="col-sm-6 col-xs-b10 col-sm-b0">
                                             <div class="empty-space col-sm-b5"></div>
-                                            <a class="simple-link">RESEND CODE</a>
+                                            <a class="simple-link" onclick="otpSend()">RESEND CODE</a>
                                             <div class="empty-space col-xs-b5"></div>
                                             <a class="simple-link open-popup" data-rel="1">BACK TO LOGIN</a>
                                         </div>

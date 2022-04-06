@@ -113,7 +113,7 @@
                         <div class="empty-space col-xs-b20"></div>
                         @if ($errors->any())
                             @if ($errors->has('phone_number'))
-                                <input name="phone_number" class="simple-input" type="text" style="border-color:red" value="{{ $user->phone_number }}" placeholder="Phone Number">
+                                <input name="phone_number" class="simple-input" type="text" style="border-color:red" value="{{ $phone_number }}" placeholder="Phone Number">
                                 <ul style="list-style-type:none;color:red;">
                                     @foreach ($errors->getMessages()['phone_number'] as $error)
                                         {{ $error }}
