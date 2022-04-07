@@ -1,6 +1,14 @@
 @extends('partials.main')
 <?php
     $ship = session('ship');
+    $user = session('user');
+    $user_encode = json_encode($user);
+    $user_billing_encode = json_encode(App\UserBillingAddress::where('user_id', '=', $user->id)->first());
+    $user_shipping_encode = json_encode(App\UserShippingAddress::where('user_id', '=', $user->id)->first());
+    $cart = App\Cart::where('user_id', '=', $user->id)->first();
+    $cart_encode = json_encode($cart);
+    $cart_items_encode = json_encode(App\CartDetail::join('products', 'products.id', '=', 'cart_detail.product_id')->select('products.id AS product_id', 'products.title AS name', 'cart_detail.quantity', 'cart_detail.price', 'products.image_url AS img_src', 'products.type AS product_type')->get());
+    $ship_encode = json_encode($ship);
 ?>
 @section('content')
 <div class="container">
@@ -183,6 +191,13 @@
                     <span class="icon"><img src="img/icon-4.png" alt=""></span>
                     <span class="text">place order</span>
                 </span>
+                <input id="user" type="hidden" value="{{$user_encode}}">
+                <input id="user_billing" type="hidden" value="{{$user_billing_encode}}">
+                <input id="user_shipping" type="hidden" value="{{$user_shipping_encode}}">
+                <input id="cart" type="hidden" value="{{$cart_encode}}">
+                <input id="cart_items" type="hidden" value="{{$cart_items_encode}}">
+                <input id="ship" type="hidden" value="{{$ship_encode}}">
+                <input id="temp-ship-cost" type="hidden" value="{{$ship->cost}}">
                 <input type="submit" onclick="ajaxPlaceOrder()"/>
             </div>
             <br>

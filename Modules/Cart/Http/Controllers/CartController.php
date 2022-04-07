@@ -164,11 +164,12 @@ class CartController extends Controller
         $request->session()->put('ship', $ship);
     }
 
-    public function getShippingCost(Request $request)
+    public function getShippingCost($cost)
     {
         $ship = session('ship');
-        $ship->cost = $request->cost;
-        $request->session()->put('ship', $ship);
+        $ship->cost = $cost;
+        session()->put('ship', $ship);
+        return redirect('/cart-slice/checkout');
     }
 
     public function insert(Request $request)

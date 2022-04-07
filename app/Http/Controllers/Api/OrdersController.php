@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Cart;
+use App\CartDetail;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderCollection as OrderResourceCollection;
 use Illuminate\Pagination\Paginator;
-use Validator;
 use App\Models\Post;
 use App\Models\PostExtra;
 use App\Models\Product;
@@ -13,6 +14,7 @@ use App\Models\OrdersItem;
 use App\Models\OrderProduct;
 use App\Library\CommonFunction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator as Validator;
 
 class OrdersController extends Controller
 {
@@ -33,11 +35,11 @@ class OrdersController extends Controller
         $status = '';
         $customer;
         $product;
-        
+
         if(isset($request['page']) && !empty($request['page'])){
           $currentPage = $request['page'];
         }
-        
+
         if(isset($request['per_page']) && !empty($request['per_page'])){
           $perPage = $request['per_page'];
         }
@@ -45,23 +47,23 @@ class OrdersController extends Controller
         if(isset($request['after']) && !empty($request['after'])){
           $after = $request['after'];
         }
-        
+
         if(isset($request['before']) && !empty($request['before'])){
           $before = $request['before'];
         }
-        
+
         if(isset($request['order']) && !empty($request['order'])){
           $order = $request['order'];
         }
-        
+
         if(isset($request['orderby']) && !empty($request['orderby'])){
           $orderby = $request['orderby'];
         }
-        
+
         if(isset($request['status']) && !empty($request['status'])){
           $status = $request['status'];
         }
-        
+
         if(isset($request['customer'])){
           $customer = $request['customer'];
         }
@@ -69,13 +71,13 @@ class OrdersController extends Controller
         if(isset($request['product'])){
           $product = $request['product'];
         }
-        
-        
+
+
         Paginator::currentPageResolver(function () use ($currentPage) {
           return $currentPage;
         });
-        
-        
+
+
         $order = DB::table('posts')->where(['posts.post_type' => 'shop_order']);
 
         if(!empty($after) && !empty($before)){
@@ -116,11 +118,11 @@ class OrdersController extends Controller
         $orders = $orders->paginate($perPage);
         return response()->json(new OrderResourceCollection($orders));
       }
-      
+
       return response()->json(__('api.middleware.forbidden', array('attribute' => $request->method())), 403);
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -130,25 +132,54 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
       if( $request->isMethod('post')){
-        
-        $validator = $this->getValidator($request);   
-          
-        if ($validator->fails()) {
-          return response()->json(__('api.middleware.bad_parameter'), 400);
+
+        $rules = [
+            'country' => 'required|max:30',
+            'fname' => 'required|max:60',
+            'email' => 'required|email|max:128',
+            'phone' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
+            'address' => 'required|max:255',
+            'note' => 'max:255',
+            'ppa' => 'required'
+        ];
+        $messages = [
+            'country.required' => 'Country is required',
+            'fname.required' => 'Full name is required',
+            'country.max' => 'Country must be at most 60 characters',
+            'email.required' => 'Email is required',
+            'email.email' => 'Invalid email',
+            'email.max' => 'Email must be at most 128 characters',
+            'phone.required' => 'Phone number is required',
+            'phone.regex' => 'Phone number must be numeric',
+            'phone.digits_between' => 'Phone number must be at most 30 characters',
+            'address.required' => 'Address is required',
+            'address.max' => 'Address must be at most 255 characters',
+            'note.max' => 'Note must be at most 255 characters',
+            'ppa.required' => 'The Privacy Policy Agreement must be checked'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($request->ajax()) {
+            if ($validator->fails()) {
+                return response()->json(array(
+                    'success' => false,
+                    'message' => 'There are incorect values in the form!',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 422);
+            }
         }
-       
+
         if(array_key_exists('billing', $request->all())){
           if( (!array_key_exists('first_name', $request->billing)) || (!array_key_exists('last_name', $request->billing)) || (!array_key_exists('email', $request->billing)) || (!array_key_exists('phone_number', $request->billing)) ||  (!array_key_exists('country', $request->billing)) || (!array_key_exists('address_1', $request->billing)) || (!array_key_exists('city', $request->billing)) || (!array_key_exists('postcode', $request->billing))){
-            return response()->json(__('api.middleware.bad_parameter'), 400);  
+            return response()->json(__('api.middleware.bad_parameter'), 400);
           }
         }
 
         if(array_key_exists('shipping', $request->all())){
           if( (!array_key_exists('first_name', $request->shipping)) || (!array_key_exists('last_name', $request->shipping)) || (!array_key_exists('email', $request->shipping)) || (!array_key_exists('phone_number', $request->shipping)) ||  (!array_key_exists('country', $request->shipping)) || (!array_key_exists('address_1', $request->shipping)) || (!array_key_exists('city', $request->shipping)) || (!array_key_exists('postcode', $request->shipping))){
-            return response()->json(__('api.middleware.bad_parameter'), 400);  
+            return response()->json(__('api.middleware.bad_parameter'), 400);
           }
         }
-        
+
         //billing check for customer
         if(array_key_exists('billing', $request->all())){
           $rules =  [
@@ -161,14 +192,14 @@ class OrdersController extends Controller
             'city' => 'required',
             'postcode' => 'required'
           ];
-          
+
           $validator = Validator:: make($request->billing, $rules);
 
           if($validator->fails()){
-            return response()->json(__('api.middleware.bad_parameter'), 400);  
+            return response()->json(__('api.middleware.bad_parameter'), 400);
           }
         }
-        
+
         //billing check for customer
         if(array_key_exists('shipping', $request->all())){
           $rules =  [
@@ -181,14 +212,14 @@ class OrdersController extends Controller
             'city' => 'required',
             'postcode' => 'required'
           ];
-          
+
           $validator = Validator:: make($request->shipping, $rules);
 
           if($validator->fails()){
-            return response()->json(__('api.middleware.bad_parameter'), 400);  
+            return response()->json(__('api.middleware.bad_parameter'), 400);
           }
         }
-        
+
         if(is_array($request->line_items) && count($request->line_items) > 0){
           foreach($request->line_items as $item){
             $rules =  [
@@ -204,18 +235,18 @@ class OrdersController extends Controller
               $rules['variation_id'] = 'required|integer';
               $rules['options'] = 'required|array';
             }
-            
+
             $validator = Validator:: make($item, $rules);
-            
+
             if($validator->fails()){
-              return response()->json(__('api.middleware.bad_parameter'), 400);  
+              return response()->json(__('api.middleware.bad_parameter'), 400);
             }
           }
         }
-       
+
 
         $post = new Post;
-        $customer_id;
+        $customer_id = 0;
         $customer_ip_address = '';
         $customer_user_agent = '';
         $shipping_cost = 0;
@@ -234,7 +265,7 @@ class OrdersController extends Controller
         $shipping_address_line_2 = '';
         $shipping_fax_number = '';
         $line_items = array();
-        
+
         $author_id = get_roles_details_by_role_slug('administrator');
         $customer_id = $author_id->id;
 
@@ -318,11 +349,20 @@ class OrdersController extends Controller
           $line_items = $request->line_items;
         }
 
+        $result = [];
+        $result['items'] = $line_items;
+        $result['details'] = (object)[
+            'total' => $request->total,
+            'shipping_cost' => $request->shipping_cost,
+            'date' => date('Y-m-d'),
+            'status' => 0,
+            'user_id' => $request->customer_id
+        ];
 
         $post->post_author_id = $customer_id;
         $post->post_content = 'Customer Shop Order';
         $post->post_title = 'shop order';
-        $post->post_slug = 'shop-order';  
+        $post->post_slug = 'shop-order';
         $post->parent_id = 0;
         $post->post_status = 1;
         $post->post_type = 'shop_order';
@@ -370,7 +410,7 @@ class OrdersController extends Controller
                     'key_value'     =>  get_product_price_html_by_filter($shipping_cost),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),      
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_order_shipping_method',
@@ -405,7 +445,7 @@ class OrdersController extends Controller
                     'key_value'     =>  get_product_price_html_by_filter($tax),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),      
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_order_total',
@@ -419,7 +459,7 @@ class OrdersController extends Controller
                     'key_value'     =>  get_product_price_html_by_filter($request->total),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),      
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_order_notes',
@@ -433,7 +473,7 @@ class OrdersController extends Controller
                     'key_value'     =>  'on-hold',
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ), 
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_order_discount',
@@ -447,7 +487,7 @@ class OrdersController extends Controller
                     'key_value'     =>  get_product_price_html_by_filter($discount),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),      
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_order_coupon_code',
@@ -468,17 +508,17 @@ class OrdersController extends Controller
                     'key_value'     =>  time().mt_rand().rand(),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  )    
-          );  
+                  )
+          );
 
-          $guest_address_array = array( 
+          $guest_address_array = array(
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_title',
                     'key_value'     =>  $billing_title,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                ), 
+                ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_first_name',
@@ -492,14 +532,14 @@ class OrdersController extends Controller
                     'key_value'     =>  $request->last_name,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ), 
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_company',
                     'key_value'     =>  $billing_comapny,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),  
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_email',
@@ -520,7 +560,7 @@ class OrdersController extends Controller
                     'key_value'     =>  $billing_fax_number,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),       
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_country',
@@ -541,7 +581,7 @@ class OrdersController extends Controller
                     'key_value'     =>  $billing_address_line_2,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ), 
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_billing_city',
@@ -562,7 +602,7 @@ class OrdersController extends Controller
                     'key_value'     =>  $shipping_title,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                ), 
+                ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_shipping_first_name',
@@ -576,14 +616,14 @@ class OrdersController extends Controller
                     'key_value'     =>  $request->last_name,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ), 
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_shipping_company',
                     'key_value'     =>  $shipping_comapny,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),  
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_shipping_email',
@@ -604,7 +644,7 @@ class OrdersController extends Controller
                     'key_value'     =>  $shipping_fax_number,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),       
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_shipping_country',
@@ -625,7 +665,7 @@ class OrdersController extends Controller
                     'key_value'     =>  $shipping_address_line_2,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ), 
+                  ),
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_shipping_city',
@@ -639,14 +679,14 @@ class OrdersController extends Controller
                     'key_value'     =>  $request->postcode,
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
-                  ),        
-        ); 
+                  ),
+        );
         $order_post_meta_data = array_merge($order_array, $guest_address_array);
         if(PostExtra::insert($order_post_meta_data)){
           $orderItems = new OrdersItem;
 
           $orderItems->order_id = $post->id;
-          $orderItems->order_data = json_encode( $line_items );
+          $orderItems->order_data = json_encode( $result );
 
           if($orderItems->save()){
             $common_function = new CommonFunction();
@@ -654,29 +694,29 @@ class OrdersController extends Controller
             if(is_array($line_items) && count($line_items) > 0){
               foreach($line_items as $cart_items){
                 $cart_items = (object)$cart_items;
-                
+
                 if(isset($cart_items->variation_id) && count($cart_items->options) > 0){
                   $variation_product_data = $common_function->get_variation_and_data_by_post_id( $cart_items->variation_id );
-                  
+
                   if($variation_product_data['_variation_post_manage_stock'] == 1){
                     $current_qty = $variation_product_data['_variation_post_manage_stock_qty'] - $cart_items->quantity;
                     $new_manage_qty = array(
                                     'key_value'    =>  $current_qty
                     );
-  
+
                     PostExtra::where(['post_id' => $cart_items->variation_id, 'key_name' => '_variation_post_manage_stock_qty'])->update($new_manage_qty);
                   }
                 }
                 else{
                   $product_data = $common_function->get_product_data_by_product_id( $cart_items->product_id );
-                  
+
                   if($product_data['product_manage_stock'] == 'yes'){
                     $current_qty = $product_data['product_manage_stock_qty'] - $cart_items->quantity;
-                    
+
                     $new_manage_qty = array(
                                       'stock_qty' =>  $current_qty
                     );
-  
+
                     Product::where(['id' => $cart_items->product_id])->update($new_manage_qty);
                   }
                 }
@@ -690,12 +730,17 @@ class OrdersController extends Controller
               }
             }
 
+            $user = session('user');
+            $cart = Cart::where('user_id', '=', $user->id)->first();
+            CartDetail::where('cart_id', '=', $cart->id)->delete();
+            Cart::destroy($cart->id);
+
             return response()->json(__('api.middleware.created_successfully', array('attribute' => 'order')), 200);
           }
         }
         }
       }
-      
+
       return response()->json(__('api.middleware.forbidden', array('attribute' => $request->method())), 403);
     }
 
@@ -748,14 +793,14 @@ class OrdersController extends Controller
             $validator = Validator:: make($get_data, $rules);
 
             if($validator->fails()){
-              return response()->json(__('api.middleware.bad_parameter'), 400);  
+              return response()->json(__('api.middleware.bad_parameter'), 400);
             }
             else{
               $update_data['post_status'] = $get_data['status'];
             }
           }
         }
-        
+
         if(is_array($update_data) && count($update_data) > 0){
           if( Post::where('id', $id)->update($update_data)){
             return response()->json(__('api.middleware.updated_successfully', array('attribute' => 'page')), 200);
@@ -767,7 +812,7 @@ class OrdersController extends Controller
 
       return response()->json(__('api.middleware.forbidden', array('attribute' => $request->method())), 403);
     }
-    
+
     /**
      * Gets a new validator instance with the defined rules.
      *
@@ -786,7 +831,7 @@ class OrdersController extends Controller
         'shipping' => 'required|array',
         'line_items' => 'required|array'
       ];
-      
+
       return Validator::make($request->all(), $rules);
     }
 

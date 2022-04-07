@@ -224,6 +224,7 @@
                             <br/>
                             <div class="color">
                                 <span id="ship-cost">Rp 0</span>
+                                <input id="temp-ship-cost" type="hidden" value="">
                             </div>
                         </div>
                     </div>
@@ -243,7 +244,7 @@
             <div class="empty-space col-xs-b15 col-md-b30"></div>
             <div class="buttons-wrapper text-right">
 
-                <a class="button size-2 style-3" href="/cart-slice/checkout">
+                <a class="button size-2 style-3" onclick="location.href='/cart-slice/getShippingCost/'+document.getElementById('temp-ship-cost').value">
                     <span class="button-wrapper">
                         <span class="icon"><img src="img/icon-4.png" alt=""></span>
                         <span class="text">proceed to checkout</span>

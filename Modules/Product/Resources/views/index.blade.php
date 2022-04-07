@@ -220,7 +220,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="#">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.id+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
@@ -284,7 +284,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="#">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.id+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";

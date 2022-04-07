@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Mar 2022 pada 12.13
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.4.5
+-- Waktu pembuatan: 07 Apr 2022 pada 16.35
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -77,12 +77,6 @@ CREATE TABLE `cart` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `cart`
---
-
-INSERT INTO `cart` (`id`, `user_id`, `date`, `total`) VALUES(25, 11, '2022-03-24', 700000);
-
 -- --------------------------------------------------------
 
 --
@@ -97,12 +91,6 @@ CREATE TABLE `cart_detail` (
   `quantity` int(11) NOT NULL,
   `subtotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `cart_detail`
---
-
-INSERT INTO `cart_detail` (`id`, `cart_id`, `product_id`, `price`, `quantity`, `subtotal`) VALUES(46, 25, 3, 350000, 2, 700000);
 
 -- --------------------------------------------------------
 
@@ -738,14 +726,16 @@ CREATE TABLE `object_relationships` (
 -- Dumping data untuk tabel `object_relationships`
 --
 
-INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(1, 2, '2022-03-16 22:40:51', '2022-03-16 22:40:51');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(1, 2, '2022-04-07 07:04:36', '2022-04-07 07:04:36');
 INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(2, 3, '2022-03-15 20:36:49', '2022-03-15 20:36:49');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(2, 7, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
 INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(3, 4, '2022-03-16 17:44:45', '2022-03-16 17:44:45');
 INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(5, 5, '2022-03-16 17:42:01', '2022-03-16 17:42:01');
-INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(9, 2, '2022-03-16 22:40:51', '2022-03-16 22:40:51');
-INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(10, 2, '2022-03-16 22:40:51', '2022-03-16 22:40:51');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(9, 2, '2022-04-07 07:04:36', '2022-04-07 07:04:36');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(10, 2, '2022-04-07 07:04:36', '2022-04-07 07:04:36');
 INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(11, 5, '2022-03-16 17:42:01', '2022-03-16 17:42:01');
-INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(12, 2, '2022-03-16 22:40:51', '2022-03-16 22:40:51');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(11, 7, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(12, 2, '2022-04-07 07:04:36', '2022-04-07 07:04:36');
 INSERT INTO `object_relationships` (`term_id`, `object_id`, `created_at`, `updated_at`) VALUES(12, 4, '2022-03-16 17:44:45', '2022-03-16 17:44:45');
 
 -- --------------------------------------------------------
@@ -793,6 +783,13 @@ CREATE TABLE `orders_items` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `orders_items`
+--
+
+INSERT INTO `orders_items` (`id`, `order_id`, `order_data`, `created_at`, `updated_at`) VALUES(16, 17, '{\"items\":[{\"product_id\":\"2\",\"name\":\"LED LCD Laptop Asus A455L\",\"quantity\":\"1\",\"price\":\"350000\",\"img_src\":\"\\/public\\/uploads\\/1647495614-h-250-lcd.jpg\",\"product_type\":\"simple_product\"}],\"details\":{\"total\":\"350000\",\"shipping_cost\":\"62000\",\"date\":\"2022-04-07\",\"status\":0,\"user_id\":\"11\"}}', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `orders_items` (`id`, `order_id`, `order_data`, `created_at`, `updated_at`) VALUES(17, 18, '{\"items\":[{\"product_id\":\"3\",\"name\":\"test\",\"quantity\":\"1\",\"price\":\"350000\",\"img_src\":\"\\/public\\/uploads\\/1647362870-h-250-gta5.jpg\",\"product_type\":\"simple_product\"}],\"details\":{\"total\":\"350000\",\"shipping_cost\":\"17000\",\"date\":\"2022-04-07\",\"status\":0,\"user_id\":\"11\"}}', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+
 -- --------------------------------------------------------
 
 --
@@ -806,6 +803,13 @@ CREATE TABLE `order_products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `order_products`
+--
+
+INSERT INTO `order_products` (`id`, `order_id`, `product_id`, `created_at`, `updated_at`) VALUES(16, 17, 2, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `order_products` (`id`, `order_id`, `product_id`, `created_at`, `updated_at`) VALUES(17, 18, 3, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
 
 -- --------------------------------------------------------
 
@@ -826,6 +830,15 @@ CREATE TABLE `posts` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `posts`
+--
+
+INSERT INTO `posts` (`id`, `post_author_id`, `post_content`, `post_title`, `post_slug`, `parent_id`, `post_status`, `post_type`, `created_at`, `updated_at`) VALUES(1, 1, '&lt;p&gt;test&lt;/p&gt;', '123456', '123456', 0, 1, 'user_coupon', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `posts` (`id`, `post_author_id`, `post_content`, `post_title`, `post_slug`, `parent_id`, `post_status`, `post_type`, `created_at`, `updated_at`) VALUES(16, 11, 'Customer Shop Order', 'shop order', 'shop-order', 0, 1, 'shop_order', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `posts` (`id`, `post_author_id`, `post_content`, `post_title`, `post_slug`, `parent_id`, `post_status`, `post_type`, `created_at`, `updated_at`) VALUES(17, 11, 'Customer Shop Order', 'shop order', 'shop-order', 0, 1, 'shop_order', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `posts` (`id`, `post_author_id`, `post_content`, `post_title`, `post_slug`, `parent_id`, `post_status`, `post_type`, `created_at`, `updated_at`) VALUES(18, 11, 'Customer Shop Order', 'shop order', 'shop-order', 0, 1, 'shop_order', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+
 -- --------------------------------------------------------
 
 --
@@ -840,6 +853,150 @@ CREATE TABLE `post_extras` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `post_extras`
+--
+
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(1, 1, '_coupon_condition_type', 'discount_from_total_cart', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(2, 1, '_coupon_amount', '10000', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(3, 1, '_coupon_min_restriction_amount', '0', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(4, 1, '_coupon_max_restriction_amount', '10', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(5, 1, '_coupon_allow_role_name', 'site-user', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(6, 1, '_usage_limit_per_coupon', '', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(7, 1, '_usage_range_end_date', '2022-04-30', '2022-04-04 02:25:10', '2022-04-04 02:27:17');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(624, 16, '_order_currency', 'Rupiah', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(625, 16, '_customer_ip_address', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(626, 16, '_customer_user_agent', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(627, 16, '_customer_user', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(628, 16, '_order_shipping_cost', '62000', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(629, 16, '_final_order_shipping_cost', '62000', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(630, 16, '_order_shipping_method', 'jne', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(631, 16, '_payment_method', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(632, 16, '_payment_method_title', 'Bank Transfer', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(633, 16, '_order_tax', '0', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(634, 16, '_final_order_tax', '0', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(635, 16, '_order_total', '350000', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(636, 16, '_final_order_total', '350000', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(637, 16, '_order_notes', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(638, 16, '_order_status', 'on-hold', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(639, 16, '_order_discount', '0', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(640, 16, '_final_order_discount', '0', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(641, 16, '_order_coupon_code', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(642, 16, '_is_order_coupon_applyed', '0', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(643, 16, '_order_process_key', '1649335604398446651779609119', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(644, 16, '_billing_title', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(645, 16, '_billing_first_name', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(646, 16, '_billing_last_name', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(647, 16, '_billing_company', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(648, 16, '_billing_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(649, 16, '_billing_phone', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(650, 16, '_billing_fax', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(651, 16, '_billing_country', 'Indonesia', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(652, 16, '_billing_address_1', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(653, 16, '_billing_address_2', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(654, 16, '_billing_city', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(655, 16, '_billing_postcode', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(656, 16, '_shipping_title', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(657, 16, '_shipping_first_name', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(658, 16, '_shipping_last_name', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(659, 16, '_shipping_company', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(660, 16, '_shipping_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(661, 16, '_shipping_phone', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(662, 16, '_shipping_fax', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(663, 16, '_shipping_country', 'Indonesia', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(664, 16, '_shipping_address_1', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(665, 16, '_shipping_address_2', '', '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(666, 16, '_shipping_city', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(667, 16, '_shipping_postcode', NULL, '2022-04-07 05:46:44', '2022-04-07 05:46:44');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(668, 17, '_order_currency', 'Rupiah', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(669, 17, '_customer_ip_address', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(670, 17, '_customer_user_agent', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(671, 17, '_customer_user', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(672, 17, '_order_shipping_cost', '62000', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(673, 17, '_final_order_shipping_cost', '62000', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(674, 17, '_order_shipping_method', 'jne', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(675, 17, '_payment_method', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(676, 17, '_payment_method_title', 'Bank Transfer', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(677, 17, '_order_tax', '0', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(678, 17, '_final_order_tax', '0', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(679, 17, '_order_total', '350000', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(680, 17, '_final_order_total', '350000', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(681, 17, '_order_notes', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(682, 17, '_order_status', 'on-hold', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(683, 17, '_order_discount', '0', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(684, 17, '_final_order_discount', '0', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(685, 17, '_order_coupon_code', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(686, 17, '_is_order_coupon_applyed', '0', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(687, 17, '_order_process_key', '1649336832345179716253586209', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(688, 17, '_billing_title', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(689, 17, '_billing_first_name', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(690, 17, '_billing_last_name', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(691, 17, '_billing_company', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(692, 17, '_billing_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(693, 17, '_billing_phone', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(694, 17, '_billing_fax', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(695, 17, '_billing_country', 'Indonesia', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(696, 17, '_billing_address_1', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(697, 17, '_billing_address_2', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(698, 17, '_billing_city', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(699, 17, '_billing_postcode', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(700, 17, '_shipping_title', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(701, 17, '_shipping_first_name', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(702, 17, '_shipping_last_name', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(703, 17, '_shipping_company', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(704, 17, '_shipping_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(705, 17, '_shipping_phone', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(706, 17, '_shipping_fax', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(707, 17, '_shipping_country', 'Indonesia', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(708, 17, '_shipping_address_1', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(709, 17, '_shipping_address_2', '', '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(710, 17, '_shipping_city', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(711, 17, '_shipping_postcode', NULL, '2022-04-07 06:07:12', '2022-04-07 06:07:12');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(712, 18, '_order_currency', 'Rupiah', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(713, 18, '_customer_ip_address', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(714, 18, '_customer_user_agent', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(715, 18, '_customer_user', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(716, 18, '_order_shipping_cost', '17000', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(717, 18, '_final_order_shipping_cost', '17000', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(718, 18, '_order_shipping_method', 'jne', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(719, 18, '_payment_method', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(720, 18, '_payment_method_title', 'Bank Transfer', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(721, 18, '_order_tax', '0', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(722, 18, '_final_order_tax', '0', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(723, 18, '_order_total', '350000', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(724, 18, '_final_order_total', '350000', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(725, 18, '_order_notes', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(726, 18, '_order_status', 'on-hold', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(727, 18, '_order_discount', '0', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(728, 18, '_final_order_discount', '0', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(729, 18, '_order_coupon_code', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(730, 18, '_is_order_coupon_applyed', '0', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(731, 18, '_order_process_key', '1649341805256226931669577135', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(732, 18, '_billing_title', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(733, 18, '_billing_first_name', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(734, 18, '_billing_last_name', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(735, 18, '_billing_company', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(736, 18, '_billing_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(737, 18, '_billing_phone', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(738, 18, '_billing_fax', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(739, 18, '_billing_country', 'Indonesia', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(740, 18, '_billing_address_1', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(741, 18, '_billing_address_2', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(742, 18, '_billing_city', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(743, 18, '_billing_postcode', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(744, 18, '_shipping_title', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(745, 18, '_shipping_first_name', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(746, 18, '_shipping_last_name', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(747, 18, '_shipping_company', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(748, 18, '_shipping_email', 'bryanandrewwijaya2000@gmail.com', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(749, 18, '_shipping_phone', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(750, 18, '_shipping_fax', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(751, 18, '_shipping_country', 'Indonesia', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(752, 18, '_shipping_address_1', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(753, 18, '_shipping_address_2', '', '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(754, 18, '_shipping_city', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
+INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(755, 18, '_shipping_postcode', NULL, '2022-04-07 07:30:05', '2022-04-07 07:30:05');
 
 -- --------------------------------------------------------
 
@@ -870,10 +1027,12 @@ CREATE TABLE `products` (
 -- Dumping data untuk tabel `products`
 --
 
-INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(2, 1, '&lt;p&gt;&lt;strong&gt;Lorem Ipsum&lt;/strong&gt; is simply dummy text of the printing and \r\ntypesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy\r\n text ever since the 1500s, when an unknown printer took a galley of \r\ntype and scrambled it to make a type specimen book. It has survived not \r\nonly five centuries, but also the leap into electronic typesetting, \r\nremaining essentially unchanged. It was popularised in the 1960s with \r\nthe release of Letraset sheets containing Lorem Ipsum passages, and more\r\n recently with desktop publishing software like Aldus PageMaker \r\nincluding versions of Lorem Ipsum.&lt;br&gt;&lt;/p&gt;', 'LED LCD Laptop Asus A455L', 'led-lcd-laptop-asus-a455l', 1, '', '350000', '200000', '200000', '0', 'in_stock', 'simple_product', '/public/uploads/1647495614-h-250-lcd.jpg', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
+INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(2, 1, '&lt;p&gt;&lt;strong&gt;Lorem Ipsum&lt;/strong&gt; is simply dummy text of the printing and \r\ntypesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy\r\n text ever since the 1500s, when an unknown printer took a galley of \r\ntype and scrambled it to make a type specimen book. It has survived not \r\nonly five centuries, but also the leap into electronic typesetting, \r\nremaining essentially unchanged. It was popularised in the 1960s with \r\nthe release of Letraset sheets containing Lorem Ipsum passages, and more\r\n recently with desktop publishing software like Aldus PageMaker \r\nincluding versions of Lorem Ipsum.&lt;br&gt;&lt;/p&gt;', 'LED LCD Laptop Asus A455L', 'led-lcd-laptop-asus-a455l', 1, '', '350000', '200000', '200000', '0', 'in_stock', 'simple_product', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
 INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(3, 1, '&lt;p&gt;test&lt;/p&gt;', 'test', 'test', 1, '', '350000', '200000', '200000', '0', 'in_stock', 'simple_product', '/public/uploads/1647362870-h-250-gta5.jpg', '2022-03-15 09:47:24', '2022-03-15 20:36:49');
 INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(4, 1, '&lt;p&gt;test1&lt;/p&gt;', 'test1', 'test1', 1, '', '300000', '200000', '200000', '0', 'in_stock', 'simple_product', '/public/uploads/1647477039-h-250-acer.png', '2022-03-16 17:30:52', '2022-03-16 17:44:45');
 INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(5, 1, '&lt;p&gt;test2&lt;/p&gt;', 'test2', 'test2', 1, '', '200000', '200000', '200000', '0', 'in_stock', 'simple_product', '/public/uploads/1647477666-h-250-adaptor.jpg', '2022-03-16 17:41:44', '2022-03-16 17:42:00');
+INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(6, 1, '&lt;p&gt;wewewewe&lt;/p&gt;', 'wewe', 'wewe', 1, 'SKU12345', '100000', '50000', '50000', '0', 'in_stock', 'simple_product', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES(7, 1, '&lt;p&gt;test1&lt;/p&gt;', 'wewe', 'wewe-5', 1, 'SKU123456', '100000', '50000', '50000', '0', 'in_stock', 'simple_product', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
 
 -- --------------------------------------------------------
 
@@ -894,45 +1053,45 @@ CREATE TABLE `product_extras` (
 -- Dumping data untuk tabel `product_extras`
 --
 
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(40, 2, '_product_related_images_url', '{\"product_image\":\"/public/uploads/1647495614-h-250-lcd.jpg\",\"product_gallery_images\":[{\"id\":\"F682DE0D-E46B-4E96-E2D7-BF508E9C4969\",\"url\":\"/public/uploads/01647495628-h-250-lcd.jpg\"},{\"id\":\"9D3EB40E-5BF5-4BDD-84F7-FF6EABDDE3B0\",\"url\":\"/public/uploads/01647495637-h-250-lcd.jpg\"},{\"id\":\"02C9FCCC-7ADB-4B07-DC1A-206651FB1C7E\",\"url\":\"/public/uploads/01647495647-h-250-lcd.jpg\"}],\"shop_banner_image\":\"\"}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(41, 2, '_product_sale_price_start_date', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(42, 2, '_product_sale_price_end_date', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(43, 2, '_product_manage_stock', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(44, 2, '_product_manage_stock_back_to_order', 'not_allow', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(45, 2, '_product_extra_features', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(46, 2, '_product_enable_as_recommended', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(47, 2, '_product_enable_as_features', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(48, 2, '_product_enable_as_latest', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(49, 2, '_product_enable_as_related', 'yes', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(50, 2, '_product_enable_as_custom_design', 'yes', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(51, 2, '_product_enable_as_selected_cat', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(52, 2, '_product_enable_taxes', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(53, 2, '_product_custom_designer_settings', 'a:3:{s:16:\"canvas_dimension\";a:3:{s:13:\"small_devices\";a:2:{s:5:\"width\";i:280;s:6:\"height\";i:300;}s:14:\"medium_devices\";a:2:{s:5:\"width\";i:480;s:6:\"height\";i:480;}s:13:\"large_devices\";a:2:{s:5:\"width\";i:500;s:6:\"height\";i:550;}}s:25:\"enable_layout_at_frontend\";s:2:\"no\";s:22:\"enable_global_settings\";s:2:\"no\";}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(54, 2, '_product_custom_designer_data', NULL, '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(55, 2, '_product_enable_reviews', 'yes', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(56, 2, '_product_enable_reviews_add_link_to_product_page', 'yes', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(57, 2, '_product_enable_reviews_add_link_to_details_page', 'yes', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(58, 2, '_product_enable_video_feature', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(59, 2, '_product_video_feature_display_mode', 'content', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(60, 2, '_product_video_feature_title', NULL, '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(61, 2, '_product_video_feature_panel_size', 'a:2:{s:5:\"width\";N;s:6:\"height\";N;}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(62, 2, '_product_video_feature_source', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(63, 2, '_product_video_feature_source_embedded_code', NULL, '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(64, 2, '_product_video_feature_source_online_url', NULL, '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(65, 2, '_product_enable_manufacturer', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(66, 2, '_product_enable_visibility_schedule', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(67, 2, '_product_seo_title', 'LED LCD Laptop Asus A455L', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(68, 2, '_product_seo_description', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(69, 2, '_product_seo_keywords', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(70, 2, '_product_compare_data', 'N;', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(71, 2, '_is_role_based_pricing_enable', 'no', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(72, 2, '_role_based_pricing', 'a:3:{s:13:\"administrator\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:9:\"site-user\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:6:\"vendor\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(73, 2, '_downloadable_product_files', 'a:0:{}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(74, 2, '_downloadable_product_download_limit', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(75, 2, '_downloadable_product_download_expiry', '', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(76, 2, '_upsell_products', 'a:0:{}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(77, 2, '_crosssell_products', 'a:0:{}', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
-INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(78, 2, '_selected_vendor', '1', '2022-02-07 19:15:32', '2022-03-16 22:40:51');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(40, 2, '_product_related_images_url', '{\"product_image\":\"\",\"product_gallery_images\":[{\"id\":\"F682DE0D-E46B-4E96-E2D7-BF508E9C4969\",\"url\":\"/public/uploads/01647495628-h-250-lcd.jpg\"},{\"id\":\"9D3EB40E-5BF5-4BDD-84F7-FF6EABDDE3B0\",\"url\":\"/public/uploads/01647495637-h-250-lcd.jpg\"},{\"id\":\"02C9FCCC-7ADB-4B07-DC1A-206651FB1C7E\",\"url\":\"/public/uploads/01647495647-h-250-lcd.jpg\"}],\"shop_banner_image\":\"\"}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(41, 2, '_product_sale_price_start_date', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(42, 2, '_product_sale_price_end_date', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(43, 2, '_product_manage_stock', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(44, 2, '_product_manage_stock_back_to_order', 'not_allow', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(45, 2, '_product_extra_features', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(46, 2, '_product_enable_as_recommended', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(47, 2, '_product_enable_as_features', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(48, 2, '_product_enable_as_latest', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(49, 2, '_product_enable_as_related', 'yes', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(50, 2, '_product_enable_as_custom_design', 'yes', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(51, 2, '_product_enable_as_selected_cat', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(52, 2, '_product_enable_taxes', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(53, 2, '_product_custom_designer_settings', 'a:3:{s:16:\"canvas_dimension\";a:3:{s:13:\"small_devices\";a:2:{s:5:\"width\";i:280;s:6:\"height\";i:300;}s:14:\"medium_devices\";a:2:{s:5:\"width\";i:480;s:6:\"height\";i:480;}s:13:\"large_devices\";a:2:{s:5:\"width\";i:500;s:6:\"height\";i:550;}}s:25:\"enable_layout_at_frontend\";s:2:\"no\";s:22:\"enable_global_settings\";s:2:\"no\";}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(54, 2, '_product_custom_designer_data', NULL, '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(55, 2, '_product_enable_reviews', 'yes', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(56, 2, '_product_enable_reviews_add_link_to_product_page', 'yes', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(57, 2, '_product_enable_reviews_add_link_to_details_page', 'yes', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(58, 2, '_product_enable_video_feature', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(59, 2, '_product_video_feature_display_mode', 'content', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(60, 2, '_product_video_feature_title', NULL, '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(61, 2, '_product_video_feature_panel_size', 'a:2:{s:5:\"width\";N;s:6:\"height\";N;}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(62, 2, '_product_video_feature_source', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(63, 2, '_product_video_feature_source_embedded_code', NULL, '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(64, 2, '_product_video_feature_source_online_url', NULL, '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(65, 2, '_product_enable_manufacturer', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(66, 2, '_product_enable_visibility_schedule', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(67, 2, '_product_seo_title', 'LED LCD Laptop Asus A455L', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(68, 2, '_product_seo_description', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(69, 2, '_product_seo_keywords', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(70, 2, '_product_compare_data', 'N;', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(71, 2, '_is_role_based_pricing_enable', 'no', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(72, 2, '_role_based_pricing', 'a:3:{s:13:\"administrator\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:9:\"site-user\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:6:\"vendor\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(73, 2, '_downloadable_product_files', 'a:0:{}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(74, 2, '_downloadable_product_download_limit', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(75, 2, '_downloadable_product_download_expiry', '', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(76, 2, '_upsell_products', 'a:0:{}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(77, 2, '_crosssell_products', 'a:0:{}', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(78, 2, '_selected_vendor', '1', '2022-02-07 19:15:32', '2022-04-07 07:04:36');
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(79, 3, '_product_related_images_url', '{\"product_image\":\"/public/uploads/1647362870-h-250-gta5.jpg\",\"product_gallery_images\":[{\"id\":\"800FC39C-2274-4F03-C42F-DA72DE990EE8\",\"url\":\"/public/uploads/01647401758-h-250-large-1647362870-h-250-gta5.jpg\"},{\"id\":\"885414EB-647C-429C-9A3C-B576B4DF8188\",\"url\":\"/public/uploads/01647401805-h-250-1647362870-h-250-gta5.jpg\"}],\"shop_banner_image\":\"\"}', '2022-03-15 09:47:24', '2022-03-15 20:36:49');
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(80, 3, '_product_sale_price_start_date', '', '2022-03-15 09:47:24', '2022-03-15 20:36:49');
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(81, 3, '_product_sale_price_end_date', '', '2022-03-15 09:47:24', '2022-03-15 20:36:49');
@@ -1050,6 +1209,84 @@ INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(193, 5, '_upsell_products', 'a:0:{}', '2022-03-16 17:41:44', '2022-03-16 17:42:01');
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(194, 5, '_crosssell_products', 'a:0:{}', '2022-03-16 17:41:44', '2022-03-16 17:42:01');
 INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(195, 5, '_selected_vendor', '1', '2022-03-16 17:41:44', '2022-03-16 17:42:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(196, 6, '_product_related_images_url', '{\"product_image\":\"\",\"product_gallery_images\":[],\"shop_banner_image\":\"\"}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(197, 6, '_product_sale_price_start_date', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(198, 6, '_product_sale_price_end_date', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(199, 6, '_product_manage_stock', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(200, 6, '_product_manage_stock_back_to_order', 'not_allow', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(201, 6, '_product_extra_features', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(202, 6, '_product_enable_as_recommended', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(203, 6, '_product_enable_as_features', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(204, 6, '_product_enable_as_latest', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(205, 6, '_product_enable_as_related', 'yes', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(206, 6, '_product_enable_as_custom_design', 'yes', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(207, 6, '_product_enable_as_selected_cat', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(208, 6, '_product_enable_taxes', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(209, 6, '_product_custom_designer_settings', 'a:3:{s:16:\"canvas_dimension\";a:3:{s:13:\"small_devices\";a:2:{s:5:\"width\";i:280;s:6:\"height\";i:300;}s:14:\"medium_devices\";a:2:{s:5:\"width\";i:480;s:6:\"height\";i:480;}s:13:\"large_devices\";a:2:{s:5:\"width\";i:500;s:6:\"height\";i:550;}}s:25:\"enable_layout_at_frontend\";s:2:\"no\";s:22:\"enable_global_settings\";s:2:\"no\";}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(210, 6, '_product_custom_designer_data', NULL, '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(211, 6, '_product_enable_reviews', 'yes', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(212, 6, '_product_enable_reviews_add_link_to_product_page', 'yes', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(213, 6, '_product_enable_reviews_add_link_to_details_page', 'yes', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(214, 6, '_product_enable_video_feature', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(215, 6, '_product_video_feature_display_mode', 'content', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(216, 6, '_product_video_feature_title', NULL, '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(217, 6, '_product_video_feature_panel_size', 'a:2:{s:5:\"width\";N;s:6:\"height\";N;}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(218, 6, '_product_video_feature_source', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(219, 6, '_product_video_feature_source_embedded_code', NULL, '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(220, 6, '_product_video_feature_source_online_url', NULL, '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(221, 6, '_product_enable_manufacturer', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(222, 6, '_product_enable_visibility_schedule', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(223, 6, '_product_seo_title', 'wewe', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(224, 6, '_product_seo_description', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(225, 6, '_product_seo_keywords', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(226, 6, '_product_compare_data', 'N;', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(227, 6, '_is_role_based_pricing_enable', 'no', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(228, 6, '_role_based_pricing', 'a:3:{s:13:\"administrator\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:9:\"site-user\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:6:\"vendor\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(229, 6, '_downloadable_product_files', 'a:0:{}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(230, 6, '_downloadable_product_download_limit', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(231, 6, '_downloadable_product_download_expiry', '', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(232, 6, '_upsell_products', 'a:0:{}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(233, 6, '_crosssell_products', 'a:0:{}', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(234, 6, '_selected_vendor', '1', '2022-04-06 06:05:03', '2022-04-06 06:05:03');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(235, 7, '_product_related_images_url', '{\"product_image\":\"\",\"product_gallery_images\":[],\"shop_banner_image\":\"\"}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(236, 7, '_product_sale_price_start_date', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(237, 7, '_product_sale_price_end_date', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(238, 7, '_product_manage_stock', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(239, 7, '_product_manage_stock_back_to_order', 'not_allow', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(240, 7, '_product_extra_features', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(241, 7, '_product_enable_as_recommended', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(242, 7, '_product_enable_as_features', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(243, 7, '_product_enable_as_latest', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(244, 7, '_product_enable_as_related', 'yes', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(245, 7, '_product_enable_as_custom_design', 'yes', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(246, 7, '_product_enable_as_selected_cat', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(247, 7, '_product_enable_taxes', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(248, 7, '_product_custom_designer_settings', 'a:3:{s:16:\"canvas_dimension\";a:3:{s:13:\"small_devices\";a:2:{s:5:\"width\";i:280;s:6:\"height\";i:300;}s:14:\"medium_devices\";a:2:{s:5:\"width\";i:480;s:6:\"height\";i:480;}s:13:\"large_devices\";a:2:{s:5:\"width\";i:500;s:6:\"height\";i:550;}}s:25:\"enable_layout_at_frontend\";s:2:\"no\";s:22:\"enable_global_settings\";s:2:\"no\";}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(249, 7, '_product_custom_designer_data', NULL, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(250, 7, '_product_enable_reviews', 'yes', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(251, 7, '_product_enable_reviews_add_link_to_product_page', 'yes', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(252, 7, '_product_enable_reviews_add_link_to_details_page', 'yes', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(253, 7, '_product_enable_video_feature', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(254, 7, '_product_video_feature_display_mode', 'content', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(255, 7, '_product_video_feature_title', NULL, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(256, 7, '_product_video_feature_panel_size', 'a:2:{s:5:\"width\";N;s:6:\"height\";N;}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(257, 7, '_product_video_feature_source', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(258, 7, '_product_video_feature_source_embedded_code', NULL, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(259, 7, '_product_video_feature_source_online_url', NULL, '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(260, 7, '_product_enable_manufacturer', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(261, 7, '_product_enable_visibility_schedule', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(262, 7, '_product_seo_title', 'wewe', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(263, 7, '_product_seo_description', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(264, 7, '_product_seo_keywords', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(265, 7, '_product_compare_data', 'N;', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(266, 7, '_is_role_based_pricing_enable', 'no', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(267, 7, '_role_based_pricing', 'a:3:{s:13:\"administrator\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:9:\"site-user\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}s:6:\"vendor\";a:2:{s:13:\"regular_price\";N;s:10:\"sale_price\";s:0:\"\";}}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(268, 7, '_downloadable_product_files', 'a:0:{}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(269, 7, '_downloadable_product_download_limit', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(270, 7, '_downloadable_product_download_expiry', '', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(271, 7, '_upsell_products', 'a:0:{}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(272, 7, '_crosssell_products', 'a:0:{}', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
+INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key_value`, `created_at`, `updated_at`) VALUES(273, 7, '_selected_vendor', '1', '2022-04-06 06:07:01', '2022-04-06 06:07:01');
 
 -- --------------------------------------------------------
 
@@ -1236,7 +1473,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `phone_number`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES(1, 'Admin', 'admin', 'admin@gmail.com', '', '$2a$12$vy67upto5TFgj29zrjGIsuPgvKL0/fnsnm.C7pEDe8U0M1eJ3YCXK', '', 1, '$2y$10$xW53MN8gc4td4lkT1vNbGe1/5ldF6hJC7oUWTwVH6qTiBHdpXYMAq', '2019-11-03 23:03:55', '2019-11-03 23:03:55');
-INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `phone_number`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES(11, 'Bryan Wijaya', 'Bryan Wijaya', 'bryan@gmail.com', '+628113116991', '$2y$10$RTBqnyCo3uvOk.f/i/hVDeJFf0PaoYCCi9rL4gJ9Rj.SU9RUNEckW', NULL, 1, NULL, '2022-03-07 19:18:18', '2022-03-08 19:40:41');
+INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `phone_number`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES(11, 'Bryan Wijaya', 'Bryan Wijaya', 'bryan@gmail.com', '+628113116991', '$2y$10$O7ZRMDb3b87YMNmW9t8Uu.E6j6/0LyBmevlHGlCZ1Flf9bqOf4be.', NULL, 1, NULL, '2022-03-07 19:18:18', '2022-04-05 21:07:46');
+INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `phone_number`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES(14, 'Test', 'test', NULL, '+628123456789', '$2y$10$xzzj6mtM8.xzFEHMZwu16uoL2I.tEiNOmkEbtVb9fDvSmINp9Tr3W', NULL, 1, NULL, '2022-04-05 20:26:01', '2022-04-05 20:26:01');
 
 -- --------------------------------------------------------
 
@@ -1300,78 +1538,6 @@ CREATE TABLE `user_billing_address` (
 --
 
 INSERT INTO `user_billing_address` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `address`, `city`, `district`, `zip_code`, `user_id`) VALUES(6, 'Bryan', 'Wijaya', 'test1@gmail.com', '08123456789', 'Dukuh Kupang XI', 'Aceh Barat', 'Wewe', '60225', 11);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `user_order`
---
-
-CREATE TABLE `user_order` (
-  `id` int(11) NOT NULL,
-  `invoice_number` varchar(30) NOT NULL,
-  `shipping_city` varchar(255) NOT NULL,
-  `postcode` varchar(255) NOT NULL,
-  `shipping_address` varchar(255) NOT NULL,
-  `courier` varchar(255) NOT NULL,
-  `country` varchar(30) NOT NULL,
-  `full_name` varchar(60) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `phone_number` varchar(30) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `payment_method` varchar(255) NOT NULL,
-  `total` int(11) NOT NULL,
-  `date` varchar(20) NOT NULL,
-  `status` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `user_order`
---
-
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(4, '27QA-308964', '', '', '', '', '', '', '', '', '', NULL, '', 100000, '17/02/2022', 0, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(21, '27QA-308965', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(22, '27QA-308966', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(23, '27QA-308967', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(24, '27QA-308968', '', '', '', '', '', '', '', '', '', NULL, '', 200000, '03/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(25, '27QA-677981', '', '', '', '', '', '', '', '', '', NULL, '', 1000000, '09/03/2022', 1, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(27, '', '', '', '', '', 'Indonesia', 't', 't@gmail.com', '1234', 'Ngagel jaya 100', NULL, 'BCA - Cabang : HR Muhammad Surabaya\n                    No. Rek. : 8290332959\n                    Nama : Raffles Indonesia, CV', 700000, '2022-03-23', 0, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(28, '', '', '', '', '', 'Indonesia', 'abiansyah', 'terpuji99@gmail.com', '082157406708', 'rajawali 8', 'yang bagus ya', 'BCA - Cabang : HR Muhammad Surabaya\n                    No. Rek. : 8290871281\n                    Nama : Benny Widjaja', 900000, '2022-03-23', 0, 11);
-INSERT INTO `user_order` (`id`, `invoice_number`, `shipping_city`, `postcode`, `shipping_address`, `courier`, `country`, `full_name`, `email`, `phone_number`, `address`, `note`, `payment_method`, `total`, `date`, `status`, `user_id`) VALUES(29, '', 'Aceh Barat', '73112', 'rajawali 8', 'jne', 'Indonesia', 't', 't@gmail.com', '1234', 'rajawali 8', NULL, 'MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya No. Rek. : 140-00-1051414-0 Nama : Oei Hwang Ie al Benny Widjaja', 600000, '2022-03-24', 0, 11);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `user_order_details`
---
-
-CREATE TABLE `user_order_details` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `shipping_cost` int(11) NOT NULL,
-  `user_order_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `user_order_details`
---
-
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(3, 2, 200000, 1, 20000, 4);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(4, 2, 100000, 2, 20000, 21);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(5, 2, 100000, 2, 20000, 22);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(6, 2, 100000, 2, 20000, 23);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(7, 2, 100000, 2, 20000, 24);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(8, 2, 100000, 10, 20000, 25);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(9, 2, 350000, 2, 20000, 4);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(10, 3, 350000, 3, 20000, 4);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(11, 2, 350000, 2, 20000, 4);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(13, 2, 350000, 2, 20000, 27);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(14, 4, 300000, 3, 20000, 28);
-INSERT INTO `user_order_details` (`id`, `product_id`, `price`, `quantity`, `shipping_cost`, `user_order_id`) VALUES(15, 4, 300000, 2, 20000, 29);
 
 -- --------------------------------------------------------
 
@@ -1503,6 +1669,43 @@ CREATE TABLE `vendor_withdraws` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `wishlist`
+--
+
+INSERT INTO `wishlist` (`id`, `user_id`) VALUES(1, 11);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `wishlist_detail`
+--
+
+CREATE TABLE `wishlist_detail` (
+  `id` int(11) NOT NULL,
+  `wishlist_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `wishlist_detail`
+--
+
+INSERT INTO `wishlist_detail` (`id`, `wishlist_id`, `product_id`, `price`, `quantity`) VALUES(1, 1, 2, 350000, 5);
 
 --
 -- Indexes for dumped tables
@@ -1684,18 +1887,6 @@ ALTER TABLE `user_billing_address`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `user_order`
---
-ALTER TABLE `user_order`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `user_order_details`
---
-ALTER TABLE `user_order_details`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `user_role_permissions`
 --
 ALTER TABLE `user_role_permissions`
@@ -1739,6 +1930,18 @@ ALTER TABLE `vendor_withdraws`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `wishlist_detail`
+--
+ALTER TABLE `wishlist_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -1758,13 +1961,13 @@ ALTER TABLE `api_tokens`
 -- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `cart_detail`
 --
 ALTER TABLE `cart_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT untuk tabel `comments`
@@ -1812,37 +2015,37 @@ ALTER TABLE `options`
 -- AUTO_INCREMENT untuk tabel `orders_items`
 --
 ALTER TABLE `orders_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_products`
 --
 ALTER TABLE `order_products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `post_extras`
 --
 ALTER TABLE `post_extras`
-  MODIFY `post_extra_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `post_extra_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=756;
 
 --
 -- AUTO_INCREMENT untuk tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_extras`
 --
 ALTER TABLE `product_extras`
-  MODIFY `product_extra_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `product_extra_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT untuk tabel `request_products`
@@ -1890,7 +2093,7 @@ ALTER TABLE `term_extras`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `users_custom_designs`
@@ -1909,18 +2112,6 @@ ALTER TABLE `users_details`
 --
 ALTER TABLE `user_billing_address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT untuk tabel `user_order`
---
-ALTER TABLE `user_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT untuk tabel `user_order_details`
---
-ALTER TABLE `user_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role_permissions`
@@ -1963,6 +2154,18 @@ ALTER TABLE `vendor_totals`
 --
 ALTER TABLE `vendor_withdraws`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `wishlist_detail`
+--
+ALTER TABLE `wishlist_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

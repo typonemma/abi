@@ -12,12 +12,14 @@ use App\UserBillingAddress;
 use App\UserOrder;
 use App\UserShippingAddress;
 use App\Kota;
+use App\Models\OrdersItem;
 use App\Rules\PhoneNumberCheck;
 use App\Wishlist;
 use App\WishlistDetail;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -357,8 +359,22 @@ class AuthController extends Controller
         }
         $page = intval($_GET['page']);
         $offset = $per_page * ($page - 1);
-        $user_order_all = UserOrder::where('user_id', '=', $user->id)->where('status', '!=', 0)->get();
-        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '!=', 0)->limit($per_page)->offset($offset)->get();
+        $orders = OrdersItem::orderby('id', 'desc')->get();
+        $user_order_all = [];
+        foreach ($orders as $order) {
+            $obj = json_decode($order->order_data, true);
+            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] != '0') {
+                $user_order_all[] = $obj;
+            }
+        }
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '!=', '0')->limit($per_page)->offset($offset)->get();
+        $user_order = [];
+        foreach ($orders as $order) {
+            $obj = json_decode($order->order_data, true);
+            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] != '0') {
+                $user_order[] = $obj;
+            }
+        }
         $page_count = ceil(count($user_order_all) / $per_page);
         return view('auth::profile-history', ['user_order' => $user_order, 'page' => $page, 'page_count' => $page_count]);
     }
@@ -371,8 +387,30 @@ class AuthController extends Controller
         session()->forget('ship');
         session()->forget('ship-error');
         $user = session('user');
-        $user_order = UserOrder::where('user_id', '=', $user->id)->where('status', '=', 0)->orderby('date', 'desc')->get();
-        return view('auth::profile-yourorder', ['user_order' => $user_order]);
+        $per_page = 2;
+        if (!isset($_GET['page'])) {
+            $_GET['page'] = 1;
+        }
+        $page = intval($_GET['page']);
+        $offset = $per_page * ($page - 1);
+        $orders = OrdersItem::orderby('id', 'desc')->get();
+        $user_order_all = [];
+        foreach ($orders as $order) {
+            $obj = json_decode($order->order_data, true);
+            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] == '0') {
+                $user_order_all[] = $obj;
+            }
+        }
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', '0')->limit($per_page)->offset($offset)->get();
+        $user_order = [];
+        foreach ($orders as $order) {
+            $obj = json_decode($order->order_data, true);
+            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] == '0') {
+                $user_order[] = $obj;
+            }
+        }
+        $page_count = ceil(count($user_order_all) / $per_page);
+        return view('auth::profile-yourorder', ['user_order' => $user_order, 'page' => $page, 'page_count' => $page_count]);
     }
 
     public function wishlist()
@@ -383,12 +421,21 @@ class AuthController extends Controller
         session()->forget('ship');
         session()->forget('ship-error');
         $user = session('user');
+        $per_page = 2;
+        if (!isset($_GET['page'])) {
+            $_GET['page'] = 1;
+        }
+        $page = intval($_GET['page']);
+        $offset = $per_page * ($page - 1);
         $user_wishlist = Wishlist::where('user_id', '=', $user->id)->first();
+        $user_wishlist_detail_all = [];
         $user_wishlist_detail = [];
         if ($user_wishlist != null) {
-            $user_wishlist_detail = WishlistDetail::where('wishlist_id', '=', $user_wishlist->id)->get();
+            $user_wishlist_detail_all = WishlistDetail::where('wishlist_id', '=', $user_wishlist->id)->get();
+            $user_wishlist_detail = WishlistDetail::where('wishlist_id', '=', $user_wishlist->id)->limit($per_page)->offset($offset)->get();;
         }
-        return view('pages.frontend.user-account.my-wishlist', ['user_wishlist_detail' => $user_wishlist_detail]);
+        $page_count = ceil(count($user_wishlist_detail_all) / $per_page);
+        return view('pages.frontend.user-account.my-wishlist', ['user_wishlist_detail' => $user_wishlist_detail, 'page' => $page, 'page_count' => $page_count]);
     }
 
     public function insertWishlist(Request $request)

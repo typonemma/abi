@@ -61,15 +61,15 @@
       </div>
       <div class="box-body">
         <div id="chart"></div>
-      </div>  
+      </div>
     </div>
-  </div>    
+  </div>
 </div>
 @endif
 
 <div class="row">
   <div class="col-md-7">
-    @if($dashboard_data['is_admin_login'])  
+    @if($dashboard_data['is_admin_login'])
     <div class="box box-solid">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-users dashbord-icon-color" aria-hidden="true"></i> &nbsp; {{ trans('admin.vendors_info_label') }}</h3>
@@ -103,7 +103,7 @@
       </div>
     </div>
     @endif
-      
+
     <div class="box box-solid">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-file-text-o dashbord-icon-color" aria-hidden="true"></i> &nbsp; {{ trans('admin.latest_orders') }}</h3>
@@ -131,9 +131,9 @@
                     <td>
                       @if($vals['order_status'] == 'on-hold')<span class="on-hold-label">{{ trans('admin.on_hold') }}</span>@elseif($vals['order_status'] == 'refunded') <span class="refunded-label">{{ trans('admin.refunded') }}</span>@elseif($vals['order_status'] == 'cancelled') <span class="cancelled-label">{{ trans('admin.cancelled') }}</span> @elseif($vals['order_status'] == 'pending') <span class="pending-label">{{ trans('admin.pending') }}</span> @elseif($vals['order_status'] == 'processing') <span class="processing-label">{{ trans('admin.processing') }}</span> @elseif($vals['order_status'] == 'completed') <span class="completed-label">{{ trans('admin.completed') }}</span> @elseif($vals['order_status'] == 'shipping') <span class="shipping-label">{{ trans('admin.shipping') }}</span> @endif
                     </td>
-                    <td>{!! price_html( $vals['order_totals'],  $vals['order_currency']) !!}</td>
+                    {{-- <td>{!! price_html( $vals['order_totals'],  $vals['order_currency']) !!}</td> --}}
                   </tr>
-                @endforeach  
+                @endforeach
               @else
               <tr>
                 <td rowspan="4">{{ trans('admin.no_latest_order_yet') }}</td>
@@ -147,7 +147,7 @@
         <a href="{{ route('admin.shop_orders_list') }}" class="btn btn-sm btn-default btn-flat pull-right">{{ trans('admin.view_all_orders') }}</a>
       </div>
     </div>
-      
+
     <div class="box box-solid">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-shopping-cart dashbord-icon-color" aria-hidden="true"></i> &nbsp; {{ trans('admin.recently_added_products') }}</h3>
@@ -177,16 +177,16 @@
             @endforeach
           @else
             <li class="item">{{ trans('admin.no_recent_products_added') }}</li>
-          @endif 
+          @endif
         </ul>
       </div>
       <div class="box-footer clearfix">
         <a href="{{ route('admin.product_list', 'all') }}" class="btn btn-sm btn-default btn-flat pull-right">{{ trans('admin.view_all_products') }}</a>
       </div>
-    </div>  
+    </div>
   </div>
   <div class="col-md-5">
-    @if($dashboard_data['is_vendor_login'])  
+    @if($dashboard_data['is_vendor_login'])
     <div class="box box-solid">
       <div class="box-header with-border">
         <h3 class="box-title"><i class="fa fa-bullhorn dashbord-icon-color" aria-hidden="true"></i> &nbsp;{{ trans('admin.vendors_announcement_label') }}</h3>
@@ -196,7 +196,7 @@
       </div>
       <div class="box-body">
         <div class="dashboard-announcement-content-main">
-          @if(count($dashboard_data['dashbord_announcement']) > 0)  
+          @if(count($dashboard_data['dashbord_announcement']) > 0)
           <div class="clearfix">
             <div class="pull-right"><a class="notice-all" href="{{ route('admin.vendor_notice_board_content') }}">{!! trans('admin.all_notice_label') !!}</a></div>
           </div>
@@ -221,17 +221,17 @@
               </tr>
               @endforeach
             </table>
-          </div>  
+          </div>
           @else
           <p>{!! trans('admin.no_notice_label') !!}</p>
           @endif
         </div>
-      </div>  
-    </div> 
+      </div>
+    </div>
     @endif
-    
+
     @if($dashboard_data['is_admin_login'])
-    <div class="box box-solid">  
+    <div class="box box-solid">
       <form  method="post" action="" enctype="multipart/form-data">
         @include('includes.csrf-token')
         <div class="box-header with-border">
@@ -257,8 +257,8 @@
         <div class="box-footer clearfix">
           <button class="pull-right btn btn-default" type="submit" id="sendQuickEmail" name="sendQuickEmail">{{ trans('admin.send') }} <i class="fa fa-arrow-circle-right"></i></button>
         </div>
-      </form>   
-    </div> 
+      </form>
+    </div>
     @endif
 
     <div class="box box-solid">
@@ -269,8 +269,8 @@
       <div class="box-body">
         <div><i class="fa fa-check"></i> &nbsp; {!! trans('admin.running_version_label') !!} : {!! $dashboard_data['install_info']['version'] !!} </div>
         <div style="padding-top: 5px;"><i class="fa fa-check"></i> &nbsp; {!! trans('admin.laravel_version_label') !!} : {!! $dashboard_data['install_info']['laravel'] !!}</div>
-      </div>  
-    </div> 
+      </div>
+    </div>
   </div>
 </div>
 <script type="text/javascript">
@@ -294,8 +294,8 @@
       weekdays[5] = "FRI";
       weekdays[6] = "SAT";
 
-      return weekdays[d.getDay()] + '-' + 
-             ("0" + (d.getMonth() + 1)).slice(-2) + '-' + 
+      return weekdays[d.getDay()] + '-' +
+             ("0" + (d.getMonth() + 1)).slice(-2) + '-' +
              ("0" + (d.getDate())).slice(-2);
     },
     resize: true

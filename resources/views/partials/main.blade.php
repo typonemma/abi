@@ -833,6 +833,7 @@
                                         let city = data.rajaongkir.destination_details.city_name;
                                         $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
                                         $('#ship-cost').text('Rp. ' + numberWithCommas(cost));
+                                        $('#temp-ship-cost').val(cost);
                                         let order_total = $('#temp-total').val();
                                         order_total = parseInt(order_total) + parseInt(cost);
                                         $('#order-total').text('Rp. ' + numberWithCommas(order_total));
@@ -903,6 +904,13 @@
                         let note = $('#note').val();
                         let ppa = $('#ppa').val();
                         let payment = $('#payment').val();
+                        let user = JSON.parse($('#user').val());
+                        let user_billing = JSON.parse($('#user_billing').val());
+                        let user_shipping = JSON.parse($('#user_shipping').val());
+                        let cart = JSON.parse($('#cart').val());
+                        let cart_items = JSON.parse($('#cart_items').val());
+                        let ship = JSON.parse($('#ship').val());
+                        let ship_cost = $('#temp-ship-cost').val();
                         $.ajaxSetup({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -919,7 +927,34 @@
                                 address:address,
                                 note:note,
                                 ppa:ppa,
-                                payment:payment
+                                payment:payment,
+                                billing: {
+                                    'first_name': user_billing.first_name,
+                                    'last_name': user_billing.last_name,
+                                    'email': user_billing.email,
+                                    'phone_number': user_billing.phone_number,
+                                    'country': country,
+                                    'address_1': user_billing.address,
+                                    'city': user_billing.city,
+                                    'postcode': user_billing.zip_code
+                                },
+                                shipping: {
+                                    'first_name': user_shipping.first_name,
+                                    'last_name': user_shipping.last_name,
+                                    'email': user_shipping.email,
+                                    'phone_number': user_shipping.phone_number,
+                                    'country': country,
+                                    'address_1': user_shipping.address,
+                                    'city': user_shipping.city,
+                                    'postcode': user_shipping.zip_code
+                                },
+                                line_items: cart_items,
+                                customer_id: user.id,
+                                shipping_method: ship.courier,
+                                payment_method_title: 'Bank Transfer',
+                                total: cart.total,
+                                currency: 'Rupiah',
+                                shipping_cost: ship_cost
                             },
                             success: function() {
                                 location.href = '/cart-slice/thankyou';
