@@ -12,6 +12,7 @@
 */
 
 Route::prefix('')->group(function() {
+    //General
     Route::get('/', 'GeneralController@home');
     Route::get('/home', 'GeneralController@home');
     Route::get('/aboutus', 'GeneralController@aboutus');
@@ -27,4 +28,7 @@ Route::prefix('')->group(function() {
     
     Route::get('/email_template', 'GeneralController@email_template');
     Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');
+
+    //Admin
+    Route::get('/admin', 'AdminController@admin');
 });

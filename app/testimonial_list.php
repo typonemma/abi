@@ -11,6 +11,6 @@ class testimonial_list extends Model
     protected $guarded = [];
     public $timestamps = false;
     public function TestimonialExtras() {
-        return $this->belongsTo('testimonial_extras', 'id', 'product_id');
+        return $this->belongsTo('testimonial_extras', 'id', 'post_id');
     }
 }

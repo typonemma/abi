@@ -85,17 +85,19 @@
                                             </div>
                                         </div>
                                         <div class="preview"> 
-
-                                            <?php
-                                                $filename = $_SERVER['DOCUMENT_ROOT'] . $b->image_url;
-                                                if (file_exists($filename)) {
-                                                    echo "<img src='$b->image_url'>";
-                                                } else {                                                    
-                                                    // echo "<img src='/public/uploads/no-image.png'>";
-                                                    echo "<img src='/public/uploads/no-image.jpg'>";
-                                                    
+                                            <?php                                                
+                                                $key_value = $b->image_url;
+                                                $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                                                if ($key_value == ''){                                                 
+                                                    echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";                                                    
+                                                }   
+                                                else if (!file_exists($filename)) {
+                                                    echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";  
+                                                }                                
+                                                else {                                                 
+                                                    echo "<img src='$key_value' style='width:201px;height:200px;'>";                                                    
                                                 }
-                                            ?> 
+                                            ?>                                        
                                             <div class="preview-buttons valign-middle">
                                                 <div class="valign-middle-content">
                                                     <a class="button size-2 style-2" href="product_detail/<?= $b->post_slug ?>">
@@ -199,7 +201,7 @@
                         </div>
                     </div>
                     <div class="container" style="margin-top: 50px;">
-                        <div class="row">
+                        <div class="row">                            
                             @foreach ($availableAt as $x)
                                 <?php
                                     $pe = App\term_extras::where('term_id', '=', $x->term_id)->get();
@@ -208,19 +210,26 @@
                                     foreach ($pe as $x2) {
                                         if ($x2->key_name == '_brand_logo_img_url') {
                                             $key_value = $x2->key_value;
-                                            echo $key_value;
-                                            break;
-                                        }
-                                        else if ($x2->key_name == '_brand_short_description'){
-                                            $key_value2 = $x2->key_value2;
-                                            echo $key_value2;
-                                            break;
-                                        }
+                                        }        
+                                        else if($x2->key_name == '_brand_short_description'){
+                                            $key_value2 = $x2->key_value;
+                                        }                              
                                     }
                                 ?>
-                                <div class="col-sm-3 col-md-b10">
-                                    <a href="">                                    
-                                        <!-- <img src="{{URL::asset($key_value)}}" width="202" height="130">   -->
+                                <div class="col-sm-3 col-md-b10"> 
+                                    <a href="<?= $key_value2 ?>">
+                                        <?php                             
+                                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                                            if ($key_value == ''){                                                 
+                                                echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:130px;'>";                                                    
+                                            }   
+                                            else if (!file_exists($filename)) {
+                                                echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:130px;'>";  
+                                            }                                
+                                            else {                                                 
+                                                echo "<img src='$key_value' style='width:201px;height:130px;'>";                                                    
+                                            }
+                                        ?> 
                                     </a>                                                                        
                                 </div>
                             @endforeach
@@ -235,7 +244,27 @@
                             <div class="row m5 ">                                            
                                 <div class="blog-shortcode style-1">
                                     <a href="blog_detail" class="preview simple-mouseover">
-                                        <img src="{{URL::asset($a->image)}}">                                                 
+                                        <?php
+                                            $pe = App\blogs_extras::where('post_id', '=', $a->id)->get();
+                                            $key_value = '';
+                                            foreach ($pe as $x) {
+                                                if ($x->key_name == '_featured_image') {
+                                                    $key_value = $x->key_value;
+                                                    break;
+                                                }
+                                            }
+
+                                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
+                                            if ($key_value == ''){                                                 
+                                                echo "<img src='/public/uploads/no-image.jpg'>";                                                    
+                                            }
+                                            else if (file_exists($filename)) {
+                                                echo "<img src='$key_value'>";
+                                            } else { 
+                                                echo "<img src='/public/uploads/no-image.jpg'>";
+                                                
+                                            }
+                                        ?>                                                
                                     </a>
                                     <div class="description">
                                         <!-- Tanggal -->                                                    
@@ -252,14 +281,14 @@
                                             </a>
                                         </h6>
                                         <div class="simple-article size-2">
-                                            {{Str::limit($a->post_content, 80, '')}}
+                                            {!!Str::limit(html_entity_decode($a->post_content),80,"...")!!}
                                             <!-- {{ $a->post_content }} -->
                                         </div>
                                     </div>                                                
                                 </div>                                                                                        
-                            </div>
-                            <div class="empty-space col-xs-b25 col-sm-b50"></div>
+                            </div>                            
                             @endforeach
+                            <div class="empty-space col-xs-b25 col-sm-b50"></div>
                         </div>
                     </div>
                     <div class="row">

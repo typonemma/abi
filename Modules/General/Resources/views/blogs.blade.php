@@ -38,7 +38,27 @@
                 @foreach ($blogs_list as $b)
                     <div class="blog-shortcode style-3">
                         <a class="preview  simple-mouseover" href="#">
-                            <img src="{{URL::asset($b->image)}}" width="868" height="450">
+                        <?php
+                            $pe = App\blogs_extras::where('post_id', '=', $b->id)->get();
+                            $key_value = '';
+                            foreach ($pe as $x) {
+                                if ($x->key_name == '_featured_image') {
+                                    $key_value = $x->key_value;
+                                    break;
+                                }
+                            }
+
+                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
+                            if ($key_value == ''){                                                 
+                                echo "<img src='/public/uploads/no-image.jpg' height='400' width='868'>";                                                    
+                            }
+                            else if (file_exists($filename)) {
+                                echo "<img src='$key_value' height='450' width='868'>";
+                            } else { 
+                                echo "<img src='/public/uploads/no-image.jpg' height='400' width='868'>";
+                                
+                            }
+                        ?> 
                         </a>
                         <div class="date">
                             <span>
@@ -135,18 +155,39 @@
                 <div class="h4 col-xs-b25">related blog</div>
                 @foreach ($relatedblog_list as $a)
                 <div class="blog-shortcode style-2">
-                    <a href="blog_detail/<?= $a->post_slug ?>" class="preview rounded-image simple-mouseover">
-                        <img class="rounded-image" src="{{URL::asset($a->image)}}" alt="" />
-                        <!-- <img class="rounded-image" src="img/blog1.jpg" alt="" /> -->
+                    <a href="blog_detail/<?= $a->post_slug ?>" class="preview rounded-image simple-mouseover"> 
+                        <?php
+                            $pe = App\blogs_extras::where('post_id', '=', $a->id)->get();
+                            $key_value = '';
+                            foreach ($pe as $x) {
+                                if ($x->key_name == '_featured_image') {
+                                    $key_value = $x->key_value;
+                                    break;
+                                }
+                            }
+
+                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
+                            if ($key_value == ''){                                                 
+                                echo "<img src='/public/uploads/no-image.jpg'>";                                                    
+                            }
+                            else if (file_exists($filename)) {
+                                echo "<img src='$key_value'>";
+                            } else { 
+                                echo "<img src='/public/uploads/no-image.jpg'>";
+                                
+                            }
+                        ?>                       
                     </a>
                     <div class="description simple-article size-1 grey uppercase">
                         <?php
-                            $tanggal = $b->created_at;
+                            $tanggal = $a->created_at;
                             echo date ("F d / Y", strtotime($tanggal));
                         ?> &nbsp;&nbsp;
                     </div>
                     <div class="title h6"><a href="blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
-                    <div class="simple-article size-2">{{Str::limit($a->post_content, 80, '')}}</div>
+                    <div class="simple-article size-2">
+                        {!!Str::limit(html_entity_decode($a->post_content),80,"...")!!}
+                    </div>
                 </div>
                 <div class="empty-space col-xs-b25"></div>
                 @endforeach                    

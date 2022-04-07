@@ -73,7 +73,29 @@
                             @foreach ($relatedblog_list as $blog)
                                 <div class="empty-space col-xs-b20"></div>
                                 <div class="footer-post-preview clearfix">
-                                    <a class="image" href="/blog_detail/<?= $blog->post_slug ?>"><img src="{{URL::asset($blog->image)}}" alt="" /></a>
+                                    <a class="image" href="/blog_detail/<?= $blog->post_slug ?>">
+                                    <?php
+                                            $pe = App\blogs_extras::where('post_id', '=', $blog->id)->get();
+                                            $key_value = '';
+                                            foreach ($pe as $x) {
+                                                if ($x->key_name == '_featured_image') {
+                                                    $key_value = $x->key_value;
+                                                    break;
+                                                }
+                                            }
+
+                                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
+                                            if ($key_value == ''){                                                 
+                                                echo "<img src='/public/uploads/no-image.jpg'>";                                                    
+                                            }
+                                            else if (file_exists($filename)) {
+                                                echo "<img src='$key_value'>";
+                                            } else { 
+                                                echo "<img src='/public/uploads/no-image.jpg'>";
+                                                
+                                            }
+                                        ?>
+                                    </a>
                                     <div class="description">
                                         <div class="date">
                                             <?php
