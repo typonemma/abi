@@ -5,6 +5,8 @@ namespace Modules\Cart\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\str;
 
 class CartController extends Controller
 {

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class bank_list extends Model
+class AdminPaymentMethod extends Model
 {
     //
     protected $table = 'list_bank';

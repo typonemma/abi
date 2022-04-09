@@ -181,7 +181,7 @@
                 <div class="empty-space col-xs-b50"></div>
                 <h4 class="h4 col-xs-b25">payment method (bank transfer only)</h4> 
                 <?php
-                    $bank_list = App\bank_list::where('post_title', 'LIKE', '%bank%')->get();
+                    $bank_list = App\bank_list::where('title', 'LIKE', '%bank%')->get();
                     $i = 1;
                 ?>
                 @foreach ($bank_list as $checkout)   
@@ -189,13 +189,16 @@
                         <input id="{{$i}}" type="radio" name="1" checked="" value="" onchange="checkChanged(this)">
                         <span id="pay-{{$i}}" style="text-transform: none;">
                             <?php
-                                $potong_kalimat = substr("$checkout->post_title",5);
-                                echo $potong_kalimat . htmlspecialchars_decode($checkout->post_content) . '<br>';
+                                $potong_kalimat = substr("$checkout->title",5);
+                                echo $potong_kalimat . '<br>'; 
+                                echo 'No. Rek. : ' . htmlspecialchars_decode($checkout->nomor_rekening) . '<br>';
+                                echo 'Nama : ' . htmlspecialchars_decode($checkout->content);                                 
                                 $i++;
                             ?>
                         </span>
                     </label>
-                    <input id="payment" type="hidden" value="">
+                    <br><br>
+                    <input id="payment" type="hidden" value="MANDIRI (Rp) - Cabang : Kusuma Bangsa - Surabaya <br> No. Rek. : 140-00-1051414-0  <br> Nama : Oei Hwang Ie al Benny Widjaja">
                 @endforeach                
                 <div class="empty-space col-xs-b10"></div>
                 <div class="simple-article size-2">* Etiam mollis tristique mi ac ultrices. Morbi vel neque eget lacus sollicitudin facilisis. Lorem ipsum dolor sit amet semper ante vehicula ociis natoq.</div>
