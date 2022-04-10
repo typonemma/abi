@@ -19,13 +19,16 @@ Route::prefix('')->group(function() {
     Route::get('/products', 'GeneralController@products');
     Route::get('/blogs', 'GeneralController@blogs');
     Route::get('/contact', 'GeneralController@contact');    
-    Route::get('/shipment', 'GeneralController@shipment');
-    Route::get('/blog_detail/{slug}', 'GeneralController@blog_detail');
-    Route::get('/product_detail/{slug}', 'GeneralController@product_detail');
+    Route::get('/shipment', 'GeneralController@shipment');    
     Route::get('/thank_you', 'GeneralController@thank_you');
     Route::get('/checkout', 'GeneralController@checkout');
     Route::get('/placeOrder', 'GeneralController@placeOrder');
+
+    //Detail
+    Route::get('/blog_detail/{slug}', 'GeneralController@blog_detail');
+    Route::get('/product_detail/{slug}', 'GeneralController@product_detail');
     
+    //Email
     Route::get('/email_template', 'GeneralController@email_template');
     Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');
 

@@ -38,12 +38,12 @@
                 </select>
             </div>
             <div class="col-sm-4">
-                <form>
+                <form method="GET" action="/home">
                     <div class="search-submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                         <input type="submit">
                     </div>
-                    <input class="simple-input style-1" type="text" value="" placeholder="Enter keyword">
+                    <input name="cari" class="simple-input style-1" type="text" value="" placeholder="Enter keyword">
                 </form>
             </div>
             <div class="col-sm-3"></div>
@@ -100,7 +100,7 @@
                                             ?>                                        
                                             <div class="preview-buttons valign-middle">
                                                 <div class="valign-middle-content">
-                                                    <a class="button size-2 style-2" href="product_detail/<?= $b->post_slug ?>">
+                                                    <a class="button size-2 style-2" href="product_detail/<?= $b->slug ?>">
                                                         <span class="button-wrapper">
                                                             <span class="icon">
                                                                 <img src="{{URL::asset('public/custom/img/icon-1.png')}}">

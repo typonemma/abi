@@ -57,15 +57,28 @@
                                 <div class="swiper-button-prev style-1"></div>
                                 <div class="swiper-button-next style-1"></div>
                                 <div class="swiper-wrapper">
+
+                                @foreach ($bestsellerproduct_list as $b)
                                     <div class="swiper-slide">
                                         <div class="product-shortcode style-1 small">
                                             <div class="title">
                                                 <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
+                                                <div class="h5 animate-to-green"><a href="#">{{ $b->title }}</a></div>
                                             </div>
                                             <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-111.jpg')}}">
-                                                <!-- <img src="img/product-111.jpg" alt=""> -->
+                                                <?php                                                
+                                                    $key_value = $b->image_url;
+                                                    $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                                                    if ($key_value == ''){                                                 
+                                                        echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";                                                    
+                                                    }   
+                                                    else if (!file_exists($filename)) {
+                                                        echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";  
+                                                    }                                
+                                                    else {                                                 
+                                                        echo "<img src='$key_value' style='width:201px;height:200px;'>";                                                    
+                                                    }
+                                                ?> 
                                                 <div class="preview-buttons valign-middle">
                                                     <div class="valign-middle-content">
                                                         <a class="button size-2 style-3" href="product_detail">
@@ -86,177 +99,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-112.jpg')}}">
-                                                <!-- <img src="img/product-112.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon">
-                                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                                                    <!-- <img src="img/icon-4.png" alt=""> -->
-                                                                </span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-113.jpg')}}">
-                                                <!-- <img src="img/product-113.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon"><img src="img/icon-4.png" alt=""></span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-114.jpg')}}">
-                                                <!-- <img src="img/product-114.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon">
-                                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                                                    <!-- <img src="img/icon-4.png" alt=""> -->
-                                                                </span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-111.jpg')}}">
-                                                <!-- <img src="img/product-111.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon">
-                                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                                                    <!-- <img src="img/icon-4.png" alt=""> -->
-                                                                </span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-114.jpg')}}">
-                                                <!-- <img src="img/product-114.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon">
-                                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                                                    <!-- <img src="img/icon-4.png" alt=""> -->
-                                                                </span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="product-shortcode style-1 small">
-                                            <div class="title">
-                                                <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
-                                                <div class="h5 animate-to-green"><a href="#">charger asus a455l</a></div>
-                                            </div>
-                                            <div class="preview">
-                                                <img src="{{URL::asset('public/custom/img/product-49.jpg')}}">
-                                                <!-- <img src="img/product-49.jpg" alt=""> -->
-                                                <div class="preview-buttons valign-middle">
-                                                    <div class="valign-middle-content">
-                                                        <a class="button size-2 style-3" href="product_detail">
-                                                            <span class="button-wrapper">
-                                                                <span class="icon">
-                                                                    <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
-                                                                    <!-- <img src="img/icon-4.png" alt=""> -->
-                                                                </span>
-                                                                <span class="text">SEE DETAIL</span>
-                                                            </span>
-                                                        </a>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <div class="simple-article size-4 dark">Rp 200.000</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                @endforeach 
+                                
                                 </div>
                                 <div class="swiper-pagination relative-pagination visible-xs"></div>
                             </div>

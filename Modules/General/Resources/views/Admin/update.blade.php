@@ -21,7 +21,7 @@
                                 <div class="empty-space col-xs-b20"></div>
                                 <input name="nomor_rekening" class="simple-input" type="text" value="{{$AdminPaymentMethod->nomor_rekening}}" placeholder="Nomor Rekening">
                                 <div class="empty-space col-xs-b20"></div>
-                                <textarea name="content" class="simple-input" value="{{$AdminPaymentMethod->content}}" placeholder="Keterangan"></textarea>
+                                <input name="content" class="simple-input" value="{{$AdminPaymentMethod->content}}" placeholder="Keterangan">
                                 <div class="empty-space col-xs-b20"></div>
                             </div>
                         </div>

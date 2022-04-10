@@ -31,9 +31,14 @@ class GeneralController extends Controller
         return view('general::index');
     }
 
-    public function home()
+    public function home(Request $request)
     {
-        $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
+        if ($request->has('cari')){
+            $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
+        } else {
+            $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
+        }
+
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
         // $relatedblog_list->post_content = relatedblog_list::limit($relatedblog_list->post_content, 30);
         $testimonial_list = testimonial_list::where('post_type', '=', 'testimonial')->orderBy('id', 'DESC')->get();
@@ -60,7 +65,8 @@ class GeneralController extends Controller
 
     public function products()
     {
-        return view('general::products');
+        $bestsellerproduct_list = bestsellerproduct_list::all();
+        return view('general::products', ['bestsellerproduct_list' => $bestsellerproduct_list]);
     }
 
     public function blogs()
@@ -95,10 +101,6 @@ class GeneralController extends Controller
     public function blog_detail($slug)
     {
         $blog_detail = blogs_list::where('post_slug', '=', $slug)->first();
-        // $blog_detail = null;
-        // if (isset($_GET['id'])) {
-        //     $blog_detail = blogs_list::find($_GET['id']);
-        // }
         $blogs_list = blogs_list::paginate(1);
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
         return view('general::blog_detail', ['blog_detail' => $blog_detail, 
@@ -106,12 +108,12 @@ class GeneralController extends Controller
         'relatedblog_list' => $relatedblog_list]);
     }
 
-    public function product_detail()
+    public function product_detail($slug)
     {
-        $product_detail = availableAt_list::where('post_slug', '=', $slug)->first();
-        $availableAt_list = availableAt_list::paginate(1);
+        $product_detail = bestsellerproduct_list::where('slug', '=', $slug)->first();
+        $bestsellerproduct_list = bestsellerproduct_list::paginate(1);
         return view('general::product_detail',["product_detail" => $product_detail,
-        "availableAt_list" => $availableAt_list]);
+        "bestsellerproduct_list" => $bestsellerproduct_list]);
     }
 
     public function placeOrder(Request $request)

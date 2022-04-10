@@ -1,22 +1,22 @@
 @extends('partials.main')
 @section('navbar')
-    <li>
-        <a href="/general/home" class="nav-link">Home</a>
+<li>
+        <a href="/home" class="nav-link">Home</a>
     </li>
     <li>
-        <a href="/general/aboutus">about us</a>
+        <a href="/aboutus">about us</a>
     </li>
     <li class="active">
-        <a href="/general/products">products</a>
+        <a href="/products">products</a>
     </li>
     <li>
-        <a href="/general/shipment">Shipment</a>
+        <a href="/shipment">Shipment</a>
     </li>
     <li>
-        <a href="/general/blogs">blogs</a>
+        <a href="/blogs">blogs</a>
     </li>
     <li>
-        <a href="/general/contact">contact us</a>
+        <a href="/contact">contact us</a>
     </li>
 @endsection
 @section('content')
@@ -40,34 +40,26 @@
                                         <div class="swiper-button-prev hidden"></div>
                                         <div class="swiper-button-next hidden"></div>
                                         <div class="swiper-wrapper">
+
                                             <div class="swiper-slide">
+                                                <?php                                                
+                                                    $key_value = $product_detail->image_url;
+                                                    $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value; 
+                                                    $data_foto='';                                                  
+                                                    if ($key_value == ''){                                                 
+                                                        echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";                                                    
+                                                    }   
+                                                    else if (!file_exists($filename)) {
+                                                        echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";  
+                                                    }                                
+                                                    else {                                                 
+                                                        echo "<img src='$key_value' style='width:201px;height:200px;'>";                                                    
+                                                    }
+                                                ?> 
                                                 <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
+                                                <div class="product-big-preview-entry swiper-lazy" data-background="({{$data_foto}})"></div>
                                             </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="img/adaptor.jpg"></div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="empty-space col-xs-b30 col-sm-b60"></div>
@@ -75,51 +67,48 @@
                                         <div class="swiper-button-prev hidden"></div>
                                         <div class="swiper-button-next hidden"></div>
                                         <div class="swiper-wrapper">
+
                                             <div class="swiper-slide">
                                                 <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
+                                                    <?php                                                
+                                                        $key_value = $product_detail->image_url;
+                                                        $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value; 
+                                                        $data_foto='';                                                  
+                                                        if ($key_value == ''){                                                 
+                                                            echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:97px;'>";                                                    
+                                                        }   
+                                                        else if (!file_exists($filename)) {
+                                                            echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:97px;'>";  
+                                                        }                                
+                                                        else {                                                 
+                                                            echo "<img src='$key_value' style='width:100px;height:97px;'>";                                                    
+                                                        }
+                                                    ?> 
                                                 </div>
-                                            </div>
-                                            <div class="swiper-slide">
                                                 <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
+                                                    <img src="img/adaptor_.jpg" alt="" />
                                                 </div>
-                                            </div>
-                                            <div class="swiper-slide">
                                                 <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
+                                                    <img src="img/adaptor_.jpg" alt="" />
                                                 </div>
-                                            </div>
-                                            <div class="swiper-slide">
                                                 <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
+                                                    <img src="img/adaptor_.jpg" alt="" />
                                                 </div>
-                                            </div>
-                                            <div class="swiper-slide">
                                                 <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
+                                                    <img src="img/adaptor_.jpg" alt="" />
                                                 </div>
                                             </div>
-                                            <div class="swiper-slide">
-                                                <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="product-small-preview-entry">
-                                                    <img src="{{URL::asset('public/custom/img/adaptor_.jpg')}}" alt="" />
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-7">
                                 <div class="simple-article size-3 text-blue col-xs-b5">SMART WATCHES</div>
-                                <div class="h3 col-xs-b25">charger asus a455l</div>
+                                <div class="h3 col-xs-b25">{{ $product_detail->title }}</div>
                                 <div class="row col-xs-b25">
                                     <div class="col-sm-6">
-                                        <div class="simple-article size-5 grey">PRICE: <span class="color">Rp 200.000</span></div>
+                                        <div class="simple-article size-5 grey">PRICE: <span class="color"> ${{number_format($product_detail->price,0,',','.')}} </span></div>
                                     </div>
                                     
                                 </div>
