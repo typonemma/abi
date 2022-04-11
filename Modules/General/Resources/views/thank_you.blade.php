@@ -32,21 +32,21 @@
                     <div class="simple-article size-3 text-center color">
                             <span style="text-transform: none;">
                                 <?php
-                                    echo html_entity_decode(session('payment'));
+                                    $payment = html_entity_decode(session('payment'));
+                                    echo $payment;
                                 ?>    
-                            </span>
-                        <textarea id="textArea" rows="4" style="text-align: center; color:white; margin-top:-80px; margin-left:9999px;">
-                             <?php
-                                $norek = html_entity_decode(session('payment'));
-                                $potong_kalimat = substr("$norek",48,11);
-                                echo $potong_kalimat;
-                            ?>                       
+                            </span>                             
+                        <textarea id="textArea" rows="4" style="text-align: center; color:red; margin-top:-80px; margin-left:199px;">                           
+                            <?php
+                                $norek = substr("$payment",0,20);
+                                $bank_list = App\bank_list::where('title', 'LIKE', '%'. $norek .'%')->get();
+                            ?>         
+                            @foreach ($bank_list as $bl)
+                                {{ $bl->nomor_rekening }}
+                            @endforeach                       
                         </textarea>
                             <i class="fa fa-copy"></i>
-                            <a class="entry" onclick="copyToClipboard()">Copy Account Number</a>                            
-                            <!-- <a href="" class="underline">Copy Account Number</a> -->      
-
-                            <!-- {!! html_entity_decode(session('payment')) !!}                             -->                  
+                            <a class="entry" onclick="copyToClipboard()">Copy Account Number</a>                         
                     </div>
                     <div class="empty-space col-xs-b20 col-sm-b15 col-md-b30"></div>
                     <div class="button size-1 style-3">
