@@ -911,6 +911,7 @@
                         let cart_items = JSON.parse($('#cart_items').val());
                         let ship = JSON.parse($('#ship').val());
                         let ship_cost = $('#temp-ship-cost').val();
+                        let coupon_amount = $('#coupon-amount').val();
                         $.ajaxSetup({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -954,7 +955,8 @@
                                 payment_method_title: 'Bank Transfer',
                                 total: cart.total,
                                 currency: 'Rupiah',
-                                shipping_cost: ship_cost
+                                shipping_cost: ship_cost,
+                                coupon_amount: coupon_amount
                             },
                             success: function() {
                                 location.href = '/cart-slice/thankyou';
@@ -1043,6 +1045,10 @@
                         }
                     }
 
+                    function numberFormat(x) {
+                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    }
+
                     function submitCoupon() {
                         var coupon = $('#coupon').val();
                         var ajaxCoupon = $.ajax({
@@ -1075,8 +1081,12 @@
                             alert( 'Sorry, this coupon already exist' );
                             }
                             else if(data.success == true && (data.success_type == 'discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'discount_from_total_cart' || data.success_type == 'percentage_discount_from_total_cart')){
+                            const total = parseInt($('#temp-total').val()) - data.coupon_amount;
+                            const order_total = 'RP. ' + numberFormat(total);
+                            $('#coupon-discount').text('RP. ' + numberFormat(data.coupon_amount));
+                            $('#order-total').text(order_total);
+                            $('#temp-total').val(total);
                             alert( 'Your coupon successfully added' );
-
                             shopist_frontend.event.remove_user_coupon();
                             }
                             else if(data.error == true && data.error_type == 'exceed_from_cart_total'){

@@ -198,6 +198,7 @@
                             }
                         ?>
                         <div class="color" id="subtotal">RP. {!! number_format($cart->total,0,',','.') !!}</div>
+                        <input id="temp-cart-total" type="hidden" value="{{$cart->total}}">
                     </div>
                 </div>
             </div>
@@ -207,7 +208,7 @@
                         coupon discount
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">-</div>
+                        <div id="coupon-discount" class="color">-</div>
                     </div>
                 </div>
             </div>

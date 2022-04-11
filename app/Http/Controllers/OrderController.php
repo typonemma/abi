@@ -22,15 +22,15 @@ class OrderController extends Controller
   public $classCommonFunction;
   public $classGetFunction;
   public $carbonObject;
-  
+
   public function __construct(){
     $this->classCommonFunction  =  new CommonFunction();
     $this->classGetFunction     =  new GetFunction();
     $this->carbonObject         =  new Carbon();
   }
-  
+
   /**
-   * 
+   *
    * Order list content
    *
    * @param null
@@ -39,8 +39,8 @@ class OrderController extends Controller
   public function orderListsContent(){
     $data = array();
     $data = $this->classCommonFunction->commonDataForAllPages();
-    $get_shop_order_data = $this->getOrderList('all_order'); 
-    
+    $get_shop_order_data = $this->getOrderList('all_order');
+
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     $col = new Collection( $get_shop_order_data );
     $perPage = 10;
@@ -50,15 +50,15 @@ class OrderController extends Controller
     $order_object->setPath( route('admin.shop_orders_list') );
 
     $data['orders_list_data']  =  $order_object;
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-     
+
     return view('pages.admin.orders.order-list', $data);
   }
-  
+
   /**
-   * 
+   *
    * Order current date content
    *
    * @param null
@@ -68,7 +68,7 @@ class OrderController extends Controller
     $data = array();
     $data = $this->classCommonFunction->commonDataForAllPages();
     $get_shop_order_data = $this->getOrderList('current_date_order');
-    
+
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     $col = new Collection( $get_shop_order_data );
     $perPage = 10;
@@ -78,12 +78,12 @@ class OrderController extends Controller
     $order_object->setPath( route('admin.shop_orders_list') );
 
     $data['orders_list_data']  =  $order_object;
-     
+
     return view('pages.admin.orders.order-list', $data);
   }
 
   /**
-   * 
+   *
    * Order details content
    *
    * @param order_id
@@ -118,35 +118,35 @@ class OrderController extends Controller
           $order_data_by_id[$postmeta_row_data->key_name] = $this->classCommonFunction->get_shipping_label($postmeta_row_data->key_value);
         }
         elseif($postmeta_row_data->key_name == '_customer_user'){
-          $user_data = unserialize($postmeta_row_data->key_value);
+          $user_data = json_decode($postmeta_row_data->key_value, true);
           if($user_data['user_mode'] == 'guest'){
             $order_data_by_id['_member']  = array('name' => 'Guest', 'url' => '');
           }
           elseif($user_data['user_mode'] == 'login'){
-            $user_details_by_id = get_user_details($user_data['user_id']);
+            $user_details_by_id = get_user_details($user_data['id']);
             $order_data_by_id['_member']  = array('name' => $user_details_by_id['user_display_name'], 'url' => $user_details_by_id['user_photo_url']);
           }
         }
         elseif($postmeta_row_data->key_name == '_order_currency' || $postmeta_row_data->key_name == '_customer_ip_address' || $postmeta_row_data->key_name == '_customer_user_agent' || $postmeta_row_data->key_name == '_order_shipping_cost' || $postmeta_row_data->key_name == '_order_shipping_method' || $postmeta_row_data->key_name == '_payment_method' || $postmeta_row_data->key_name == '_payment_method_title' || $postmeta_row_data->key_name == '_order_tax' || $postmeta_row_data->key_name == '_order_total' || $postmeta_row_data->key_name == '_order_notes' || $postmeta_row_data->key_name == '_order_status' || $postmeta_row_data->key_name == '_order_discount' || $postmeta_row_data->key_name == '_order_coupon_code' || $postmeta_row_data->key_name == '_is_order_coupon_applyed' || $postmeta_row_data->key_name == '_final_order_shipping_cost' || $postmeta_row_data->key_name == '_final_order_tax' || $postmeta_row_data->key_name == '_final_order_total' || $postmeta_row_data->key_name == '_final_order_discount'){
           $order_data_by_id[$postmeta_row_data->key_name] = $postmeta_row_data->key_value;
         }
-      } 
+      }
 
       $order_data_by_id['_ordered_items']  = json_decode( $get_orders_items->order_data, TRUE );
-      $order_data_by_id['_order_history']  = $this->getOrderDownloadHistory( $params ); 
+      $order_data_by_id['_order_history']  = $this->getOrderDownloadHistory( $params );
     }
 
     $data['order_data_by_id']  =   $order_data_by_id;
-    $is_vendor = is_vendor_login(); 
+    $is_vendor = is_vendor_login();
     $sidebar['is_vendor_login'] = $is_vendor;
     $data['sidebar_data'] = $sidebar;
-    
+
     return view('pages.admin.orders.order-details', $data);
   }
 
-  
+
   /**
-   * 
+   *
    * Get order list
    *
    * @param all order or current date order
@@ -154,7 +154,7 @@ class OrderController extends Controller
    */
   public function getOrderList( $order_track ){
     $order_data = array();
-    
+
     if(is_vendor_login() && Session::has('shopist_admin_user_id')){
       if($order_track == 'all_order'){
         $get_order  = DB::table('posts')
@@ -188,30 +188,30 @@ class OrderController extends Controller
       elseif($order_track == 'current_date_order'){
         $get_order = Post::whereDate('created_at', '=', $this->carbonObject->today()->toDateString())->where(['parent_id' => 0, 'post_type' => 'shop_order'])->get()->toArray();
       }
-      
+
       if(count($get_order) >0){
         $order_data = $this->manageAllOrders( $get_order );
       }
     }
-    
+
     return $order_data;
   }
-  
+
   /**
-   * 
-   * Manage all orders 
+   *
+   * Manage all orders
    *
    * @param order array
    * @return array
    */
   public function manageAllOrders( $get_order ){
     $order_data = array();
-   
+
     if(count($get_order) > 0){
       foreach($get_order as $order){
         $order_postmeta = array();
         $get_postmeta_by_order_id = PostExtra::where(['post_id' => $order['id']])->get();
-        
+
         if($get_postmeta_by_order_id->count() > 0){
           $date_format = new Carbon( $order['created_at']);
 
@@ -225,15 +225,15 @@ class OrderController extends Controller
             }
           }
         }
-        
+
         $get_sub_order = get_vendor_sub_order_by_order_id($order['id']);
         $order_postmeta['_sub_order'] = array();
-        
-        if(count( $get_sub_order ) > 0){ 
+
+        if(count( $get_sub_order ) > 0){
           foreach($get_sub_order as $sub_order){
             $sub_order_postmeta = array();
             $get_postmeta_by_sub_order_id = PostExtra::where(['post_id' => $sub_order['parent_id']])->get();
-            
+
             if($get_postmeta_by_sub_order_id->count() > 0){
               $sub_order_date_format = new Carbon( $sub_order['created_at']);
 
@@ -250,15 +250,15 @@ class OrderController extends Controller
             array_push($order_postmeta['_sub_order'], $sub_order_postmeta);
           }
         }
-        
+
         array_push($order_data, $order_postmeta);
       }
     }
     return $order_data;
   }
-  
+
    /**
-   * 
+   *
    * Get order download history
    *
    * @param order_id
@@ -271,17 +271,17 @@ class OrderController extends Controller
                       ->where('order_id', $order_id)
                       ->groupBy('file_name', 'file_url')
                       ->get()->toArray();
-    
-    
+
+
     if(count($get_order_data) > 0){
       $order_data = $get_order_data;
     }
-    
+
     return $order_data;
   }
-  
+
   /**
-   * 
+   *
    * Update order status
    *
    * @param order id
@@ -291,16 +291,16 @@ class OrderController extends Controller
     if( Request::isMethod('post') && Session::token() == Request::Input('_token')){
       $environment = App::environment();
       $email_options = get_emails_option_data();
-      
+
       $data = array(
                     'key_value' => Request::Input('change_order_status')
       );
-      
+
       if( PostExtra::where(['post_id' => $order_id, 'key_name' => '_order_status'])->update( $data )){
         $get_email = get_customer_order_billing_shipping_info( $order_id );
-        
+
         if($environment === 'production' && $email_options['cancelled_order']['enable_disable'] == true && Request::Input('change_order_status') == 'cancelled'){
-          
+
           $this->classGetFunction->sendCustomMail( array('source' => 'cancelled_order', 'email' => $get_email['_billing_email'], 'order_id' => $order_id) );
         }
         elseif($environment === 'production' && $email_options['processed_order']['enable_disable'] == true && Request::Input('change_order_status') == 'processing'){
@@ -313,9 +313,9 @@ class OrderController extends Controller
       }
     }
   }
-  
+
   /**
-   * 
+   *
    * Redirect to order invoice
    *
    * @param null
@@ -324,7 +324,7 @@ class OrderController extends Controller
   public function redirectOrderInvoice( $params ){
     $order_id = 0;
     $get_post = Post::where(['id' => $params, 'post_type' => 'shop_order'])->first();
-    
+
 
     if(!empty($get_post) && $get_post->parent_id > 0){
       $order_id = $get_post->parent_id;
@@ -332,7 +332,7 @@ class OrderController extends Controller
     else{
       $order_id = $params;
     }
-    
+
     $get_post_by_order_id     = Post::where(['id' => $params])->first();
     $get_postmeta_by_order_id = PostExtra::where(['post_id' => $order_id])->get();
     $get_orders_items         = OrdersItem::where(['order_id' => $params])->first();
@@ -361,11 +361,11 @@ class OrderController extends Controller
         elseif($postmeta_row_data->key_name == '_order_currency' || $postmeta_row_data->key_name == '_customer_ip_address' || $postmeta_row_data->key_name == '_customer_user_agent' || $postmeta_row_data->key_name == '_order_shipping_cost' || $postmeta_row_data->key_name == '_order_shipping_method' || $postmeta_row_data->key_name == '_payment_method' || $postmeta_row_data->key_name == '_payment_method_title' || $postmeta_row_data->key_name == '_order_tax' || $postmeta_row_data->key_name == '_order_total' || $postmeta_row_data->key_name == '_order_notes' || $postmeta_row_data->key_name == '_order_status' || $postmeta_row_data->key_name == '_order_discount' || $postmeta_row_data->key_name == '_order_coupon_code' || $postmeta_row_data->key_name == '_is_order_coupon_applyed' || $postmeta_row_data->key_name == '_final_order_shipping_cost' || $postmeta_row_data->key_name == '_final_order_tax' || $postmeta_row_data->key_name == '_final_order_total' || $postmeta_row_data->key_name == '_final_order_discount'){
           $order_data_by_id[$postmeta_row_data->key_name] = $postmeta_row_data->key_value;
         }
-      } 
+      }
 
       $order_data_by_id['_ordered_items']  = json_decode( $get_orders_items->order_data, TRUE );
     }
-    
+
     return view('pages.admin.invoice.invoice', array('order_data_by_id' => $order_data_by_id));
   }
 }

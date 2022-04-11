@@ -9,7 +9,6 @@ use App\Rules\PasswordMatch;
 use App\Rules\UserExists;
 use App\Rules\UserNotExist;
 use App\UserBillingAddress;
-use App\UserOrder;
 use App\UserShippingAddress;
 use App\Kota;
 use App\Models\OrdersItem;
@@ -40,6 +39,7 @@ class AuthController extends Controller
     {
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
         return view('auth::home');
     }
 
@@ -75,6 +75,7 @@ class AuthController extends Controller
         $phone_number = '+62' . substr($request->phone_number, 1);
         $user = User::where('phone_number', '=', $phone_number)->first();
         $request->session()->put('user', $user);
+        $request->session()->put('shopist_frontend_user_id', $user->id);
     }
 
     public function verifyPhoneNumber(Request $request)
@@ -171,6 +172,9 @@ class AuthController extends Controller
         if (!session('user')) {
             return back();
         }
+        session()->forget('ship');
+        session()->forget('ship-error');
+        session()->forget('coupon_amount');
         $user = session('user');
         $user_billing_address = UserBillingAddress::where('user_id', '=', $user->id)->first();
         $user_shipping_address = UserShippingAddress::where('user_id', '=', $user->id)->first();
@@ -297,6 +301,7 @@ class AuthController extends Controller
         }
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
         return view('auth::profile-detail');
     }
 
@@ -352,6 +357,7 @@ class AuthController extends Controller
         }
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
         $user = session('user');
         $per_page = 2;
         if (!isset($_GET['page'])) {
@@ -386,6 +392,7 @@ class AuthController extends Controller
         }
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
         $user = session('user');
         $per_page = 2;
         if (!isset($_GET['page'])) {
@@ -420,6 +427,7 @@ class AuthController extends Controller
         }
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
         $user = session('user');
         $per_page = 2;
         if (!isset($_GET['page'])) {
@@ -484,6 +492,7 @@ class AuthController extends Controller
     public function logout()
     {
         session()->forget('user');
+        session()->forget('shopist_frontend_user_id');
         return redirect('/');
     }
 

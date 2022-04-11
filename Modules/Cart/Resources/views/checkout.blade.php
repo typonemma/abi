@@ -9,6 +9,7 @@
     $cart_encode = json_encode($cart);
     $cart_items_encode = json_encode(App\CartDetail::join('products', 'products.id', '=', 'cart_detail.product_id')->select('products.id AS product_id', 'products.title AS name', 'cart_detail.quantity', 'cart_detail.price', 'products.image_url AS img_src', 'products.type AS product_type')->get());
     $ship_encode = json_encode($ship);
+    $coupon_amount = session('coupon_amount');
 ?>
 @section('content')
 <div class="container">
@@ -122,7 +123,7 @@
                         coupon discount
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div class="color">-</div>
+                        <div class="color">Rp. {{number_format($coupon_amount,0,',','.')}}</div>
                     </div>
                 </div>
             </div>
@@ -150,7 +151,7 @@
                         order total
                     </div>
                     <div class="col-xs-6 col-xs-text-right">
-                        <div id="order-total" class="color">Rp {{number_format($cart->total+$ship->cost,0,',','.')}}</div>
+                        <div id="order-total" class="color">Rp {{number_format($cart->total+$ship->cost-$coupon_amount,0,',','.')}}</div>
                     </div>
                 </div>
             </div>
@@ -198,6 +199,7 @@
                 <input id="cart_items" type="hidden" value="{{$cart_items_encode}}">
                 <input id="ship" type="hidden" value="{{$ship_encode}}">
                 <input id="temp-ship-cost" type="hidden" value="{{$ship->cost}}">
+                <input id="coupon-amount" type="hidden" value="{{$coupon_amount}}">
                 <input type="submit" onclick="ajaxPlaceOrder()"/>
             </div>
             <br>

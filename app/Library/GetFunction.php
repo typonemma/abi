@@ -1884,10 +1884,12 @@ class GetFunction
   public static function get_user_all_details( $user_id ){
     $userData = array();
     $getuserdata = User::find( $user_id );
+    $roles = RoleUser::where('user_id', '=', $user_id)->get();
 
-    if($getuserdata && count($getuserdata->roles) > 0){
-      $userData['user_role']          =   $getuserdata->roles[0]->role_name;
-      $userData['user_role_slug']     =   $getuserdata->roles[0]->slug;
+    if($getuserdata && count($roles) > 0){
+      $role = Role::find($roles[0]->role_id);
+      $userData['user_role']          =   $role->role_name;
+      $userData['user_role_slug']     =   $role->slug;
       $userData['user_display_name']  =   $getuserdata->display_name;
       $userData['user_name']          =   $getuserdata->name;
       $userData['user_email']         =   $getuserdata->email;
@@ -2539,7 +2541,7 @@ class GetFunction
       $get_order_user = PostExtra::where(['post_id' => $order_id, 'key_name' => '_customer_user'])->first();
 
       if(!empty($get_order_user)){
-        $order_user = unserialize($get_order_user->key_value);
+        $order_user = json_decode($get_order_user->key_value, true);
 
         if($order_user['user_mode'] == 'guest'){
           $get_order_post_meta    =   PostExtra :: where('post_id', $order_id)->get();
@@ -2625,7 +2627,7 @@ class GetFunction
           }
         }
         elseif($order_user['user_mode'] == 'login'){
-          $get_data_by_user_id     =  get_user_account_details_by_user_id( $order_user['user_id'] );
+          $get_data_by_user_id     =  get_user_account_details_by_user_id( $order_user['id'] );
           $get_array_shift_data    =  array_shift($get_data_by_user_id);
           $user_account_parse_data =  json_decode($get_array_shift_data['details']);
 

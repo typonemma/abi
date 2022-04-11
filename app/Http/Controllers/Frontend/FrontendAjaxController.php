@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Frontend;
 
+use App\Cart as AppCart;
 use App\Http\Controllers\Controller;
 use Request;
 use Illuminate\Support\Facades\Input;
@@ -8,7 +9,8 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Library\GetFunction;
 use Session;
-use Anam\Phpcart\Facades\Cart;
+use App\Cart\Cart;
+use App\CartDetail;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 use App\Models\RequestProduct;
@@ -17,6 +19,7 @@ use App\Models\UsersDetail;
 use App\Library\CommonFunction;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ProductsController;
+use App\Models\PostExtra;
 
 class FrontendAjaxController extends Controller
 {
@@ -139,7 +142,7 @@ class FrontendAjaxController extends Controller
 
       if(count($shipping_array) > 0){
         if(Cart::setShippingMethod( $shipping_array )){
-          echo  price_html( get_product_price_html_by_filter(Cart::getCartTotal()) );
+          echo  price_html( get_product_price_html_by_filter($cart->total) );
         }
       }
     }
@@ -455,11 +458,13 @@ class FrontendAjaxController extends Controller
    */
   public function applyUserCoupon(){
     $input = Request::all();
-
+    $user = session('user');
+    $cart = AppCart::where('user_id', '=', $user->id)->first();
+    $items = CartDetail::where('cart_id', '=', $cart->id)->get();
     if(Request::isMethod('post') && Request::ajax() && Session::token() == Request::header('X-CSRF-TOKEN')){
       $response = $this->classGetFunction->manage_coupon($input['_couponCode'], 'new_add');
       $coupon_response = $this->classGetFunction->get_coupon_response( $input['_couponCode'] );
-
+      $coupon_amount = $coupon_response['coupon_amount'];
       if(!empty($response) && $response == 'no_coupon_data'){
         return response()->json(array('error' => true, 'error_type'=> 'no_coupon_data'));
       }
@@ -483,16 +488,32 @@ class FrontendAjaxController extends Controller
         return response()->json(array('error' => true, 'error_type'=> 'coupon_expired'));
       }
       elseif(!empty($response) && $response == 'discount_from_product'){
-        return response()->json(array('success' => true, 'success_type'=> 'discount_from_product', 'discount_price' => price_html( get_product_price_html_by_filter(Cart::couponPrice(), get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
+        $temp = $coupon_amount;
+        $coupon_amount = 0;
+        foreach ($items as $item) {
+            $coupon_amount += ($temp * $item->quantity);
+        }
+        session()->put('coupon_amount', $coupon_amount);
+        return response()->json(array('coupon_amount' => $coupon_amount, 'success' => true, 'success_type'=> 'discount_from_product', 'discount_price' => price_html( get_product_price_html_by_filter($coupon_amount, get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter($cart->total, get_frontend_selected_currency() ))));
       }
       elseif(!empty($response) && $response == 'percentage_discount_from_product'){
-        return response()->json(array('success' => true, 'success_type'=> 'percentage_discount_from_product', 'discount_price' => price_html( get_product_price_html_by_filter(Cart::couponPrice(), get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
+        $temp = $coupon_amount;
+        $coupon_amount = 0;
+        foreach ($items as $item) {
+            $product = Product::find($item->product_id);
+            $coupon_amount += (($temp * $product->regular_price / 100) * $item->quantity);
+        }
+        session()->put('coupon_amount', $coupon_amount);
+        return response()->json(array('coupon_amount' => $coupon_amount, 'success' => true, 'success_type'=> 'percentage_discount_from_product', 'discount_price' => price_html( get_product_price_html_by_filter($coupon_amount, get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter($cart->total, get_frontend_selected_currency() ))));
       }
       elseif(!empty($response) && $response == 'discount_from_total_cart'){
-        return response()->json(array('success' => true, 'success_type'=> 'discount_from_total_cart', 'discount_price' => price_html( get_product_price_html_by_filter(Cart::couponPrice(), get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
+        session()->put('coupon_amount', $coupon_amount);
+        return response()->json(array('coupon_amount' => $coupon_amount, 'success' => true, 'success_type'=> 'discount_from_total_cart', 'discount_price' => price_html( get_product_price_html_by_filter($coupon_amount, get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter($cart->total, get_frontend_selected_currency() ))));
       }
       elseif(!empty($response) && $response == 'percentage_discount_from_total_cart'){
-        return response()->json(array('success' => true, 'success_type'=> 'percentage_discount_from_total_cart', 'discount_price' => price_html( get_product_price_html_by_filter(Cart::couponPrice(), get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
+        $coupon_amount = $coupon_amount * $cart->total / 100;
+        session()->put('coupon_amount', $coupon_amount);
+        return response()->json(array('coupon_amount' => $coupon_amount, 'success' => true, 'success_type'=> 'percentage_discount_from_total_cart', 'discount_price' => price_html( get_product_price_html_by_filter($coupon_amount, get_frontend_selected_currency() )), 'grand_total' => price_html( get_product_price_html_by_filter($cart->total, get_frontend_selected_currency() ))));
       }
       elseif(!empty($response) && $response == 'exceed_from_cart_total'){
         return response()->json(array('error' => true, 'error_type'=> 'exceed_from_cart_total'));
@@ -509,7 +530,7 @@ class FrontendAjaxController extends Controller
    */
   public function removeUserCoupon(){
     if(Cart::remove_coupon()){
-      return response()->json(array('success' => true, 'grand_total'=> price_html( get_product_price_html_by_filter(Cart::getCartTotal(), get_frontend_selected_currency() ))));
+      return response()->json(array('success' => true, 'grand_total'=> price_html( get_product_price_html_by_filter($cart->total, get_frontend_selected_currency() ))));
     }
   }
 

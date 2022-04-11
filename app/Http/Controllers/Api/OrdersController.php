@@ -354,6 +354,8 @@ class OrdersController extends Controller
         $result['details'] = (object)[
             'total' => $request->total,
             'shipping_cost' => $request->shipping_cost,
+            'coupon_amount' => $request->coupon_amount,
+            'order_total' => $request->total + $request->shipping_cost - $request->coupon_amount,
             'date' => date('Y-m-d'),
             'status' => 0,
             'user_id' => $request->customer_id
@@ -366,6 +368,9 @@ class OrdersController extends Controller
         $post->parent_id = 0;
         $post->post_status = 1;
         $post->post_type = 'shop_order';
+
+        $user = session('user');
+        $user->user_mode = 'login';
 
         if($post->save()){
           $order_array = array(
@@ -393,7 +398,7 @@ class OrdersController extends Controller
             array(
                     'post_id'       =>  $post->id,
                     'key_name'      =>  '_customer_user',
-                    'key_value'     =>  '',
+                    'key_value'     =>  json_encode($user),
                     'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                     'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
                   ),
