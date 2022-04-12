@@ -28,34 +28,34 @@ class AdminController extends Controller
     {
         $AdminPaymentMethod = new AdminPaymentMethod;
 
-        $this->validate($request,[
-            'title' => 'required|max:255',
-            'nomor_rekening' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
-            'content' => 'required|max:255'
-        ]);
-
-        // $rules = [
+        // $this->validate($request,[
         //     'title' => 'required|max:255',
         //     'nomor_rekening' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
         //     'content' => 'required|max:255'
-        // ];
-        // $messages = [
-        //     'title.required' => 'Name is required',
-        //     'title.max' => 'Name must be at most 255 characters',
-        //     'nomor_rekening.required' => 'Phone number is required',
-        //     'nomor_rekening.regex' => 'Phone number must be numeric',
-        //     'nomor_rekening.digits_between' => 'Phone number must be at most 30 characters',
-        //     'content.required' => 'Password is required',
-        //     'content.max' => 'Password must be at most 255 characters',
-        // ];
-        // $validator = Validator::make($request->all(), $rules, $messages);        
-        // if ($validator->fails()) {
-        //     return response()->json(array(
-        //         'success' => false,
-        //         'message' => 'There are incorect values in the form!',
-        //         'errors' => $validator->getMessageBag()->toArray()
-        //     ), 422);
-        // }
+        // ]);
+
+        $rules = [
+            'title' => 'required|max:255',
+            'nomor_rekening' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
+            'content' => 'required|max:255'
+        ];
+        $messages = [
+            'title.required' => 'Name is required',
+            'title.max' => 'Name must be at most 255 characters',
+            'nomor_rekening.required' => 'Phone number is required',
+            'nomor_rekening.regex' => 'Phone number must be numeric',
+            'nomor_rekening.digits_between' => 'Phone number must be at most 30 characters',
+            'content.required' => 'Password is required',
+            'content.max' => 'Password must be at most 255 characters',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);        
+        if ($validator->fails()) {
+            return response()->json(array(
+                'success' => false,
+                'message' => 'There are incorect values in the form!',
+                'errors' => $validator->getMessageBag()->toArray()
+            ), 422);
+        }
 
         $AdminPaymentMethod::create($request->except(['_token','submit']));
 

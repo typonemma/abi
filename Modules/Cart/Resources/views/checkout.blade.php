@@ -181,7 +181,7 @@
                 <div class="empty-space col-xs-b50"></div>
                 <h4 class="h4 col-xs-b25">payment method (bank transfer only)</h4> 
                 <?php
-                    $bank_list = App\bank_list::where('title', 'LIKE', '%bank%')->get();
+                    $bank_list = App\bank_list::get();
                     $i = 1;
                 ?>
                 @foreach ($bank_list as $checkout)   
@@ -189,7 +189,7 @@
                         <input id="{{$i}}" type="radio" name="1" checked="" value="" onchange="checkChanged(this)">
                         <span id="pay-{{$i}}" style="text-transform: none;">
                             <?php
-                                $potong_kalimat = substr("$checkout->title",5);
+                                $potong_kalimat = substr("$checkout->title",0);
                                 echo $potong_kalimat . '<br>'; 
                                 echo 'No. Rek. : ' . htmlspecialchars_decode($checkout->nomor_rekening) . '<br>';
                                 echo 'Nama : ' . htmlspecialchars_decode($checkout->content);                                 
@@ -205,7 +205,7 @@
                 <div class="empty-space col-xs-b30"></div>
                 <div class="button block size-2 style-3">
                     <span class="button-wrapper">
-                        <span class="icon"><img src="img/icon-4.png" alt=""></span>
+                        <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}"></span>
                         <span class="text">place order</span>
                     </span>
                     <input type="submit" onclick="ajaxPlaceOrder()"/>

@@ -7,7 +7,7 @@
         <a href="aboutus">about us</a>
     </li>
     <li  class="active">
-        <a href="products">products</a>
+        <a href="/product">products</a>
     </li>
     <li>
         <a href="shipment">Shipment</a>

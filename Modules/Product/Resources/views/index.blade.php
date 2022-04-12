@@ -1,4 +1,24 @@
 @extends('partials.main')
+@section('navbar')
+    <li>
+        <a href="home" class="nav-link">Home</a>
+    </li>
+    <li>
+        <a href="aboutus">about us</a>
+    </li>
+    <li class="active">
+        <a href="/product/">products</a>
+    </li>
+    <li>
+        <a href="shipment">Shipment</a>
+    </li>
+    <li>
+        <a href="blogs">blogs</a>
+    </li>
+    <li>
+        <a href="contact">contact us</a>
+    </li>
+@endsection
 @section('content')
 <div class="container">
     <div class="empty-space col-xs-b15 col-sm-b30 col-md-b60"></div>
@@ -38,7 +58,53 @@
 
                         {{-- START HERE --}}
 
-                        <div class="swiper-slide">
+                        <?php
+                            $bestsellerproduct_list = session('bestsellerproduct_list');
+                        ?>
+                        @foreach ($bestsellerproduct_list as $b)
+                            <div class="swiper-slide">
+                                <div class="product-shortcode style-1 small">
+                                    <div class="title">
+                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
+                                        <div class="h5 animate-to-green"><a href="#">{{ $b->title }}</a></div>
+                                    </div>
+                                    <div class="preview">
+                                        <?php                                                
+                                            $key_value = $b->image_url;
+                                            $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                                            if ($key_value == ''){                                                 
+                                                echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";                                                    
+                                            }   
+                                            else if (!file_exists($filename)) {
+                                                echo "<img src='/public/uploads/no-image.jpg' style='width:202px;height:200px;'>";  
+                                            }                                
+                                            else {                                                 
+                                                echo "<img src='$key_value' style='width:201px;height:200px;'>";                                                    
+                                            }
+                                        ?> 
+                                        <div class="preview-buttons valign-middle">
+                                            <div class="valign-middle-content">
+                                                <a class="button size-2 style-3" href="product_detail">
+                                                    <span class="button-wrapper">
+                                                        <span class="icon">
+                                                            <img src="{{URL::asset('public/custom/img/icon-4.png')}}">
+                                                            <!-- <img src="img/icon-4.png" alt=""> -->
+                                                        </span> 
+                                                        <span class="text">SEE DETAIL</span>
+                                                    </span>
+                                                </a>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="price">
+                                        <div class="simple-article size-4 dark">Rp 200.000</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach 
+
+                        <!-- <div class="swiper-slide">
                             <div class="product-shortcode style-1 small">
                                 <div class="title">
                                     <div class="simple-article size-1 color col-xs-b5"><a href="#">POWER ADAPTOR</a></div>
@@ -62,7 +128,7 @@
                                     <div class="simple-article size-4 dark">Rp 200.000</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         {{-- END HERE --}}
                     </div>

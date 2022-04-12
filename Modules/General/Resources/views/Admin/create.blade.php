@@ -24,7 +24,11 @@
                                 <div class="empty-space col-xs-b20"></div>
                             </div>
                         </div>
-
+                        <!-- @if ($errors->any())
+                            @foreach ($errors->getMessages()['title'] as $error)
+                                {{$error}}
+                            @endforeach              
+                        @endif -->
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="empty-space col-xs-b20"></div>

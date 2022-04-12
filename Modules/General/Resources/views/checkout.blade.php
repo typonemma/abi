@@ -7,7 +7,7 @@
         <a href="aboutus">about us</a>
     </li>
     <li class="active">
-        <a href="products">products</a>
+        <a href="/product">products</a>
     </li>
     <li>
         <a href="shipment">Shipment</a>
@@ -205,7 +205,7 @@
                 <div class="empty-space col-xs-b30"></div>
                 <div class="button block size-2 style-3">
                     <span class="button-wrapper">
-                        <span class="icon"><img src="img/icon-4.png" alt=""></span>
+                        <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}"></span>
                         <span class="text">place order</span>
                     </span>
                     <input type="submit" onclick="ajaxPlaceOrder()"/>

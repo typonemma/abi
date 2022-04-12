@@ -7,7 +7,7 @@
         <a href="aboutus">about us</a>
     </li>
     <li>
-        <a href="products">products</a>
+        <a href="/product">products</a>
     </li>
     <li>
         <a href="shipment">Shipment</a>
@@ -38,16 +38,17 @@
                 </select>
             </div>
             <div class="col-sm-4">
-                <form method="GET" action="/home">
+                <!-- Search -->
+                <form method="GET" action="/Search">
                     <div class="search-submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                         <input type="submit">
                     </div>
                     <input name="cari" class="simple-input style-1" type="text" value="" placeholder="Enter keyword">
                 </form>
+
             </div>
-            <div class="col-sm-3"></div>
-            
+            <div class="col-sm-3"></div>            
         </div>
         <div class="empty-space col-xs-b40 col-sm-b80"></div>
     </div>

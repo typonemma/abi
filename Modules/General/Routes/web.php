@@ -39,5 +39,8 @@ Route::prefix('')->group(function() {
     Route::get('/admin/{id}/edit', 'AdminController@edit');
     Route::put('/admin/{id}', 'AdminController@update');
     Route::delete('/admin/{id}', 'AdminController@destroy');
+
+    //Search
+    Route::get('/Search', 'GeneralController@Search');
     
 });

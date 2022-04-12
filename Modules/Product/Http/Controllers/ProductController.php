@@ -7,6 +7,7 @@ use App\Models\Term;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\bestsellerproduct_list;
 
 class ProductController extends Controller
 {
@@ -54,9 +55,12 @@ class ProductController extends Controller
                 ->select('term_id','name','parent')
                 ->get()->toArray();
 
+        $bestsellerproduct_list = bestsellerproduct_list::all();
+
         return view('product::index',[
             'categories' => $arr,
-            'tags' => $tags
+            'tags' => $tags,
+            'bestsellerproduct_list' => $bestsellerproduct_list
         ]);
     }
 

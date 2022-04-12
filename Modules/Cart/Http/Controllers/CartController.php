@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\str;
+use App\bank_list;
 
 class CartController extends Controller
 {
@@ -19,13 +20,21 @@ class CartController extends Controller
         return view('cart::index');
     }
 
+    public function placeOrder(Request $request)
+    {
+        $bank_list = bank_list::paginate(1);
+        session()->put('payment', $request->payment);
+    }
+
     public function checkout()
     {
-        return view('cart::checkout');
+        $bank_list = bank_list::paginate(1);    
+        return view('cart::checkout', ['bank_list' => $bank_list]);
     }
     public function thankyou()
     {
-        return view('cart::thankyou');
+        $bank_list = bank_list::paginate(1);  
+        return view('cart::thankyou', ['bank_list' => $bank_list]);
     }
 
     /**

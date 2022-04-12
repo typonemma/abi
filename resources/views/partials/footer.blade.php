@@ -50,7 +50,7 @@
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <a href="/home">home</a>
-                                        <a href="/products">products</a>
+                                        <a href="/product">products</a>
                                         <a href="/aboutus">about us</a>
                                         <a href="/shipment">shipment</a>
                                         <a href="/blogs">blogs</a>

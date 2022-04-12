@@ -31,22 +31,31 @@ class GeneralController extends Controller
         return view('general::index');
     }
 
+    public function Search(Request $request)
+    {
+        // if ($request->has('cari')){
+        //     $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
+        // } else {
+        //     $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
+        // }
+        $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
+        session()->put('bestsellerproduct_list', $bestsellerproduct_list);
+        return redirect('/product');
+    }
+
     public function home(Request $request)
     {
-        if ($request->has('cari')){
-            $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
-        } else {
-            $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
-        }
+        $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
 
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
-        // $relatedblog_list->post_content = relatedblog_list::limit($relatedblog_list->post_content, 30);
+        
         $testimonial_list = testimonial_list::where('post_type', '=', 'testimonial')->orderBy('id', 'DESC')->get();
         $ads_list = ads_list::all();
 
         $availableAt = availableAt_list::where('type', '=', 'product_brands')->orderBy('term_id', 'DESC')->limit(8)->get();
         
         $categori_list = categori_list::where('type', '=', 'product_cat')->orderBy('term_id', 'asc')->get();
+
         return view('general::home', ['bestsellerproduct_list' => $bestsellerproduct_list, 
         'relatedblog_list' => $relatedblog_list,  
         'testimonial_list' => $testimonial_list,

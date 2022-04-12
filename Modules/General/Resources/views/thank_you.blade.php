@@ -7,7 +7,7 @@
         <a href="aboutus">about us</a>
     </li>
     <li class="active">
-        <a href="products">products</a>
+        <a href="/product">products</a>
     </li>
     <li>
         <a href="shipment">Shipment</a>
@@ -36,7 +36,7 @@
                                     echo $payment;
                                 ?>    
                             </span>                             
-                        <textarea id="textArea" rows="4" style="text-align: center; color:red; margin-top:-80px; margin-left:199px;">                           
+                        <textarea id="textArea" rows="4" style="text-align: center; color:white; margin-top:-80px; margin-left:9999px;">                           
                             <?php
                                 $norek = substr("$payment",0,20);
                                 $bank_list = App\bank_list::where('title', 'LIKE', '%'. $norek .'%')->get();
