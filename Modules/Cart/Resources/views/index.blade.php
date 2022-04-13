@@ -116,58 +116,6 @@
                     </div>
                 </div>
             </div>
-            <div class="order-details-entry simple-article size-3 grey uppercase">
-                <div class="row">
-                    <div class="col-xs-1">
-                        <label class="checkbox-entry radio">
-                            <input type="radio" name="1"><span></span>
-                        </label>
-                    </div>
-                    <div class="col-xs-2">
-                        <img src="{{URL::asset('public/custom/img/custom-shipping.png')}}">
-                    </div>
-                    <div class="col-xs-6">
-                        <span>CUSTOM</span>
-
-                    </div>
-                    <div class="col-xs-3 col-xs-text-right">
-                        <div class="">
-                            <span>Rp 0</span>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="order-details-entry simple-article size-3 grey uppercase">
-                <div class="row">
-                    <div class="col-xs-1">
-                        <label class="checkbox-entry radio">
-                            <input type="radio" name="1" disabled><span></span>
-                        </label>
-                    </div>
-                    <div class="col-xs-2">
-                        <img src="{{URL::asset('public/custom/img/jnt.png')}}">
-                    </div>
-                    <div class="col-xs-9">
-                        this expedition cannot accept a battery product
-                    </div>
-                </div>
-            </div>
-            <div class="order-details-entry simple-article size-3 grey uppercase">
-                <div class="row">
-                    <div class="col-xs-1">
-                        <label class="checkbox-entry radio">
-                            <input type="radio" name="1" disabled><span></span>
-                        </label>
-                    </div>
-                    <div class="col-xs-2">
-                        <img src="{{URL::asset('public/custom/img/sicepat.png')}}">
-                    </div>
-                    <div class="col-xs-9">
-                        this expedition cannot accept a battery product
-                    </div>
-                </div>
-            </div>
             <div class="empty-space col-xs-b15 col-md-b40"></div>
             <div class="h4">COUPON CODE</div>
             <div class="empty-space col-xs-b15 col-md-b20"></div>

@@ -408,7 +408,7 @@ class AuthController extends Controller
                 $user_order_all[] = $obj;
             }
         }
-        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', '0')->limit($per_page)->offset($offset)->get();
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', '0')->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
         $user_order = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);
@@ -429,7 +429,7 @@ class AuthController extends Controller
         session()->forget('ship-error');
         session()->forget('coupon_amount');
         $user = session('user');
-        $per_page = 2;
+        $per_page = 16;
         if (!isset($_GET['page'])) {
             $_GET['page'] = 1;
         }
@@ -456,7 +456,7 @@ class AuthController extends Controller
             $wishlist->save();
         }
         $product = Product::find($request->id);
-        $wishlist_detail = WishlistDetail::where('wishlist_id', '=', $wishlist->id)->where('wishlist_id', '=', $wishlist->id)->first();
+        $wishlist_detail = WishlistDetail::where('wishlist_id', '=', $wishlist->id)->where('product_id', '=', $product->id)->first();
         if ($wishlist_detail == null) {
             $wishlist_detail = new WishlistDetail;
             $wishlist_detail->wishlist_id = $wishlist->id;

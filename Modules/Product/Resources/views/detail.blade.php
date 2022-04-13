@@ -4,9 +4,13 @@
     <div class="empty-space col-xs-b15 col-sm-b30"></div>
     <div class="breadcrumbs">
         <a href="#">home</a>
-        <a href="#">accessories</a>
-        <a href="#">gadgets</a>
-        <a href="#">sport gadgets</a>
+        <a href="#">products</a>
+        <?php
+            $or = App\Models\ObjectRelationship::where('object_id', $product->id)->first();
+            $term = App\Models\Term::where('term_id', $or->term_id)->first();
+        ?>
+        <a href="#">{{$term->name}}</a>
+        <a href="#">{{$product->title}}</a>
     </div>
     <div class="empty-space col-xs-b15 col-sm-b50 col-md-b100"></div>
     <div class="row">
@@ -256,11 +260,21 @@
                             <div class="col-sm-3">
                                 <div class="product-shortcode style-1">
                                     <div class="title">
-                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">LCD/LED</a></div>
+                                        <?php
+                                            $or = App\Models\ObjectRelationship::where('object_id', $value['id'])->first();
+                                            $term = App\Models\Term::where('term_id', $or->term_id)->first();
+                                        ?>
+                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">{{$term->name}}</a></div>
                                         <div class="h5 animate-to-green"><a href="#">{{$value['post_title']}}</a></div>
                                     </div>
                                     <div class="preview">
-                                        <img src="{{$value['post_image_url']}}" alt="" style="width: 200px;height:200px">
+                                        <?php
+                                            $img_url = $value['post_image_url'];
+                                            if ($img_url == '') {
+                                                $img_url = '/public/uploads/no-image.jpeg';
+                                            }
+                                        ?>
+                                        <img src="{{$img_url}}" alt="" style="width: 200px;height:200px">
                                         <div class="preview-buttons valign-middle">
                                             <div class="valign-middle-content">
                                                 <a class="button size-2 style-3" href="/product/detail/{{$value['id']}}">
@@ -274,18 +288,20 @@
                                         </div>
                                     </div>
                                     <div class="price">
-                                        <div class="simple-article size-4"><span class="color">Rp {{number_format($value['post_regular_price'],0,',','.')}}</span>
-                                            @if(!empty($value['post_sale_price']))
-                                                &nbsp;&nbsp;&nbsp;<span class="line-through">Rp {{number_format($value['post_sale_price'],0,',','.')}}</span>
-                                            @endif
-                                        </div>
+                                        @if(!empty($value['post_sale_price']) && $value['post_sale_price'] < $value['post_regular_price'])
+                                            <div class="simple-article size-4"><span class="color">Rp {{number_format($value['post_sale_price'],0,',','.')}}</span>
+                                                &nbsp;&nbsp;&nbsp;<span class="line-through">Rp {{number_format($value['post_regular_price'],0,',','.')}}</span>
+                                            </div>
+                                        @else
+                                            Rp {{number_format($value['post_regular_price'],0,',','.')}}
+                                        @endif
                                     </div>
                                     <div class="description">
                                         <div class="simple-article text size-2">{!! !empty($value['post_content'])?htmlspecialchars_decode($value['post_content']):'-' !!}</div>
                                         <div class="icons">
-                                            <a class="entry"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
-                                            <a class="entry open-popup" data-rel="3"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                            <a class="entry"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                            <a class="entry" onclick="ajaxInsertToCart({{$value['id']}})"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+                                            <a class="entry" href="/product/detail/{{$value['id']}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a class="entry" onclick="ajaxInsertToWishlist({{$value['id']}})"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                             <a class="button size-1 style-3 button-long-list">
                                                 <span class="button-wrapper">
                                                     <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>

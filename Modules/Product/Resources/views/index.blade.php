@@ -27,8 +27,7 @@
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-            <div class="empty-space col-xs-b35 col-md-b70"></div>
-            <div class="slider-wrapper">
+            <div class="slider-wrapper" style="margin-top:-36px">
                 <div class="swiper-container arrows-align-top" data-breakpoints="1" data-xs-slides="1" data-sm-slides="3" data-md-slides="4" data-lt-slides="4" data-slides-per-view="4">
                     <div class="h4 swiper-title">promo products</div>
                     <div class="empty-space col-xs-b20"></div>
@@ -182,7 +181,6 @@
         </div>
         @include('product::partial.productCategory')
     </div>
-
 </div>
 
 
@@ -200,6 +198,14 @@
     var page = 1;
     var lastPage = 1;
     var selected = [];
+    var product = null;
+    function detail(value) {
+        product = JSON.parse(value);
+        $('#product-cat-popup').text(product.tags);
+        $('#product-name-popup').text(product.title);
+        $('#product-price-popup').text(product.regular_price);
+        $('#product-desc-popup').text(product.content);
+    }
     function ajaxProduct(){
         var ajaxProduct = $.ajax({
             type:"get",
@@ -231,7 +237,7 @@
                 img = img + file;
 
                 var url = "{{route('product.details',-99)}}";
-                url = url.replace('-99',value.id);
+                url = url.replace('-99',value.slug);
 
                 str = str + '<div class="preview"><img src="'+img+'" alt="" style="width:200px;height:200px;"><div class="preview-buttons valign-middle"><div class="valign-middle-content"><a class="button size-2 style-3" href="'+url+'"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">SEE DETAIL</span></span></a></div></div></div>';
 
@@ -243,7 +249,7 @@
                 }
 
                 //Description
-                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry" href="/product/detail/'+value.id+'" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry open-popup" onclick="detail('+encodeURI(JSON.stringify(value))+')" data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
 
                 //Footer
                 str = str + '</div></div>';
@@ -294,7 +300,7 @@
                 }
                 img = img + file;
                 var url = "{{route('product.details',-99)}}";
-                url = url.replace('-99',value.id);
+                url = url.replace('-99',value.slug);
                 str = str + '<div class="preview"><img src="'+img+'" alt="" style="width:150px;height:150px"><div class="preview-buttons valign-middle"><div class="valign-middle-content"><a class="button size-2 style-3" href="'+url+'"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">SEE DETAIL</span></span></a></div></div></div>';
 
                 //Price

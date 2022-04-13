@@ -4,6 +4,7 @@ namespace Modules\Cart\Http\Controllers;
 
 use App\Cart as Cart;
 use App\CartDetail;
+use App\Http\Controllers\Frontend\FrontendAjaxController;
 use App\Kota;
 use App\Models\Product;
 use Illuminate\Contracts\Support\Renderable;
@@ -25,6 +26,9 @@ class CartController extends Controller
         }
         session()->forget('ship');
         session()->forget('coupon_amount');
+        $controller = new FrontendAjaxController;
+        $controller->classGetFunction->cart->session->remove('applyed_coupon_code');
+        $controller->classGetFunction->cart->session->remove('applyed_coupon_price');
         $kota = Kota::all();
         $user = session('user');
         $cart = Cart::where('user_id', '=', $user->id)->first();

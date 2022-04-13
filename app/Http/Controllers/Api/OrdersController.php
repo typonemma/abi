@@ -222,6 +222,10 @@ class OrdersController extends Controller
 
         if(is_array($request->line_items) && count($request->line_items) > 0){
           foreach($request->line_items as $item){
+            if ($item['img_src'] == '') {
+                $item['img_src'] = '/public/uploads/no-image.jpeg';
+            }
+
             $rules =  [
               'product_id' => 'required|integer',
               'name' => 'required',

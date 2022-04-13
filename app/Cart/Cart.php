@@ -18,7 +18,7 @@ class Cart implements CartInterface
      *
      * @var \Symfony\Component\HttpFoundation\Session\Session
      */
-    protected $session;
+    public $session;
 
     /**
      * Manage cart items

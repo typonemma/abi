@@ -41,6 +41,7 @@ class ProductController extends Controller
     {
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
 
         $category = Term::where('status',1)
                     ->where('parent',0)
@@ -69,10 +70,11 @@ class ProductController extends Controller
     }
 
 
-    public function details(Request $request,$id)
+    public function details(Request $request,$slug)
     {
         session()->forget('ship');
         session()->forget('ship-error');
+        session()->forget('coupon_amount');
 
         $category = Term::where('status',1)
         ->where('parent',0)
@@ -94,9 +96,11 @@ class ProductController extends Controller
             ->select('term_id','name','parent')
             ->get()->toArray();
 
+            $p = Product::where('slug', $slug)->first();
+
             $product = Product::join('object_relationships as OR','OR.object_id','=','products.id')
             ->join('product_extras', 'products.id', '=', 'product_extras.product_id');
-            $product = $product->where('products.id',$id)
+            $product = $product->where('products.id',$p->id)
                             ->select(
                                 'products.*',
                                 \DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as product_related_img_json"),
@@ -105,10 +109,10 @@ class ProductController extends Controller
                         ->groupBy('products.id')
                         ->first();
             if(isset($product)){
-                $product->color = $this->getColorsByObjectId($id);
-                $product->size = $this->getSizesByObjectId($id);
-                $product->tag = $this->getTagsByObjectId($id);
-                $product->related = $this->product->getRelatedItems($id);
+                $product->color = $this->getColorsByObjectId($p->id);
+                $product->size = $this->getSizesByObjectId($p->id);
+                $product->tag = $this->getTagsByObjectId($p->id);
+                $product->related = $this->product->getRelatedItems($p->id);
             }
         return view('product::detail',[
             'product' => $product,
