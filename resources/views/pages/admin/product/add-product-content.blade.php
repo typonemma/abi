@@ -7,7 +7,7 @@
 
 <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
   @include('includes.csrf-token')
-  
+
   <div class="box">
     <div class="box-header">
       <h3 class="box-title">{!! trans('admin.add_new_product') !!} &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{{ route('admin.product_list', 'all') }}">{!! trans('admin.products_list') !!}</a></h3>
@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-md-8">
       <div class="box box-solid">
@@ -28,7 +28,7 @@
           <input type="text" placeholder="{{ trans('admin.example_red_t_shirt') }}" class="form-control" name="product_name" id="eb_product_name" value="{{ old('product_name') }}">
         </div>
       </div>
-      
+
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
@@ -38,7 +38,7 @@
           <textarea id="eb_description_editor" name="eb_description_editor" class="dynamic-editor" placeholder="{{ trans('admin.product_description_placeholder') }}"></textarea>
         </div>
       </div>
-      
+
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-upload"></i>
@@ -52,7 +52,7 @@
             <div class="product-sample-img"><img class="upload-icon img-responsive" src="{{ default_upload_sample_img_src() }}"></div>
             <div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link"><button type="button" data-target="product_image" class="btn btn-default attachtopost">{!! trans('admin.remove_image') !!}</button></div></div>
           </div>
-            
+
           <div class="modal fade" id="productUploader" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -61,8 +61,8 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                </div>   
-                <div class="modal-body">             
+                </div>
+                <div class="modal-body">
                   <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_file_upload" id="eb_dropzone_file_upload" name="eb_dropzone_file_upload">
                     <div class="dz-default dz-message">
                       <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
@@ -77,7 +77,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-upload"></i>
@@ -90,7 +90,7 @@
           <div class="uploaded-product-gallery-image">
             <div class="product-gallery-sample-img"><img class="gallery-upload-icon img-responsive" src="{{ default_upload_sample_img_src() }}"></div>
             <div class="product-uploaded-gallery-image"></div>
-          </div>  
+          </div>
           <div class="modal fade" id="productGalleryUploader" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -99,8 +99,8 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                </div>   
-                <div class="modal-body">             
+                </div>
+                <div class="modal-body">
                   <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_gallery_image_file_upload" id="eb_dropzone_gallery_image_file_upload" name="eb_dropzone_gallery_image_file_upload">
                     <div class="dz-default dz-message">
                       <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-upload"></i>
@@ -129,7 +129,7 @@
             <div class="banner-sample-img"><img class="banner-upload-icon img-responsive" src="{{ default_upload_sample_img_src() }}"></div>
             <div class="banner-uploaded-image"><img class="img-responsive"><div class="remove-img-link banner-img-remove"><button type="button" class="btn btn-default attachtopost">{!! trans('admin.remove_image') !!}</button></div></div>
           </div>
-            
+
           <div class="modal fade" id="shopbannerUploader" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -138,8 +138,8 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                </div>   
-                <div class="modal-body">             
+                </div>
+                <div class="modal-body">
                   <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_banner_file_upload" id="eb_dropzone_banner_file_upload" name="eb_dropzone_banner_file_upload">
                     <div class="dz-default dz-message">
                       <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
@@ -154,7 +154,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid product-type-details">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
@@ -181,7 +181,7 @@
               <li class="nav-item manage-download-files" style="display:none;"><a class="nav-link" href="#tab_manage_download_files" data-toggle="tab">{!! trans('admin.manage_download_files') !!}</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-general tab-pane fade show active" id="tab_general">  
+              <div class="tab-general tab-pane fade show active" id="tab_general">
                 <div class="form-group">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputSKU">{!! trans('admin.sku') !!}</label>
@@ -189,30 +189,38 @@
                       <input type="text" placeholder="{{ trans('admin.sku') }}" id="inputForProductSKU" name="ProductSKU" class="form-control" value="{{ old('ProductSKU') }}">
                       <span>{!! trans('admin.unique_field') !!}</span>
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <br>
+                <div class="form-group">
+                    <div class="row">
+                      <label class="col-sm-6 control-label" for="inputWeight">Weight</label>
+                      <div class="col-sm-6">
+                        <input type="number" placeholder="Weight" id="inputWeight" name="inputWeight" class="form-control" min="0" step="any" value="{{ old('inputWeight') }}">
+                      </div>
+                    </div>
+                </div>
                 <div class="form-group">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputRegularPrice">{!! trans('admin.regular_price') !!} ({!! $currency_symbol !!})</label>
                     <div class="col-sm-6">
                       <input type="number" placeholder="{{ trans('admin.regular_price') }}" id="inputRegularPrice" name="inputRegularPrice" class="form-control" min="0" step="any" value="{{ old('inputRegularPrice') }}">
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputSalePrice">{!! trans('admin.sale_price') !!} ({!! $currency_symbol !!})</label>
                     <div class="col-sm-6">
-                      <input type="number" placeholder="{{ trans('admin.sale_price') }}" id="inputSalePrice" name="inputSalePrice" class="form-control" min="0" step="any" value="{{ old('inputSalePrice') }}"> 
+                      <input type="number" placeholder="{{ trans('admin.sale_price') }}" id="inputSalePrice" name="inputSalePrice" class="form-control" min="0" step="any" value="{{ old('inputSalePrice') }}">
                       <a href="#" class="create_sale_schedule">{!! trans('admin.create_schedule') !!}</a>
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group sale_start_date" style="display: none;">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputSalePriceStartDate">{!! trans('admin.sale_price_start_date') !!}</label>
-                    <div class="col-sm-6">  
+                    <div class="col-sm-6">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -220,21 +228,21 @@
                         <input type="text" placeholder="{{ trans('admin.start_date_format') }}" id="inputSalePriceStartDate" name="inputSalePriceStartDate" class="form-control pull-right">
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group sale_end_date" style="display: none;">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputSalePriceEndDate">{!! trans('admin.sale_price_end_date') !!}</label>
-                    <div class="col-sm-6">  
+                    <div class="col-sm-6">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
                         </div>
                         <input type="text" placeholder="{{ trans('admin.end_date_format') }}" id="inputSalePriceEndDate" name="inputSalePriceEndDate" class="form-control pull-right">
-                      </div>  
+                      </div>
                       <a href="#" class="cancel_schedule">{!! trans('admin.cancel_schedule') !!}</a>
                     </div>
-                  </div>  
+                  </div>
                 </div>
 
                 @if(count($available_user_roles) > 0)
@@ -247,7 +255,7 @@
                       <div class="col-sm-6">
                         <input type="checkbox" name="inputEnableDisableRoleBasedPricing" class="shopist-iCheck" id="inputEnableDisableRoleBasedPricing">
                       </div>
-                    </div>    
+                    </div>
                   </div>
 
                     @foreach($available_user_roles as $roles)
@@ -262,13 +270,13 @@
                         <div class="col-sm-6">
                           <input type="number" class="form-control" name="RoleSalePricing[{{ $roles['slug'] }}]" placeholder="{{ trans('admin.sale_price') }}" min="0">
                         </div>
-                      </div>    
+                      </div>
                     </div>
                     @endforeach
                 </div>
-                @endif   
+                @endif
               </div>
-              
+
               <div class="tab-stock tab-pane fade" id="tab_stock">
                 <div class="form-group">
                   <div class="row">
@@ -277,12 +285,12 @@
                       <label>
                         <input type="checkbox" name="manage_stock" id="manage_stock" class="shopist-iCheck">
                         &nbsp;{!! trans('admin.enable_stock_management_product') !!}
-                      </label>                                             
+                      </label>
                     </div>
-                  </div>    
+                  </div>
                 </div>
                 <div class="form-group stock-qty" style="display:none;">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputStockQty">{!! trans('admin.stock_qty') !!}</label>
                     <div class="col-sm-6">
                       <input type="number" min="0" placeholder="{{ trans('admin.stock_qty') }}" id="inputStockQty" name="inputStockQty" class="form-control" value="0">
@@ -290,7 +298,7 @@
                   </div>
                 </div>
                 <div class="form-group back-to-order-page" style="display: none;">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputBackToOrder">{!! trans('admin.backorders') !!}</label>
                     <div class="col-sm-6">
                       <select id="back_to_order_status" name="back_to_order_status" class="form-control select2" style="width: 100%;">
@@ -302,96 +310,96 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputStockAvailability">{!! trans('admin.stock_availability') !!}</label>
                     <div class="col-sm-6">
                       <select id="stock_availability_status" name="stock_availability_status" class="form-control select2" style="width: 100%;">
                         <option selected="selected" value="in_stock">{!! trans('admin.in_stock') !!}</option>
-                        <option value="out_of_stock">{!! trans('admin.out_of_stock') !!}</option>                  
+                        <option value="out_of_stock">{!! trans('admin.out_of_stock') !!}</option>
                       </select>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
-														
+
               <div class="tab-features tab-pane fade" id="tab_features">
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
                       <textarea id="eb_features_editor" name="eb_features_editor" class="dynamic-editor" placeholder="{{ trans('admin.write_some_extra_features') }}"></textarea>
-                    </div> 
+                    </div>
                   </div>
-                </div>  
+                </div>
               </div>
-														
+
               <div class="tab-advanced tab-pane fade" id="tab_advanced">
                 <div class="form-group">
                   <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableRecommendedProduct">{!! trans('admin.recommended_product') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" class="shopist-iCheck" name="enable_recommended_product" id="enable_recommended_product">
-                      &nbsp;{!! trans('admin.enable_recommended_product') !!}                                 
+                      &nbsp;{!! trans('admin.enable_recommended_product') !!}
                     </div>
-                  </div>    
+                  </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableFeaturesProduct">{!! trans('admin.features_product') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" class="shopist-iCheck" name="enable_features_product" id="enable_features_product">
-                      &nbsp;{!! trans('admin.enable_features_product') !!}                                         
+                      &nbsp;{!! trans('admin.enable_features_product') !!}
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">    
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableLatestProduct">{!! trans('admin.latest_product') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" class="shopist-iCheck" name="enable_latest_product" id="enable_latest_product">
-                      &nbsp;{!! trans('admin.enable_latest_product') !!}                                         
+                      &nbsp;{!! trans('admin.enable_latest_product') !!}
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableForRelatedProduct">{!! trans('admin.related_product') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" checked="checked" class="shopist-iCheck" name="inputEnableForRelatedProduct" id="inputEnableForRelatedProduct">
-                      &nbsp;{!! trans('admin.enable_related_product') !!}                                         
+                      &nbsp;{!! trans('admin.enable_related_product') !!}
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group enable-custom-design" {!! $tabSettings['btnCustomize'] !!}>
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableForCustomDesignProduct">{!! trans('admin.custom_design') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" checked="checked" class="shopist-iCheck" name="inputEnableForCustomDesignProduct" id="inputEnableForCustomDesignProduct">
-                      &nbsp;{!! trans('admin.enable_custom_design_product') !!}                                        
+                      &nbsp;{!! trans('admin.enable_custom_design_product') !!}
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableForHomePage">{!! trans('admin.home_page_product_label_1') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" class="shopist-iCheck" name="inputEnableForHomePage" id="inputEnableForHomePage">
-                      &nbsp;{!! trans('admin.home_page_product_label_2') !!}                                         
+                      &nbsp;{!! trans('admin.home_page_product_label_2') !!}
                     </div>
-                  </div>  
-                </div>  
+                  </div>
+                </div>
                 @if( $settings_data['general_settings']['taxes_options']['enable_status'] == 1 && $settings_data['general_settings']['taxes_options']['apply_tax_for'] == 'per_product' )
                 <div class="form-group taxes-option">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-6 control-label" for="inputEnableTaxesForProduct">{!! trans('admin.taxes') !!}</label>
                     <div class="col-sm-6">
                       <input type="checkbox" class="shopist-iCheck" name="inputEnableTaxesForProduct" id="inputEnableTaxesForProduct">
-                      &nbsp;{!! trans('admin.enable_taxes_this_product') !!}                                         
+                      &nbsp;{!! trans('admin.enable_taxes_this_product') !!}
                     </div>
-                  </div>  
+                  </div>
                 </div>
                 @endif
               </div>
-														
+
               <div class="tab-advanced tab-pane fade" id="tab_attribute">
                 <div class="form-group">
                   <div class="row">
@@ -405,10 +413,10 @@
                     <div class="col-sm-3">
                       <a class="btn btn-default btn-sm add-new-attribute" href="">{!! trans('admin.add_attribute') !!}</a>
                     </div>
-                  </div>    
+                  </div>
                 </div>
-              </div>  
-														
+              </div>
+
               <div class="tab-variations tab-pane fade" id="tab_variations">
                 <div class="modal fade" id="addDynamicVariations" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
                   <div class="modal-dialog">
@@ -502,13 +510,13 @@
                             <div class="custom-input-element">
                               <select id="variation_stock_status" name="variation_stock_status" class="form-control select2" style="width: 100%;">
                                 <option selected="selected" value="variation_in_stock">{!! trans('admin.in_stock') !!}</option>
-                                <option value="variation_out_of_stock">{!! trans('admin.out_of_stock') !!}</option>                  
+                                <option value="variation_out_of_stock">{!! trans('admin.out_of_stock') !!}</option>
                               </select>
                             </div>
                           </div>
                           @if( $settings_data['general_settings']['taxes_options']['enable_status'] == 1 && $settings_data['general_settings']['taxes_options']['apply_tax_for'] == 'per_product' )
                           <div class="custom-input-group">
-                            <div class="custom-input-label"><input type="checkbox" class="minimal-red" name="inputEnableTaxesForVariation" id="inputEnableTaxesForVariation">&nbsp;&nbsp;<label for="inputEnableTaxesForVariation">{!! trans('admin.enable_taxes_this_variation') !!}</label></div>  
+                            <div class="custom-input-label"><input type="checkbox" class="minimal-red" name="inputEnableTaxesForVariation" id="inputEnableTaxesForVariation">&nbsp;&nbsp;<label for="inputEnableTaxesForVariation">{!! trans('admin.enable_taxes_this_variation') !!}</label></div>
                           </div>
                           @endif
                           <div class="custom-input-group">
@@ -531,8 +539,8 @@
                 @if(count($attrs_list_data)>0)
                 <div class="clearfix">
                     <button data-toggle="modal" type="button" class="btn btn-default btn-xs create-variations pull-right">{!! trans('admin.create_variation') !!}</button>
-                </div>    
-                
+                </div>
+
                 <div class="attributes-lists">
                   @foreach($attrs_list_data as $rows)
                   <div class="attribute-name">
@@ -540,27 +548,27 @@
                       <option selected="selected" value="all">{!! trans('admin.any_label') !!} {!! $rows->name !!}</option>
                       @foreach(explode(',', $rows->product_attr_values) as $val)
                       <option value="{{ $val }}">{!! $val !!}</option>
-                      @endforeach            
+                      @endforeach
                     </select>
                   </div>
                   @endforeach
                 </div>
-                
+
                 @else
                   @if(!$sidebar_data['is_vendor_login'])
                   <a class="btn btn-default" href="{{ route('admin.product_attributes_list') }}">{!! trans('admin.create_attributes') !!}</a>
                   @endif
                 @endif
               </div>
-              
+
               <div class="tab-custom-design tab-pane fade" id="tab_custom_design">
                 <div class="row">
-                  <div class="col-md-12">                                        
+                  <div class="col-md-12">
                     <div class="form-group">
                       <div class="clearfix design-element-btn">
                          <button data-toggle="modal" data-target="#element_title_name" type="button" class="btn btn-default pull-right create-design-element">{!! trans('admin.create_design_element') !!}</button>
                       </div>
-                     
+
                       <div class="modal fade" id="element_title_name" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -569,8 +577,8 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
-                            </div>  
-                            <div class="modal-body">             
+                            </div>
+                            <div class="modal-body">
                               <input type="text" class="form-control" name="design_title_name" id="design_title_name" placeholder="{{ trans('admin.your_design_title_name') }}">
                             </div>
                             <div class="modal-footer">
@@ -588,8 +596,8 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
-                            </div>  
-                            <div class="modal-body">             
+                            </div>
+                            <div class="modal-body">
                               <div class="uploadform dropzone no-margin dz-clickable designer-dropzone-file-upload" id="designer_dropzone_file_upload" name="designer_dropzone_file_upload">
                                 <div class="dz-default dz-message">
                                   <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
@@ -602,12 +610,12 @@
                           </div>
                         </div>
                       </div>
-                      <div class="design-element-main-container"></div>                      
+                      <div class="design-element-main-container"></div>
                     </div>
                   </div>
-                </div>                
+                </div>
               </div>
-														
+
               <div class="tab-manage-download-files tab-pane fade" id="tab_manage_download_files">
                 <div class="form-group">
                   <div class="row">
@@ -631,33 +639,33 @@
                             </tr>
                           </tfoot>
                         </table>
-                      </div>		
+                      </div>
                     </div>
-                  </div>    
+                  </div>
                 </div>
-                <br>  
+                <br>
                 <div class="form-group">
-                  <div class="row">  
+                  <div class="row">
                     <label class="col-sm-3 control-label" for="inputDownloadlimit">{!! trans('admin.download_limit_label') !!}</label>
                     <div class="col-sm-9">
                         <input type="number" class="form-control" name="download_limit" placeholder="{{ trans('admin.unlimited_placeholder_label') }}" id="download_limit"> {!! trans('admin.blank_for_unlimited_label') !!}
-                    </div>  
-                  </div>  
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group">
-                  <div class="row">    
+                  <div class="row">
                     <label class="col-sm-3 control-label" for="inputDownloadexpiry">{!! trans('admin.download_expiry_label') !!}</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" name="download_expiry" placeholder="{{ trans('admin.expiry_data_label') }}" id="download_expiry">
-                    </div>  
-                  </div>  
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-						
+
       <div class="box box-solid">
           <div class="box-header with-border">
             <i class="fa fa-text-width"></i>
@@ -665,24 +673,24 @@
           </div>
           <div class="box-body">
             <div class="form-group">
-              <div class="row">    
+              <div class="row">
                 <label class="col-sm-3 control-label" for="inputUpsells">{!! trans('admin.upsells_label') !!}</label>
                 <div class="col-sm-9">
                     <input type="text" name="upsells_product" data-target="upsell" placeholder="{{ trans('admin.upsells_cross_sells_placeholder_label') }}" class="typeahead products-typeahead tm-input upsells-input form-control tm-input-info"/>
                 </div>
-              </div>  
+              </div>
             </div>
             <div class="form-group">
-              <div class="row">    
+              <div class="row">
                 <label class="col-sm-3 control-label" for="inputCrossSells">{!! trans('admin.cross_sells_label') !!}</label>
                 <div class="col-sm-9">
                     <input type="text" name="cross_sells_product" data-target="crosssell" placeholder="{{ trans('admin.upsells_cross_sells_placeholder_label') }}" class="typeahead products-typeahead tm-input crosssells-input form-control tm-input-info"/>
                 </div>
-              </div>  
+              </div>
             </div>
-          </div>  
-      </div> 
-      
+          </div>
+      </div>
+
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
@@ -696,38 +704,38 @@
             <p class="description">{!! trans('admin.product_seo_desc_example') !!}</p>
           </div><hr>
           <div class="seo-content">
-            <div class="form-group">  
-              <div class="row">    
+            <div class="form-group">
+              <div class="row">
                 <div class="col-md-12">
                   <input type="text" class="form-control" name="seo_title" id="seo_title" placeholder="{{ trans('admin.seo_title_label') }}" value="">
-                </div> 
-              </div>    
-            </div>
-            <div class="form-group">  
-              <div class="row">   
-                <div class="col-md-12">
-                <input type="text" class="form-control" name="seo_url_format" id="seo_url_format" placeholder="{{ trans('admin.seo_url_label') }}" value="">
-                </div> 
-              </div>    
+                </div>
+              </div>
             </div>
             <div class="form-group">
-              <div class="row">   
-                <div class="col-md-12">  
+              <div class="row">
+                <div class="col-md-12">
+                <input type="text" class="form-control" name="seo_url_format" id="seo_url_format" placeholder="{{ trans('admin.seo_url_label') }}" value="">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
                   <textarea id="seo_description" class="form-control" name="seo_description" placeholder="{{ trans('admin.seo_description_label') }}"></textarea>
                 </div>
-              </div>    
-            </div>  
-            <div class="form-group">   
-              <div class="row">   
-                <div class="col-md-12">  
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
                   <textarea id="seo_keywords" class="form-control" name="seo_keywords" placeholder="{{ trans('admin.seo_keywords_label') }}"></textarea>
                 </div>
-              </div>    
+              </div>
             </div>
-          </div>  
-        </div>  
-      </div> 
-      
+          </div>
+        </div>
+      </div>
+
       <div class="box box-solid compare-data">
         <div class="box-header with-border">
           <i class="fa  fa-text-width"></i>
@@ -736,23 +744,23 @@
         <div class="box-body">
           <div class="clearfix">
             <a class="btn btn-default pull-right btn-sm" href="{{ route('admin.extra_features_compare_products_content') }}">{!! trans('admin.add_compare_data_title') !!}</a>
-          </div>  
-          <br>  
+          </div>
+          <br>
           @if(!empty($fields_name))
             @foreach($fields_name as $key => $compare_field)
               <div class="form-group">
-                <div class="row">  
+                <div class="row">
                   <label class="col-sm-6 control-label">{!! $compare_field !!}</label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputCompareData[<?php echo $key;?>]" placeholder="{{ $compare_field }}">   
+                    <input type="text" class="form-control" name="inputCompareData[<?php echo $key;?>]" placeholder="{{ $compare_field }}">
                   </div>
-                </div>  
+                </div>
               </div>
             @endforeach
           @endif
         </div>
       </div>
-        
+
       <div class="box box-solid review-settings">
         <div class="box-header with-border">
           <i class="fa  fa-star-half-full"></i>
@@ -760,38 +768,38 @@
         </div>
         <div class="box-body">
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputEnableReviews">{!! trans('admin.enable_reviews') !!}</label>
               <div class="col-sm-6">
                 <label>
                   <input type="checkbox" checked="checked" class="shopist-iCheck" name="inputEnableReviews" id="inputEnableReviews">
-                </label>                                             
+                </label>
               </div>
-            </div>  
+            </div>
           </div>
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputEnableAddReviewLinkToProductPage">{!! trans('admin.enable_add_review_link_to_product_page') !!}</label>
               <div class="col-sm-6">
                 <label>
                   <input type="checkbox" class="shopist-iCheck" checked="checked" name="inputEnableAddReviewLinkToProductPage" id="inputEnableAddReviewLinkToProductPage">
-                </label>                                             
+                </label>
               </div>
-            </div>  
+            </div>
           </div>
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputEnableAddReviewLinkToDetailsPage">{!! trans('admin.enable_add_review_link_to_details_page') !!}</label>
               <div class="col-sm-6">
                 <label>
                   <input type="checkbox" class="shopist-iCheck" checked="checked" name="inputEnableAddReviewLinkToDetailsPage" id="inputEnableAddReviewLinkToDetailsPage">
-                </label>                                             
+                </label>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid product-videos-settings">
         <div class="box-header with-border">
           <i class="fa fa-video-camera"></i>
@@ -799,51 +807,51 @@
         </div>
         <div class="box-body">
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputEnableProductVideo">{!! trans('admin.enable_product_video') !!}</label>
               <div class="col-sm-6">
                 <label>
                   <input type="checkbox" class="shopist-iCheck" name="inputEnableProductVideo" id="inputEnableProductVideo">
-                </label>                                             
+                </label>
               </div>
-            </div>  
+            </div>
           </div>
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputDisplayProductVideo">{!! trans('admin.product_video_display_mode_at_frontend') !!}</label>
               <div class="col-sm-6">
                 <span><input type="radio" class="shopist-iCheck" name="inputVideoDisplayMode" id="inputVideoDisplayModeAtPopup" value="popup">&nbsp; {!! trans('admin.display_at_popup') !!}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span><input type="radio" checked="checked" class="shopist-iCheck" name="inputVideoDisplayMode" id="inputVideoDisplayModeAtPageContent" value="content">&nbsp; {!! trans('admin.page_content') !!}</span>
               </div>
-            </div>  
+            </div>
           </div><hr><br>
 
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputTitleForVideo">{!! trans('admin.video_title') !!}</label>
               <div class="col-sm-6">
-                <input type="text" class="form-control" name="inputTitleForVideo" id="inputTitleForVideo" placeholder="{{ trans('admin.video_title') }}" value="{{ old('inputTitleForVideo') }}">          
+                <input type="text" class="form-control" name="inputTitleForVideo" id="inputTitleForVideo" placeholder="{{ trans('admin.video_title') }}" value="{{ old('inputTitleForVideo') }}">
               </div>
-            </div>  
+            </div>
           </div>
           <div class="form-group" style="display:none;">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputVideoPanelWidth">{!! trans('admin.video_panel_width') !!}</label>
               <div class="col-sm-6">
-                <input type="number" class="form-control" name="inputVideoPanelWidth" id="inputVideoPanelWidth" placeholder="{{ trans('admin.video_panel_width') }}" value="{{ old('inputVideoPanelWidth') }}"><i>{!! trans('admin.pixels') !!}</i>          
+                <input type="number" class="form-control" name="inputVideoPanelWidth" id="inputVideoPanelWidth" placeholder="{{ trans('admin.video_panel_width') }}" value="{{ old('inputVideoPanelWidth') }}"><i>{!! trans('admin.pixels') !!}</i>
               </div>
-            </div>  
+            </div>
           </div>
           <div class="form-group" style="display:none;">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputVideoPanelHeight">{!! trans('admin.video_panel_height') !!}</label>
               <div class="col-sm-6">
                 <input type="number" class="form-control" name="inputVideoPanelHeight" id="inputVideoPanelHeight" placeholder="{{ trans('admin.video_panel_height') }}" value="{{ old('inputVideoPanelHeight') }}"><i>{!! trans('admin.pixels') !!}</i>
               </div>
-            </div>  
+            </div>
           </div>
           <hr><br>
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputLabelVideoSource">{!! trans('admin.select_video_source') !!}</label>
               <div class="col-sm-6">
                 <div class="source-embedded-code">
@@ -859,12 +867,12 @@
                   {!! trans('admin.online_video_file_extensions') !!}
                 </div>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-      
-      @if(!$sidebar_data['is_vendor_login'])  
+
+      @if(!$sidebar_data['is_vendor_login'])
       <div class="box box-solid product-manufacturer-settings">
         <div class="box-header with-border">
           <i class="fa fa-html5"></i>
@@ -872,29 +880,29 @@
         </div>
         <div class="box-body">
           <div class="form-group" style="display:none;">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputEnableProductManufacturer">{!! trans('admin.enable_product_manufacturer') !!}</label>
               <div class="col-sm-6">
                 <label>
                   <input type="checkbox" class="shopist-iCheck" name="inputEnableProductManufacturer" id="inputEnableProductManufacturer">
-                </label>                                             
+                </label>
               </div>
-            </div>  
+            </div>
           </div>
           @if(count($manufacturer_lists)>0)
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-6 control-label" for="inputSelectManufacturerName">{!! trans('admin.select_manufacturer') !!}</label>
               <div class="col-sm-6">
                @foreach($manufacturer_lists as $row)
                <div class="manufacturer-name"><div><input type="checkbox" class="shopist-iCheck" name="inputManufacturerName[]" id="inputManufacturerName-{{ $row->name }}" value="{{ $row->term_id }}"></div>@if($row->brand_logo_img_url)<div><img src="{{ get_image_url($row->brand_logo_img_url) }}" class="img-responsive"></div>@else <div><img src="{{ default_upload_sample_img_src() }}" class="img-responsive"></div> @endif<div>{!! $row->name !!}</div><div>({!! $row->brand_country_name !!})</div></div>
                @endforeach
               </div>
-            </div>  
+            </div>
           </div>
           @else
           <div class="form-group">
-            <div class="row">    
+            <div class="row">
               <label class="col-sm-6 control-label" for="manufacturer-empty">{!! trans('admin.no_manufacturer_yet') !!}</label>
             </div>
           </div>
@@ -903,7 +911,7 @@
       </div>
       @endif
     </div>
-    
+
     <div class="col-md-4">
       <div class="box box-solid visibility-product">
         <div class="box-header with-border">
@@ -912,33 +920,33 @@
         </div>
         <div class="box-body">
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-7 control-label" for="inputVisibility">{!! trans('admin.enable_product') !!}</label>
               <div class="col-sm-5">
                 <select class="form-control select2" name="product_visibility" style="width: 100%;">
                   <option selected="selected" value="1">{!! trans('admin.enable') !!}</option>
-                  <option value="0">{!! trans('admin.disable') !!}</option>                  
-                </select>                                         
+                  <option value="0">{!! trans('admin.disable') !!}</option>
+                </select>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid product-categories">
         <div class="box-header with-border">
           <i class="fa fa-camera"></i>
           <h3 class="box-title">{!! trans('admin.product_categories') !!}</h3>
         </div>
         <div class="box-body">
-          @if(!$sidebar_data['is_vendor_login'])  
+          @if(!$sidebar_data['is_vendor_login'])
           <div class="clearfix">
             <a class="btn btn-default pull-right" href="{{ route('admin.product_categories_list') }}">{!! trans('admin.create_categories') !!}</a>
-          </div>  
+          </div>
           @endif
 
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-1 control-label" for="inputSelectCategories"></label>
               <div class="col-sm-11">
                 @if (count($categories_lists) > 0)
@@ -951,25 +959,25 @@
                   <span>{!! trans('admin.no_categories_yet') !!}</span>
                 @endif
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid product-tags">
         <div class="box-header with-border">
           <i class="fa fa-tags"></i>
           <h3 class="box-title">{!! trans('admin.product_tags') !!}</h3>
         </div>
         <div class="box-body">
-          @if(!$sidebar_data['is_vendor_login'])    
+          @if(!$sidebar_data['is_vendor_login'])
           <div class="clearfix">
             <a class="btn btn-default pull-right" href="{{ route('admin.product_tags_list') }}">{!! trans('admin.create_tags') !!}</a>
           </div>
           @endif
 
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-1 control-label" for="inputSelectTgs"></label>
               <div class="col-sm-11">
                 @if(count($tags_lists)>0)
@@ -978,27 +986,27 @@
                   @endforeach
                 @else
                 <span>{!! trans('admin.no_tags_yet') !!}</span>
-                @endif 
+                @endif
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-        
+
       <div class="box box-solid product-colors">
         <div class="box-header with-border">
           <i class="fa fa-paint-brush"></i>
           <h3 class="box-title">{!! trans('admin.product_colors') !!}</h3>
         </div>
         <div class="box-body">
-          @if(!$sidebar_data['is_vendor_login'])  
+          @if(!$sidebar_data['is_vendor_login'])
           <div class="clearfix">
             <a class="btn btn-default pull-right" href="{{ route('admin.product_colors_list') }}">{!! trans('admin.create_colors') !!}</a>
           </div>
           @endif
 
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-1 control-label" for="inputSelectColors"></label>
               <div class="col-sm-11">
                 @if(count($colors_lists)>0)
@@ -1007,27 +1015,27 @@
                   @endforeach
                 @else
                 <span>{!! trans('admin.no_colors_yet') !!}</span>
-                @endif 
+                @endif
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div class="box box-solid product-sizes">
         <div class="box-header with-border">
           <i class="fa fa-th-large"></i>
           <h3 class="box-title">{!! trans('admin.product_sizes') !!}</h3>
         </div>
         <div class="box-body">
-          @if(!$sidebar_data['is_vendor_login'])  
+          @if(!$sidebar_data['is_vendor_login'])
           <div class="clearfix">
             <a class="btn btn-default pull-right" href="{{ route('admin.product_sizes_list') }}">{!! trans('admin.create_sizes') !!}</a>
           </div>
           @endif
 
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <label class="col-sm-1 control-label" for="inputSelectSizes"></label>
               <div class="col-sm-11">
                 @if(count($sizes_lists)>0)
@@ -1036,14 +1044,14 @@
                   @endforeach
                 @else
                 <span>{!! trans('admin.no_sizes_yet') !!}</span>
-                @endif 
+                @endif
               </div>
-            </div>  
+            </div>
           </div>
         </div>
-      </div>  
-        
-      @if(!$sidebar_data['is_vendor_login'])  
+      </div>
+
+      @if(!$sidebar_data['is_vendor_login'])
       <div class="box box-solid product-sizes">
         <div class="box-header with-border">
           <i class="fa fa-handshake-o"></i>
@@ -1051,24 +1059,24 @@
         </div>
         <div class="box-body">
           <div class="form-group">
-            <div class="row">  
+            <div class="row">
               <div class="col-sm-12">
                 <select name="vendor_list" id="vendor_list" class="vendors-list" style="width:100%;">
-                  <option value=""> {!! trans('admin.choose_vendor_title') !!} </option>  
+                  <option value=""> {!! trans('admin.choose_vendor_title') !!} </option>
                   @foreach($vendors_list as $vendor)
                   <option value="{{ $vendor->id }}"> {!! $vendor->display_name !!} </option>
                   @endforeach
                 </select>
               </div>
-            </div>    
+            </div>
           </div>
         </div>
-      </div> 
+      </div>
       @endif
     </div>
   </div>
 
- 
+
   <input type="hidden" name="hf_uploaded_all_images" id="hf_uploaded_all_images" value="{{ $product_all_images_json }}">
   <input type="hidden" name="hf_selected_variation_attr" id="hf_selected_variation_attr" value="">
   <input type="hidden" name="hf_variation_data" id="hf_variation_data" value="">
@@ -1088,17 +1096,17 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>    
-        <div class="modal-body">             
+        </div>
+        <div class="modal-body">
           <input type="file" name="uploadDownloadableProductFile" id="uploadDownloadableProductFile" />
         </div>
         <div class="modal-footer">
-          <input type="submit" name="upload_downloadable_product_file" id="upload_downloadable_product_file" value="{{ trans('admin.upload_lang_zip_file') }}" class="btn btn-default attachtopost" />   
+          <input type="submit" name="upload_downloadable_product_file" id="upload_downloadable_product_file" value="{{ trans('admin.upload_lang_zip_file') }}" class="btn btn-default attachtopost" />
           <button type="button" class="btn btn-default attachtopost" data-dismiss="modal">{!! trans('admin.close') !!}</button>
         </div>
       </div>
       <input type="hidden" name="simple_product" id="simple_product" value="simple_product">
-    </form>      
+    </form>
   </div>
 </div>
 <input type="hidden" name="hf_downloadable_product_file_url_track" id="hf_downloadable_product_file_url_track">

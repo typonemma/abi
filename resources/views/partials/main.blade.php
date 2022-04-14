@@ -33,7 +33,7 @@
                 </div>
                 <div class="popup-wrapper">
                     <div class="bg-layer"></div>
-                    <div class="popup-content" data-rel="0">
+                    <div id="detail-product" class="popup-content" data-rel="0">
                         <div class="layer-close"></div>
                         <div class="popup-container size-2">
                             <div class="popup-align">
@@ -78,8 +78,8 @@
                                             <div class="swiper-container swiper-control-bottom" data-breakpoints="1" data-xs-slides="3" data-sm-slides="3" data-md-slides="4" data-lt-slides="5" data-slides-per-view="5" data-center="1" data-click="1">
                                                 <div class="swiper-button-prev hidden"></div>
                                                 <div class="swiper-button-next hidden"></div>
-                                                <div class="swiper-wrapper">
-                                                    <div class="swiper-slide">
+                                                <div id="gallery-images" class="swiper-wrapper">
+                                                    {{-- <div class="swiper-slide">
                                                         <div class="product-small-preview-entry">
                                                             <img src="img/product-preview-4_.jpg" alt="" />
                                                         </div>
@@ -113,7 +113,7 @@
                                                         <div class="product-small-preview-entry">
                                                             <img src="img/product-preview-10_.jpg" alt="" />
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -183,14 +183,14 @@
                                             <div class="col-sm-9">
                                                 <div class="quantity-select">
                                                     <span class="minus"></span>
-                                                    <span class="number">1</span>
+                                                    <span id="quantity" class="number">1</span>
                                                     <span class="plus"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m5 col-xs-b40">
                                             <div class="col-sm-6 col-xs-b10 col-sm-b0">
-                                                <a class="button size-2 style-2 block" href="#">
+                                                <a id="add-to-cart-popup" class="button size-2 style-2 block" href="#">
                                                     <span class="button-wrapper">
                                                         <span class="icon"><img src="img/icon-2.png" alt=""></span>
                                                         <span class="text">add to cart</span>
@@ -198,7 +198,7 @@
                                                 </a>
                                             </div>
                                             <div class="col-sm-6">
-                                                <a class="button size-2 style-1 block noshadow" href="#">
+                                                <a id="add-to-wishlist-popup" class="button size-2 style-1 block noshadow" href="#">
                                                     <span class="button-wrapper">
                                                         <span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                         <span class="text">add to favourites</span>
@@ -212,11 +212,11 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="follow light">
-                                                    <a class="entry" href="#"><i class="fa fa-facebook"></i></a>
-                                                    <a class="entry" href="#"><i class="fa fa-twitter"></i></a>
-                                                    <a class="entry" href="#"><i class="fa fa-linkedin"></i></a>
-                                                    <a class="entry" href="#"><i class="fa fa-google-plus"></i></a>
-                                                    <a class="entry" href="#"><i class="fa fa-pinterest-p"></i></a>
+                                                    <a id="fb-share" class="entry" href="#"><i class="fa fa-facebook"></i></a>
+                                                    <a id="twitter-share" class="entry" href="#"><i class="fa fa-twitter"></i></a>
+                                                    <a id="linkedin-share" class="entry" href="#"><i class="fa fa-linkedin"></i></a>
+                                                    <a id="gplus-share" class="entry" href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a id="pinterest-share" class="entry" href="#"><i class="fa fa-pinterest-p"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -991,7 +991,8 @@
                                 postcode:postcode,
                                 address:address
                             },
-                            success: function() {
+                            success: function(weight) {
+                                const total_weight = weight;
                                 $('#shipping-cost').text('Loading...');
                                 $.ajax({
                                     type:"get",
@@ -1017,7 +1018,7 @@
                                         data : {
                                             origin: 444,
                                             destination: id,
-                                            weight: 1,
+                                            weight: total_weight,
                                             courier: 'jne'
                                         }
                                     }).done(function (data) {
@@ -1147,7 +1148,7 @@
                                 shipping_method: ship.courier,
                                 payment_method_title: 'Bank Transfer',
                                 total: cart.total,
-                                currency: 'Rupiah',
+                                currency: 'IDR',
                                 shipping_cost: ship_cost,
                                 coupon_amount: coupon_amount
                             },

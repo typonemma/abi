@@ -83,8 +83,8 @@
                                                                     <div class="simple-article size-1">QUANTITY: {{$cd->quantity}}</div>
                                                                 </td>
                                                                 <td>
-                                                                    <div class="simple-article size-3 grey">${{number_format($product->regular_price, 0, '.', '.')}}</div>
-                                                                    <div class="simple-article size-1">TOTAL: ${{number_format($product->regular_price * $cd->quantity, 0, '.', '.')}}</div>
+                                                                    <div class="simple-article size-3 grey">RP {{number_format($product->regular_price, 0, '.', '.')}}</div>
+                                                                    <div class="simple-article size-1">TOTAL: RP {{number_format($product->regular_price * $cd->quantity, 0, '.', '.')}}</div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="cart-color" style="background: #eee;"></div>
@@ -103,7 +103,7 @@
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div class="cell-view empty-space col-xs-b50">
-                                                <div id="cart-total" class="simple-article size-5 grey">TOTAL <span class="color">${{number_format($cart->total, 0, '.', '.')}}</span></div>
+                                                <div id="cart-total" class="simple-article size-5 grey">TOTAL <span class="color">RP {{number_format($cart->total, 0, '.', '.')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 text-right">

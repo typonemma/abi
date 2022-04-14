@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('')->group(function() {
+Route::prefix('auth')->group(function() {
     //Home
     Route::get('/', 'AuthController@home');
 

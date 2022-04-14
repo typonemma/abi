@@ -198,13 +198,71 @@
     var page = 1;
     var lastPage = 1;
     var selected = [];
-    var product = null;
-    function detail(value) {
-        product = JSON.parse(value);
-        $('#product-cat-popup').text(product.tags);
-        $('#product-name-popup').text(product.title);
-        $('#product-price-popup').text(product.regular_price);
-        $('#product-desc-popup').text(product.content);
+    function detail(id) {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            }
+        });
+        $.ajax({
+            method: 'POST',
+            url: '/product/ajaxGetDetail',
+            async: false,
+            data : {
+                id: id
+            },
+            success: function(product) {
+                const related_images = JSON.parse(product.product_related_img_json);
+                const gallery_images = related_images.product_gallery_images;
+                let html = '';
+                for (let i = 0; i < gallery_images.length; i++) {
+                    html += `<div class="swiper-slide">
+                                <div class="product-small-preview-entry">
+                                    <img src="${gallery_images[i].url}" alt="" />
+                                </div>
+                            </div>`;
+                }
+                $('#gallery-images').html(html);
+                $('#product-cat-popup').text(product.tags);
+                $('#product-name-popup').text(product.title);
+                $('#product-price-popup').text('RP. ' + numberWithCommas(product.regular_price));
+                $('#product-desc-popup').html(product.content);
+                $('#add-to-cart-popup').attr('onclick', 'ajaxAddToCart('+id+')');
+                $('#add-to-wishlist-popup').attr('onclick', 'ajaxAddToWishlist('+id+')');
+                const url = 'https://pusatbaterai.local/detail/'+product.slug;
+                $('#fb-share').attr('href', 'https://www.facebook.com/sharer/sharer.php?u='+url);
+                $('#twitter-share').attr('href', 'https://twitter.com/intent/tweet?url='+url);
+                $('#linkedin-share').attr('href', 'https://www.linkedin.com/sharing/share-offsite/?url='+url);
+                $('#gplus-share').attr('href', 'https://plus.google.com/share?url='+url);
+                $('#pinterest-share').attr('href', 'http://pinterest.com/pin/create/link/?url='+url);
+            }
+        });
+    }
+    function ajaxAddToCart(id){
+        let quantity = document.getElementById("quantity").innerText;
+        var ajaxAddToCart = $.ajax({
+            type:"post",
+            url : "/cart-slice/insert",
+            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+        }).done(function(){
+            $('#calculate').load(' #calculate');
+            $('#cart-count').load(' #cart-count');
+            $('#user-wallet').load(' #user-wallet');
+            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+            $('#cart-total').load(' #cart-total');
+            $('#cart-title-total').load(' #cart-title-total');
+            alert('Item added to cart successfully !');
+        });
+    }
+    function ajaxAddToWishlist(id){
+        let quantity = document.getElementById("quantity").innerText;
+        var ajaxAddToWishlist = $.ajax({
+            type:"post",
+            url : "/insertWishlist",
+            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+        }).done(function(){
+            alert('Item added to wishlist successfully !');
+        });
     }
     function ajaxProduct(){
         var ajaxProduct = $.ajax({
@@ -249,7 +307,7 @@
                 }
 
                 //Description
-                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a class="entry open-popup" onclick="detail('+encodeURI(JSON.stringify(value))+')" data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" '+`onclick=detail('${value.id}')`+' data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
 
                 //Footer
                 str = str + '</div></div>';

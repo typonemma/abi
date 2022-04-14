@@ -225,11 +225,15 @@ class Cart implements CartInterface
      */
     public function getItems()
     {
-        $user = session('user');
-        $cart = AppCart::where('user_id', '=', $user->id)->first();
-        $items = CartDetail::where('cart_id', '=', $cart->id)->get();
-        return $items;
-        // return $this->collection->make($this->session->get($this->getCart()));
+        if (session('user')) {
+            $user = session('user');
+            $cart = AppCart::where('user_id', '=', $user->id)->first();
+            $items = CartDetail::where('cart_id', '=', $cart->id)->get();
+            return $items;
+        }
+        else {
+            return $this->collection->make($this->session->get($this->getCart()));
+        }
     }
 
     /**

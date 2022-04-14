@@ -165,6 +165,15 @@ class CartController extends Controller
         $ship->address = $request->address;
         $ship->courier = 'jne';
         $request->session()->put('ship', $ship);
+        $user = session('user');
+        $cart = Cart::where('user_id', $user->id)->first();
+        $items = CartDetail::where('cart_id', $cart->id)->get();
+        $weight = 0;
+        foreach ($items as $item) {
+            $product = Product::find($item->product_id);
+            $weight += $product->weight * $item->quantity;
+        }
+        return $weight;
     }
 
     public function getShippingCost($cost)

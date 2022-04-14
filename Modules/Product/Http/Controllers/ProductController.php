@@ -8,6 +8,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\ProductsController;
+use App\Models\ObjectRelationship;
 use DB;
 
 class ProductController extends Controller
@@ -183,7 +184,7 @@ class ProductController extends Controller
             $product->color = $this->getColorsByObjectId($request->id);
             $product->size = $this->getSizesByObjectId($request->id);
         }
-
+        $product->content = htmlspecialchars_decode($product->content);
         return $product;
     }
 
@@ -255,4 +256,5 @@ class ProductController extends Controller
 
         return $get_tag_array;
     }
+
 }

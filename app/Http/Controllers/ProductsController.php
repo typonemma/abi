@@ -782,6 +782,7 @@ class ProductsController extends Controller
           }
         }
 
+        $weight = 0;
         $price          = '';
         $regular_price  = '';
         $sale_price     = '';
@@ -789,6 +790,10 @@ class ProductsController extends Controller
         $sale_price_start_date = '';
         $sale_price_end_date   = '';
         $stock_availability    = '';
+
+        if(is_numeric(Request::Input('inputWeight')) && Request::has('inputWeight')){
+            $weight = Request::Input('inputWeight');
+          }
 
         if(is_numeric(Request::Input('inputRegularPrice')) && Request::has('inputRegularPrice')){
           $regular_price = Request::Input('inputRegularPrice');
@@ -1125,6 +1130,7 @@ class ProductsController extends Controller
           $post->slug               =   $post_slug;
           $post->status             =   Request::Input('product_visibility');
           $post->sku                =   strip_tags(Request::Input('ProductSKU'));
+          $post->weight             =   $weight;
           $post->regular_price      =   $regular_price;
           $post->sale_price         =   $sale_price;
           $post->price              =   $price;
@@ -1142,6 +1148,13 @@ class ProductsController extends Controller
                                           'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
                                           'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
                                       ),
+                                      array(
+                                        'product_id'    =>  $post->id,
+                                        'key_name'      =>  '_product_weight',
+                                        'key_value'     =>  $weight,
+                                        'created_at'    =>  date("y-m-d H:i:s", strtotime('now')),
+                                        'updated_at'    =>  date("y-m-d H:i:s", strtotime('now'))
+                                    ),
                                       array(
                                           'product_id'    =>  $post->id,
                                           'key_name'      =>  '_product_sale_price_start_date',
@@ -1499,6 +1512,7 @@ class ProductsController extends Controller
                         'title'              =>  strip_tags(Request::Input('product_name')),
                         'status'             =>  Request::Input('product_visibility'),
                         'sku'                =>  strip_tags(Request::Input('ProductSKU')),
+                        'weight'             =>  $weight,
                         'regular_price'      =>  $regular_price,
                         'sale_price'         =>  $sale_price,
                         'price'              =>  $price,
@@ -1510,6 +1524,10 @@ class ProductsController extends Controller
           if( Product::where('id', $product_id)->update($data)){
             $data_related_url = array(
                               'key_value'    =>  Request::Input('hf_uploaded_all_images')
+            );
+
+            $data_weight = array(
+                              'key_value'    =>  $weight,
             );
 
             $data_sale_price_start_date = array(
@@ -1666,6 +1684,7 @@ class ProductsController extends Controller
 
 
             ProductExtra::where(['product_id' => $product_id, 'key_name' => '_product_related_images_url'])->update($data_related_url);
+            ProductExtra::where(['product_id' => $product_id, 'key_name' => '_product_weight'])->update($data_weight);
             ProductExtra::where(['product_id' => $product_id, 'key_name' => '_product_sale_price_start_date'])->update($data_sale_price_start_date);
             ProductExtra::where(['product_id' => $product_id, 'key_name' => '_product_sale_price_end_date'])->update($data_sale_price_end_date);
             ProductExtra::where(['product_id' => $product_id, 'key_name' => '_product_manage_stock'])->update($data_manage_stock);

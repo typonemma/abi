@@ -8,48 +8,48 @@
     <div class="box-body">
       <h5>{{ trans('admin.change_order_status') }}</h5><hr>
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-3">
             <select id="change_order_status" name="change_order_status" style="width:100%;">
               @if($order_data_by_id['_order_status'] == 'pending')
                 <option selected value="pending">{{ trans('admin.pending_payment') }}</option>
-              @else 
+              @else
                 <option value="pending">{{ trans('admin.pending_payment') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'processing')
                 <option selected value="processing">{{ trans('admin.processing') }}</option>
-              @else 
+              @else
                 <option value="processing">{{ trans('admin.processing') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'on-hold')
                 <option selected value="on-hold">{{ trans('admin.on_hold') }}</option>
-              @else 
+              @else
                 <option value="on-hold">{{ trans('admin.on_hold') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'completed')
                 <option selected value="completed">{{ trans('admin.completed') }}</option>
-              @else 
+              @else
                 <option value="completed">{{ trans('admin.completed') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'cancelled')
                 <option selected value="cancelled">{{ trans('admin.cancelled') }}</option>
-              @else 
+              @else
                 <option value="cancelled">{{ trans('admin.cancelled') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'refunded')
                 <option selected value="refunded">{{ trans('admin.refunded') }}</option>
-              @else 
+              @else
                 <option value="refunded">{{ trans('admin.refunded') }}</option>
               @endif
 
               @if($order_data_by_id['_order_status'] == 'shipping')
                 <option selected value="shipping">{{ trans('admin.shipping') }}</option>
-              @else 
+              @else
                 <option value="shipping">{{ trans('admin.shipping') }}</option>
               @endif
             </select>
@@ -58,11 +58,11 @@
             <button class="btn btn-primary" type="submit">{!! trans('admin.save_change') !!}</button>
             <a class="btn btn-primary" href="{{ route('admin.order_invoice', $order_data_by_id['_order_id']) }}" target="_blank">{!! trans('admin.print_invoice_label') !!}</a>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
-  </div>  
-</form>  
+  </div>
+</form>
 <br>
 <div class="box">
   <div class="box-body">
@@ -72,21 +72,21 @@
         <br>
         <p><strong>{{ trans('admin.order') }} #:</strong> {!! $order_data_by_id['_order_id'] !!}
         <p><strong>{{ trans('admin.order_date') }}:</strong> {!! $order_data_by_id['_order_date'] !!}
-        <p><strong>{{ trans('admin.payment_method') }}:</strong> {!! get_payment_method_title( $order_data_by_id['_payment_method_title'] ) !!} 
-        <p><strong>{{ trans('admin.shipping_method') }}:</strong> {!! $order_data_by_id['_order_shipping_method'] !!}   
-        <p><strong>{{ trans('admin.member') }}:</strong> 
-            @if(!empty($order_data_by_id['_member']['url'])) 
+        <p><strong>{{ trans('admin.payment_method') }}:</strong> {!! get_payment_method_title( $order_data_by_id['_payment_method_title'] ) !!}
+        <p><strong>{{ trans('admin.shipping_method') }}:</strong> {!! $order_data_by_id['_order_shipping_method'] !!}
+        <p><strong>{{ trans('admin.member') }}:</strong>
+            @if(!empty($order_data_by_id['_member']['url']))
             <img src="{{ get_image_url($order_data_by_id['_member']['url']) }}" style="width: 32px;margin-left: 10px;">
-            @else 
+            @else
             <img src="{{ default_avatar_img_src() }}" style="width: 32px;margin-left: 10px;">
             @endif
             <b><i>{!! $order_data_by_id['_member']['name'] !!}</i></b>
-        </p>  
+        </p>
         <p><strong>{{ trans('admin.customer_ip') }}:</strong> {!! $order_data_by_id['_customer_ip_address'] !!}</p>
         <p><strong>{{ trans('admin.order_currency') }}:</strong> {!! get_currency_name_by_code($order_data_by_id['_order_currency']) !!}</p>
       </div>
       <div class="col-md-4">
-          
+
         <h5>{{ trans('admin.billing_address') }}</h5><hr>
         <br>
         <p>{!! $order_data_by_id['_billing_first_name'].' '. $order_data_by_id['_billing_last_name']!!}</p>
@@ -100,20 +100,20 @@
         <p><strong>{{ trans('admin.city') }}:</strong> {!! $order_data_by_id['_billing_city'] !!}</p>
         <p><strong>{{ trans('admin.postCode') }}:</strong> {!! $order_data_by_id['_billing_postcode'] !!}</p>
         <p><strong>{{ trans('admin.country') }}:</strong> {!! get_country_by_code( $order_data_by_id['_billing_country'] ) !!}</p>
-        
-        
+
+
         <br>
-        
+
         <p><strong>{{ trans('admin.phone') }}:</strong> {!! $order_data_by_id['_billing_phone'] !!}</p>
-        
+
         @if($order_data_by_id['_billing_fax'])
           <p><strong>{{ trans('admin.fax') }}:</strong> {!! $order_data_by_id['_billing_fax'] !!}</p>
         @endif
         <p><strong>{{ trans('admin.email') }}:</strong> {!! $order_data_by_id['_billing_email'] !!}</p>
-        
+
       </div>
       <div class="col-md-4">
-          
+
         <h5>{{ trans('admin.shipping_address') }}</h5><hr>
         <br>
         <p>{!! $order_data_by_id['_shipping_first_name'].' '. $order_data_by_id['_shipping_last_name']!!}</p>
@@ -127,17 +127,17 @@
         <p><strong>{{ trans('admin.city') }}:</strong> {!! $order_data_by_id['_shipping_city'] !!}</p>
         <p><strong>{{ trans('admin.postCode') }}:</strong> {!! $order_data_by_id['_shipping_postcode'] !!}</p>
         <p><strong>{{ trans('admin.country') }}:</strong> {!! get_country_by_code( $order_data_by_id['_shipping_country'] ) !!}</p>
-        
-       
+
+
         <br>
-        
+
         <p><strong>{{ trans('admin.phone') }}:</strong> {!! $order_data_by_id['_shipping_phone'] !!}</p>
-        
+
         @if($order_data_by_id['_shipping_fax'])
           <p><strong>{{ trans('admin.fax') }}:</strong> {!! $order_data_by_id['_shipping_fax'] !!}</p>
         @endif
         <p><strong>{{ trans('admin.email') }}:</strong> {!! $order_data_by_id['_shipping_email'] !!}</p>
-        
+
       </div>
     </div>
   </div>
@@ -254,13 +254,13 @@
 
 <div class="modal fade" id="customizeImages" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">  
+    <div class="modal-content">
       <div class="modal-header">
         <p class="no-margin">{!! trans('admin.all_design_images') !!}</p>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>      
+      </div>
       <div class="modal-body" style="text-align: center;"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default attachtopost" data-dismiss="modal">{{ trans('admin.close') }}</button>
