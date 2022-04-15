@@ -33,7 +33,7 @@
                 </div>
                 <div class="popup-wrapper">
                     <div class="bg-layer"></div>
-                    <div id="detail-product" class="popup-content" data-rel="0">
+                    <div id="popupProduct" class="popup-content" data-rel="0">
                         <div class="layer-close"></div>
                         <div class="popup-container size-2">
                             <div class="popup-align">
@@ -119,8 +119,8 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div id="product-cat-popup" class="simple-article size-3 grey col-xs-b5">SMART WATCHES</div>
-                                        <div id="product-name-popup" class="h3 col-xs-b25">watch 42mm smartwatch</div>
+                                        <div class="simple-article size-3 grey col-xs-b5">SMART WATCHES</div>
+                                        <div class="h3 col-xs-b25">watch 42mm smartwatch</div>
                                         <div class="row col-xs-b25">
                                             <div class="col-sm-6">
                                                 <div class="simple-article size-5 grey">PRICE: <span id="product-price-popup" class="color">$225.00</span></div>
@@ -183,14 +183,14 @@
                                             <div class="col-sm-9">
                                                 <div class="quantity-select">
                                                     <span class="minus"></span>
-                                                    <span id="quantity" class="number">1</span>
+                                                    <span class="number">1</span>
                                                     <span class="plus"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m5 col-xs-b40">
                                             <div class="col-sm-6 col-xs-b10 col-sm-b0">
-                                                <a id="add-to-cart-popup" class="button size-2 style-2 block" href="#">
+                                                <a class="button size-2 style-2 block" href="#">
                                                     <span class="button-wrapper">
                                                         <span class="icon"><img src="img/icon-2.png" alt=""></span>
                                                         <span class="text">add to cart</span>
@@ -198,7 +198,7 @@
                                                 </a>
                                             </div>
                                             <div class="col-sm-6">
-                                                <a id="add-to-wishlist-popup" class="button size-2 style-1 block noshadow" href="#">
+                                                <a class="button size-2 style-1 block noshadow" href="#">
                                                     <span class="button-wrapper">
                                                         <span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                         <span class="text">add to favourites</span>
@@ -212,11 +212,11 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="follow light">
-                                                    <a id="fb-share" class="entry" href="#"><i class="fa fa-facebook"></i></a>
-                                                    <a id="twitter-share" class="entry" href="#"><i class="fa fa-twitter"></i></a>
-                                                    <a id="linkedin-share" class="entry" href="#"><i class="fa fa-linkedin"></i></a>
-                                                    <a id="gplus-share" class="entry" href="#"><i class="fa fa-google-plus"></i></a>
-                                                    <a id="pinterest-share" class="entry" href="#"><i class="fa fa-pinterest-p"></i></a>
+                                                    <a class="entry" href="#"><i class="fa fa-facebook"></i></a>
+                                                    <a class="entry" href="#"><i class="fa fa-twitter"></i></a>
+                                                    <a class="entry" href="#"><i class="fa fa-linkedin"></i></a>
+                                                    <a class="entry" href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a class="entry" href="#"><i class="fa fa-pinterest-p"></i></a>
                                                 </div>
                                             </div>
                                         </div>

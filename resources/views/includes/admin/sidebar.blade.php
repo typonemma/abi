@@ -304,6 +304,14 @@
               @endif
             @endif
 
+            @if(in_array('product_brand_access', $user_permission_list))
+              @if(Request::is('admin/product/brands/list'))
+                <li class="active"><a href="{{route('admin.product_brands_list')}}"><i class="fa fa-brands"></i> {!! trans('admin.brands') !!}</a></li>
+              @else
+                <li><a href="{{route('admin.product_brands_list')}}"><i class="fa fa-brands"></i> {!! trans('admin.brands') !!}</a></li>
+              @endif
+            @endif
+
             @if(in_array('product_tags_access', $user_permission_list))
               @if(Request::is('admin/product/tags/list'))
                 <li class="active"><a href="{{route('admin.product_tags_list')}}"><i class="fa fa-tags"></i> {!! trans('admin.tags') !!}</a></li>

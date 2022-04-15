@@ -35,6 +35,7 @@ use App\Models\ProductExtra;
 use App\Models\Product;
 use App\Models\ApiToken;
 use App\Models\Role;
+use App\Models\UserRolePermission;
 use Illuminate\Support\Facades\Config;
 
 class GetFunction

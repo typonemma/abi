@@ -198,46 +198,6 @@
     var page = 1;
     var lastPage = 1;
     var selected = [];
-    function detail(id) {
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-            }
-        });
-        $.ajax({
-            method: 'POST',
-            url: '/product/ajaxGetDetail',
-            async: false,
-            data : {
-                id: id
-            },
-            success: function(product) {
-                const related_images = JSON.parse(product.product_related_img_json);
-                const gallery_images = related_images.product_gallery_images;
-                let html = '';
-                for (let i = 0; i < gallery_images.length; i++) {
-                    html += `<div class="swiper-slide">
-                                <div class="product-small-preview-entry">
-                                    <img src="${gallery_images[i].url}" alt="" />
-                                </div>
-                            </div>`;
-                }
-                $('#gallery-images').html(html);
-                $('#product-cat-popup').text(product.tags);
-                $('#product-name-popup').text(product.title);
-                $('#product-price-popup').text('RP. ' + numberWithCommas(product.regular_price));
-                $('#product-desc-popup').html(product.content);
-                $('#add-to-cart-popup').attr('onclick', 'ajaxAddToCart('+id+')');
-                $('#add-to-wishlist-popup').attr('onclick', 'ajaxAddToWishlist('+id+')');
-                const url = 'https://pusatbaterai.local/detail/'+product.slug;
-                $('#fb-share').attr('href', 'https://www.facebook.com/sharer/sharer.php?u='+url);
-                $('#twitter-share').attr('href', 'https://twitter.com/intent/tweet?url='+url);
-                $('#linkedin-share').attr('href', 'https://www.linkedin.com/sharing/share-offsite/?url='+url);
-                $('#gplus-share').attr('href', 'https://plus.google.com/share?url='+url);
-                $('#pinterest-share').attr('href', 'http://pinterest.com/pin/create/link/?url='+url);
-            }
-        });
-    }
     function ajaxAddToCart(id){
         let quantity = document.getElementById("quantity").innerText;
         var ajaxAddToCart = $.ajax({
@@ -307,7 +267,7 @@
                 }
 
                 //Description
-                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" '+`onclick=detail('${value.id}')`+' data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
 
                 //Footer
                 str = str + '</div></div>';
@@ -504,16 +464,18 @@
                 }
 
                 //Quantity Input
-                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span class="number">1</span><span class="plus"></span></div></div></div>';
+                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span id="quantity" class="number">1</span><span class="plus"></span></div></div></div>';
 
                 //Add to cart
-                str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
+                str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#" onclick="ajaxAddToCart('+data.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
 
                 //Add to Whislist
-                str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
+                str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#" onclick="ajaxAddToWishlist('+data.id+')"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
+
+                const url = 'https://pusatbaterai.local/detail/'+product.slug;
 
                 //Share
-                str = str + '<div class="row"><div class="col-sm-3"><div class="h6 detail-data-title size-2">share:</div></div><div class="col-sm-9"><div class="follow light"><a class="entry" href="#"><i class="fa fa-facebook"></i></a><a class="entry" href="#"><i class="fa fa-twitter"></i></a><a class="entry" href="#"><i class="fa fa-linkedin"></i></a><a class="entry" href="#"><i class="fa fa-google-plus"></i></a><a class="entry" href="#"><i class="fa fa-pinterest-p"></i></a></div></div></div>';
+                str = str + `<div class="row"><div class="col-sm-3"><div class="h6 detail-data-title size-2">share:</div></div><div class="col-sm-9"><div class="follow light"><a class="entry" href="https://www.facebook.com/sharer/sharer.php?u=${url}"><i class="fa fa-facebook"></i></a><a class="entry" href="https://twitter.com/intent/tweet?url=${url}"><i class="fa fa-twitter"></i></a><a class="entry" href="https://www.linkedin.com/sharing/share-offsite/?url=${url}"><i class="fa fa-linkedin"></i></a><a class="entry" href="https://plus.google.com/share?url=${url}"><i class="fa fa-google-plus"></i></a><a class="entry" href="http://pinterest.com/pin/create/link/?url=${url}"><i class="fa fa-pinterest-p"></i></a></div></div></div>`;
 
                 //Footer
                 str = str + '</div></div></div><div class="button-close"></div></div>';
