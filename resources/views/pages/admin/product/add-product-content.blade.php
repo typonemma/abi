@@ -955,6 +955,37 @@
           </div>
         </div>
       </div>
+
+      <!-- Brand -->
+      <div class="box box-solid product-brand">
+        <div class="box-header with-border">
+          <i class="fa fa-tags"></i>
+          <h3 class="box-title">{!! trans('admin.product_brand') !!}</h3>
+        </div>
+        <div class="box-body">
+          @if(!$sidebar_data['is_vendor_login'])    
+          <div class="clearfix">
+            <a class="btn btn-default pull-right" href="{{ route('admin.product_brand_list') }}">{!! trans('admin.create_brand') !!}</a>
+          </div>
+          @endif
+
+          <div class="form-group">
+            <div class="row">  
+              <label class="col-sm-1 control-label" for="inputSelectTgs"></label>
+              <div class="col-sm-11">
+                @if(count($brand_lists)>0)
+                  @foreach($brand_lists as $row)
+                   <div class="tags-name"><div><input type="checkbox" class="shopist-iCheck" name="inputTagsName[]" id="inputTagsName-{{ $row->name }}" value="{{ $row->term_id }}"></div><div>{!! $row->name !!}</div></div>
+                  @endforeach
+                @else
+                <span>{!! trans('admin.no_brand_yet') !!}</span>
+                @endif 
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+      <!-- Batas Akhir Brand -->
       
       <div class="box box-solid product-tags">
         <div class="box-header with-border">

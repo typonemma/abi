@@ -5,19 +5,19 @@ return [
     //Google Ads
     'production' => [
         'developerToken' => "YOUR-DEV-TOKEN",
-        'clientCustomerId' => "591-624-5054",
+        'clientCustomerId' => "120-710-9591",
         'userAgent' => "YOUR-NAME",
-        'clientId' => "1069972266733-pl1mcu02e1p1kr55kqrhctais92dj6vo.apps.googleusercontent.com",
-        'clientSecret' => "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",
-        'refreshToken' => "1//0gNrsPGcBeM-XCgYIARAAGBASNwF-L9IrtWwkBe98pXK31tyMwS_DqNNph9LhgnL0Vx-CcI7olx8Mwkdy7fjtk8wGVSWXWP-Hcc4"
+        'clientId' => "747912626940-9rorhb1dah1ca9v368340agu98dn3oi7.apps.googleusercontent.com",
+        'clientSecret' => "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",
+        'refreshToken' => "1//0g8hNZqO0kjYsCgYIARAAGBASNwF-L9IrPWLg033aztVcmoxd8SHE5Ozpk6xd0wIDfFVaty59bjy3lG-DemJnNwTiUqlixYFAslo"
     ],
     'test' => [
         'developerToken' => "YOUR-DEV-TOKEN",
-        'clientCustomerId' => "591-624-5054",
+        'clientCustomerId' => "120-710-9591",
         'userAgent' => "YOUR-NAME",
-        'clientId' => "1069972266733-pl1mcu02e1p1kr55kqrhctais92dj6vo.apps.googleusercontent.com",
-        'clientSecret' => "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",
-        'refreshToken' => "1//0gNrsPGcBeM-XCgYIARAAGBASNwF-L9IrtWwkBe98pXK31tyMwS_DqNNph9LhgnL0Vx-CcI7olx8Mwkdy7fjtk8wGVSWXWP-Hcc4"
+        'clientId' => "747912626940-9rorhb1dah1ca9v368340agu98dn3oi7.apps.googleusercontent.com",
+        'clientSecret' => "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",
+        'refreshToken' => "1//0g8hNZqO0kjYsCgYIARAAGBASNwF-L9IrPWLg033aztVcmoxd8SHE5Ozpk6xd0wIDfFVaty59bjy3lG-DemJnNwTiUqlixYFAslo"
     ],
     'oAuth2' => [
         'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',

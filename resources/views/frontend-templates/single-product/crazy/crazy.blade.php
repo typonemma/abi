@@ -197,6 +197,10 @@
           @if(get_single_page_product_categories_lists($single_product_details['id']))
             <p><label>{{ trans('frontend.category_label') }}:</label><span>{{ get_single_page_product_categories_lists($single_product_details['id']) }}</span></p>
           @endif
+
+          <!-- @if(count(get_product__lists($single_product_details['id']))>0)
+            <p><label>{{ trans('frontend.tag_label') }}:</label><span>{{ get_single_page_product_tags_lists(get_product_tags_lists($single_product_details['id'])) }}</span></p>
+          @endif -->
           
           @if(count(get_product_tags_lists($single_product_details['id']))>0)
             <p><label>{{ trans('frontend.tag_label') }}:</label><span>{{ get_single_page_product_tags_lists(get_product_tags_lists($single_product_details['id'])) }}</span></p>

@@ -77,6 +77,17 @@ function get_single_page_product_brands_lists($brand_list)
   return GetFunction::single_page_product_brands_lists($brand_list);
 }
 
+//Brand
+/**
+ * Tags list using comma separator for product single page
+ * @param tags list {array}
+ * @return string
+ */
+function get_single_page_product_brand_lists($tags_list)
+{
+  return GetFunction::single_page_product_brand_lists($tags_list);
+}
+
 /**
  * Tags list using comma separator for product single page
  * @param tags list {array}
@@ -128,6 +139,18 @@ function get_product_categories_lists($cat_array)
 function get_product_parent_categories()
 {
   return GetFunction::product_parent_categories();
+}
+
+//Brand
+/**
+ * Get function for products tags
+ *
+ * @param tag data
+ * @return obj
+ */
+function get_product_brand_lists( $product_id )
+{
+  return GetFunction::product_brand_lists( $product_id );
 }
 
 /**

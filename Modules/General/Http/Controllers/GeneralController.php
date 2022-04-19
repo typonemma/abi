@@ -33,19 +33,15 @@ class GeneralController extends Controller
 
     public function Search(Request $request)
     {
-        // if ($request->has('cari')){
-        //     $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
-        // } else {
-        //     $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
-        // }
         $bestsellerproduct_list = bestsellerproduct_list::where('title','LIKE','%'.$request->cari.'%')->paginate(6);
+        
         session()->put('bestsellerproduct_list', $bestsellerproduct_list);
         return redirect('/product');
     }
 
     public function home(Request $request)
     {
-        $bestsellerproduct_list = bestsellerproduct_list::paginate(6);
+        $bestsellerproduct_list = bestsellerproduct_list::orderBy('id', 'DESC')->paginate(6);
 
         $relatedblog_list = relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
         

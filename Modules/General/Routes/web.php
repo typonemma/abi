@@ -34,6 +34,7 @@ Route::prefix('')->group(function() {
 
     //Admin
     Route::get('/admin', 'AdminController@admin');
+    Route::get('/admin2', 'AdminController@admin2');
     Route::get('/admin/create', 'AdminController@create');
     Route::post('/admin/store', 'AdminController@store');
     Route::get('/admin/{id}/edit', 'AdminController@edit');

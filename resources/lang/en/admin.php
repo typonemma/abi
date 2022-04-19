@@ -291,6 +291,7 @@ return [
     'message'                                                         =>  'Message',
     'send'                                                            =>  'Send',
     'user_profile'                                                    =>  'User Profile',
+    'product_brand_list'                                              =>  'Product Brand List',
     'product_tags_list'                                               =>  'Product Tags List',
     'product_attributes_list'                                         =>  'Product Attributes List',
     'product_color_list'                                              =>  'Product Colors List',

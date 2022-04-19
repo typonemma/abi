@@ -1116,6 +1116,24 @@ class GetFunction
     return $brands_list_str;
   }
 
+  //Brand
+
+  public static function single_page_product_brand_lists($tags_list){
+    $tags_list_str = '';
+
+    if(count($tags_list) > 0){
+      foreach($tags_list as $tag_name){
+        $tags_list_str .= $tag_name['name']. ', ';
+      }
+
+      $tags_list_str = trim($tags_list_str, ', ');
+    }
+
+    return $tags_list_str;
+  }
+
+  //Batas Akhir Brand
+
   public static function single_page_product_tags_lists($tags_list){
     $tags_list_str = '';
 
@@ -2052,6 +2070,7 @@ class GetFunction
 
     if(!empty($role_data)){
       $get_role_data  = $role_data;
+      // dd($get_role_data->permissions);
       $get_role_data->permissions = unserialize($get_role_data->permissions);
       $get_role_data_obj = $get_role_data;
     }
@@ -2073,6 +2092,7 @@ class GetFunction
 
     if(!empty($role_data)){
       $get_role_data  = $role_data;
+      //dd($get_role_data->permissions);
       $get_role_data->permissions = unserialize($get_role_data->permissions);
       $get_role_data_obj = $get_role_data;
     }
@@ -2709,6 +2729,9 @@ class GetFunction
         return false;
       }
       elseif(Request::is('admin/product/categories/list') && !in_array('product_categories_access', $get_role_data->permissions)){
+        return false;
+      }
+      elseif(Request::is('admin/product/brand/list') && !in_array('product_brand_access', $get_role_data->permissions)){
         return false;
       }
       elseif(Request::is('admin/product/tags/list') && !in_array('product_tags_access', $get_role_data->permissions)){
@@ -3454,7 +3477,7 @@ class GetFunction
       else{ return false; }
     }
     elseif ($heading_slug == 'sales') {
-      if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)) || (in_array('manage_orders_list', $user_permission_list)) || (in_array('manage_reports_list', $user_permission_list))){ return true; }
+      if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_brand_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)) || (in_array('manage_orders_list', $user_permission_list)) || (in_array('manage_reports_list', $user_permission_list))){ return true; }
       else{ return false; }
     }
     elseif ($heading_slug == 'vendors') {

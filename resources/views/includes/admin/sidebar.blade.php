@@ -61,6 +61,49 @@
         @endif
       @endif
 
+      <!-- Bank List -->
+      @if(Request::is('admin/users/bank/list') || Request::is('admin/users/bank/create'))
+        <li class="active treeview">
+          <a href="#">
+            <i class="fa fa-file"></i> <span>Bank</span> <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            @if(in_array('manage_bank_at',     $user_permission_list))
+              @if(Request::is('admin/users/bank/list'))
+                <li class="active"><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
+              @else
+                <li><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
+              @endif
+            @endif
+            @if(in_array('manage_bank_at', $user_permission_list))
+              @if(Request::is('admin/users/bank/create'))
+                <li class="active"><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
+              @else
+                <li><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
+              @endif
+            @endif
+          </ul>
+        </li>
+      @else
+        @if((in_array('manage_bank_at', $user_permission_list)))
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-file"></i> <span>Bank</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              @if(in_array('manage_bank_at', $user_permission_list))
+              <li><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
+              @endif
+
+              @if(in_array('manage_available_at', $user_permission_list))
+                <li><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
+              @endif
+            </ul>
+          </li>
+        @endif
+      @endif
+      <!-- Batas Akhir Bank -->
+
       @if(Request::is('admin/users/ads/list') || Request::is('admin/users/ads/create'))
         <li class="active treeview">
           <a href="#">
@@ -273,7 +316,7 @@
       <li class="sidebar-cms-title">{!! trans('admin.sidebar_sales_channel_title') !!}</li>
       @endif
 
-      @if(Request::is('admin/product/list/*') || Request::is('admin/product/add') || Request::is('admin/product/update/*') || Request::is('admin/product/categories/list') || Request::is('admin/product/tags/list') || Request::is('admin/product/attributes/list') || Request::is('admin/product/colors/list') || Request::is('admin/product/sizes/list') || Request::is('admin/product/comments-list'))
+      @if(Request::is('admin/product/list/*') || Request::is('admin/product/add') || Request::is('admin/product/update/*') || Request::is('admin/product/categories/list') || Request::is('admin/product/brand/list') || Request::is('admin/product/tags/list') || Request::is('admin/product/attributes/list') || Request::is('admin/product/colors/list') || Request::is('admin/product/sizes/list') || Request::is('admin/product/comments-list'))
        <li class="active treeview">
           <a href="#">
             <i class="fa fa-shopping-cart"></i> <span>{!! trans('admin.products') !!}</span> <i class="fa fa-angle-left pull-right"></i>
@@ -302,7 +345,17 @@
               @else
                 <li><a href="{{route('admin.product_categories_list')}}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
               @endif
+            @endif           
+
+            <!-- BRAND -->
+            @if(in_array('product_brand_access', $user_permission_list))
+              @if(Request::is('admin/product/brand/list'))
+                <li class="active"><a href="{{route('admin.product_brand_list')}}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
+              @else
+                <li><a href="{{route('admin.product_brand_list')}}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
+              @endif
             @endif
+            <!-- Batas Akhir Brand -->
 
             @if(in_array('product_tags_access', $user_permission_list))
               @if(Request::is('admin/product/tags/list'))
@@ -346,7 +399,7 @@
           </ul>
       </li>
       @else
-        @if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)))
+        @if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_brand_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)))
           <li class="treeview">
             <a href="#">
               <i class="fa fa-shopping-cart"></i> <span>{!! trans('admin.products') !!}</span> <i class="fa fa-angle-left pull-right"></i>
@@ -362,6 +415,10 @@
 
               @if(in_array('product_categories_access', $user_permission_list))
                 <li><a href="{{ route('admin.product_categories_list') }}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
+              @endif
+
+              @if(in_array('product_brand_access', $user_permission_list))                
+                <li><a href="{{ route('admin.product_brand_list') }}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
               @endif
 
               @if(in_array('product_tags_access', $user_permission_list))

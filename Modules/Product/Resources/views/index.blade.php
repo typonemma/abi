@@ -59,7 +59,12 @@
                         {{-- START HERE --}}
 
                         <?php
-                            $bestsellerproduct_list = session('bestsellerproduct_list');
+                            if (session()->exists('bestsellerproduct_list')) {
+                                $bestsellerproduct_list = session('bestsellerproduct_list');
+                            } else{
+                                $bestsellerproduct_list = App\bestsellerproduct_list::all();
+                            }      
+                            
                         ?>
                         @foreach ($bestsellerproduct_list as $b)
                             <div class="swiper-slide">

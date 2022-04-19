@@ -63,23 +63,16 @@
                         <div class="h4 col-xs-b25">BEST SELLER PRODUCTS</div>
                         <div class="tab-entry visible">
                             <div class="row nopadding">
-
                             @foreach ($bestsellerproduct_list as $b)
                             <?php
-                                $pe = App\product_etras::where('product_id', '=', $b->id)->get();
-                                $key_value = '';
-                                foreach ($pe as $x) {
-                                    if ($x->key_name == '_product_seo_title') {
-                                        $key_value = $x->key_value;
-                                        break;
-                                    }
-                                }
+                                $or = App\Models\ObjectRelationship::where('object_id', '=', $b->id)->first();
+                                $term = App\Models\Term::where('term_id', '=', $or->term_id)->first();
                             ?>
                             <div class="col-sm-4">
                                     <div class="product-shortcode style-1">
                                         <div class="title">
                                             <div class="simple-article size-1 color col-xs-b5">
-                                                <a href="#">{{ $key_value }}</a>
+                                                <a href="#">{{ $term->name }}</a>
                                             </div>
                                             <div class="h6 animate-to-green">
                                                 <a href="#">{{ $b->title }}</a>
@@ -139,7 +132,7 @@
                     </div>
                     <div class="container" style="margin-top: 50px;">
                         <center>
-                            <a class="button size-2 style-3" href="products">
+                            <a class="button size-2 style-3" href="/product">
                                 <span class="button-wrapper">
                                     <span class="icon">
                                         <img src="{{URL::asset('public/custom/img/icon-4.png')}}">

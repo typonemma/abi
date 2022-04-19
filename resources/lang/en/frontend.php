@@ -444,7 +444,7 @@ return [
     'coupon_condition_percentage_discount_from_total_cart'      =>  "Percentage Discount from Total Cart",
     'permission_problem_msg'                                    =>  "Permission Problem",
     'permission_msg'                                            =>  "You have no sufficient permission",
-		  'pages_label'                                               =>  "Pages",
+		'pages_label'                                               =>  "Pages",
     'pages_label'                                               =>  "Pages",
     'all_cat_label'                                             =>  "All Categories",
     'search_for_label'                                          =>  "Product search....",

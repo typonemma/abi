@@ -245,6 +245,32 @@ class ProductsController extends Controller
     return view('pages.admin.categories-list', $data);
   }
 
+    /**
+   *
+   * Product Brand list content
+   *
+   * @param null
+   * @return response view
+   */
+  public function productBrandListContent(){
+    $data = array();
+    $search_value = '';
+
+    if(isset($_GET['term_brand']) && $_GET['term_brand'] != ''){
+      $search_value = $_GET['term_brand'];
+    }
+
+    $data = $this->classCommonFunction->commonDataForAllPages();
+    $data['brand_list_data']   =  $this->getTermData( 'product_brand', true, $search_value, -1 );
+    $data['search_value']    =  $search_value;
+
+    $is_vendor = is_vendor_login();
+    $sidebar['is_vendor_login'] = $is_vendor;
+    $data['sidebar_data'] = $sidebar;
+
+    return view('pages.admin.product.product-brand-list', $data);
+  }
+
   /**
    *
    * Product tags list content

@@ -19,6 +19,12 @@ class AdminController extends Controller
         return view('general::Admin.admin', ['AdminPaymentMethod' => $AdminPaymentMethod]);
     }
 
+    public function admin2()
+    {
+        $AdminPaymentMethod = AdminPaymentMethod::all();
+        return view('general::Admin.admin2', ['AdminPaymentMethod' => $AdminPaymentMethod]);
+    }
+
     public function create()
     {
         return view('general::Admin.create');
@@ -27,13 +33,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $AdminPaymentMethod = new AdminPaymentMethod;
-
-        // $this->validate($request,[
-        //     'title' => 'required|max:255',
-        //     'nomor_rekening' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
-        //     'content' => 'required|max:255'
-        // ]);
-
+        
         $rules = [
             'title' => 'required|max:255',
             'nomor_rekening' => ['required', 'regex:/^[0-9]+$/', 'bail', 'digits_between:1,30'],
