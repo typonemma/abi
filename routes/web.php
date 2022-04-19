@@ -121,6 +121,36 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'admin'], function () {
  //Ads Route
 
+ Route::get('compatibility/list', [
+    'uses' => 'CompatibilityController@list',
+    'as'   => 'compatibility.list'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+
+ Route::get('compatibility/store', [
+    'uses' => 'CompatibilityController@store',
+    'as'   => 'compatibility.store'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+
+ Route::post('compatibility/create', [
+    'uses' => 'CompatibilityController@create',
+    'as'   => 'compatibility.create'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+
+ Route::get('compatibility/edit/{id}', [
+    'uses' => 'CompatibilityController@edit',
+    'as'   => 'compatibility.edit'
+ ]);
+
+ Route::post('compatibility/update/{id}', [
+    'uses' => 'CompatibilityController@update',
+    'as'   => 'compatibility.update'
+ ]);
+
+ Route::get('compatibility/delete/{id}', [
+    'uses' => 'CompatibilityController@delete',
+    'as'   => 'compatibility.delete'
+ ]);
+
  Route::get('users/ads/list', [
     'uses' => 'AdsController@index',
     'as'   => 'admin.ads_list'
