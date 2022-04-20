@@ -121,7 +121,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'admin'], function () {
  //Ads Route
 
- Route::get('compatibility/list', [
+ Route::get('compatibility/list/{product_id}', [
     'uses' => 'CompatibilityController@list',
     'as'   => 'compatibility.list'
  ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;

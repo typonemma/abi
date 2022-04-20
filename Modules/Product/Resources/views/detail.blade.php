@@ -137,114 +137,69 @@
                         {!! htmlspecialchars_decode($product->technical_description) !!}
                     </div>
                 </div>
+                <?php
+                    $brands = App\Compatibility::where('product_id', '=', $product->id)->where('type', '=', '0')->get()->groupBy('brand_id');
+                    $parts = App\Compatibility::where('product_id', '=', $product->id)->where('type', '=', '1')->get()->groupBy('brand_id');
+                    $index = 0;
+                ?>
                 <div class="tab-entry">
                     <div class="h5">compatible by type/brand</div>
                     <hr/>
-                    <div class="row">
-                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/acer.png')}}"></div>
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                </p>
-                            </div>
+                    @foreach ($brands as $brand_id => $brand)
+                        <?php
+                            $b = App\Brand::find($brand_id);
+                            $index = 0;
+                        ?>
+                        <div class="row">
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo}}"></div>
+                            @for ($i = 0; $i < count($brand); $i++)
+                                <div class="col-sm-3">
+                                    <div class="simple-article size-3">
+                                        <p>
+                                            @for ($j = $index; $j < min($index + 10, count($brand)); $j++)
+                                                {{ $brand[$j]->name }}<br/>
+                                            @endfor
+                                            <?php
+                                                $index += 10;
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endfor
                         </div>
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                    Aspire 4551 Series<br/>
-
-                                </p>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <hr/>
-                    <div class="row col-xs-b35">
-                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/hp.png')}}"></div>
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    Aspire 4551 Series<br/>
-                                    Aspire 4551G Series<br/>
-                                    Aspire 4738ZG Series<br/>
-                                    Aspire 4714G Series<br/>
-                                    Aspire 5741 Series<br/>
-                                    Aspire 5741-334G32Mn<br/>
-                                    Aspire 4551 Series<br/>
-
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        @if ($index < count($brand))
+                            <hr/>
+                        @endif
+                    @endforeach
+                    <br><br><br>
                     <div class="h5">compatible by part number</div>
                     <hr/>
-                    <div class="row">
-                        <div class="col-sm-3"><img src="{{URL::asset('public/custom/img/acer.png')}}"></div>
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    31CR19/652<br/>
-                                    AS10D31<br/>
-                                    AS10D51<br/>
-                                    BT.00603.111<br/>
-                                    BT.00607.127<br/>
-                                    934T2078F<br/>
-                                    AS10D3E<br/>
-                                </p>
-                            </div>
+                    @foreach ($parts as $brand_id => $part)
+                        <?php
+                            $b = App\Brand::find($brand_id);
+                            $index = 0;
+                        ?>
+                        <div class="row">
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo}}"></div>
+                            @for ($i = 0; $i < count($part); $i++)
+                                <div class="col-sm-3">
+                                    <div class="simple-article size-3">
+                                        <p>
+                                            @for ($j = $index; $j < min($index + 10, count($part)); $j++)
+                                                {{ $part[$j]->name }}<br/>
+                                            @endfor
+                                            <?php
+                                                $index += 10;
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endfor
                         </div>
-                        <div class="col-sm-3">
-                            <div class="simple-article size-3">
-                                <p>
-                                    31CR19/652<br/>
-                                    AS10D31<br/>
-                                    AS10D51<br/>
-                                    BT.00603.111<br/>
-                                    BT.00607.127<br/>
-                                    934T2078F<br/>
-                                    AS10D3E<br/>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        @if ($index < count($part))
+                            <hr/>
+                        @endif
+                    @endforeach
                 </div>
 
             </div>

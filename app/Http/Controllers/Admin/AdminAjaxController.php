@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Compatibility;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Validator;
@@ -1132,6 +1133,11 @@ class AdminAjaxController extends Controller
         if($input['data']['track'] == 'cat_list' || $input['data']['track'] == 'tag_list' || $input['data']['track'] == 'attr_list' || $input['data']['track'] == 'color_list' || $input['data']['track'] == 'size_list' || $input['data']['track'] == 'manufacturers_list'){
           if(Term::where('term_id', $input['data']['id'])->delete()){
             TermExtra::where('term_id', $input['data']['id'])->delete();
+            return response()->json(array('delete' => true));
+          }
+        }
+        elseif($input['data']['track'] == 'comp_list'){
+          if(Compatibility::where('id', $input['data']['id'])->delete()){
             return response()->json(array('delete' => true));
           }
         }

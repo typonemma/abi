@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use App\Compatibility;
 use App\Library\CommonFunction;
 use App\Models\Product;
@@ -16,10 +17,10 @@ class CompatibilityController extends Controller
 
     public function __construct(){
         $this->classCommonFunction = new CommonFunction();
-        $this->option              =   new OptionController();
+        $this->option              = new OptionController();
 	}
 
-    public function list()
+    public function list($product_id)
     {
         $data = array();
         $search_value = '';
@@ -33,33 +34,41 @@ class CompatibilityController extends Controller
         $sidebar['is_vendor_login'] = $is_vendor;
         $data['sidebar_data'] = $sidebar;
 
-        $data['compatibility_all_data']  =  $this->getCompatibility(true, $search_value, $is_vendor);
+        $data['compatibility_all_data']  =  $this->getCompatibility(true, $search_value, $product_id, $is_vendor);
         $data['search_value']      =  $search_value;
         $data['settings'] = $this->option->getSettingsData();
+
+        $product = Product::find($product_id);
+
+        session()->put('product', $product);
 
         return view('pages.admin.compatibility.compatibility-list', $data);
     }
 
-    public function getCompatibility($pagination = false, $search_val = null, $is_vendor_login = false){
+    public function getCompatibility($pagination = false, $search_val = null, $product_id = null, $is_vendor_login = false){
 
         if(!empty($search_val) && $search_val != ''){
           $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
+                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         elseif(!empty($search_val) && $search_val != ''){
             $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
+                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         elseif (empty($search_val)) {
             $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
+                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         else{
             $get_posts_for_compatibility = DB::table('compatibility')
-                                            ->orderBy('compatibility.id', 'desc');
+                                                ->where('product_id', '=', $product_id)
+                                                ->orderBy('compatibility.id', 'desc');
         }
 
         $get_posts_for_compatibility = $get_posts_for_compatibility->paginate(30);
@@ -77,14 +86,11 @@ class CompatibilityController extends Controller
 
     public function create(Request $request)
     {
-        $rules = [
-            'name' => 'required'
-        ];
-        $request->validate($rules);
+        $product = session('product');
         Compatibility::create([
             'id' => 0,
-            'product_id' => $request->product,
-            'brand_id' => 0,
+            'product_id' => $product->id,
+            'brand_id' => $request->brand,
             'name' => $request->name,
             'type' => $request->type,
             'created_at' => Carbon::now()->timestamp,
@@ -97,7 +103,7 @@ class CompatibilityController extends Controller
     public function createCompatibilityContentData($data)
     {
         $data['products'] = Product::all();
-        // $data['brand'] = Brand::all();
+        $data['brands'] = Brand::all();
 
         $is_vendor = is_vendor_login();
         $sidebar['is_vendor_login'] = $is_vendor;
@@ -117,14 +123,11 @@ class CompatibilityController extends Controller
 
     public function update(Request $request, $id)
     {
-        $rules = [
-            'name' => 'required'
-        ];
-        $request->validate($rules);
+        $product = session('product');
         $compatibility = Compatibility::find($id);
         $compatibility->name = $request->name;
-        $compatibility->product_id = $request->product;
-        //$compatibility->brand_id = $request->brand;
+        $compatibility->product_id = $product->id;
+        $compatibility->brand_id = $request->brand;
         $compatibility->type = $request->type;
         $compatibility->save();
         return redirect('/admin/compatibility/edit/' . $id);

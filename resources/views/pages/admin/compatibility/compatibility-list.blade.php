@@ -1,6 +1,8 @@
 @extends('layouts.admin.master')
 @section('title', 'Compatibility list' .' < '. get_site_title())
-
+<?php
+    $product = session('product');
+?>
 @section('content')
 <div class="row">
   <div class="col-6">
@@ -19,11 +21,11 @@
     <div class="box">
       <div class="box-body">
         <div id="table_search_option">
-          <form action="{{ route('compatibility.list', 'all') }}" method="GET">
+          <form action="{{ route('compatibility.list', $product->id) }}" method="GET">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="input-group">
-                  <input type="text" name="term_compatibility" class="search-query form-control" placeholder="Enter compatibility name to search" value="{{ $search_value }}" />
+                  <input type="text" name="term_compatibility" class="search-query form-control" placeholder="Enter name to search" value="{{ $search_value }}" />
                   <div class="input-group-btn">
                     <button class="btn btn-primary" type="submit">
                       <span class="fa fa-search"></span>
@@ -37,7 +39,7 @@
         <table class="table table-bordered admin-data-table admin-data-list">
           <thead class="thead-dark">
             <tr>
-              <th>Compatibility name</th>
+              <th>Name</th>
               <th>Product</th>
               <th>Brand</th>
               <th>Type</th>
@@ -51,7 +53,6 @@
 
                 <?php
                     $product = App\Models\Product::find($row->product_id);
-                    // $brand = App\Models\Brand::find($row->brand_id);
                     $type = 'Brand';
                     if ($row->type == 1) {
                         $type = 'Part';
@@ -62,7 +63,7 @@
 
                 <td>{!! $product->title !!}</td>
 
-                <td>0</td>
+                <td>{!! $row->name !!}</td>
 
                 <td>{!! $type !!}</td>
 
@@ -78,7 +79,7 @@
                         <li><a href="{{ route( 'compatibility.edit', $row->id ) }}"><i class="fa fa-edit"></i>{!! trans('admin.edit') !!}</a></li>
                       @endif
                       @if(in_array('product_compatibility', $user_permission_list))
-                        <li><a class="" data-track_name="compatibility_list" data-id="{{ $row->id }}" href="{{route('compatibility.delete', $row->id)}}"><i class="fa fa-remove"></i>{!! trans('admin.delete') !!}</a></li>
+                        <li><a class="remove-selected-data-from-list" data-track_name="comp_list" data-id="{{ $row->id }}" href="#"><i class="fa fa-remove"></i>{!! trans('admin.delete') !!}</a></li>
                       @endif
                     </ul>
                   </div>
@@ -91,7 +92,7 @@
           </tbody>
           <tfoot class="thead-dark">
             <tr>
-                <th>Compatibility name</th>
+                <th>Name</th>
                 <th>Product</th>
                 <th>Brand</th>
                 <th>Type</th>
