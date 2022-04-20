@@ -39,11 +39,21 @@
               @else
                 <li><a href="{{route('admin.add_page')}}"><i class="fa fa-plus-square-o"></i> {!! trans('admin.add_new_page') !!}</a></li>
               @endif
+            @endif   
+            
+            <!-- BANK -->
+            @if(in_array('pages_bank_lis', $user_permission_list))
+              @if(Request::is('admin/page/bank'))
+                <li class="active"><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>
+              @else
+                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>
+              @endif
             @endif
+            <!-- END BANK -->
           </ul>
         </li>
       @else
-        @if((in_array('pages_list_access', $user_permission_list)) || (in_array('add_edit_delete_pages', $user_permission_list)))
+        @if((in_array('pages_list_access', $user_permission_list)) || (in_array('add_edit_delete_pages', $user_permission_list)) || (in_array('pages_bank_lis', $user_permission_list)))
           <li class="treeview">
             <a href="#">
               <i class="fa fa-file"></i> <span>{!! trans('admin.page_menu_title') !!}</span> <i class="fa fa-angle-left pull-right"></i>
@@ -56,54 +66,16 @@
               @if(in_array('add_edit_delete_pages', $user_permission_list))
                 <li><a href="{{route('admin.add_page')}}"><i class="fa fa-plus-square-o"></i> {!! trans('admin.add_new_page') !!}</a></li>
               @endif
+
+              <!-- Bank -->
+              @if(in_array('pages_bank_lis', $user_permission_list))
+                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>                
+              @endif
+            <!-- Batas Akhir Bank -->
             </ul>
           </li>
         @endif
-      @endif
-
-      <!-- Bank List -->
-      @if(Request::is('admin/users/bank/list') || Request::is('admin/users/bank/create'))
-        <li class="active treeview">
-          <a href="#">
-            <i class="fa fa-file"></i> <span>Bank</span> <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            @if(in_array('manage_bank_at',     $user_permission_list))
-              @if(Request::is('admin/users/bank/list'))
-                <li class="active"><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
-              @else
-                <li><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
-              @endif
-            @endif
-            @if(in_array('manage_bank_at', $user_permission_list))
-              @if(Request::is('admin/users/bank/create'))
-                <li class="active"><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
-              @else
-                <li><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
-              @endif
-            @endif
-          </ul>
-        </li>
-      @else
-        @if((in_array('manage_bank_at', $user_permission_list)))
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-file"></i> <span>Bank</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-              @if(in_array('manage_bank_at', $user_permission_list))
-              <li><a href="{{ route('admin.bank_list') }}"><i class="fa fa-table"></i> All Bank</a></li>
-              @endif
-
-              @if(in_array('manage_available_at', $user_permission_list))
-                <li><a href="{{route('admin.bank_create')}}"><i class="fa fa-plus-square-o"></i> Create Bank</a></li>
-              @endif
-            </ul>
-          </li>
-        @endif
-      @endif
-      <!-- Batas Akhir Bank -->
-
+      @endif      
       @if(Request::is('admin/users/ads/list') || Request::is('admin/users/ads/create'))
         <li class="active treeview">
           <a href="#">

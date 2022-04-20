@@ -2695,6 +2695,9 @@ class GetFunction
       elseif(Request::is('admin/page/add') && !in_array('add_edit_delete_pages', $get_role_data->permissions)){
         return false;
       }
+      elseif(Request::is('admin/page/bank/list') && !in_array('pages_bank_lis', $get_role_data->permissions)){
+        return false;
+      }
       elseif(Request::is('admin/blog/list') && !in_array('list_blogs_access', $get_role_data->permissions)){
         return false;
       }
