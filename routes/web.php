@@ -272,11 +272,37 @@ Route::post('users/ads/store', [
     'as'   => 'admin.add_product'
   ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
+
   //->Brand<-//
-  Route::get('product/brand/list', [
-    'uses' => 'ProductsController@productBrandListContent',
-    'as'   => 'admin.product_brand_list'
-  ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+  Route::get('ProductBrand/list', [
+    'uses' => 'ProductBrandController@list',
+    'as'   => 'ProductBrand.list'
+  ]);
+
+  Route::get('ProductBrand/store', [
+      'uses' => 'ProductBrandController@store',
+      'as'   => 'ProductBrand.store'
+  ]);
+
+  Route::post('ProductBrand/create', [
+      'uses' => 'ProductBrandController@create',
+      'as'   => 'ProductBrand.create'
+  ]);
+
+//  Route::get('compatibility/edit/{id}', [
+//     'uses' => 'CompatibilityController@edit',
+//     'as'   => 'compatibility.edit'
+//  ]);
+
+//  Route::post('compatibility/update/{id}', [
+//     'uses' => 'CompatibilityController@update',
+//     'as'   => 'compatibility.update'
+//  ]);
+
+  Route::delete('ProductBrand/delete/{id}', [
+      'uses' => 'ProductBrandController@delete',
+      'as'   => 'ProductBrand.delete'
+  ]);  
   //Batas Brand
 
   Route::get('product/tags/list', [

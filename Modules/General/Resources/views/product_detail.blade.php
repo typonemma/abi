@@ -57,7 +57,7 @@
                                                     }
                                                 ?> 
                                                 <div class="swiper-lazy-preloader"></div>
-                                                <div class="product-big-preview-entry swiper-lazy" data-background="({{$data_foto}})"></div>
+                                                <div class="product-big-preview-entry swiper-lazy" data-background="{{$data_foto}}"></div>
                                             </div>
                                             
                                         </div>

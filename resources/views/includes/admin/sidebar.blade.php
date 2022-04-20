@@ -350,9 +350,9 @@
             <!-- BRAND -->
             @if(in_array('product_brand_access', $user_permission_list))
               @if(Request::is('admin/product/brand/list'))
-                <li class="active"><a href="{{route('admin.product_brand_list')}}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
+                <li class="active"><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
               @else
-                <li><a href="{{route('admin.product_brand_list')}}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
+                <li><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
               @endif
             @endif
             <!-- Batas Akhir Brand -->
@@ -418,7 +418,7 @@
               @endif
 
               @if(in_array('product_brand_access', $user_permission_list))                
-                <li><a href="{{ route('admin.product_brand_list') }}"><i class="fa fa-file"></i> {!! trans('admin.brand') !!}</a></li>
+                <li><a href="{{ route('ProductBrand.list') }}"><i class="fa fa-file"></i> Brand</a></li>
               @endif
 
               @if(in_array('product_tags_access', $user_permission_list))

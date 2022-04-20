@@ -35,6 +35,7 @@
                                     </a>
                                 </td>
                                 <td>
+
                                     <form action="admin/{{ $apm->id }}" method="POST">
                                         @csrf
                                         @method('delete')                                        
@@ -46,6 +47,7 @@
                                                 </span>
                                         </span>
                                     </form>
+                                    
                                 </td>
                             </tr>
                         @endforeach
