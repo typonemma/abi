@@ -50,6 +50,30 @@ class ProductBrandController extends Controller
         return redirect('/admin/ProductBrand/store');
     }
 
+    public function edit($id)
+    {
+        $data = array();
+        $data = $this->classCommonFunction->commonDataForAllPages();
+        $get_data = $this->createCompatibilityContentData($data);
+        $get_data['product_brand'] = product_brand::find($id);
+        return view('pages.admin.product.update-product-brand', $get_data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'name_brand' => 'required'
+        ];
+        $request->validate($rules);
+        $compatibility = product_brand::find($id);
+        $compatibility->product_id = $request->product_id;
+        $compatibility->name_brand = $request->name_brand;
+        $compatibility->logo_brand = 0;
+        $compatibility->status = $request->status;
+        $compatibility->save();
+        return redirect('/admin/ProductBrand/edit/' . $id);
+    }
+
     public function delete($id)
     {
         product_brand::destroy($id);

@@ -280,21 +280,21 @@ Route::post('users/ads/store', [
       'as'   => 'PagesBank.create'
   ]);
 
-//  Route::get('compatibility/edit/{id}', [
-//     'uses' => 'CompatibilityController@edit',
-//     'as'   => 'compatibility.edit'
-//  ]);
+  Route::get('PagesBank/edit/{id}', [
+      'uses' => 'PagesBankController@edit',
+      'as'   => 'PagesBank.edit'
+  ]);
 
-//  Route::post('compatibility/update/{id}', [
-//     'uses' => 'CompatibilityController@update',
-//     'as'   => 'compatibility.update'
-//  ]);
+  Route::post('PagesBank/update/{id}', [
+      'uses' => 'PagesBankController@update',
+      'as'   => 'PagesBank.update'
+  ]);
 
   Route::get('PagesBank/delete/{id}', [
     'uses' => 'PagesBankController@delete',
     'as'   => 'PagesBank.delete'
   ]);  
-  //Batas Brand
+  //Batas Bank
 
   //->Brand<-//
   Route::get('ProductBrand/list', [
@@ -312,15 +312,15 @@ Route::post('users/ads/store', [
       'as'   => 'ProductBrand.create'
   ]);
 
-//  Route::get('compatibility/edit/{id}', [
-//     'uses' => 'CompatibilityController@edit',
-//     'as'   => 'compatibility.edit'
-//  ]);
+  Route::get('ProductBrand/edit/{id}', [
+    'uses' => 'ProductBrandController@edit',
+    'as'   => 'ProductBrand.edit'
+  ]);
 
-//  Route::post('compatibility/update/{id}', [
-//     'uses' => 'CompatibilityController@update',
-//     'as'   => 'compatibility.update'
-//  ]);
+  Route::post('ProductBrand/update/{id}', [
+      'uses' => 'ProductBrandController@update',
+      'as'   => 'ProductBrand.update'
+  ]);
 
   Route::delete('ProductBrand/delete/{id}', [
       'uses' => 'ProductBrandController@delete',

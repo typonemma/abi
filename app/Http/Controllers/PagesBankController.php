@@ -49,6 +49,29 @@ class PagesBankController extends Controller
         return redirect('/admin/PagesBank/store');
     }
 
+    public function edit($id)
+    {
+        $data = array();
+        $data = $this->classCommonFunction->commonDataForAllPages();
+        $get_data = $this->createCompatibilityContentData($data);
+        $get_data['bank_list'] = bank_list::find($id);
+        return view('pages.admin.cms.update-bank-list', $get_data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'title' => 'required'
+        ];
+        $request->validate($rules);
+        $compatibility = bank_list::find($id);
+        $compatibility->title = $request->title;
+        $compatibility->nomor_rekening = $request->nomor_rekening;
+        $compatibility->content = $request->content;
+        $compatibility->save();
+        return redirect('/admin/PagesBank/edit/' . $id);
+    }
+
     public function delete($id)
     {
         bank_list::destroy($id);
