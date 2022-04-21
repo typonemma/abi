@@ -52,14 +52,8 @@ class ProductBrandController extends Controller
 
     public function delete($id)
     {
-        $product_brand = new product_brand;
-        $product_brand = product_brand::find($id);
-        $product_brand->delete();
-
-        $data = array();
-        $data = $this->classCommonFunction->commonDataForAllPages();
-        $get_data = $this->createCompatibilityContentData($data);        
-        return view('pages.admin.product.product-brand-list', $get_data);
+        product_brand::destroy($id);
+        return redirect('/admin/ProductBrand/list');
     }
 
     public function createCompatibilityContentData($data)

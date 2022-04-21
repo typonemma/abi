@@ -49,6 +49,11 @@ class PagesBankController extends Controller
         return redirect('/admin/PagesBank/store');
     }
 
+    public function delete($id)
+    {
+        bank_list::destroy($id);
+        return redirect('/admin/PagesBank/list');
+    }
     
     public function createCompatibilityContentData($data)
     {

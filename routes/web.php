@@ -290,10 +290,10 @@ Route::post('users/ads/store', [
 //     'as'   => 'compatibility.update'
 //  ]);
 
-// Route::delete('ProductBrand/delete/{id}', [
-//     'uses' => 'ProductBrandController@delete',
-//     'as'   => 'ProductBrand.delete'
-// ]);  
+  Route::get('PagesBank/delete/{id}', [
+    'uses' => 'PagesBankController@delete',
+    'as'   => 'PagesBank.delete'
+  ]);  
   //Batas Brand
 
   //->Brand<-//

@@ -93,13 +93,9 @@
                     <ul role="menu" class="dropdown-menu">
                       <li><a href="#" class="edit-data" data-track_name="tag_list" data-id="{{ $b->id }}"><i class="fa fa-edit"></i>Edit</a></li>
 
-                      <li>
-                        <a class="remove-selected-data-from-list" data-track_name="tag_list" data-id="{{ $b->id }}" href="#">
-                          <i class="fa fa-remove"></i>
-                          Delete
-                        </a>
-                      </li>
-
+                      @if(in_array('pages_bank_lis', $user_permission_list))
+                        <li><a class="remove-selected-data-from-list" data-track_name="bank_list" data-id="{{ $b->id }}" href="#"><i class="fa fa-remove"></i>{!! trans('admin.delete') !!}</a></li>
+                      @endif
                     </ul>
 
                   </div>

@@ -46,6 +46,8 @@ use App\Models\Ads;
 use DOMDocument;
 use SplFileInfo;
 use App\Models\CustomCurrencyValue;
+use App\bank_list;
+use App\product_brand;
 
 
 class AdminAjaxController extends Controller
@@ -1132,6 +1134,16 @@ class AdminAjaxController extends Controller
         if($input['data']['track'] == 'cat_list' || $input['data']['track'] == 'tag_list' || $input['data']['track'] == 'attr_list' || $input['data']['track'] == 'color_list' || $input['data']['track'] == 'size_list' || $input['data']['track'] == 'manufacturers_list'){
           if(Term::where('term_id', $input['data']['id'])->delete()){
             TermExtra::where('term_id', $input['data']['id'])->delete();
+            return response()->json(array('delete' => true));
+          }
+        }
+        elseif($input['data']['track'] == 'bank_list'){
+          if(bank_list::where('id', $input['data']['id'])->delete()){
+            return response()->json(array('delete' => true));
+          }
+        }
+        elseif($input['data']['track'] == 'brandproduct_list'){
+          if(product_brand::where('id', $input['data']['id'])->delete()){
             return response()->json(array('delete' => true));
           }
         }
