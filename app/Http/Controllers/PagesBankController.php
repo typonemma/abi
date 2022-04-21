@@ -5,6 +5,7 @@ use App\Compatibility;
 use App\Library\CommonFunction;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\bank_list;
 
@@ -19,10 +20,48 @@ class PagesBankController extends Controller
     public function list()
     {
         $data = array();
-        $data = $this->classCommonFunction->commonDataForAllPages();
-        $get_data = $this->createCompatibilityContentData($data);        
-        return view('pages.admin.cms.pages-bank-list', $get_data);
+        $search_value = '';
+
+        if(isset($_GET['term_bank']) && $_GET['term_bank'] != ''){
+            $search_value = $_GET['term_bank'];
+        }
+
+        $data = $this->classCommonFunction->commonDataForAllPages(); 
+        $is_vendor = is_vendor_login();
+        $sidebar['is_vendor_login'] = $is_vendor;
+        $data['sidebar_data'] = $sidebar;
+        
+        $data['bank_all_data']  =  $this->getBank(true, $search_value, $is_vendor);
+        $data['search_value']      =  $search_value;
+
+        return view('pages.admin.cms.pages-bank-list', $data);
     }
+
+    public function getBank($pagination = false, $search_val = null, $is_vendor_login = false){
+        if(!empty($search_val) && $search_val != ''){
+          $get_posts_for_bank = DB::table('list_bank')
+                                            ->where('list_bank.title', 'LIKE', '%'. $search_val .'%')
+                                            ->orderBy('list_bank.id', 'desc');
+        }
+        elseif(!empty($search_val) && $search_val != ''){
+            $get_posts_for_bank = DB::table('list_bank')
+                                            ->where('list_bank.title', 'LIKE', '%'. $search_val .'%')
+                                            ->orderBy('list_bank.id', 'desc');
+        }
+        elseif (empty($search_val)) {
+            $get_posts_for_bank = DB::table('list_bank')
+                                            ->where('list_bank.title', 'LIKE', '%'. $search_val .'%')
+                                            ->orderBy('list_bank.id', 'desc');
+        }
+        else{
+            $get_posts_for_bank = DB::table('list_bank')
+                                            ->orderBy('list_bank.id', 'desc');
+        }
+
+        $get_posts_for_bank = $get_posts_for_bank->paginate(5);
+
+        return $get_posts_for_bank;
+      }
 
     public function store()
     {
