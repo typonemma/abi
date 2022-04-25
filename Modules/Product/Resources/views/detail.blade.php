@@ -151,7 +151,7 @@
                             $index = 0;
                         ?>
                         <div class="row">
-                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo}}"></div>
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo_brand}}"></div>
                             @for ($i = 0; $i < count($brand); $i++)
                                 <div class="col-sm-3">
                                     <div class="simple-article size-3">
@@ -180,7 +180,7 @@
                             $index = 0;
                         ?>
                         <div class="row">
-                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo}}"></div>
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo_brand}}"></div>
                             @for ($i = 0; $i < count($part); $i++)
                                 <div class="col-sm-3">
                                     <div class="simple-article size-3">

@@ -30,24 +30,37 @@
         </div>
         <div id="box-body" class="box-body">
             @if ($compatibility->type == 0)
-                <div class="form-group">
+                <div id="brand-body" class="form-group">
                     <div class="row">
                     <label class="col-sm-7 control-label" for="inputName">Brand name</label>
                     <div class="col-sm-5">
-                        <select class="form-control select2" name="name" style="width: 100%;">
+                        <select id="name" class="form-control select2" name="name" style="width: 100%;">
                             @foreach ($brands as $brand)
                                 @if ($brand->brand_name == $compatibility->name)
-                                    <option value="{{$brand->brand_name}}" selected>{{$brand->brand_name}}</option>
+                                    <option value="{{$brand->name_brand}}" selected>{{$brand->name_brand}}</option>
                                 @else
-                                    <option value="{{$brand->brand_name}}">{{$brand->brand_name}}</option>
+                                    <option value="{{$brand->name_brand}}">{{$brand->name_brand}}</option>
                                 @endif
                             @endforeach
                         </select>
                     </div>
                     </div>
                 </div>
+                <input id="part-body" type="text" placeholder="Part name" class="form-control" id="eb_input_name" value="" style="display:none">
             @else
-                <input type="text" placeholder="Part name" class="form-control" name="name" id="eb_input_name" value="{{ $compatibility->name }}">
+                <div id="brand-body" class="form-group" style="display:none">
+                    <div class="row">
+                    <label class="col-sm-7 control-label" for="inputName">Brand name</label>
+                    <div class="col-sm-5">
+                        <select id="name" class="form-control select2" style="width: 100%;">
+                            @foreach ($brands as $brand)
+                                <option value="{{$brand->name_brand}}">{{$brand->name_brand}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <input id="part-body" type="text" placeholder="Part name" class="form-control" name="name" id="eb_input_name" value="{{ $compatibility->name }}">
             @endif
         </div>
       </div>
@@ -89,9 +102,9 @@
                     <select class="form-control select2" name="brand" style="width: 100%;">
                         @foreach ($brands as $brand)
                             @if ($brand->id == $compatibility->brand_id)
-                                <option value="{{$brand->id}}" selected>{{$brand->brand_name}}</option>
+                                <option value="{{$brand->id}}" selected>{{$brand->name_brand}}</option>
                             @else
-                                <option value="{{$brand->id}}">{{$brand->brand_name}}</option>
+                                <option value="{{$brand->id}}">{{$brand->name_brand}}</option>
                             @endif
                         @endforeach
                     </select>
@@ -126,33 +139,19 @@
         </div>
 </form>
 <script>
-    function change(brands,compatibility) {
+    function change(brands) {
         const value = document.getElementById('type').value;
         if (value == '0') {
-            document.getElementById('box-body').innerHTML = `
-            <div class="form-group">
-                <div class="row">
-                <label class="col-sm-7 control-label" for="inputName">Brand name</label>
-                <div class="col-sm-5">
-                    <select id="name" class="form-control select2" name="name" style="width: 100%;">
-
-                    </select>
-                </div>
-                </div>
-            </div>
-            `;
-            for (let i = 0; i < brands.length; i++) {
-                const b = brands[i];
-                if (b.brand_name == compatibility.name) {
-                    document.getElementById('name').innerHTML += `<option value="${b.brand_name}" selected>${b.brand_name}</option>`;
-                }
-                else {
-                    document.getElementById('name').innerHTML += `<option value="${b.brand_name}">${b.brand_name}</option>`;
-                }
-            }
+            document.getElementById('brand-body').style.display = 'block';
+            document.getElementById('name').setAttribute('name', 'name');
+            document.getElementById('part-body').style.display = 'none';
+            document.getElementById('part-body').removeAttribute('name');
         }
         else {
-            document.getElementById('box-body').innerHTML = '<input type="text" placeholder="Part name" class="form-control" name="name" id="eb_input_name" value="{{ old('name') }}">';
+            document.getElementById('brand-body').style.display = 'none';
+            document.getElementById('name').removeAttribute('name');
+            document.getElementById('part-body').style.display = 'block';
+            document.getElementById('part-body').setAttribute('name', 'name');
         }
     }
 </script>
