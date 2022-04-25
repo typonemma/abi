@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\product_brand;
+use Illuminate\Support\Facades\Storage;
 
 class ProductBrandController extends Controller
 {
@@ -87,6 +88,7 @@ class ProductBrandController extends Controller
             'created_at' => Carbon::now()->timestamp,
             'updated_at' => Carbon::now()->timestamp
         ]);
+        // Storage::putFileAs('/public/uploads', $request->file('logo_brand'), $request->logo_brand);
         return redirect('/admin/ProductBrand/store');
     }
 

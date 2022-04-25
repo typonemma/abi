@@ -37,6 +37,7 @@
           <thead class="thead-dark">
             <tr>
               <th>Name</th>
+              <th>Nama Product</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -46,6 +47,13 @@
             @foreach ($brand_all_data as $b)
             <tr>
                 <td>{!! $b->name_brand !!}</td>
+
+                <?php
+                    $or = App\product_brand::where('id', '=', $b->id)->first();
+                    $term = App\bestsellerproduct_list::where('id', '=', $or->product_id)->first();
+                ?>
+                <td>{!! $term->title !!}</td>
+
                 @if($b->status == 1)
                   <td>Enable</td>
                 @else
@@ -68,7 +76,7 @@
                     </ul>
                   </div>
                 </td>
-              </tr>
+            </tr>
             @endforeach
           @else
             <tr><td colspan="8"><i class="fa fa-exclamation-triangle"></i> {!! trans('admin.no_data_found_label') !!}</td></tr>
@@ -77,6 +85,7 @@
           <tfoot class="thead-dark">
             <tr>
               <th>Name</th>
+              <th>Nama Product</th>
               <th>Status</th>
               <th>Action</th>
             </tr>

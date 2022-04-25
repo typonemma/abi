@@ -60,33 +60,11 @@
         </div>
         <div class="box-body">
           <div class="uploaded-product-image">
-            <div class="product-sample-img"><img class="upload-icon img-responsive" src="{{ default_upload_sample_img_src() }}"></div>
-            <div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link"><button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
+            <div class="product-sample-img">
+              <input name="logo_brand" type="file" id="fileInput">
+            </div><div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link"><button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
           </div>
-            
-          <div class="modal fade" id="productUploader" tabindex="-1" role="dialog" aria-labelledby="updater" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <p class="no-margin">{!! trans('admin.you_can_upload_1_image') !!}</p>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>   
-                <div class="modal-body">             
-                  <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_file_upload" id="eb_dropzone_file_upload" name="eb_dropzone_file_upload">
-                    <div class="dz-default dz-message">
-                      <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default attachtopost" data-dismiss="modal">{!! trans('admin.close') !!}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div>   
       </div>
 
       <div class="box box-solid">
@@ -110,4 +88,18 @@
         </div>
 
 </form>
+<script>
+  let fileupload = document.getElementById('file-upload');
+  let fileInput = document.getElementById('fileInput');
+  fileupload.ondragover = fileupload.ondragenter = function(evt) {
+    evt.preventDefault();
+  };
+  fileupload.ondrop = function(evt) {
+    fileInput.files = evt.dataTransfer.files;
+    const dT = new DataTransfer();
+    dT.items.add(evt.dataTransfer.files[0]);
+    fileInput.files = dT.files;
+    evt.preventDefault();
+  };
+</script>
 @endsection

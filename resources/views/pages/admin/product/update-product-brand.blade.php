@@ -41,7 +41,11 @@
                 <div class="col-sm-5">
                     <select class="form-control select2" name="product_id" style="width: 100%;">
                         @foreach ($products as $product)
-                            <option value="{{$product->id}}">{{$product->title}}</option>
+                            @if ($product->id == $product_brand->product_id)
+                              <option value="{{$product->id}}" selected>{{$product->title}}</option>
+                            @else
+                              <option value="{{$product->id}}">{{$product->title}}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -74,9 +78,10 @@
                   </button>
                 </div>   
                 <div class="modal-body">             
-                  <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_file_upload" id="eb_dropzone_file_upload" name="eb_dropzone_file_upload">
+                  <div class="uploadform dropzone no-margin dz-clickable eb_dropzone_file_upload" id="eb_dropzone_file_upload" name="logo_brand">
                     <div class="dz-default dz-message">
                       <span>{!! trans('admin.drop_your_cover_picture_here') !!}</span>
+                      <input name="logo_brand" type="file" id="fileInput">
                     </div>
                   </div>
                 </div>
@@ -110,5 +115,18 @@
         </div>
 
     </div>            
-</form>  
+</form> 
+<script>
+  let fileupload = document.getElementById('file-upload');
+  fileupload.ondragover = dropContainer.ondragenter = function(evt) {
+    evt.preventDefault();
+  };
+  fileupload.ondrop = function(evt) {
+    fileInput.files = evt.dataTransfer.files;
+    const dT = new DataTransfer();
+    dT.items.add(evt.dataTransfer.files[0]);
+    fileInput.files = dT.files;
+    evt.preventDefault();
+  };
+</script> 
 @endsection

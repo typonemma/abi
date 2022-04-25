@@ -19,7 +19,7 @@
       <li class="sidebar-cms-title">{!! trans('admin.sidebar_cms_title') !!}</li>
       @endif
 
-      @if(Request::is('admin/pages/list') || Request::is('admin/page/add') || Request::is('admin/page/update/*'))
+      @if(Request::is('admin/pages/list') || Request::is('admin/page/add') || Request::is('admin/page/bank') || Request::is('admin/page/update/*'))
         <li class="active treeview">
           <a href="#">
             <i class="fa fa-file"></i> <span>{!! trans('admin.page_menu_title') !!}</span> <i class="fa fa-angle-left pull-right"></i>
@@ -44,12 +44,13 @@
             <!-- BANK -->
             @if(in_array('pages_bank_lis', $user_permission_list))
               @if(Request::is('admin/page/bank'))
-                <li class="active"><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>
+                <li class="active"><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>
               @else
-                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>
+                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>
               @endif
             @endif
-            <!-- END BANK -->
+            <!-- END BANK 1-->
+            
           </ul>
         </li>
       @else
@@ -69,7 +70,9 @@
 
               <!-- Bank -->
               @if(in_array('pages_bank_lis', $user_permission_list))
-                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-file"></i> Bank</a></li>                
+                <li class="active"><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>
+              @else
+                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>                
               @endif
             <!-- Batas Akhir Bank -->
             </ul>
