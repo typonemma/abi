@@ -1022,6 +1022,7 @@
                                             courier: 'jne'
                                         }
                                     }).done(function (data) {
+                                        document.getElementById('jne').style.display = 'block';
                                         let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
                                         let etd = data.rajaongkir.results[0].costs[0].cost[0].etd;
                                         let city = data.rajaongkir.destination_details.city_name;
@@ -1106,6 +1107,10 @@
                         let ship = JSON.parse($('#ship').val());
                         let ship_cost = $('#temp-ship-cost').val();
                         let coupon_amount = $('#coupon-amount').val();
+                        for (let i = 0; i < cart_items.length; i++) {
+                            cart_items[i].options = '';
+                            cart_items[i].access_token = '';
+                        }
                         $.ajaxSetup({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")

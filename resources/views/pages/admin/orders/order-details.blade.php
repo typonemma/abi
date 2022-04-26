@@ -11,43 +11,43 @@
         <div class="row">
           <div class="col-sm-3">
             <select id="change_order_status" name="change_order_status" style="width:100%;">
-              @if($order_data_by_id['_order_status'] == 'pending')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'pending')
                 <option selected value="pending">{{ trans('admin.pending_payment') }}</option>
               @else
                 <option value="pending">{{ trans('admin.pending_payment') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'processing')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'processing')
                 <option selected value="processing">{{ trans('admin.processing') }}</option>
               @else
                 <option value="processing">{{ trans('admin.processing') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'on-hold')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'on-hold')
                 <option selected value="on-hold">{{ trans('admin.on_hold') }}</option>
               @else
                 <option value="on-hold">{{ trans('admin.on_hold') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'completed')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'completed')
                 <option selected value="completed">{{ trans('admin.completed') }}</option>
               @else
                 <option value="completed">{{ trans('admin.completed') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'cancelled')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'cancelled')
                 <option selected value="cancelled">{{ trans('admin.cancelled') }}</option>
               @else
                 <option value="cancelled">{{ trans('admin.cancelled') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'refunded')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'refunded')
                 <option selected value="refunded">{{ trans('admin.refunded') }}</option>
               @else
                 <option value="refunded">{{ trans('admin.refunded') }}</option>
               @endif
 
-              @if($order_data_by_id['_order_status'] == 'shipping')
+              @if($order_data_by_id['_ordered_items']['details']['status'] == 'shipping')
                 <option selected value="shipping">{{ trans('admin.shipping') }}</option>
               @else
                 <option value="shipping">{{ trans('admin.shipping') }}</option>
@@ -160,7 +160,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($order_data_by_id['_ordered_items'] as $items)
+              @foreach($order_data_by_id['_ordered_items']['items'] as $items)
               <tr>
                 <td class="order_product">
                   <img src="{{ get_image_url($items['img_src']) }}" alt="{{basename( $items['img_src'] )}}">
@@ -168,22 +168,25 @@
                 <td class="order_description">
                   <h6>{!! $items['name'] !!}</h6>
                   <?php $count = 1; ?>
-                  @if(count($items['options']) > 0)
-                  <p>
-                    @foreach($items['options'] as $key => $val)
-                      @if($count == count($items['options']))
-                        {!! $key .' &#8658; '. $val !!}
-                      @else
-                        {!! $key .' &#8658; '. $val. ' , ' !!}
-                      @endif
-                      <?php $count ++ ; ?>
-                    @endforeach
-                  </p>
+
+                  @if ($items['options'] != null)
+                    @if(count($items['options']) > 0)
+                    <p>
+                        @foreach($items['options'] as $key => $val)
+                        @if($count == count($items['options']))
+                            {!! $key .' &#8658; '. $val !!}
+                        @else
+                            {!! $key .' &#8658; '. $val. ' , ' !!}
+                        @endif
+                        <?php $count ++ ; ?>
+                        @endforeach
+                    </p>
+                    @endif
                   @endif
 
-                  @if(get_product_type($items['id']) === 'customizable_product')
+                  @if(get_product_type($items['product_id']) === 'customizable_product')
                     @if($items['acces_token'])
-                      @if(count(get_admin_customize_images_by_access_token($items['id'], $order_data_by_id['_order_id'], $items['acces_token']))>0)
+                      @if(count(get_admin_customize_images_by_access_token($items['product_id'], $order_data_by_id['_order_id'], $items['acces_token']))>0)
                         <button class="btn btn-primary btn-info view-customize-images" data-images="{{ json_encode( get_admin_customize_images_by_access_token($items['id'], $order_data_by_id['_order_id'], $items['acces_token']) ) }}">{{ trans('admin.design_images') }}</button>
                         <a class="btn btn-primary btn-info" href="{{ route('admin.designer_export_data', array( $order_data_by_id['_order_id'], $items['acces_token'])) }}" target="_blank">{{ trans('admin.design_export') }}</a>
                       @endif
@@ -192,13 +195,13 @@
 
                 </td>
                 <td class="order_price">
-                  <p> {!! price_html( $items['order_price'], $order_data_by_id['_order_currency'] ) !!} </p>
+                  <p> {!! price_html( $items['price'], $order_data_by_id['_order_currency'] ) !!} </p>
                 </td>
                 <td class="order_quantity">
                     <p> {!! $items['quantity'] !!} </p>
                 </td>
                 <td class="order_line_total">
-                  <p>{!! price_html( ($items['quantity']*$items['order_price']), $order_data_by_id['_order_currency'] ) !!}</p>
+                  <p>{!! price_html( ($items['quantity']*$items['price']), $order_data_by_id['_order_currency'] ) !!}</p>
                 </td>
               </tr>
               @endforeach

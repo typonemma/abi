@@ -361,7 +361,7 @@ class OrdersController extends Controller
             'coupon_amount' => $request->coupon_amount,
             'order_total' => $request->total + $request->shipping_cost - $request->coupon_amount,
             'date' => date('Y-m-d'),
-            'status' => 0,
+            'status' => 'on-hold',
             'user_id' => $request->customer_id
         ];
 

@@ -51,12 +51,20 @@
                                     <td>
                                         DELIVERY STATUS:<br/>
                                         <div class="color">
-                                            @if ($uo['details']['status'] == -1)
-                                                Barang ditolak
-                                            @elseif ($uo['details']['status'] == 1)
-                                                Barang telah diterima
-                                            @else
+                                            @if ($uo['details']['status'] == 'on-hold')
+                                                On hold
+                                            @elseif ($uo['details']['status'] == 'pending')
                                                 Pending
+                                            @elseif ($uo['details']['status'] == 'processing')
+                                                Processing
+                                            @elseif ($uo['details']['status'] == 'completed')
+                                                Completed
+                                            @elseif ($uo['details']['status'] == 'cancelled')
+                                                Cancelled
+                                            @elseif ($uo['details']['status'] == 'refunded')
+                                                Refunded
+                                            @elseif ($uo['details']['status'] == 'shipping')
+                                                Shipping
                                             @endif
                                         </div>
                                     </td>

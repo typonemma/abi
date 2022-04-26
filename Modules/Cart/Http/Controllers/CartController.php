@@ -44,24 +44,6 @@ class CartController extends Controller
         if (!session('user')) {
             return back();
         }
-        if (!session('ship')) {
-            session()->flash('ship-error', 'Please calculate the shipping cost first !');
-            return back();
-        }
-        $user = session('user');
-        $cart = Cart::where('user_id', '=', $user->id)->first();
-        $cart_detail = array();
-        if ($cart != null) {
-            $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->get();
-            if (count($cart_detail) == 0) {
-                session()->flash('empty', 'Cart cannot be empty !');
-                return back();
-            }
-        }
-        else {
-            session()->flash('empty', 'Cart cannot be empty !');
-            return back();
-        }
         return view('cart::checkout', ['cart' => $cart, 'cart_detail' => $cart_detail]);
     }
 
@@ -178,6 +160,24 @@ class CartController extends Controller
 
     public function getShippingCost($cost)
     {
+        $user = session('user');
+        $cart = Cart::where('user_id', '=', $user->id)->first();
+        $cart_detail = array();
+        if ($cart != null) {
+            $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->get();
+            if (count($cart_detail) == 0) {
+                session()->flash('empty', 'Cart cannot be empty !');
+                return back();
+            }
+        }
+        else {
+            session()->flash('empty', 'Cart cannot be empty !');
+            return back();
+        }
+        if (!session('ship')) {
+            session()->flash('ship-error', 'Please calculate the shipping cost first !');
+            return back();
+        }
         $ship = session('ship');
         $ship->cost = $cost;
         session()->put('ship', $ship);

@@ -96,7 +96,7 @@
             <div class="h4">result</div>
             <br>
             <div id="shipping-cost">Rp. 0</div>
-            <div class="order-details-entry simple-article size-3 grey uppercase">
+            <div id="jne" class="order-details-entry simple-article size-3 grey uppercase" style="display:none">
                 <div class="row">
                     <div class="col-xs-1">
                         <label class="checkbox-entry radio">
@@ -173,7 +173,7 @@
                             <br/>
                             <div class="color">
                                 <span id="ship-cost">Rp 0</span>
-                                <input id="temp-ship-cost" type="hidden" value="">
+                                <input id="temp-ship-cost" type="hidden" value="0">
                             </div>
                         </div>
                     </div>

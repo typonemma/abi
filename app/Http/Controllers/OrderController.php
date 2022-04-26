@@ -309,6 +309,13 @@ class OrderController extends Controller
         elseif($environment === 'production' && $email_options['completed_order']['enable_disable'] == true && Request::Input('change_order_status') == 'completed'){
           $this->classGetFunction->sendCustomMail( array('source' => 'completed_order', 'email' => $get_email['_billing_email'], 'order_id' => $order_id) );
         }
+
+        $order = OrdersItem::where('order_id', '=', $order_id)->first();
+        $data = json_decode($order['order_data'], true);
+        $data['details']['status'] = Request::Input('change_order_status');
+        $order['order_data'] = $data;
+        $order->save();
+
         return redirect()->back();
       }
     }
