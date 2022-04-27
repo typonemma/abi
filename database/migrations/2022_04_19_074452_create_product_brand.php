@@ -15,7 +15,6 @@ class CreateProductBrand extends Migration
     {
         Schema::create('product_brand', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('product_id');
             $table->string('name_brand');
             $table->string('logo_brand');
             $table->integer('status');

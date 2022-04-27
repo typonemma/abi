@@ -22,7 +22,7 @@
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="input-group">
-                  <input type="text" name="term_bank" class="search-query form-control" placeholder="Enter Brand Name To Search" value="" />
+                  <input type="text" name="term_bank" class="search-query form-control" placeholder="Enter Bank Name To Search" value="" />
                   <div class="input-group-btn">
                     <button class="btn btn-primary" type="submit">
                       <span class="fa fa-search"></span>

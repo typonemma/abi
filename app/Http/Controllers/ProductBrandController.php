@@ -81,12 +81,11 @@ class ProductBrandController extends Controller
         $request->validate($rules);
         product_brand::create([
             'id' => 0,
-            'product_id' => $request->product_id,
             'name_brand' => $request->name_brand,
             'logo_brand' => 0,
             'status' => $request->status,
-            'created_at' => Carbon::now()->timestamp,
-            'updated_at' => Carbon::now()->timestamp
+            'created_at' => date("y-m-d H:i:s", strtotime('now')),
+            'updated_at' => date("y-m-d H:i:s", strtotime('now'))
         ]);
         // Storage::putFileAs('/public/uploads', $request->file('logo_brand'), $request->logo_brand);
         return redirect('/admin/ProductBrand/store');
@@ -108,7 +107,6 @@ class ProductBrandController extends Controller
         ];
         $request->validate($rules);
         $compatibility = product_brand::find($id);
-        $compatibility->product_id = $request->product_id;
         $compatibility->name_brand = $request->name_brand;
         $compatibility->logo_brand = 0;
         $compatibility->status = $request->status;

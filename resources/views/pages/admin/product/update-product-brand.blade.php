@@ -31,31 +31,6 @@
 
       <div class="box box-solid">
         <div class="box-header with-border">
-          <i class="fa fa-text-width"></i>
-          <h3 class="box-title">Product</h3>
-        </div>
-        <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                <label class="col-sm-7 control-label" for="inputProduct">Product</label>
-                <div class="col-sm-5">
-                    <select class="form-control select2" name="product_id" style="width: 100%;">
-                        @foreach ($products as $product)
-                            @if ($product->id == $product_brand->product_id)
-                              <option value="{{$product->id}}" selected>{{$product->title}}</option>
-                            @else
-                              <option value="{{$product->id}}">{{$product->title}}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                </div>
-            </div>
-        </div>
-      </div>
-
-      <div class="box box-solid">
-        <div class="box-header with-border">
           <i class="fa fa-upload"></i>
           <h3 class="box-title">Brand Image</h3>
           <div class="box-tools pull-right">

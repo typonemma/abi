@@ -66,7 +66,7 @@
                             @foreach ($bestsellerproduct_list as $b)
                             <?php
                                 $or = App\Models\ObjectRelationship::where('object_id', '=', $b->id)->first();
-                                $term = App\Models\Term::where('term_id', '=', $or->term_id)->first();
+                                $term = App\Models\Term::where('term_id', '=', $or->term_id)->first();                                
                             ?>
                             <div class="col-sm-4">
                                     <div class="product-shortcode style-1">

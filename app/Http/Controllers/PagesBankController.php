@@ -82,8 +82,8 @@ class PagesBankController extends Controller
             'title' => $request->title,
             'nomor_rekening' => $request->nomor_rekening,
             'content' => $request->content,
-            'created_at' => Carbon::now()->timestamp,
-            'updated_at' => Carbon::now()->timestamp
+            'created_at' => date("y-m-d H:i:s", strtotime('now')),
+            'updated_at' => date("y-m-d H:i:s", strtotime('now'))
         ]);
         return redirect('/admin/PagesBank/store');
     }
