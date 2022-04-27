@@ -1,6 +1,7 @@
 @extends('partials.main')
 @section('content')
 <div class="container">
+    <input id="user" type="hidden" value="{{session('user')}}">
     <div class="empty-space col-xs-b15 col-sm-b30 col-md-b60"></div>
     <div class="row">
         <div class="col-md-9 col-md-push-3">
@@ -271,7 +272,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.id+'">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
@@ -293,8 +294,16 @@
                     str = str + '<div class="price"><div class="color-selection"><div class="entry active" style="color: #a7f050;"></div><div class="entry" style="color: #50e3f0;"></div><div class="entry" style="color: #eee;"></div></div><div class="simple-article size-4"><span class="color">Rp. '+numberWithCommas(value.regular_price)+'</span></div></div>';
                 }
 
-                //Description
-                str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                var user = $('#user').val();
+
+                if (user == '') {
+                    //Description
+                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                }
+                else {
+                    //Description
+                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                }
 
                 //Footer
                 str = str + '</div></div>';
@@ -335,7 +344,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.id+'">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
@@ -391,128 +400,6 @@
             });
             ajaxProduct();
             ajaxProductPromo();
-        });
-        $(document).on('click', '.open-popup', function(e){
-            var ajax = $.ajax({
-                type:'POST',
-                url:"{{route('product.ajaxGetDetail')}}",
-                data:{_token:"{{csrf_token()}}",id:$(this).data("id")},
-            }).done(function(data){
-                var gallery = JSON.parse(data.product_related_img_json).product_gallery_images;
-                var str = "";
-                //Header
-                str = str + '<div class="layer-close"></div><div class="popup-container size-2"><div class="popup-align"><div class="row"><div class="col-sm-6 col-xs-b30 col-sm-b0"><div class="main-product-slider-wrapper swipers-couple-wrapper">';
-
-                //Image Preloader header
-                str = str + '<div class="swiper-container swiper-control-top"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
-
-                //Image Preloader Body (Loopable)
-
-                $.each(gallery, function( index, value ) {
-                    str = str + '<div class="swiper-slide"><div class="swiper-lazy-preloader"></div><div class="product-big-preview-entry swiper-lazy" data-background="'+value.url+'"  style="width:470px;height:470px" ></div></div>';
-                });
-                //Image Preloader Footer
-                str = str + '</div></div>';
-
-
-                //Swiper Header
-                str = str + '<div class="empty-space col-xs-b30 col-sm-b60"></div><div class="swiper-container swiper-control-bottom" data-breakpoints="1" data-xs-slides="3" data-sm-slides="3" data-md-slides="4" data-lt-slides="5" data-slides-per-view="5" data-center="1" data-click="1"><div class="swiper-button-prev hidden"></div><div class="swiper-button-next hidden"></div><div class="swiper-wrapper">';
-
-                //Swipper Body (Loopable)
-                $.each(gallery, function( index, value ) {
-                    str = str + '<div class="swiper-slide"><div class="product-small-preview-entry"><img src="'+value.url+'" alt="" style="width:70px;height:70px" /></div></div>';
-                });
-                //Swiper Footer
-                str = str + '</div></div></div></div>';
-
-                //Content | Category
-                var tags = data.tags;
-                if(tags == null){
-                    tags = '-';
-                }
-                str = str + '<div class="col-sm-6"><div class="simple-article size-3 grey col-xs-b5">'+tags+'</div>';
-
-                //Content | Product Name
-                str = str + ' <div class="h3 col-xs-b25">'+data.title+'</div>';
-
-                //Content | Price
-                str = str + '<div class="row col-xs-b25"><div class="col-sm-6"><div class="simple-article size-5 grey">PRICE: <span class="color">Rp. '+numberWithCommas(data.regular_price)+'</span></div></div>';
-
-                //Content | Review
-                // str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></div><div class="simple-article size-2 align-inline">128 Reviews</div></div></div>';
-                str = str + '<div class="col-sm-6 col-sm-text-right"><div class="rate-wrapper align-inline"></div></div></div>';
-
-                //Content | SKU
-                var sku = data.sku;
-                if(sku == ""){
-                    sku = '-';
-                }
-                str = str + '<div class="row"><div class="col-sm-6"><div class="simple-article size-3 col-xs-b5">SKU : <span class="grey">'+sku+'</span></div></div>';
-
-                //Content | Availibility
-                var avail = "YES";
-                if(data.status == 0){
-                    avail = "NO";
-                }
-                str = str + '<div class="col-sm-6 col-sm-text-right"><div class="simple-article size-3 col-xs-b20">AVAILABLE.: <span class="grey">'+avail+'</span></div></div></div>';
-
-                //Content | Description
-                str = str + '<div class="simple-article size-3 col-xs-b30">'+unescape(data.content)+'</div>';
-
-                if(data.size.length > 0){
-                    //Content | Size (Header)
-                    str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">size:</div></div><div class="col-sm-9">';
-
-                    //Choose size disabled
-                    str = str + '<select class="SlectBox"><option disabled="disabled" selected="selected">Choose size</option>';
-
-                    //Content | Size (Body) Loopable
-                    $.each(data.size, function( index, value ) {
-                        console.log(value.name);
-                        str = str + '<option value="'+value.term_id+'">'+value.name+'</option>';
-                    });
-
-                    //Content | Size (Footer)
-                    str = str + '</select></div></div>';
-                }
-
-                if(data.color.length > 0){
-
-                    //Content | Color (Header)
-                    str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title">color:</div></div><div class="col-sm-9"><div class="color-selection size-1">';
-
-                    //Content | Color (Body) Loopable
-                    $.each(data.color, function( index, value ) {
-                        str = str + '<div class="entry" style="color: #'+value.color_code+';"></div>';
-                    });
-                    //Content | Color (Footer)
-                    str = str + '</div></div></div>';
-
-                }
-
-                //Quantity Input
-                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span id="quantity" class="number">1</span><span class="plus"></span></div></div></div>';
-
-                //Add to cart
-                str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#" onclick="ajaxAddToCart('+data.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
-
-                //Add to Whislist
-                str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#" onclick="ajaxAddToWishlist('+data.id+')"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
-
-                const url = 'https://pusatbaterai.local/detail/'+product.slug;
-
-                //Share
-                str = str + `<div class="row"><div class="col-sm-3"><div class="h6 detail-data-title size-2">share:</div></div><div class="col-sm-9"><div class="follow light"><a class="entry" href="https://www.facebook.com/sharer/sharer.php?u=${url}"><i class="fa fa-facebook"></i></a><a class="entry" href="https://twitter.com/intent/tweet?url=${url}"><i class="fa fa-twitter"></i></a><a class="entry" href="https://www.linkedin.com/sharing/share-offsite/?url=${url}"><i class="fa fa-linkedin"></i></a><a class="entry" href="https://plus.google.com/share?url=${url}"><i class="fa fa-google-plus"></i></a><a class="entry" href="http://pinterest.com/pin/create/link/?url=${url}"><i class="fa fa-pinterest-p"></i></a></div></div></div>`;
-
-                //Footer
-                str = str + '</div></div></div><div class="button-close"></div></div>';
-
-                $('#popupProduct').empty();
-                $('#popupProduct').append(str);
-                _functions.initSwiper();
-                _functions.initSelect();
-
-            });
         });
     });
 </script>

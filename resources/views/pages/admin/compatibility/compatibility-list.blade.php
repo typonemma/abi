@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-6">
-    <h5>Compatibility list</h5>
+    <h5>Compatibility list: {{$product->title}}</h5>
   </div>
   <div class="col-6">
     <div class="pull-right">

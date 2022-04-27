@@ -86,6 +86,10 @@ class CompatibilityController extends Controller
 
     public function create(Request $request)
     {
+        $rules = [
+            'name' => 'required'
+        ];
+        $request->validate($rules);
         $product = session('product');
         Compatibility::create([
             'id' => 0,
@@ -123,6 +127,10 @@ class CompatibilityController extends Controller
 
     public function update(Request $request, $id)
     {
+        $rules = [
+            'name' => 'required'
+        ];
+        $request->validate($rules);
         $product = session('product');
         $compatibility = Compatibility::find($id);
         $compatibility->name = $request->name;

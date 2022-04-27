@@ -1331,7 +1331,7 @@ Route::post('/ajax/contact-with-vendor', [
 
 
 //frontend route
-Route::get( '/', [
+Route::get( '/home', [
   'uses' => 'Frontend\FrontendManagerController@homePageContent',
   'as'   => 'home-page'
 ]);
