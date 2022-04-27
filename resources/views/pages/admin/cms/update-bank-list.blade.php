@@ -16,10 +16,11 @@
       </div>
     </div>
   </div>
-
+  
   <div class="row">
     <div class="col-md-8">
       <div class="box box-solid">
+
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
           <h3 class="box-title">Bank name</h3>
@@ -27,9 +28,7 @@
         <div class="box-body">
           <input name="title" type="text" placeholder="Bank name" class="form-control" id="eb_compatibility_name" value="{{ $bank_list->title }}">
         </div>
-      </div>
 
-      <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
           <h3 class="box-title">Nomor Rekening</h3>
@@ -37,9 +36,7 @@
         <div class="box-body">
           <input name="nomor_rekening" type="text" placeholder="Bank name" class="form-control" id="eb_compatibility_name" value="{{ $bank_list->nomor_rekening }}">
         </div>
-      </div>
 
-      <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
           <h3 class="box-title">Keterangan</h3>
@@ -47,8 +44,8 @@
         <div class="box-body">
           <input name="content" type="text" placeholder="Bank name" class="form-control" id="eb_compatibility_name" value="{{ $bank_list->content }}">
         </div>
-      </div>
 
+      </div>
     </div>            
 </form>
 @endsection

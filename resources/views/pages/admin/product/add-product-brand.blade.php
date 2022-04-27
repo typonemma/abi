@@ -20,6 +20,7 @@
   <div class="row">
     <div class="col-md-8">
       <div class="box box-solid">
+
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
           <h3 class="box-title">Brand name</h3>
@@ -27,6 +28,7 @@
         <div class="box-body">
           <input type="text" placeholder="Brand name" class="form-control" name="name_brand" id="eb_compatibility_name" value="{{ old('name_brand') }}">
         </div>
+        
       </div>
         
       <!-- Image -->
@@ -87,26 +89,29 @@
         </div>
       </div>
       <!-- Batas Image -->
+      </div>
 
-      <div class="box box-solid">
-            <div class="box-header with-border">
-              <i class="fa fa-text-width"></i>
-              <h3 class="box-title">Status</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <div class="row">
-                    <label class="col-sm-7 control-label" for="inputType">Status</label>
-                    <div class="col-sm-5">
-                        <select class="form-control select2" name="status" style="width: 100%;">
-                            <option value="0">Disable</option>
-                            <option value="1">Enable</option>
-                        </select>
-                    </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-md-4">
+        <div class="box box-solid">
+          <div class="box-header with-border">
+            <i class="fa fa-eye"></i>
+            <h3 class="box-title">visibility</h3>
+          </div>
+          <div class="box-body">
+              <div class="form-group">
+                  <div class="row">
+                  <label class="col-sm-7 control-label" for="inputType">Status</label>
+                  <div class="col-sm-5">
+                      <select class="form-control select2" name="status" style="width: 100%;">
+                          <option value="1">Enable</option>
+                          <option value="0">Disable</option>
+                      </select>
+                  </div>
+                  </div>
+              </div>
+          </div>
         </div>
+      </div>
 
 </form>
 <script>

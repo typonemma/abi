@@ -22,7 +22,7 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-text-width"></i>
-          <h3 class="box-title">Bank name</h3>
+          <h3 class="box-title">Brand name</h3>
         </div>
         <div class="box-body">
           <input name="name_brand" type="text" placeholder="Bank name" class="form-control" id="eb_compatibility_name" value="{{ $product_brand->name_brand }}">
@@ -68,28 +68,29 @@
           </div>
         </div>
       </div>
+    </div>
 
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <i class="fa fa-text-width"></i>
-              <h3 class="box-title">Status</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <div class="row">
-                    <label class="col-sm-7 control-label" for="inputType">Status</label>
-                    <div class="col-sm-5">
-                        <select class="form-control select2" name="status" style="width: 100%;">
-                            <option value="0">Disable</option>
-                            <option value="1">Enable</option>
-                        </select>
-                    </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-md-4">
+        <div class="box box-solid">
+          <div class="box-header with-border">
+            <i class="fa fa-text-width"></i>
+            <h3 class="box-title">visibility</h3>
+          </div>
+          <div class="box-body">
+              <div class="form-group">
+                  <div class="row">
+                  <label class="col-sm-7 control-label" for="inputType">Status</label>
+                  <div class="col-sm-5">
+                      <select class="form-control select2" name="status" style="width: 100%;">
+                          <option value="1">Enable</option>
+                          <option value="0">Disable</option>                            
+                      </select>
+                  </div>
+                  </div>
+              </div>
+          </div>
         </div>
-
-    </div>            
+      </div>         
 </form> 
 <script>
   let fileupload = document.getElementById('file-upload');
