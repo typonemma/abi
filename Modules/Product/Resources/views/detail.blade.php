@@ -288,6 +288,7 @@
         @include('product::partial.productCategory')
     </div>
 </div>
+<input id="loggedIn" type="hidden" value="{{session('user')}}">
 <script src="{{URL::asset('public/custom/js/jquery-2.2.4.min.js')}}"></script>
 <script>
     let body = "Hey%20I%20am%20in%20PusatBaterai,%20checkout%20this%20product:%20" + location.href;

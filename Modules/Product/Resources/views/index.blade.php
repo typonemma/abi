@@ -80,8 +80,8 @@
                 </div>
                 <div class="col-sm-5 text-right">
                     <div class="align-inline spacing-1 hidden-xs">
-                        <a class="pagination toggle-products-view active"><img src="{{URL::asset('public/custom/img/icon-14.png')}}" alt="" /><img src="{{URL::asset('public/custom/img/icon-15.png')}}" alt="" /></a>
-                        <a class="pagination toggle-products-view"><img src="{{URL::asset('public/custom/img/icon-16.png')}}" alt="" /><img src="{{URL::asset('public/custom/img/icon-17.png')}}" alt="" /></a>
+                        <a class="pagination toggle-products-view active" onclick="toggle(0)"><img src="{{URL::asset('public/custom/img/icon-14.png')}}" alt="" /><img src="{{URL::asset('public/custom/img/icon-15.png')}}" alt="" /></a>
+                        <a class="pagination toggle-products-view" onclick="toggle(1)"><img src="{{URL::asset('public/custom/img/icon-16.png')}}" alt="" /><img src="{{URL::asset('public/custom/img/icon-17.png')}}" alt="" /></a>
                     </div>
 
                     <div class="align-inline spacing-1 filtration-cell-width-2">
@@ -211,6 +211,7 @@
         </div>
     </div>
 </div>
+<input id="loggedIn" type="hidden" value="{{session('user')}}">
 
 {{-- @include('partials.ads') --}}
 @endsection
@@ -251,6 +252,14 @@
         }).done(function(){
             alert('Item added to wishlist successfully !');
         });
+    }
+    function toggle(n) {
+        if (n == 0) {
+            $('.col-sm-4').removeAttr('style');
+        }
+        else {
+            $('.col-sm-4').css('height', '50%');
+        }
     }
     function ajaxProduct(){
         var ajaxProduct = $.ajax({
@@ -302,7 +311,7 @@
                 }
                 else {
                     //Description
-                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" href="#"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" onclick="ajaxInsertToCart('+value.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
                 }
 
                 //Footer

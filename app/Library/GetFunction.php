@@ -924,7 +924,7 @@ class GetFunction
     if(count($coupon_response) > 0){
 
       //coupon condition check
-      if($this->cart->is_coupon_applyed() && $action == 'new_add'){
+      if($this->cart->is_coupon_applyed() && $action == 'new_add' && $this->cart->couponCode() == $coupon_code){
         $response_str = 'coupon_already_apply';
         return $response_str;
       }

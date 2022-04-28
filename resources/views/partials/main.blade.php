@@ -1282,7 +1282,7 @@
                             alert( 'Sorry, this coupon already exist' );
                             }
                             else if(data.success == true && (data.success_type == 'discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'percentage_discount_from_product' || data.success_type == 'discount_from_total_cart' || data.success_type == 'percentage_discount_from_total_cart')){
-                            const total = parseInt($('#temp-total').val()) - data.coupon_amount;
+                            const total = parseInt($('#temp-cart-total').val()) + parseInt($('#temp-ship-cost').val()) - data.coupon_amount;
                             const order_total = 'RP. ' + numberFormat(total);
                             $('#coupon-discount').text('RP. ' + numberFormat(data.coupon_amount));
                             $('#order-total').text(order_total);
@@ -1397,11 +1397,17 @@
                             //Quantity Input
                             str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span id="quantity" class="number">1</span><span class="plus"></span></div></div></div>';
 
-                            //Add to cart
-                            str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#" onclick="ajaxAddToCart('+data.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
+                            var user = $('#loggedIn').val();
 
-                            //Add to Whislist
-                            str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#" onclick="ajaxAddToWishlist('+data.id+')"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
+                            if (user != '') {
+
+                                //Add to cart
+                                str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#" onclick="ajaxAddToCart('+data.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
+
+                                //Add to Whislist
+                                str = str + '<div class="col-sm-6"><a class="button size-2 style-1 block noshadow" href="#" onclick="ajaxAddToWishlist('+data.id+')"><span class="button-wrapper"><span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span><span class="text">add to favourites</span></span></a></div></div>';
+
+                            }
 
                             const url = 'https://pusatbaterai.local/detail/'+product.slug;
 
