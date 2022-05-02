@@ -973,13 +973,27 @@
                             $('#order-total').load(' #order-total');
                             $('#temp-total').load(' #temp-total');
                             $('#cart-title-total').load(' #cart-title-total');
+                            $('#calc-ship-btn').load(' #calc-ship-btn');
                         });
+                    }
+
+                    function isNumeric(str) {
+                        for (let i = 0; i < str.length; i++) {
+                            let c = str.charCodeAt(i);
+                            if (c < 48 || c > 57) {
+                                return false;
+                            }
+                        }
+                        return true;
                     }
 
                     function ajaxCalcShipping() {
                         let selected_city = $('#city').val();
                         let postcode = $('#postcode').val();
                         let address = $('#address').val();
+                        if (selected_city != null && (postcode != '' && isNumeric(postcode)) && address != '') {
+                            $('#shipping-cost').text('Loading...');
+                        }
                         $.ajaxSetup({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -993,62 +1007,32 @@
                                 postcode:postcode,
                                 address:address
                             },
-                            success: function(weight) {
-                                const total_weight = weight;
-                                $('#shipping-cost').text('Loading...');
+                            success: function(res) {
+                                let data = JSON.parse(res);
+                                document.getElementById('jne').style.display = 'block';
+                                let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
+                                let etd = data.rajaongkir.results[0].costs[0].cost[0].etd;
+                                let city = data.rajaongkir.destination_details.city_name;
+                                $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
+                                $('#ship-cost').text('Rp. ' + numberWithCommas(cost));
+                                $('#temp-ship-cost').val(cost);
+                                let order_total = $('#temp-total').val();
+                                order_total = parseInt(order_total) + parseInt(cost);
+                                $('#order-total').text('Rp. ' + numberWithCommas(order_total));
+                                $('#jne-city').text('SURABAYA - ' + city.toUpperCase() + '(' + etd + 'DAYS)');
+                                $('#jne-city-cost').text('Rp ' + numberWithCommas(cost));
                                 $.ajax({
-                                    type:"get",
-                                    url :"https://api.rajaongkir.com/starter/city",
-                                    headers : {
-                                        'key': '359e9d75c5ca6ec1a671c8212df4563e'
+                                    type:"post",
+                                    url :"/cart-slice/getShippingCost",
+                                    data : {
+                                        cost: cost
                                     }
-                                }).done(function (data) {
-                                    let id = -1;
-                                    for (let i = 0; i < data.rajaongkir.results.length; i++) {
-                                        let city = data.rajaongkir.results[i];
-                                        if (city.city_name === selected_city) {
-                                            id = city.city_id;
-                                            break;
-                                        }
-                                    }
-                                    $.ajax({
-                                        type:"post",
-                                        url :"https://api.rajaongkir.com/starter/cost",
-                                        headers : {
-                                            'key': '359e9d75c5ca6ec1a671c8212df4563e'
-                                        },
-                                        data : {
-                                            origin: 444,
-                                            destination: id,
-                                            weight: total_weight,
-                                            courier: 'jne'
-                                        }
-                                    }).done(function (data) {
-                                        document.getElementById('jne').style.display = 'block';
-                                        let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
-                                        let etd = data.rajaongkir.results[0].costs[0].cost[0].etd;
-                                        let city = data.rajaongkir.destination_details.city_name;
-                                        $('#shipping-cost').text('Rp. ' + numberWithCommas(cost));
-                                        $('#ship-cost').text('Rp. ' + numberWithCommas(cost));
-                                        $('#temp-ship-cost').val(cost);
-                                        let order_total = $('#temp-total').val();
-                                        order_total = parseInt(order_total) + parseInt(cost);
-                                        $('#order-total').text('Rp. ' + numberWithCommas(order_total));
-                                        $('#jne-city').text('SURABAYA - ' + city.toUpperCase() + '(' + etd + 'DAYS)');
-                                        $('#jne-city-cost').text('Rp ' + numberWithCommas(cost));
-                                        $.ajax({
-                                            type:"post",
-                                            url :"/cart-slice/getShippingCost",
-                                            data : {
-                                                cost: cost
-                                            }
-                                        })
-                                    });
-                                });
+                                })
                             },
                             error: function(jqXhr, json, errorThrown) {
                                 Load2();
                                 let errors = jqXhr.responseJSON;
+                                console.log(errors);
                                 let errorsHtml = '';
                                 if ('city' in errors['errors']) {
                                     if (errors['errors']['city'].length > 0) {

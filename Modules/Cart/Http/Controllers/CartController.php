@@ -44,6 +44,9 @@ class CartController extends Controller
         if (!session('user')) {
             return back();
         }
+        $user = session('user');
+        $cart = Cart::where('user_id', '=', $user->id)->first();
+        $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->get();
         return view('cart::checkout', ['cart' => $cart, 'cart_detail' => $cart_detail]);
     }
 
@@ -155,7 +158,46 @@ class CartController extends Controller
             $product = Product::find($item->product_id);
             $weight += $product->weight * $item->quantity;
         }
-        return $weight;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/city",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: 359e9d75c5ca6ec1a671c8212df4563e"
+            )
+        ));
+        $response = json_decode(curl_exec($curl));
+        curl_close($curl);
+        $id = -1;
+        foreach ($response->rajaongkir->results as $city) {
+            if ($city->city_name == $request->city) {
+                $id = $city->city_id;
+                break;
+            }
+        }
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "origin=444&destination=".$id."&weight=".$weight."&courier=jne",
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key: 359e9d75c5ca6ec1a671c8212df4563e"
+            )
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
     }
 
     public function getShippingCost($cost)
