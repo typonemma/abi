@@ -742,7 +742,8 @@ class OrdersController extends Controller
             $user = session('user');
             $cart = Cart::where('user_id', '=', $user->id)->first();
             CartDetail::where('cart_id', '=', $cart->id)->delete();
-            Cart::destroy($cart->id);
+            $cart->total = 0;
+            $cart->save();
 
             return response()->json(__('api.middleware.created_successfully', array('attribute' => 'order')), 200);
           }

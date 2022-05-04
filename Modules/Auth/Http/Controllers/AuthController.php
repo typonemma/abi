@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use App\Cart;
 use App\Models\Product;
 use App\Models\User;
 use App\Rules\PasswordCheck;
@@ -165,6 +166,12 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'user_status' => 1,
         ]);
+        $user = User::orderBy('id', 'desc')->first();
+        $cart = new Cart;
+        $cart->user_id = $user->id;
+        $cart->date = now()->toDateString('d-m-Y');
+        $cart->total = 0;
+        $cart->save();
     }
 
     public function profile_addresses()
@@ -373,7 +380,7 @@ class AuthController extends Controller
                 $user_order_all[] = $obj;
             }
         }
-        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', 'completed')->limit($per_page)->offset($offset)->get();
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', 'completed')->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
         $user_order = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);

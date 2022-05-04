@@ -118,7 +118,9 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="entry hidden-xs hidden-sm"><a href="/wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
+                        @if (session('user'))
+                            <div class="entry hidden-xs hidden-sm"><a href="/wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>
+                        @endif
                         <div class="entry">
                             @if (session('user'))
                                 <a href="/profile-detail">

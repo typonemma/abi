@@ -230,13 +230,6 @@ class CartController extends Controller
     {
         $user = session('user');
         $cart = Cart::where('user_id', '=', $user->id)->first();
-        if ($cart == null) {
-            $cart = new Cart;
-            $cart->user_id = $user->id;
-            $cart->date = now()->toDateString('d-m-Y');
-            $cart->total = 0;
-            $cart->save();
-        }
         $product = Product::find($request->id);
         $cart_detail = CartDetail::where('cart_id', '=', $cart->id)->where('product_id', '=', $product->id)->first();
         if ($cart_detail == null) {

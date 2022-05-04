@@ -74,21 +74,20 @@
                         <p>{{implode(', ',$product->tag)}}</p>
                     </div>
 
-
-                    <div class="row col-xs-b40">
-                        <input id="product-id" type="hidden" value="{{$product->id}}">
-                        <div class="col-sm-3">
-                            <div class="h6 detail-data-title size-1">quantity:</div>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="quantity-select">
-                                <span class="minus"></span>
-                                <span id="quantity" class="number">1</span>
-                                <span class="plus"></span>
+                    @if (session('user'))
+                        <div class="row col-xs-b40">
+                            <input id="product-id" type="hidden" value="{{$product->id}}">
+                            <div class="col-sm-3">
+                                <div class="h6 detail-data-title size-1">quantity:</div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="quantity-select">
+                                    <span class="minus"></span>
+                                    <span id="quantity" class="number">1</span>
+                                    <span class="plus"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @if (session('user'))
                         <div class="row m5 col-xs-b40">
                             <div class="col-sm-6 col-xs-b10 col-sm-b0">
                                 <a class="button size-2 style-3 block" onclick="ajaxAddToCart()">

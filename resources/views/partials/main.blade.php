@@ -176,19 +176,19 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row col-xs-b40">
-                                            <div class="col-sm-3">
-                                                <div class="h6 detail-data-title size-1">quantity:</div>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <div class="quantity-select">
-                                                    <span class="minus"></span>
-                                                    <span class="number">1</span>
-                                                    <span class="plus"></span>
+                                        @if (session('user'))
+                                            <div class="row col-xs-b40">
+                                                <div class="col-sm-3">
+                                                    <div class="h6 detail-data-title size-1">quantity:</div>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="quantity-select">
+                                                        <span class="minus"></span>
+                                                        <span class="number">1</span>
+                                                        <span class="plus"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @if (session('user'))
                                             <div class="row m5 col-xs-b40">
                                                 <div class="col-sm-6 col-xs-b10 col-sm-b0">
                                                     <a class="button size-2 style-2 block" href="#">
@@ -1378,12 +1378,12 @@
 
                             }
 
-                            //Quantity Input
-                            str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span id="quantity" class="number">1</span><span class="plus"></span></div></div></div>';
-
                             var user = $('#loggedIn').val();
 
                             if (user != '') {
+
+                                //Quantity Input
+                                str = str + '<div class="row col-xs-b40"><div class="col-sm-3"><div class="h6 detail-data-title size-1">quantity:</div></div><div class="col-sm-9"><div class="quantity-select"><span class="minus"></span><span id="quantity" class="number">1</span><span class="plus"></span></div></div></div>';
 
                                 //Add to cart
                                 str = str + '<div class="row m5 col-xs-b40"><div class="col-sm-6 col-xs-b10 col-sm-b0"><a class="button size-2 style-2 block" href="#" onclick="ajaxAddToCart('+data.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span><span class="text">add to cart</span></span></a></div>';
