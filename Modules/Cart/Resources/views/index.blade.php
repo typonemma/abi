@@ -87,19 +87,12 @@
                 </div>
             </div>
             <div id="calc-ship-btn">
-                <?php
-                    $user = session('user');
-                    $cart = App\Cart::where('user_id', $user->id)->first();
-                    $items = App\CartDetail::where('cart_id', $cart->id)->get();
-                ?>
-                @if (count($items) > 0)
-                    <div class="button size-2 style-2" onclick="ajaxCalcShipping()">
-                        <span class="button-wrapper">
-                            <span class="icon"><img src="{{URL::asset('public/custom/img/icon-1.png')}}" alt=""></span>
-                            <span class="text">calculate</span>
-                        </span>
-                    </div>
-                @endif
+                <div class="button size-2 style-2" onclick="ajaxCalcShipping()">
+                    <span class="button-wrapper">
+                        <span class="icon"><img src="{{URL::asset('public/custom/img/icon-1.png')}}" alt=""></span>
+                        <span class="text">calculate</span>
+                    </span>
+                </div>
             </div>
             <div class="empty-space col-xs-b15 col-md-b40"></div>
             <div class="h4">result</div>

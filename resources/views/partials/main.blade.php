@@ -913,6 +913,7 @@
                             $('#user-wallet').load(' #user-wallet');
                             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
                             $('#cart-total').load(' #cart-total');
+                            $('#temp-cart-total').load(' #temp-cart-total');
                             $('#subtotal').load(' #subtotal');
                             $('#order-total').load(' #order-total');
                             $('#temp-total').load(' #temp-total');
@@ -951,6 +952,7 @@
                             $('#user-wallet').load(' #user-wallet');
                             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
                             $('#cart-total').load(' #cart-total');
+                            $('#temp-cart-total').load(' #temp-cart-total');
                             $('#subtotal').load(' #subtotal');
                             $('#order-total').load(' #order-total');
                             $('#temp-total').load(' #temp-total');
@@ -969,6 +971,7 @@
                             $('#user-wallet').load(' #user-wallet');
                             $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
                             $('#cart-total').load(' #cart-total');
+                            $('#temp-cart-total').load(' #temp-cart-total');
                             $('#subtotal').load(' #subtotal');
                             $('#order-total').load(' #order-total');
                             $('#temp-total').load(' #temp-total');
@@ -988,6 +991,11 @@
                     }
 
                     function ajaxCalcShipping() {
+                        let cart_total = $('#subtotal').text();
+                        if (cart_total == 'RP. 0') {
+                            alert('Cart cannot be empty !');
+                            return;
+                        }
                         let selected_city = $('#city').val();
                         let postcode = $('#postcode').val();
                         let address = $('#address').val();
@@ -1008,6 +1016,7 @@
                                 address:address
                             },
                             success: function(res) {
+                                Load2();
                                 let data = JSON.parse(res);
                                 document.getElementById('jne').style.display = 'block';
                                 let cost = data.rajaongkir.results[0].costs[0].cost[0].value;
