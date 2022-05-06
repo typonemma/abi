@@ -26,7 +26,7 @@
           <h3 class="box-title">Bank name</h3>
         </div>
         <div class="box-body">
-          <input type="text" placeholder="Brand name" class="form-control" name="title" id="eb_compatibility_name" value="{{ old('title') }}">
+          <input type="text" placeholder="Bank name" class="form-control" name="title" id="eb_compatibility_name" value="{{ old('title') }}">
         </div>
 
         <div class="box-header with-border">

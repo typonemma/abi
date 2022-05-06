@@ -10,7 +10,7 @@
 
   <div class="box">
     <div class="box-header">
-      <h3 class="box-title">Add new Bank &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{{ route('ProductBrand.list') }}">Brand list</a></h3>
+      <h3 class="box-title">Add new Product Brand &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{{ route('ProductBrand.list') }}">Brand list</a></h3>
       <div class="pull-right">
         <button class="btn btn-block btn-primary btn-sm" type="submit">Save</button>
       </div>
