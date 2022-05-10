@@ -21,27 +21,30 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="width:154.5%">
     <div class="col-md-8">
       <div class="box box-solid">
         <div class="box-header with-border">
-          <i class="fa fa-text-width"></i>
-          <h3 class="box-title">Name</h3>
         </div>
-        <div id="box-body" class="box-body">
-            <input type="text" name="name" placeholder="Name" class="form-control" id="eb_input_name" value="{{ $compatibility->name }}">
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-7 control-label" for="eb_input_name">Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="name" placeholder="Name" class="form-control" id="eb_input_name" value="{{ $compatibility->name }}">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="box-header with-border">
-            <i class="fa fa-text-width"></i>
-            <h3 class="box-title">Brand</h3>
           </div>
           <div id="box-body" class="box-body">
               <div class="form-group">
                   <div class="row">
                   <label class="col-sm-7 control-label" for="inputBrand">Brand</label>
                   <div class="col-sm-5">
-                      <select class="form-control select2" name="brand" style="width: 100%;">
+                      <select id="inputBrand" class="form-control select2" name="brand">
                           @foreach ($brands as $brand)
                               @if ($brand->id == $compatibility->brand_id)
                                   <option value="{{$brand->id}}" selected>{{$brand->name_brand}}</option>
@@ -56,15 +59,13 @@
           </div>
 
           <div class="box-header with-border">
-            <i class="fa fa-text-width"></i>
-            <h3 class="box-title">Type</h3>
           </div>
           <div class="box-body">
               <div class="form-group">
                   <div class="row">
                   <label class="col-sm-7 control-label" for="inputType">Type</label>
                   <div class="col-sm-5">
-                      <select id="type" class="form-control select2" name="type" style="width: 100%;">
+                      <select id="inputType" class="form-control select2" name="type">
                           @if ($compatibility->type == 0)
                               <option value="0" selected>Brand</option>
                               <option value="1">Part</option>

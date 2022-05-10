@@ -53,6 +53,7 @@
 
                 <?php
                     $product = App\Models\Product::find($row->product_id);
+                    $brand = App\Brand::find($row->brand_id);
                     $type = 'Brand';
                     if ($row->type == 1) {
                         $type = 'Part';
@@ -63,7 +64,7 @@
 
                 <td>{!! $product->title !!}</td>
 
-                <td>{!! $row->name !!}</td>
+                <td>{!! $brand->name_brand !!}</td>
 
                 <td>{!! $type !!}</td>
 

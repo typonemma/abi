@@ -3,14 +3,14 @@
 <div class="container">
     <div class="empty-space col-xs-b15 col-sm-b30"></div>
     <div class="breadcrumbs">
-        <a href="#">home</a>
-        <a href="#">products</a>
+        <a href="/">home</a>
+        <a href="/product">products</a>
         <?php
             $or = App\Models\ObjectRelationship::where('object_id', $product->id)->first();
             $term = App\Models\Term::where('term_id', $or->term_id)->first();
         ?>
-        <a href="#">{{$term->name}}</a>
-        <a href="#">{{$product->title}}</a>
+        <a href="/product?cat={{$term->term_id}}">{{$term->name}}</a>
+        <a href="/product/detail/{{$product->slug}}">{{$product->title}}</a>
     </div>
     <div class="empty-space col-xs-b15 col-sm-b50 col-md-b100"></div>
     <div class="row">
@@ -26,12 +26,19 @@
                                 <?php
                                     $slider = json_decode($product->product_related_img_json)->product_gallery_images;
                                 ?>
-                                @foreach ($slider as $value)
+                                @if (count($slider) <= 0)
                                     <div class="swiper-slide">
                                         <div class="swiper-lazy-preloader"></div>
-                                        <div class="product-big-preview-entry swiper-lazy" data-background="{{$value->url}}"></div>
+                                        <div class="product-big-preview-entry swiper-lazy" data-background="/public/uploads/no-image.jpeg"></div>
                                     </div>
-                                @endforeach
+                                @else
+                                    @foreach ($slider as $value)
+                                        <div class="swiper-slide">
+                                            <div class="swiper-lazy-preloader"></div>
+                                            <div class="product-big-preview-entry swiper-lazy" data-background="{{$value->url}}"></div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                         <div class="empty-space col-xs-b30 col-sm-b60"></div>
@@ -39,13 +46,21 @@
                             <div class="swiper-button-prev hidden"></div>
                             <div class="swiper-button-next hidden"></div>
                             <div class="swiper-wrapper">
-                                @foreach ($slider as $value)
-                                <div class="swiper-slide">
-                                    <div class="product-small-preview-entry">
-                                        <img src="{{$value->url}}" alt="" style="width: 70px;height:70px" />
+                                @if (count($slider) <= 0)
+                                    <div class="swiper-slide">
+                                        <div class="product-small-preview-entry">
+                                            <img src="/public/uploads/no-image.jpeg" alt="" style="width: 70px;height:70px" />
+                                        </div>
                                     </div>
-                                </div>
-                                @endforeach
+                                @else
+                                    @foreach ($slider as $value)
+                                        <div class="swiper-slide">
+                                            <div class="product-small-preview-entry">
+                                                <img src="{{$value->url}}" alt="" style="width: 70px;height:70px" />
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="align-inline spacing-1">
-                        <div class="h4">keyboard laptop</div>
+                        <div class="h4">all products</div>
                     </div>
                     <div class="align-inline spacing-1">
                         <div class="simple-article size-1">SHOWING <b class="grey" id="startLimit">15</b> OF <b class="grey" id="endLimit">2 358</b> RESULTS</div>
@@ -393,6 +393,12 @@
                 ajaxProduct();
             }
         });
+        let cat = document.getElementById('cat');
+        if (cat.value != '') {
+            id = cat.value;
+            ajaxProduct();
+            ajaxProductPromo();
+        }
          $(".menuSelect").on("click",function(){
             id = $(this).data("id");
             ajaxProduct();

@@ -488,13 +488,13 @@ class AuthController extends Controller
         $wishlist->save();
     }
 
-    public function deleteWishlist($id)
-    {
-        $wishlist_detail = WishlistDetail::find($id);
-        $wishlist = Wishlist::find($wishlist_detail->wishlist_id);
-        $wishlist->save();
-        WishlistDetail::destroy($id);
-    }
+    // public function deleteWishlist($id)
+    // {
+    //     $wishlist_detail = WishlistDetail::find($id);
+    //     $wishlist = Wishlist::find($wishlist_detail->wishlist_id);
+    //     $wishlist->save();
+    //     WishlistDetail::destroy($id);
+    // }
 
     public function logout()
     {

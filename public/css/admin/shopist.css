@@ -5,7 +5,7 @@ body{ font-size:16px;}
   padding-left: 20px;
   display: block;
   padding-top: 5px;
-  padding-bottom: 5px;    
+  padding-bottom: 5px;
 }
 
 .note-popover.popover{ display: none; }
@@ -34,46 +34,46 @@ padding-bottom: 15px;
 }
 
 #vendors_package_create ul.payment-withdraw-options, #vendors_package_create ul.vendor-expired-option{
-  list-style: none;  
-  padding: 0px;  
+  list-style: none;
+  padding: 0px;
 }
 
 #vendors_package_create ul.payment-withdraw-options li{
-  padding-bottom: 5px;    
+  padding-bottom: 5px;
 }
 
 #vendors_package_create ul.vendor-expired-option li{
-  display: inline-block;  
+  display: inline-block;
   vertical-align: middle;
 }
 
 #vendors_package_create ul.vendor-expired-option li:last-child{
-  padding-left: 30px;    
+  padding-left: 30px;
 }
 
 #vendor_package_select_option ul.select-package-option{
-  list-style: none;   
+  list-style: none;
   padding-left: 0px;
 }
 
 #vendor_package_select_option ul.select-package-option li{
-  display: inline-block;  
+  display: inline-block;
 }
 
 #vendor_package_select_option ul.select-package-option li:last-child{
-  padding-left:30px;   
+  padding-left:30px;
 }
 
 .sub-order-list .sub-order-of{
-  color: #3c8dbc !important;    
+  color: #3c8dbc !important;
 }
 
 .sub-order-list{
-  display: none;    
+  display: none;
 }
 
 #vendor_package_select_option ul.select-package-option li a{
-  color:#333;   
+  color:#333;
 }
 
 .vendor-info-count ul, .vendor-withdraw-count ul, .list-top-label ul, .vendor-list-status ul{
@@ -86,18 +86,18 @@ padding-bottom: 15px;
 }
 
 .list-top-label ul li a, .vendor-list-status ul li a{
-  color:#333;    
+  color:#333;
 }
 
 .list-top-label ul li a.active, .vendor-list-status ul li a.active{
-  color:#3C8DBC !important;  
+  color:#3C8DBC !important;
 }
 
 .vendor-total-earnings{
-  text-align: right;  
+  text-align: right;
   padding: 20px 0px;
   background: #FFF;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
 }
 
 .vendor-total-earnings p{
@@ -117,18 +117,18 @@ padding-bottom: 15px;
 }
 
 #vendor_withdraw_request_content .payment-type-radio, #vendor_withdraw_request_content .payment-method-radio{
-  padding-right: 10px;  
+  padding-right: 10px;
 }
 
 #vendor_withdraw_request_content .single-payment-values{
-  padding-right: 10px;      
+  padding-right: 10px;
 }
 .vendor-total-earnings p span{
-  display: inline-block;  
+  display: inline-block;
 }
 
 #vendor_withdraw_request_content .payment-type-options, #vendor_withdraw_request_content .payment-method-options{
-  padding-bottom: 20px;    
+  padding-bottom: 20px;
 }
 .error
 {
@@ -244,13 +244,13 @@ padding-bottom: 15px;
   box-shadow: none !important;
 }
 .product-type-details .control-label, .review-settings .control-label, .product-videos-settings .control-label, .product-manufacturer-settings .control-label, .visibility-product .control-label, .compare-data .control-label{
-   text-align:left !important; 
+   text-align:left !important;
 }
 .product-type-details .tab-content{
   padding: 10px;
 }
 .product-type-details .tab-content label, .review-settings .box-body label, .product-videos-settings .box-body label,.product-manufacturer-settings .box-body label, .visibility-product .box-body label, .compare-data .box-body label{
-  font-weight:normal; 
+  font-weight:normal;
 }
 .cat-img img,.cat-sample-img img, #table_for_categories_list img, .manufacturers-sample-img img, .manufacturers-img img,#table_for_manufacturers_list img,.variation-sample-img img,.variation-img img, .variation-list img,.variation-view-img img, #table_for_products_list img
 {
@@ -367,7 +367,7 @@ padding-bottom: 15px;
 {
   margin-bottom:10px;
 }
-.accordion-toggle:hover 
+.accordion-toggle:hover
 {
   text-decoration: none;
 }
@@ -386,7 +386,7 @@ padding-bottom: 15px;
 .design-title-img-content img
 {
   margin: 0px auto;
-  width:60px;    
+  width:60px;
 }
 .remove-design-img,.remove-design-title-img,.enable-product-range
 {
@@ -394,7 +394,7 @@ padding-bottom: 15px;
 }
 .video-file-uploader
 {
-  margin-top:20px;    
+  margin-top:20px;
 }
 #table_for_art_list img
 {
@@ -446,7 +446,7 @@ padding-bottom: 15px;
 }
 
 .product-categories ul:first-child ul, .blog-categories ul:first-child ul{
-  padding: 0px 0px 0px 20px;  
+  padding: 0px 0px 0px 20px;
 }
 
 .product-categories ul li, .blog-categories ul li
@@ -771,7 +771,7 @@ padding-bottom: 15px;
 }
 
 label.shopist-switch{
-  font-weight:normal;    
+  font-weight:normal;
 }
 /* end switch button */
 
@@ -856,15 +856,15 @@ label.shopist-switch{
 }
 
 #admin_panel .navbar-default{
-  background-color: #FFFFFF !important;    
+  background-color: #FFFFFF !important;
 }
 
 .order_menu .total, .order_line_total{
-  text-align: right;    
+  text-align: right;
 }
 
 .order-total .discount{
-  color: #E61515;    
+  color: #E61515;
 }
 
 .captcha-style{
@@ -883,17 +883,17 @@ label.shopist-switch{
   color:#006621;
   font-size: 14px;
   font-family: arial,sans-serif;
-  font-weight: normal;    
+  font-weight: normal;
   line-height: 5px;
-} 
+}
 
 .seo-preview-content p.description{
   color:#6a6a6a;
   font-size: 12px;
   font-family: arial,sans-serif;
-  font-weight: normal;    
+  font-weight: normal;
   line-height: 15px;
-} 
+}
 
 .product-compare-field-title{
   margin-bottom: 15px;
@@ -908,28 +908,28 @@ ul.parent-cat-list li{
 }
 
 .add-compare-fields-content .product-compare-field-title, .add-filter-colors-content .product-filter-color-title{
-  margin-bottom: 20px;    
+  margin-bottom: 20px;
 }
 
 .color-filter-data .filter-color-data div{
-  display: inline-block;    
+  display: inline-block;
   vertical-align: middle;
 }
 
 .color-filter-data .filter-color-data div:first-child{
-  margin-right: 20px;    
+  margin-right: 20px;
 }
 
 .color-filter-data .filter-color-data{
-  margin-bottom: 10px;    
+  margin-bottom: 10px;
 }
 
 .admin-data-table img{
-  width: 50px;  
+  width: 50px;
 }
-    
+
 .products-pagination{
-  text-align: right;    
+  text-align: right;
 }
 
 #table_search_option {
@@ -961,11 +961,11 @@ ul.parent-cat-list li{
 }
 
 .files-manage-option table{
-  width: 100%;	
+  width: 100%;
 }
 
 .files-manage-option table thead th:first-child, .files-manage-option table tbody td:first-child{
-  width: 30%;	
+  width: 30%;
 }
 
 .files-manage-option table thead th:last-child, .files-manage-option table tbody td:last-child{
@@ -992,7 +992,7 @@ ul.parent-cat-list li{
 }
 
 .files-manage-option .url-downloadable-file .file-url-textbox{
-  width: 90%;  
+  width: 90%;
 }
 
 .files-manage-option .upload-downloadable-file .file-label, .files-manage-option .url-downloadable-file .file-label{
@@ -1005,11 +1005,11 @@ ul.parent-cat-list li{
 }
 
 .files-manage-option table tfoot th{
-  padding-top: 20px;    
+  padding-top: 20px;
 }
 
 .files-manage-option table tbody tr td{
-  padding-bottom: 30px;    
+  padding-bottom: 30px;
 }
 
 .remove-downloadable-file{
@@ -1019,7 +1019,7 @@ ul.parent-cat-list li{
 
 #tab_variations .modal-open .modal{
   overflow-x: hidden;
-  overflow-y: auto;    
+  overflow-y: auto;
 }
 
 /* file upload popup start */
@@ -1033,7 +1033,7 @@ ul.parent-cat-list li{
   background:rgba(0,0,0,0.75);
   z-index: 9999;
 }
- 
+
 /* Inner */
 .sp-popup-inner {
   max-width:700px;
@@ -1048,7 +1048,7 @@ ul.parent-cat-list li{
   border-radius:3px;
   background:#fff;
 }
- 
+
 /* Close Button */
 .sp-popup-close {
   width:30px;
@@ -1069,7 +1069,7 @@ ul.parent-cat-list li{
   line-height:100%;
   color:#fff;
 }
- 
+
 .sp-popup-close:hover {
   -webkit-transform:translate(50%, -50%) rotate(180deg);
   transform:translate(50%, -50%) rotate(180deg);
@@ -1079,7 +1079,7 @@ ul.parent-cat-list li{
 /* file upload popup end*/
 
 .download-history{
-  padding-bottom: 30px;    
+  padding-bottom: 30px;
 }
 
 .admin-action-loader{
@@ -1092,7 +1092,7 @@ ul.parent-cat-list li{
 }
 
 #vendor_profile .vendor-profile-logo{
-  text-align: center;    
+  text-align: center;
 }
 
 #vendor_profile .vendor-profile-logo img{
@@ -1131,36 +1131,36 @@ ul.parent-cat-list li{
 
 
 #vendor_profile .profile-details table tr td.vendor-enable, #table_for_vendors_list .status-enable{
-  color: #00a65a;      
+  color: #00a65a;
 }
 
 #vendor_profile .profile-details table tr td.vendor-disable, #table_for_vendors_list .status-disable {
-  color: #cc2424;      
+  color: #cc2424;
 }
 
 .vendor-cover-image{
-  width: 80px;    
+  width: 80px;
 }
 
 #vendor_general_settings .control-label, #vendor_social_media_settings .control-label{
-  text-align: left;    
+  text-align: left;
 }
 
 .dashbord-icon-color{
-  color: #d1d1d1;    
+  color: #d1d1d1;
 }
 
 .dashboard-announcement-content-main .notice-all{
-  color:#3c8dbc;    
+  color:#3c8dbc;
   text-decoration: underline;
 }
 
 .dashboard-announcement-content-main .list-content table{
-  width:100%;    
+  width:100%;
 }
 
 .dashboard-announcement-content-main .list-content table .announce-content-panel{
-  width:80%;                                                           
+  width:80%;
 }
 
 .dashboard-announcement-content-main .list-content table .announce-date-panel{
@@ -1186,11 +1186,11 @@ ul.parent-cat-list li{
 }
 
 #vendor_notice_board hr.title-separator{
-  border-bottom: 1px solid #e1e1e1;    
+  border-bottom: 1px solid #e1e1e1;
 }
 
 #vendor_notice_board .announce-content .announce-date-content, .announce-single-content{
-  float:left;    
+  float:left;
 }
 
 #vendor_notice_board .announce-content .announce-date-content{
@@ -1198,24 +1198,24 @@ ul.parent-cat-list li{
   text-align: center;
   color: #444444;
   font-size: 17px;
-  padding: 5px 0px;    
+  padding: 5px 0px;
 }
 
 #vendor_notice_board .announce-content .announce-single-content{
-  width:90%;  
+  width:90%;
   color: #444444;
-  padding-left: 25px;   
+  padding-left: 25px;
   margin-top: -25px;
   margin-bottom: 10px;
 }
 
 #vendor_notice_board .alert-success{
-  background-color:#FFFFFF !important;  
-  border:1px solid #e1e1e1 !important;  
+  background-color:#FFFFFF !important;
+  border:1px solid #e1e1e1 !important;
 }
 
 #vendor_notice_board .announce-date-content{
-  background-color:#e1e1e1;    
+  background-color:#e1e1e1;
 }
 
 #vendor_notice_board .announce-content .announce-single-content .single-title{
@@ -1224,7 +1224,7 @@ ul.parent-cat-list li{
 }
 
 #vendor_notice_board .announce-content .announce-single-content .single-content{
-  padding-top: 10px;    
+  padding-top: 10px;
 }
 
 #vendor_notice_board .notice-read-more-label{
@@ -1235,15 +1235,15 @@ ul.parent-cat-list li{
 
 #vendor_single_notice_details p.announce-date{
   font-size: 13px;
-  color: #3C8DBC; 
+  color: #3C8DBC;
 }
 
 #vendor_single_notice_details .announce-content{
-  padding-top: 20px;    
+  padding-top: 20px;
 }
 
 #reports_type_list ul{
-  list-style: none; 
+  list-style: none;
   padding: 0px;
   margin:0px;
 }
@@ -1253,11 +1253,11 @@ ul.parent-cat-list li{
 }
 
 #reports_type_list ul li:last-child{
-  border-right: none;  
+  border-right: none;
 }
 
 #reports_type_list hr{
-  border-bottom: 1px solid #d1d1d1;    
+  border-bottom: 1px solid #d1d1d1;
 }
 
 #reports_type_list ul li a{
@@ -1267,11 +1267,11 @@ ul.parent-cat-list li{
 }
 
 #reports_type_list ul li a:first-child{
-  padding-left: 0px;    
+  padding-left: 0px;
 }
 
 #reports_type_list ul.chart-legend{
-  list-style: none;    
+  list-style: none;
 }
 
 #reports_type_list ul.chart-legend li{
@@ -1280,7 +1280,7 @@ ul.parent-cat-list li{
   margin: 0;
   border-bottom: 1px solid #ededed;
   font-weight: normal;
-  font-size: 13px;      
+  font-size: 13px;
   display: block;
 }
 
@@ -1289,24 +1289,24 @@ ul.parent-cat-list li{
   color: #464646;
   font-size: 24px;
   line-height: 30px;
-  font-weight: normal;                                
+  font-weight: normal;
 }
 
 #reports_type_list .active{
-  color: #3C8DBC !important;      
+  color: #3C8DBC !important;
 }
 
 #reports_type_list .filter-elements .filter-label, #reports_type_list .filter-elements .filter-input, #reports_type_list .filter-elements{
-  display: inline-block;   
+  display: inline-block;
   vertical-align: top;
-} 
+}
 
 .vendor-info-count ul li, .vendor-withdraw-count ul li{
-  padding: 5px 0px;    
+  padding: 5px 0px;
 }
 
 hr.text-border-bottom{
-  border: 1px solid #ddd !important;    
+  border: 1px solid #ddd !important;
 }
 
 #emails_configuration table{ width: 100%;}
@@ -1318,7 +1318,7 @@ hr.text-border-bottom{
 }
 
 .font-msg-style{
-  color:blueviolet;     
+  color:blueviolet;
 }
 
 #menu_sortable{ list-style: none; padding: 0px; margin: 0px;}
@@ -1328,8 +1328,8 @@ hr.text-border-bottom{
 #menu_sortable .input-group .form-control { background-color: #f2f2f2 !important; }
 
 #menu_sortable li:hover{ cursor: move;}
-.select2-container .select2-selection, 
-.select2-selection__rendered, 
+.select2-container .select2-selection,
+.select2-selection__rendered,
 .select2-selection__arrow {
     height: 38px !important;
     line-height: 38px !important;
