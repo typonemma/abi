@@ -18,32 +18,47 @@
   </div>
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="box box-solid">
 
-        <div class="box-header with-border">
-          <i class="fa fa-text-width"></i>
-          <h3 class="box-title">Bank name</h3>
-        </div>
+        <br>
         <div class="box-body">
-          <input type="text" placeholder="Bank name" class="form-control" name="title" id="eb_compatibility_name" value="{{ old('title') }}">
+          <div class="form-group">
+              <div class="row">
+                  <label class="col-sm-2 control-label" for="eb_input_name"><i class="fa fa-text-width"> </i> Bank name</label>
+                  <div class="col-sm-10">
+                  <input type="text" placeholder="Bank name" class="form-control" name="title" id="eb_compatibility_name" value="{{ old('title') }}">
+                  </div>
+              </div>
+          </div>  
         </div>
+        <hr>
 
-        <div class="box-header with-border">
-          <i class="fa fa-text-width"></i>
-          <h3 class="box-title">Nomor Rekening</h3>
-        </div>
+        <br>
         <div class="box-body">
-          <input type="text" placeholder="Nomor Rekening" class="form-control" name="nomor_rekening" id="eb_compatibility_name" value="{{ old('nomor_rekening') }}">
+          <div class="form-group">
+              <div class="row">
+                  <label class="col-sm-2 control-label" for="eb_input_name"><i class="fa fa-text-width"> </i> Nomor Rekening</label>
+                  <div class="col-sm-10">
+                  <input type="text" placeholder="Nomor Rekening" class="form-control" name="nomor_rekening" id="eb_compatibility_name" value="{{ old('nomor_rekening') }}">
+                  </div>
+              </div>
+          </div>  
         </div>
+        <hr>
 
-        <div class="box-header with-border">
-          <i class="fa fa-text-width"></i>
-        <h3 class="box-title">Keterangan</h3>
-        </div>
+        <br>
         <div class="box-body">
-          <input type="text" placeholder="Keterangan" class="form-control" name="content" id="eb_compatibility_name" value="{{ old('content') }}">
+          <div class="form-group">
+              <div class="row">
+                  <label class="col-sm-2 control-label" for="eb_input_name"><i class="fa fa-text-width"> </i> Keterangan</label>
+                  <div class="col-sm-10">
+                  <input type="text" placeholder="Keterangan" class="form-control" name="content" id="eb_compatibility_name" value="{{ old('content') }}">
+                  </div>
+              </div>
+          </div>  
         </div>
+        <hr>
 
       </div>
     </div>

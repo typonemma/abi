@@ -5,7 +5,7 @@
 @include('pages-message.notify-msg-error')
 @include('pages-message.form-submit')
 
-<form class="form-horizontal" method="post" action="{{ route('ProductBrand.create') }}">
+<form class="form-horizontal" method="post" action="{{ route('ProductBrand.create') }}" enctype="multipart/form-data">
   @include('includes.csrf-token')
 
   <div class="box">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- V2 -->
-        <div class="box box-solid">
+        <!-- <div class="box box-solid">
         <div class="box-header with-border">
           <i class="fa fa-upload"></i>
           <h3 class="box-title">Brand Image</h3>
@@ -87,7 +87,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- Batas Image -->
       </div>
 
@@ -115,8 +115,8 @@
 
 </form>
 <script>
-  let fileupload = document.getElementById('file-upload');
-  let fileInput = document.getElementById('fileInput');
+  let fileupload = document.getElementById('productUploader');
+  let fileInput = document.getElementById('eb_dropzone_file_upload');
   fileupload.ondragover = fileupload.ondragenter = function(evt) {
     evt.preventDefault();
   };

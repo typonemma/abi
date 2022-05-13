@@ -87,7 +87,7 @@ class ProductBrandController extends Controller
             'created_at' => date("y-m-d H:i:s", strtotime('now')),
             'updated_at' => date("y-m-d H:i:s", strtotime('now'))
         ]);
-        // Storage::putFileAs('/public/uploads', $request->file('logo_brand'), $request->logo_brand);
+        // Storage::putFileAs('/public/uploads', $request->file('logo_brand')->getRealPath(), $request->logo_brand);
         return redirect('/admin/ProductBrand/store');
     }
 
