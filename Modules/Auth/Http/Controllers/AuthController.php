@@ -376,15 +376,15 @@ class AuthController extends Controller
         $user_order_all = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);
-            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] == 'completed') {
+            if ($obj['details']['user_id'] == $user->id && ($obj['details']['status'] == 'completed' || $obj['details']['status'] == 'cancelled' || $obj['details']['status'] == 'refunded')) {
                 $user_order_all[] = $obj;
             }
         }
-        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '=', 'completed')->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
         $user_order = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);
-            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] == 'completed') {
+            if ($obj['details']['user_id'] == $user->id && ($obj['details']['status'] == 'completed' || $obj['details']['status'] == 'cancelled' || $obj['details']['status'] == 'refunded')) {
                 $user_order[] = $obj;
             }
         }
@@ -411,15 +411,15 @@ class AuthController extends Controller
         $user_order_all = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);
-            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] != 'completed') {
+            if ($obj['details']['user_id'] == $user->id && ($obj['details']['status'] != 'completed' && $obj['details']['status'] != 'cancelled' && $obj['details']['status'] != 'refunded')) {
                 $user_order_all[] = $obj;
             }
         }
-        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.status')"), '!=', 'completed')->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
+        $orders = OrdersItem::where(DB::raw("json_extract(json_extract(order_data, '$.details'), '$.user_id')"), '=', $user->id)->orderby('id', 'desc')->limit($per_page)->offset($offset)->get();
         $user_order = [];
         foreach ($orders as $order) {
             $obj = json_decode($order->order_data, true);
-            if ($obj['details']['user_id'] == $user->id && $obj['details']['status'] != 'completed') {
+            if ($obj['details']['user_id'] == $user->id && ($obj['details']['status'] != 'completed' && $obj['details']['status'] != 'cancelled' && $obj['details']['status'] != 'refunded')) {
                 $user_order[] = $obj;
             }
         }

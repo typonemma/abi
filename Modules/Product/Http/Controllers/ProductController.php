@@ -135,7 +135,8 @@ class ProductController extends Controller
         $product = $product
         ->select(
             'products.*',
-            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags')
+            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags'),
+            \DB::raw('(SELECT terms.term_id from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as term_id')
         )->groupBy('products.id')->paginate($request->limit);
         // object_relationships
 
@@ -159,7 +160,8 @@ class ProductController extends Controller
         $product = $product->where('products.sale_price','>','0')
                         ->select(
                             'products.*',
-                            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags')
+                            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags'),
+                            \DB::raw('(SELECT terms.term_id from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as term_id')
                         )
                     ->groupBy('products.id')
                     ->get();

@@ -20,7 +20,7 @@
                 <div class="col-sm-3">
                     <div class="product-shortcode style-1">
                         <div class="title">
-                            <div class="simple-article size-1 color col-xs-b5"><a href="#">{{$term->name}}</a></div>
+                            <div class="simple-article size-1 color col-xs-b5"><a href="/product?cat={{$term->term_id}}">{{$term->name}}</a></div>
                             <div class="h6 animate-to-green"><a href="/product/detail/{{$product->slug}}">{{$product->title}}</a></div>
                         </div>
                         <div class="preview">

@@ -183,6 +183,7 @@
                                 </div>
                             @endfor
                         </div>
+                        <br>
                         @if ($index < count($brand))
                             <hr/>
                         @endif
@@ -212,6 +213,7 @@
                                 </div>
                             @endfor
                         </div>
+                        <br>
                         @if ($index < count($part))
                             <hr/>
                         @endif
@@ -235,7 +237,7 @@
                                             $or = App\Models\ObjectRelationship::where('object_id', $value['id'])->first();
                                             $term = App\Models\Term::where('term_id', $or->term_id)->first();
                                         ?>
-                                        <div class="simple-article size-1 color col-xs-b5"><a href="#">{{$term->name}}</a></div>
+                                        <div class="simple-article size-1 color col-xs-b5"><a href="/product?cat={{$term->term_id}}">{{$term->name}}</a></div>
                                         <div class="h5 animate-to-green"><a href="#">{{$value['post_title']}}</a></div>
                                     </div>
                                     <div class="preview">

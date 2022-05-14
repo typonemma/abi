@@ -281,7 +281,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="/product?cat='+value.term_id+'">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
@@ -353,7 +353,7 @@
                 if(tags == null){
                     tags = '-'
                 }
-                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="#">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
+                str = str + '<div class="title"><div class="simple-article size-1 color col-xs-b5"><a href="/product?cat='+value.term_id+'">'+tags+'</a></div><div class="h5 animate-to-green"><a href="/product/detail/'+value.slug+'">'+value.title+'</a></div></div>';
 
                 //Preview Image
                 var img = "{{URL::asset('/')}}";
@@ -379,8 +379,6 @@
         });
     }
     $(document).ready(function(){
-         ajaxProduct();
-         ajaxProductPromo();
          $('#nextPage').on("click",function(){
             if((page+1) <= lastPage){
                 page = page+1;
@@ -396,10 +394,10 @@
         let cat = document.getElementById('cat');
         if (cat.value != '') {
             id = cat.value;
-            ajaxProduct();
-            ajaxProductPromo();
         }
-         $(".menuSelect").on("click",function(){
+        ajaxProduct();
+        ajaxProductPromo();
+        $(".menuSelect").on("click",function(){
             id = $(this).data("id");
             ajaxProduct();
             ajaxProductPromo();
