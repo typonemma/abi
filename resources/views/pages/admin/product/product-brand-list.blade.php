@@ -36,6 +36,7 @@
         <table class="table table-bordered admin-data-table admin-data-list">
           <thead class="thead-dark">
             <tr>
+              <th>Image</th>
               <th>Name</th>
               <th>Status</th>
               <th>Action</th>
@@ -45,6 +46,24 @@
           @if($brand_all_data->count() > 0)
             @foreach ($brand_all_data as $b)
             <tr>
+                <!-- <td><img src='{!! $b->logo_brand !!}' alt="" style="width:100px;height:100px;"></td> -->
+
+                <td>
+                  <?php                                                
+                      $key_value = $b->logo_brand;
+                      $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                      if ($key_value == ''){                                                 
+                          echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
+                      }   
+                      else if (!file_exists($filename)) {
+                          echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";  
+                      }                                
+                      else {                                                 
+                          echo "<img src='$key_value' style='width:100px;height:100px;'>";                                                    
+                      }
+                  ?>
+                </td>
+
                 <td>{!! $b->name_brand !!}</td>
 
                 @if($b->status == 1)
@@ -77,6 +96,7 @@
           </tbody>
           <tfoot class="thead-dark">
             <tr>
+              <th>Image</th>
               <th>Name</th>
               <th>Status</th>
               <th>Action</th>

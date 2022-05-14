@@ -79,15 +79,22 @@ class ProductBrandController extends Controller
             'name_brand' => 'required'
         ];
         $request->validate($rules);
+
+        if (!empty($request->logo_brand)) {
+            $file = $request->file('logo_brand');
+            $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();
+            $destinationPath = public_path().'/uploads';
+            $file->move($destinationPath,$fileName);
+        }
+
         product_brand::create([
             'id' => 0,
             'name_brand' => $request->name_brand,
-            'logo_brand' => 0,
+            'logo_brand' => '/public/uploads/'.$fileName,
             'status' => $request->status,
             'created_at' => date("y-m-d H:i:s", strtotime('now')),
             'updated_at' => date("y-m-d H:i:s", strtotime('now'))
         ]);
-        // Storage::putFileAs('/public/uploads', $request->file('logo_brand')->getRealPath(), $request->logo_brand);
         return redirect('/admin/ProductBrand/store');
     }
 
@@ -105,10 +112,18 @@ class ProductBrandController extends Controller
         $rules = [
             'name_brand' => 'required'
         ];
+        
+        if (!empty($request->logo_brand)) {
+            $file = $request->file('logo_brand');
+            $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();
+            $destinationPath = public_path().'/uploads';
+            $file->move($destinationPath,$fileName);
+        }
+
         $request->validate($rules);
         $compatibility = product_brand::find($id);
         $compatibility->name_brand = $request->name_brand;
-        $compatibility->logo_brand = 0;
+        $compatibility->logo_brand = '/public/uploads/'.$fileName;
         $compatibility->status = $request->status;
         $compatibility->save();
         return redirect('/admin/ProductBrand/edit/' . $id);

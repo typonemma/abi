@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Bulan Mei 2022 pada 03.29
+-- Waktu pembuatan: 13 Bulan Mei 2022 pada 16.57
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.4.5
 
@@ -93,6 +93,23 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `compatibility`
+--
+
+DROP TABLE IF EXISTS `compatibility`;
+CREATE TABLE `compatibility` (
+  `id` bigint(100) NOT NULL,
+  `product_id` int(100) NOT NULL,
+  `brand_id` int(100) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` enum('0','1') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `custom_currency_values`
 --
 
@@ -154,7 +171,8 @@ INSERT INTO `list_bank` (`id`, `title`, `nomor_rekening`, `content`, `created_at
 (20, 'coba bank buat neext page', '12312131132', 'coba aja', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (23, 'bank coba selasa 2', '12345987607', 'bank coba selasa 2', '2022-04-25 23:15:03', '2022-04-25 23:15:03'),
 (24, 'coba selasa 3 ini update', '12345987607', 'coba selasa ini', '2022-04-25 23:26:54', '2022-04-25 23:26:54'),
-(26, 'coba mepet field 2', '12345987607', 'coba mepet field 2', '2022-04-27 01:13:42', '2022-04-27 01:13:42');
+(26, 'coba mepet field 2', '12345987607', 'coba mepet field 2', '2022-04-27 01:13:42', '2022-04-27 01:13:42'),
+(30, 'coba jumat 2', '12345987607', 'coba jumat 2 3', '2022-05-13 06:47:59', '2022-05-13 06:47:59');
 
 -- --------------------------------------------------------
 
@@ -437,8 +455,7 @@ INSERT INTO `posts` (`id`, `post_author_id`, `image`, `post_content`, `post_titl
 (41, 1, '', '&lt;p&gt;Coba Testimonial Baru 3&lt;br&gt;&lt;/p&gt;', 'Testimonial Abi 3', 'testimonial-abi-3', 0, 1, 'testimonial', '2022-04-05 00:47:42', '2022-04-06 08:19:59'),
 (42, 1, '', '&lt;p&gt;Coba Testimonial Baru 4&lt;br&gt;&lt;/p&gt;', 'Testimonial Abi 4', 'testimonial-abi-4', 0, 1, 'testimonial', '2022-04-05 00:47:51', '2022-04-06 08:20:08'),
 (43, 1, '', '&lt;p&gt;coba tanpa gambar&lt;/p&gt;', 'Coba tanpa gambar', 'coba-tanpa-gambar', 0, 1, 'post-blog', '2022-04-06 08:39:41', '2022-04-07 07:18:18'),
-(44, 1, '', '', 'coba ada gambar tapi foto gambar hilang', 'coba-ada-gambar-tapi-foto-gambar-hilang', 0, 1, 'post-blog', '2022-04-07 07:27:02', '2022-04-07 07:27:02'),
-(46, 1, '', '&lt;p&gt;coba senin&lt;/p&gt;', 'coba senin', 'coba-senin', 0, 1, 'post-blog', '2022-04-24 20:45:30', '2022-04-24 20:45:30');
+(44, 1, '', '', 'coba ada gambar tapi foto gambar hilang', 'coba-ada-gambar-tapi-foto-gambar-hilang', 0, 1, 'post-blog', '2022-04-07 07:27:02', '2022-04-07 07:27:02');
 
 -- --------------------------------------------------------
 
@@ -552,14 +569,7 @@ INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, 
 (89, 44, '_blog_seo_title', '', '2022-04-07 07:27:02', '2022-04-07 07:27:02'),
 (90, 44, '_blog_seo_url', '', '2022-04-07 07:27:02', '2022-04-07 07:27:02'),
 (91, 44, '_blog_seo_description', '', '2022-04-07 07:27:02', '2022-04-07 07:27:02'),
-(92, 44, '_blog_seo_keywords', NULL, '2022-04-07 07:27:02', '2022-04-07 07:27:02'),
-(93, 46, '_featured_image', '/public/uploads/1650858325-h-320-1089.png', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(94, 46, '_allow_max_number_characters_at_frontend', '200', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(95, 46, '_allow_comments_at_frontend', 'no', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(96, 46, '_blog_seo_title', '', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(97, 46, '_blog_seo_url', '', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(98, 46, '_blog_seo_description', '', '2022-04-24 20:45:30', '2022-04-24 20:45:30'),
-(99, 46, '_blog_seo_keywords', NULL, '2022-04-24 20:45:30', '2022-04-24 20:45:30');
+(92, 44, '_blog_seo_keywords', NULL, '2022-04-07 07:27:02', '2022-04-07 07:27:02');
 
 -- --------------------------------------------------------
 
@@ -581,6 +591,7 @@ CREATE TABLE `products` (
   `price` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stock_qty` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stock_availability` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weight` int(100) NOT NULL,
   `type` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -591,13 +602,13 @@ CREATE TABLE `products` (
 -- Dumping data untuk tabel `products`
 --
 
-INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `type`, `image_url`, `created_at`, `updated_at`) VALUES
-(2, 1, '&lt;p&gt;&lt;strong&gt;Lorem Ipsum&lt;/strong&gt; is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy\n text ever since the 1500s, when an unknown printer took a galley of \ntype and scrambled it to make a type specimen book. It has survived not \nonly five centuries, but also the leap into electronic typesetting, \nremaining essentially unchanged. It was popularised in the 1960s with \nthe release of Letraset sheets containing Lorem Ipsum passages, and more\n recently with desktop publishing software like Aldus PageMaker \nincluding versions of Lorem Ipsum.&lt;br&gt;&lt;/p&gt;', 'LED LCD Laptop Asus A455L', 'led-lcd-laptop-asus-a455l', 1, '', '350000', '200000', '200000', '0', 'in_stock', 'simple_product', '/public/uploads/1644286487-h-250-Screenshot_2.png', '2022-02-07 19:15:32', '2022-02-07 21:34:38'),
-(3, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'KEYBOARD ASUS coba', 'charger-asus-a4555l', 1, '', '250000', '', '250000', '0', 'in_stock', 'simple_product', '/public/uploads/1649317393-h-250-blog-big2.jpg', '2022-02-18 07:14:03', '2022-04-19 00:22:41'),
-(4, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ASUS A4555L gambar hapus', 'charger-asus-a4555l-2', 1, '', '250000', '', '250000', '0', 'in_stock', 'simple_product', '', '2022-02-18 07:29:46', '2022-04-25 23:38:26'),
-(5, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ASUS A4555L', 'charger-asus-a4555l-3', 1, '', '250000', '', '250000', '0', 'in_stock', 'simple_product', '/public/uploads/1649318045-h-250-adaptor.jpg', '2022-02-18 07:29:55', '2022-04-25 23:38:13'),
-(6, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ACER A4555L', 'charger-asus-a4555l-4', 1, '', '250000', '', '250000', '0', 'in_stock', 'simple_product', '/public/uploads/1649318059-h-250-adaptor.jpg', '2022-02-18 07:29:59', '2022-04-25 23:38:01'),
-(7, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER TOSHIBA A4555L', 'charger-asus-a4555l-5', 1, '', '250000', '', '250000', '0', 'in_stock', 'simple_product', '/public/uploads/1649316256-h-250-adaptor.jpg', '2022-02-18 07:30:03', '2022-04-25 23:37:41');
+INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`, `sku`, `regular_price`, `sale_price`, `price`, `stock_qty`, `stock_availability`, `weight`, `type`, `image_url`, `created_at`, `updated_at`) VALUES
+(2, 1, '&lt;p&gt;&lt;strong&gt;Lorem Ipsum&lt;/strong&gt; is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy\n text ever since the 1500s, when an unknown printer took a galley of \ntype and scrambled it to make a type specimen book. It has survived not \nonly five centuries, but also the leap into electronic typesetting, \nremaining essentially unchanged. It was popularised in the 1960s with \nthe release of Letraset sheets containing Lorem Ipsum passages, and more\n recently with desktop publishing software like Aldus PageMaker \nincluding versions of Lorem Ipsum.&lt;br&gt;&lt;/p&gt;', 'LED LCD Laptop Asus A455L', 'led-lcd-laptop-asus-a455l', 1, '', '350000', '200000', '200000', '0', 'in_stock', 0, 'simple_product', '/public/uploads/1644286487-h-250-Screenshot_2.png', '2022-02-07 19:15:32', '2022-02-07 21:34:38'),
+(3, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'KEYBOARD ASUS coba', 'charger-asus-a4555l', 1, '', '250000', '', '250000', '0', 'in_stock', 0, 'simple_product', '/public/uploads/1649317393-h-250-blog-big2.jpg', '2022-02-18 07:14:03', '2022-04-19 00:22:41'),
+(4, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ASUS A4555L gambar hapus', 'charger-asus-a4555l-2', 1, '', '250000', '', '250000', '0', 'in_stock', 0, 'simple_product', '', '2022-02-18 07:29:46', '2022-04-25 23:38:26'),
+(5, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ASUS A4555L', 'charger-asus-a4555l-3', 1, '', '250000', '', '250000', '0', 'in_stock', 0, 'simple_product', '/public/uploads/1649318045-h-250-adaptor.jpg', '2022-02-18 07:29:55', '2022-04-25 23:38:13'),
+(6, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER ACER A4555L', 'charger-asus-a4555l-4', 1, '', '250000', '', '250000', '0', 'in_stock', 0, 'simple_product', '/public/uploads/1649318059-h-250-adaptor.jpg', '2022-02-18 07:29:59', '2022-04-25 23:38:01'),
+(7, 1, 'Mollis nec consequat at In feugiat mole stie tortor a malesuada', 'CHARGER TOSHIBA A4555L', 'charger-asus-a4555l-5', 1, '', '250000', '', '250000', '0', 'in_stock', 0, 'simple_product', '/public/uploads/1649316256-h-250-adaptor.jpg', '2022-02-18 07:30:03', '2022-04-25 23:37:41');
 
 -- --------------------------------------------------------
 
@@ -608,7 +619,6 @@ INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`,
 DROP TABLE IF EXISTS `product_brand`;
 CREATE TABLE `product_brand` (
   `id` int(10) NOT NULL,
-  `product_id` int(10) NOT NULL,
   `name_brand` varchar(255) NOT NULL,
   `logo_brand` varchar(255) NOT NULL,
   `status` int(10) NOT NULL,
@@ -620,21 +630,29 @@ CREATE TABLE `product_brand` (
 -- Dumping data untuk tabel `product_brand`
 --
 
-INSERT INTO `product_brand` (`id`, `product_id`, `name_brand`, `logo_brand`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'ASUS', '', 1, NULL, NULL),
-(2, 2, 'Coba Hapus', '', 1, NULL, NULL),
-(3, 2, 'coba 1', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 2, 'coba baru lagi', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 2, 'coba baru lagi kamis ini yang baru', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 4, 'coba baru last nih', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(31, 3, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(32, 2, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(33, 3, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(34, 3, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(36, 3, 'coba selasa', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(37, 2, 'coba selasa 2', '0', 1, '2022-04-25 23:13:51', '2022-04-25 23:13:51'),
-(38, 6, 'coba selasa 3', '0', 1, '2022-04-25 23:26:38', '2022-04-25 23:26:38'),
-(40, 0, 'coba hapus product 2', '0', 1, '2022-04-27 00:48:37', '2022-04-27 00:48:37');
+INSERT INTO `product_brand` (`id`, `name_brand`, `logo_brand`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'ASUS', '', 1, NULL, NULL),
+(2, 'Coba Hapus', '', 1, NULL, NULL),
+(3, 'coba 1', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'coba baru lagi', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'coba baru lagi kamis ini yang baru', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'coba baru last nih', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(31, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(32, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(33, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(34, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(36, 'coba selasa', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(37, 'coba selasa 2', '0', 1, '2022-04-25 23:13:51', '2022-04-25 23:13:51'),
+(38, 'coba selasa 3', '0', 1, '2022-04-25 23:26:38', '2022-04-25 23:26:38'),
+(40, 'coba hapus product 2', '0', 1, '2022-04-27 00:48:37', '2022-04-27 00:48:37'),
+(41, 'coba ini', '0', 1, '2022-05-07 21:56:24', '2022-05-07 21:56:24'),
+(42, 'coba ini 2', '2.3.png', 1, '2022-05-07 22:00:31', '2022-05-07 22:00:31'),
+(43, 'coba ini 3', '1.jpg', 1, '2022-05-07 22:02:26', '2022-05-07 22:02:26'),
+(44, 'coba ini 4', '2.3.png', 1, '2022-05-07 22:06:43', '2022-05-07 22:06:43'),
+(45, 'coba ini 5', '2.3.png', 1, '2022-05-07 22:08:13', '2022-05-07 22:08:13'),
+(46, 'coba ini 6', 'C:\\xampp\\tmp\\php1138.tmp', 1, '2022-05-07 22:08:41', '2022-05-07 22:08:41'),
+(47, 'coba ini 7', 'C:\\xampp\\tmp\\phpB499.tmp', 1, '2022-05-07 22:10:29', '2022-05-07 22:10:29'),
+(50, 'coba jumat', '0', 1, '2022-05-13 06:35:01', '2022-05-13 06:35:01');
 
 -- --------------------------------------------------------
 
@@ -1116,6 +1134,7 @@ CREATE TABLE `users` (
   `display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_status` int(10) UNSIGNED NOT NULL,
@@ -1128,8 +1147,9 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin', 'admin@gmail.com', '$2a$12$vy67upto5TFgj29zrjGIsuPgvKL0/fnsnm.C7pEDe8U0M1eJ3YCXK', '', 1, '$2y$10$xW53MN8gc4td4lkT1vNbGe1/5ldF6hJC7oUWTwVH6qTiBHdpXYMAq', '2019-11-03 23:03:55', '2019-11-03 23:03:55');
+INSERT INTO `users` (`id`, `display_name`, `name`, `email`, `phone_number`, `password`, `user_photo_url`, `user_status`, `secret_key`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'admin', 'admin@gmail.com', '', '$2a$12$vy67upto5TFgj29zrjGIsuPgvKL0/fnsnm.C7pEDe8U0M1eJ3YCXK', '', 1, '$2y$10$xW53MN8gc4td4lkT1vNbGe1/5ldF6hJC7oUWTwVH6qTiBHdpXYMAq', '2019-11-03 23:03:55', '2019-11-03 23:03:55'),
+(2, 'Bryan Wijaya', 'Bryan Wijaya', 'bryan@gmail.com', '+628113116991', '$2a$12$FnAg9EFwi/FCIfvzjGxTVeM2qRifi1x2UehRItu3fjtFcrC8OhOUS', NULL, 1, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1304,6 +1324,12 @@ ALTER TABLE `api_tokens`
 -- Indeks untuk tabel `comments`
 --
 ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `compatibility`
+--
+ALTER TABLE `compatibility`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1524,6 +1550,12 @@ ALTER TABLE `comments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT untuk tabel `compatibility`
+--
+ALTER TABLE `compatibility`
+  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `custom_currency_values`
 --
 ALTER TABLE `custom_currency_values`
@@ -1539,7 +1571,7 @@ ALTER TABLE `download_extras`
 -- AUTO_INCREMENT untuk tabel `list_bank`
 --
 ALTER TABLE `list_bank`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `list_bestsellerproducts`
@@ -1605,7 +1637,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT untuk tabel `product_brand`
 --
 ALTER TABLE `product_brand`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_extras`
@@ -1659,7 +1691,7 @@ ALTER TABLE `term_extras`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users_custom_designs`
