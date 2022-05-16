@@ -54,7 +54,10 @@
                       $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
                       if ($key_value == ''){                                                 
                           echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
-                      }   
+                      }  
+                      else if ($key_value == '/public/uploads/'){                                                 
+                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
+                      } 
                       else if (!file_exists($filename)) {
                           echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";  
                       }                                

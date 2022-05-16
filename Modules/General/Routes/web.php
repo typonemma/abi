@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('s')->group(function() {
+Route::prefix('S')->group(function() {
     //General
     Route::get('/', 'GeneralController@home');
     Route::get('/home', 'GeneralController@home');

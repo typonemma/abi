@@ -86,6 +86,10 @@ class ProductBrandController extends Controller
             $destinationPath = public_path().'/uploads';
             $file->move($destinationPath,$fileName);
         }
+        else{
+            $file = $request->file('logo_brand');
+            $fileName = "";
+        }
 
         product_brand::create([
             'id' => 0,
@@ -113,17 +117,23 @@ class ProductBrandController extends Controller
             'name_brand' => 'required'
         ];
         
+        $compatibility = product_brand::find($id);
+
         if (!empty($request->logo_brand)) {
-            $file = $request->file('logo_brand');
-            $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();
+            $file = $request->file('logo_brand');                        
+            $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();            
             $destinationPath = public_path().'/uploads';
             $file->move($destinationPath,$fileName);
+            $compatibility->logo_brand = '/public/uploads/'.$fileName;
+        }
+        else{
+            $file = $request->file('logo_brand');
+            $fileName = "";
         }
 
         $request->validate($rules);
-        $compatibility = product_brand::find($id);
+
         $compatibility->name_brand = $request->name_brand;
-        $compatibility->logo_brand = '/public/uploads/'.$fileName;
         $compatibility->status = $request->status;
         $compatibility->save();
         return redirect('/admin/ProductBrand/edit/' . $id);

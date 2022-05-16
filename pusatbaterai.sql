@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Bulan Mei 2022 pada 16.57
+-- Waktu pembuatan: 14 Bulan Mei 2022 pada 16.09
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.4.5
 
@@ -74,6 +74,56 @@ CREATE TABLE `api_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `date`, `total`) VALUES
+(57, 11, '2022-05-04', 1050000),
+(58, 15, '2022-05-04', 0),
+(59, 16, '2022-05-08', 0),
+(57, 11, '2022-05-04', 1050000),
+(58, 15, '2022-05-04', 0),
+(59, 16, '2022-05-08', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `cart_detail`
+--
+
+DROP TABLE IF EXISTS `cart_detail`;
+CREATE TABLE `cart_detail` (
+  `id` int(11) NOT NULL,
+  `cart_id` int(11) NOT NULL,
+  `product_id` int(11) UNSIGNED NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `subtotal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `cart_detail`
+--
+
+INSERT INTO `cart_detail` (`id`, `cart_id`, `product_id`, `price`, `quantity`, `subtotal`) VALUES
+(114, 57, 2, 350000, 3, 1050000),
+(114, 57, 2, 350000, 3, 1050000);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `comments`
 --
 
@@ -106,6 +156,42 @@ CREATE TABLE `compatibility` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `compatibility`
+--
+
+INSERT INTO `compatibility` (`id`, `product_id`, `brand_id`, `name`, `type`, `created_at`, `updated_at`) VALUES
+(15, 2, 3, '312.jkl', '1', '2022-04-20 08:00:47', '2022-04-20 08:00:47'),
+(16, 2, 4, 'test2', '0', '2022-04-20 08:01:53', '2022-04-20 08:02:27'),
+(17, 7, 3, 'khagirhag', '1', '2022-04-25 03:46:53', '2022-04-25 03:47:28'),
+(18, 7, 4, 'test2', '0', '2022-04-25 07:10:52', '2022-04-25 07:35:38'),
+(19, 7, 3, 'test1', '0', '2022-04-25 07:36:01', '2022-04-25 07:36:32'),
+(20, 7, 3, 'aiwhthy', '0', '2022-04-26 04:55:06', '2022-04-26 04:55:06'),
+(21, 7, 3, 'test', '0', '2022-04-26 04:55:29', '2022-04-26 20:49:15'),
+(23, 2, 3, 'test3', '0', '2022-04-28 06:22:49', '2022-04-28 06:22:49'),
+(24, 2, 3, 'test4', '0', '2022-04-28 06:22:57', '2022-04-28 06:22:57'),
+(25, 2, 3, 'test5', '0', '2022-04-28 06:23:03', '2022-04-28 06:23:03'),
+(26, 2, 3, 'test6', '0', '2022-04-28 06:23:11', '2022-04-28 06:23:11'),
+(27, 2, 3, 'test7', '0', '2022-04-28 06:23:18', '2022-04-28 06:23:18'),
+(28, 2, 3, 'test8', '0', '2022-04-28 06:23:25', '2022-04-28 06:23:25'),
+(29, 2, 3, 'test9', '0', '2022-04-28 06:23:33', '2022-04-28 06:23:33'),
+(30, 2, 3, 'test10', '0', '2022-04-28 06:23:40', '2022-04-28 06:23:40'),
+(31, 2, 3, 'test11', '0', '2022-04-28 06:24:41', '2022-04-28 06:24:41'),
+(32, 2, 3, 'test12', '0', '2022-04-28 06:24:47', '2022-04-28 06:24:47'),
+(33, 2, 3, 'test13', '0', '2022-04-28 06:24:54', '2022-04-28 06:24:54'),
+(34, 2, 3, '1', '1', '2022-04-28 06:25:48', '2022-04-28 06:25:48'),
+(35, 2, 3, '2', '1', '2022-04-28 06:26:03', '2022-04-28 06:26:08'),
+(36, 2, 3, '3', '1', '2022-04-28 06:26:15', '2022-04-28 06:26:15'),
+(37, 2, 3, '4', '1', '2022-04-28 06:26:21', '2022-04-28 06:26:21'),
+(38, 2, 3, '5', '1', '2022-04-28 06:26:28', '2022-04-28 06:26:28'),
+(39, 2, 3, '6', '1', '2022-04-28 06:26:35', '2022-04-28 06:26:35'),
+(40, 2, 3, '7', '1', '2022-04-28 06:26:42', '2022-04-28 06:26:42'),
+(41, 2, 3, '8', '1', '2022-04-28 06:26:50', '2022-04-28 06:26:50'),
+(42, 2, 3, '9', '1', '2022-04-28 06:27:02', '2022-04-28 06:27:02'),
+(43, 2, 3, '10', '1', '2022-04-28 06:27:09', '2022-04-28 06:27:09'),
+(44, 2, 3, 'comps', '0', '2022-05-09 23:46:01', '2022-05-09 23:47:30'),
+(45, 23, 3, 'khagirhaj', '0', '2022-05-10 05:04:20', '2022-05-10 05:04:27');
 
 -- --------------------------------------------------------
 
@@ -631,28 +717,13 @@ CREATE TABLE `product_brand` (
 --
 
 INSERT INTO `product_brand` (`id`, `name_brand`, `logo_brand`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'ASUS', '', 1, NULL, NULL),
-(2, 'Coba Hapus', '', 1, NULL, NULL),
-(3, 'coba 1', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'coba baru lagi', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 'coba baru lagi kamis ini yang baru', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 'coba baru last nih', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(31, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(32, 'coba senin', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(33, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(34, 'coba senin 2', '0', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(36, 'coba selasa', '0', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(37, 'coba selasa 2', '0', 1, '2022-04-25 23:13:51', '2022-04-25 23:13:51'),
-(38, 'coba selasa 3', '0', 1, '2022-04-25 23:26:38', '2022-04-25 23:26:38'),
-(40, 'coba hapus product 2', '0', 1, '2022-04-27 00:48:37', '2022-04-27 00:48:37'),
-(41, 'coba ini', '0', 1, '2022-05-07 21:56:24', '2022-05-07 21:56:24'),
-(42, 'coba ini 2', '2.3.png', 1, '2022-05-07 22:00:31', '2022-05-07 22:00:31'),
-(43, 'coba ini 3', '1.jpg', 1, '2022-05-07 22:02:26', '2022-05-07 22:02:26'),
-(44, 'coba ini 4', '2.3.png', 1, '2022-05-07 22:06:43', '2022-05-07 22:06:43'),
-(45, 'coba ini 5', '2.3.png', 1, '2022-05-07 22:08:13', '2022-05-07 22:08:13'),
-(46, 'coba ini 6', 'C:\\xampp\\tmp\\php1138.tmp', 1, '2022-05-07 22:08:41', '2022-05-07 22:08:41'),
-(47, 'coba ini 7', 'C:\\xampp\\tmp\\phpB499.tmp', 1, '2022-05-07 22:10:29', '2022-05-07 22:10:29'),
-(50, 'coba jumat', '0', 1, '2022-05-13 06:35:01', '2022-05-13 06:35:01');
+(58, 'ASUS', '/public/uploads/140520221324_png-transparent-blue-background-with-asus-text-overlay-laptop-华硕-asus-logo-laptop-electronics-text-logo.png', 1, '2022-05-14 06:24:46', '2022-05-14 06:24:46'),
+(59, 'ACER', '/public/uploads/140520221325_kisspng-logo-acer-iconia-one-1-b3-a4-font-ivpro-sistemas-multimedia-5be977ae8c8638.1900197015420271825756.jpg', 1, '2022-05-14 06:25:40', '2022-05-14 06:25:40'),
+(60, 'LENOVO', '/public/uploads/140520221326_png-clipart-logo-brand-lenovo-thinkpad-ideapad-strategic-blue-text.png', 1, '2022-05-14 06:26:45', '2022-05-14 06:26:45'),
+(61, 'TOSHIBA', '/public/uploads/140520221327_kisspng-logo-toshiba-company-lenovo-logo-5ac00d4e08d124.3460738715225357580361.jpg', 1, '2022-05-14 06:27:29', '2022-05-14 06:27:29'),
+(62, 'coba upload gambar', '/public/uploads/140520221328_100088822_112166686993648_6120850337703455781_n.jpg', 1, '2022-05-14 06:28:13', '2022-05-14 06:28:13'),
+(63, 'coba gambar kosong', '/public/uploads/', 1, '2022-05-14 06:28:21', '2022-05-14 06:28:21'),
+(64, 'coba update gambar 2', '/public/uploads/140520221345_2370.png', 1, '2022-05-14 06:28:49', '2022-05-14 06:28:49');
 
 -- --------------------------------------------------------
 
@@ -1553,7 +1624,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT untuk tabel `compatibility`
 --
 ALTER TABLE `compatibility`
-  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT untuk tabel `custom_currency_values`
@@ -1637,7 +1708,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT untuk tabel `product_brand`
 --
 ALTER TABLE `product_brand`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_extras`

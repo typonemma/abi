@@ -40,9 +40,29 @@
           <div class="box-body">
             <div class="uploaded-product-image">
               <div class="product-sample-img">
-                <input name="logo_brand" type="file" id="fileInput">
+                
+                <input name="logo_brand" type="file" value="{{ $product_brand->logo_brand }}" id="fileInput"><br><br>
+
+                <?php                                                
+                    $key_value = $product_brand->logo_brand;
+                    $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
+                    if ($key_value == ''){                                                 
+                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
+                    }  
+                    else if ($key_value == '/public/uploads/'){                                                 
+                      echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
+                    } 
+                    else if (!file_exists($filename)) {
+                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";  
+                    }                                
+                    else {                                                 
+                        echo "<img src='$key_value' style='width:100px;height:100px;'>";                                                    
+                    }
+                ?><br>
+
               </div>
-              <div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link"><button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
+              <div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link">
+                <button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
               </div>
           </div>   
           </div>
