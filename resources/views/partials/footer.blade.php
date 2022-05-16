@@ -49,12 +49,12 @@
                             <div class="footer-column-links">
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <a href="/home">home</a>
+                                        <a href="/general/home">home</a>
                                         <a href="/product">products</a>
-                                        <a href="/aboutus">about us</a>
-                                        <a href="/shipment">shipment</a>
-                                        <a href="/blogs">blogs</a>
-                                        <a href="/contact">contact us</a>
+                                        <a href="/general/aboutus">about us</a>
+                                        <a href="/general/shipment">shipment</a>
+                                        <a href="/general/blogs">blogs</a>
+                                        <a href="/general/contact">contact us</a>
                                     </div>
                                     <div class="col-xs-6">
                                         <a href="#">privacy policy</a>
@@ -73,7 +73,7 @@
                             @foreach ($relatedblog_list as $blog)
                                 <div class="empty-space col-xs-b20"></div>
                                 <div class="footer-post-preview clearfix">
-                                    <a class="image" href="/blog_detail/<?= $blog->post_slug ?>">
+                                    <a class="image" href="/general/blog_detail/<?= $blog->post_slug ?>">
                                     <?php
                                             $pe = App\blogs_extras::where('post_id', '=', $blog->id)->get();
                                             $key_value = '';
@@ -103,7 +103,7 @@
                                                 echo date ("F d / Y", strtotime($tanggal));
                                             ?> &nbsp;&nbsp;
                                         </div>
-                                        <a href="/blog_detail/<?= $blog->post_slug ?>" class="title">{{Str::limit($blog->post_title, 25, '..')}}</a>
+                                        <a href="/general/blog_detail/<?= $blog->post_slug ?>" class="title">{{Str::limit($blog->post_title, 25, '..')}}</a>
                                     </div>
                                 </div>
                             @endforeach

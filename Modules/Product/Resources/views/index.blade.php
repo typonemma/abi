@@ -1,22 +1,22 @@
 @extends('partials.main')
 @section('navbar')
     <li>
-        <a href="home" class="nav-link">Home</a>
+        <a href="/general/home" class="nav-link">Home</a>
     </li>
     <li>
-        <a href="aboutus">about us</a>
+        <a href="/general/aboutus">about us</a>
     </li>
     <li class="active">
         <a href="/product/">products</a>
     </li>
     <li>
-        <a href="shipment">Shipment</a>
+        <a href="/general/shipment">Shipment</a>
     </li>
     <li>
-        <a href="blogs">blogs</a>
+        <a href="/general/blogs">blogs</a>
     </li>
     <li>
-        <a href="contact">contact us</a>
+        <a href="/general/contact">contact us</a>
     </li>
 @endsection
 @section('content')

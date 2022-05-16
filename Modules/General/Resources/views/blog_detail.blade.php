@@ -1,22 +1,22 @@
 @extends('partials.main')
 @section('navbar')
     <li>
-        <a href="/home" class="nav-link">Home</a>
+        <a href="/general/home" class="nav-link">Home</a>
     </li>
     <li>
-        <a href="/aboutus">about us</a>
+        <a href="/general/aboutus">about us</a>
     </li>
     <li>
         <a href="/product">products</a>
     </li>
     <li>
-        <a href="/shipment">Shipment</a>
+        <a href="/general/shipment">Shipment</a>
     </li>
     <li class="active">
-        <a href="/blogs">blogs</a>
+        <a href="/general/blogs">blogs</a>
     </li>
     <li>
-        <a href="/contact">contact us</a>
+        <a href="/general/contact">contact us</a>
     </li>
 @endsection
 @section('content')
@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="empty-space col-xs-b15 col-sm-b30"></div>
                 <div class="breadcrumbs">
-                    <a href="/blogs">blog</a>
+                    <a href="/general/blogs">blog</a>
                     <a href="#" class="color underline">
                         {{ $blog_detail->post_title }}
                     </a>                        
@@ -79,7 +79,7 @@
                         <div class="h4 col-xs-b25">related blog</div>
                             @foreach ($relatedblog_list as $a)
                                 <div class="blog-shortcode style-2">
-                                    <a href="/blog_detail/<?= $a->post_slug ?>" class="preview rounded-image simple-mouseover">
+                                    <a href="/general/blog_detail/<?= $a->post_slug ?>" class="preview rounded-image simple-mouseover">
                                         <?php
                                             $pe = App\blogs_extras::where('post_id', '=', $a->id)->get();
                                             $key_value = '';
@@ -108,7 +108,7 @@
                                             echo date ("F d / Y", strtotime($tanggal));
                                         ?> &nbsp;&nbsp;
                                     </div>
-                                    <div class="title h6"><a href="/blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
+                                    <div class="title h6"><a href="/general/blog_detail/<?= $a->post_slug ?>">{{Str::limit($a->post_title, 25, '..')}}</a></div>                        
                                     <div class="simple-article size-2">
                                         {!!Str::limit(html_entity_decode($a->post_content),80,"...")!!}
                                     </div>

@@ -365,12 +365,12 @@
                         });
                         $.ajax({
                             method: "GET",
-                            url: "/placeOrder",
+                            url: "/general/placeOrder",
                             data : {
                                 payment:payment
                             },
                             success: function() {
-                                location.href = '/thank_you';
+                                location.href = '/general/thank_you';
                             }
                         });
                     }

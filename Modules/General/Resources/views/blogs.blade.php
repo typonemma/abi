@@ -1,22 +1,22 @@
 @extends('partials.main')
 @section('navbar')
     <li>
-        <a href="home" class="nav-link">Home</a>
+        <a href="/general/home" class="nav-link">Home</a>
     </li>
     <li>
-        <a href="aboutus">about us</a>
+        <a href="/general/aboutus">about us</a>
     </li>
     <li>
         <a href="/product">products</a>
     </li>
     <li>
-        <a href="shipment">Shipment</a>
+        <a href="/general/shipment">Shipment</a>
     </li>
     <li class="active">
-        <a href="blogs">blogs</a>
+        <a href="/general/blogs">blogs</a>
     </li>
     <li>
-        <a href="contact">contact us</a>
+        <a href="/general/contact">contact us</a>
     </li>
 @endsection
 @section('content')
@@ -79,7 +79,7 @@
                             <div class="description-article simple-article size-2">
                                 {!! htmlspecialchars_decode($b->post_content)!!}
                             </div>
-                            <a class="button size-1 style-3" href="blog_detail/<?= $b->post_slug ?>">
+                            <a class="button size-1 style-3" href="/general/blog_detail/<?= $b->post_slug ?>">
                                 <span class="button-wrapper">
                                     <span class="icon">
                                         <img src="{{URL::asset('public/custom/img/icon-4.png')}}">

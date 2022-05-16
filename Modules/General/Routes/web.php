@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('S')->group(function() {
+Route::prefix('general')->group(function() {
     //General
     Route::get('/', 'GeneralController@home');
     Route::get('/home', 'GeneralController@home');
@@ -31,15 +31,6 @@ Route::prefix('S')->group(function() {
     //Email
     Route::get('/email_template', 'GeneralController@email_template');
     Route::post('/send-email', 'GeneralController@sendEmail')->name('send.email');
-
-    //Admin
-    Route::get('/admin', 'AdminController@admin');
-    Route::get('/admin2', 'AdminController@admin2');
-    Route::get('/admin/create', 'AdminController@create');
-    Route::post('/admin/store', 'AdminController@store');
-    Route::get('/admin/{id}/edit', 'AdminController@edit');
-    Route::put('/admin/{id}', 'AdminController@update');
-    Route::delete('/admin/{id}', 'AdminController@destroy');
 
     //Search
     Route::get('/Search', 'GeneralController@Search');
