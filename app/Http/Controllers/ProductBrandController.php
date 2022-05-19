@@ -76,7 +76,8 @@ class ProductBrandController extends Controller
     public function create(Request $request)
     {
         $rules = [
-            'name_brand' => 'required'
+            'name_brand' => 'required',
+            'logo_brand' => 'required'
         ];
         $request->validate($rules);
 
@@ -85,10 +86,6 @@ class ProductBrandController extends Controller
             $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();
             $destinationPath = public_path().'/uploads';
             $file->move($destinationPath,$fileName);
-        }
-        else{
-            $file = $request->file('logo_brand');
-            $fileName = "";
         }
 
         product_brand::create([

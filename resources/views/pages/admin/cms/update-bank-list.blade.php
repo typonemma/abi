@@ -32,7 +32,6 @@
               </div>
           </div>  
         </div>
-        <hr>
 
         <br>
         <div class="box-body">
@@ -45,7 +44,6 @@
               </div>
           </div>  
         </div>
-        <hr>
 
         <br>
         <div class="box-body">
