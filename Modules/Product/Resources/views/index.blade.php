@@ -258,7 +258,7 @@
             $('.col-sm-4').removeAttr('style');
         }
         else {
-            $('.col-sm-4').css('height', '50%');
+            $('.col-sm-4').css('height', '39%');
         }
     }
     function ajaxProduct(){
@@ -305,13 +305,20 @@
 
                 var user = $('#user').val();
 
+                var content = value.content;
+                var limit = 100;
+
+                if (content.length > limit) {
+                    content = content.substring(0, limit) + '...';
+                }
+
                 if (user == '') {
                     //Description
-                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    str = str + '<div class="description"><div class="simple-article text size-2">'+content+'</div><div class="icons"><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 }
                 else {
                     //Description
-                    str = str + '<div class="description"><div class="simple-article text size-2">'+value.content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" onclick="ajaxInsertToCart('+value.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
+                    str = str + '<div class="description"><div class="simple-article text size-2">'+content+'</div><div class="icons"><a class="entry" onclick="ajaxInsertToCart('+value.id+')"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a><a id="products-'+value.id+'" class="entry open-popup" data-rel="0" data-id="'+value.id+'" onclick="popup('+value.id+')"><i class="fa fa-eye" aria-hidden="true"></i></a><a class="entry" onclick="ajaxInsertToWishlist('+value.id+')"><i class="fa fa-heart-o" aria-hidden="true"></i></a><a class="button size-1 style-3 button-long-list" onclick="ajaxInsertToCart('+value.id+')"><span class="button-wrapper"><span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span><span class="text">ADD TO CART</span></span></a></div></div>';
                 }
 
                 //Footer

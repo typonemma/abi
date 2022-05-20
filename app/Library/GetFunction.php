@@ -1894,6 +1894,7 @@ class GetFunction
       $userData['user_display_name']  =   $getuserdata->display_name;
       $userData['user_name']          =   $getuserdata->name;
       $userData['user_email']         =   $getuserdata->email;
+      $userData['user_phone_number']  =   $getuserdata->phone_number;
       $userData['user_password']      =   $getuserdata->password;
       $userData['user_secret_key']    =   $getuserdata->secret_key;
       $userData['user_photo_url']     =   $getuserdata->user_photo_url;
@@ -2712,6 +2713,9 @@ class GetFunction
         return false;
       }
       elseif(Request::is('admin/product/categories/list') && !in_array('product_categories_access', $get_role_data->permissions)){
+        return false;
+      }
+      elseif(Request::is('admin/product/brand/list') && !in_array('product_brand_access', $get_role_data->permissions)){
         return false;
       }
       elseif(Request::is('admin/product/tags/list') && !in_array('product_tags_access', $get_role_data->permissions)){

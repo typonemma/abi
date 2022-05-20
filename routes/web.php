@@ -121,35 +121,50 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'admin'], function () {
  //Ads Route
 
- Route::get('compatibility/list/{product_id}', [
+ Route::get('compatibility/list', [
     'uses' => 'CompatibilityController@list',
     'as'   => 'compatibility.list'
- ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::get('compatibility/store', [
     'uses' => 'CompatibilityController@store',
     'as'   => 'compatibility.store'
- ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::post('compatibility/create', [
     'uses' => 'CompatibilityController@create',
     'as'   => 'compatibility.create'
- ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');;
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::get('compatibility/edit/{id}', [
     'uses' => 'CompatibilityController@edit',
     'as'   => 'compatibility.edit'
- ]);
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::post('compatibility/update/{id}', [
     'uses' => 'CompatibilityController@update',
     'as'   => 'compatibility.update'
- ]);
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::get('compatibility/delete/{id}', [
     'uses' => 'CompatibilityController@delete',
     'as'   => 'compatibility.delete'
- ]);
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('product-compatibles/list/{product_id}/{type}', [
+    'uses' => 'ProductCompatibleController@list',
+    'as'   => 'product_compatible.list'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::post('product-compatibles/create', [
+    'uses' => 'ProductCompatibleController@create',
+    'as'   => 'product_compatible.create'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('product-compatibles/delete/{product_id}/{compatible_id}', [
+    'uses' => 'ProductCompatibleController@delete',
+    'as'   => 'product_compatible.delete'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::get('users/ads/list', [
     'uses' => 'AdsController@index',
@@ -284,6 +299,38 @@ Route::post('users/ads/store', [
     'uses' => 'ProductsController@productAddContent',
     'as'   => 'admin.add_product'
   ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+  //->Brand<-//
+  Route::get('ProductBrand/list', [
+    'uses' => 'ProductBrandController@list',
+    'as'   => 'ProductBrand.list'
+  ]);
+
+  Route::get('ProductBrand/store', [
+      'uses' => 'ProductBrandController@store',
+      'as'   => 'ProductBrand.store'
+  ]);
+
+  Route::post('ProductBrand/create', [
+      'uses' => 'ProductBrandController@create',
+      'as'   => 'ProductBrand.create'
+  ]);
+
+  Route::get('ProductBrand/edit/{id}', [
+    'uses' => 'ProductBrandController@edit',
+    'as'   => 'ProductBrand.edit'
+  ]);
+
+  Route::post('ProductBrand/update/{id}', [
+      'uses' => 'ProductBrandController@update',
+      'as'   => 'ProductBrand.update'
+  ]);
+
+  Route::delete('ProductBrand/delete/{id}', [
+      'uses' => 'ProductBrandController@delete',
+      'as'   => 'ProductBrand.delete'
+  ]);
+  //Batas Brand
 
   Route::get('product/tags/list', [
     'uses' => 'ProductsController@productTagsListContent',

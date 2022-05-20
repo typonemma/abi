@@ -1073,6 +1073,27 @@
         </div>
       </div>
       @endif
+
+      <div class="box box-solid product-sizes">
+        <div class="box-header with-border">
+          <i class="fa fa-brand-o"></i>
+          <h3 class="box-title">Brand</h3>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-12">
+                <select name="brand" id="brand_list" class="vendors-list" style="width:100%;">
+                  <option value=""> Choose Brand </option>
+                  @foreach($brands_list as $brand)
+                    <option value="{{ $brand->id }}"> {!! $brand->name_brand !!} </option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -1,12 +1,9 @@
 @extends('layouts.admin.master')
 @section('title', 'Compatibility list' .' < '. get_site_title())
-<?php
-    $product = session('product');
-?>
 @section('content')
 <div class="row">
   <div class="col-6">
-    <h5>Compatibility list: {{$product->title}}</h5>
+    <h5>Compatibility list</h5>
   </div>
   <div class="col-6">
     <div class="pull-right">
@@ -21,7 +18,7 @@
     <div class="box">
       <div class="box-body">
         <div id="table_search_option">
-          <form action="{{ route('compatibility.list', $product->id) }}" method="GET">
+          <form action="{{ route('compatibility.list') }}" method="GET">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="input-group">
@@ -39,9 +36,8 @@
         <table class="table table-bordered admin-data-table admin-data-list">
           <thead class="thead-dark">
             <tr>
-              <th>Name</th>
-              <th>Product</th>
               <th>Brand</th>
+              <th>Name</th>
               <th>Type</th>
               <th>{!! trans('admin.action') !!}</th>
             </tr>
@@ -52,19 +48,16 @@
               <tr>
 
                 <?php
-                    $product = App\Models\Product::find($row->product_id);
-                    $brand = App\Brand::find($row->brand_id);
+                    $brand = App\product_brand::find($row->brand_id);
                     $type = 'Brand';
                     if ($row->type == 1) {
                         $type = 'Part';
                     }
                 ?>
 
-                <td>{!! $row->name !!}</td>
-
-                <td>{!! $product->title !!}</td>
-
                 <td>{!! $brand->name_brand !!}</td>
+
+                <td>{!! $row->name !!}</td>
 
                 <td>{!! $type !!}</td>
 
@@ -93,9 +86,8 @@
           </tbody>
           <tfoot class="thead-dark">
             <tr>
-                <th>Name</th>
-                <th>Product</th>
                 <th>Brand</th>
+                <th>Name</th>
                 <th>Type</th>
                 <th>{!! trans('admin.action') !!}</th>
             </tr>

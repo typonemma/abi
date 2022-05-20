@@ -4,11 +4,12 @@
 @section('content')
 @include('pages-message.form-submit')
 @include('pages-message.notify-msg-success')
+@include('pages-message.notify-msg-error')
 
 <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
   @include('includes.csrf-token')
   <input type="hidden" name="hf_post_type" id="hf_post_type" value="update">
- 
+
   <div class="box box-solid">
     <div class="box-header">
       <h3 class="box-title">{{ trans('admin.update_new_user_title') }} &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{{ route('admin.users_list') }}">{{ trans('admin.user_list_title') }}</a></h3>
@@ -17,66 +18,77 @@
       </div>
     </div>
   </div>
-  
+
  <div class="box box-solid">
     <div class="box-body">
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputUserDisplayName">{{ trans('admin.user_display_name_title') }}</label>
           </div>
           <div class="col-sm-8">
             <input type="text" placeholder="{{ trans('admin.user_display_name_title') }}" class="form-control" value="{{$user_edit_details['user_display_name']}}" id="user_display_name" name="user_display_name">
           </div>
-        </div>    
+        </div>
       </div>
 
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputUserName">{{ trans('admin.user_name_title') }}</label>
           </div>
           <div class="col-sm-8">
             <input type="text" placeholder="{{ trans('admin.user_name_title') }}" class="form-control" value="{{$user_edit_details['user_name']}}" id="user_name" name="user_name">
           </div>
-        </div>    
+        </div>
       </div>
 
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputEmail">{{ trans('admin.email') }}</label>
           </div>
           <div class="col-sm-8">
             <input type="text" placeholder="{{ trans('admin.email') }}" class="form-control" value="{{$user_edit_details['user_email']}}" id="user_email" name="user_email">
           </div>
-        </div>    
+        </div>
       </div>
 
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
+          <div class="col-sm-4">
+            <label class="control-label" for="inputPhoneNumber">Phone Number</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" placeholder="Phone Number (+62xxxxxxxxxx, 1-30 digits)" class="form-control" value="{{$user_edit_details['user_phone_number']}}" id="user_phone_number" name="user_phone_number">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputPassword">{{ trans('admin.user_new_password_title') }}</label>
           </div>
           <div class="col-sm-8">
             <input type="password" placeholder="{{ trans('admin.password') }}" class="form-control" value="" id="user_password" name="user_password">
           </div>
-        </div>    
+        </div>
       </div>
 
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputSecretKey">{{ trans('admin.user_new_secret_key_title') }}</label>
           </div>
           <div class="col-sm-8">
             <input type="text" placeholder="{{ trans('admin.secret_key') }}" class="form-control" value="" id="user_secret_key" name="user_secret_key">
           </div>
-        </div>    
+        </div>
       </div>
 
       <div class="form-group">
-        <div class="row">  
+        <div class="row">
           <div class="col-sm-4">
             <label class="control-label" for="inputUserRole">{{ trans('admin.user_role_title') }}</label>
           </div>
@@ -93,11 +105,11 @@
               @endif
             </select>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
   </div>
-  
+
 </form>
 
 @endsection

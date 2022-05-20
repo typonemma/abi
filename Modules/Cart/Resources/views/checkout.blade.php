@@ -7,7 +7,7 @@
     $user_shipping_encode = json_encode(App\UserShippingAddress::where('user_id', '=', $user->id)->first());
     $cart = App\Cart::where('user_id', '=', $user->id)->first();
     $cart_encode = json_encode($cart);
-    $cart_items_encode = json_encode(App\CartDetail::join('products', 'products.id', '=', 'cart_detail.product_id')->select('products.id AS product_id', 'products.title AS name', 'cart_detail.quantity', 'cart_detail.price', 'products.image_url AS img_src', 'products.type AS product_type')->get());
+    $cart_items_encode = json_encode(App\CartDetail::join('products', 'products.id', '=', 'cart_detail.product_id')->where('cart_id', '=', $cart->id)->select('products.id AS product_id', 'products.title AS name', 'cart_detail.quantity', 'cart_detail.price', 'products.image_url AS img_src', 'products.type AS product_type')->get());
     $ship_encode = json_encode($ship);
     $coupon_amount = session('coupon_amount');
 ?>
@@ -81,15 +81,19 @@
             @foreach ($cart_detail as $cd)
                 <?php
                     $product = App\Models\Product::find($cd->product_id);
+                    $image = $product->image_url;
+                    if ($image == '') {
+                        $image = 'public/uploads/no-image.jpg';
+                    }
                 ?>
                 <div class="cart-entry clearfix">
-                    <a class="cart-entry-thumbnail" href="/product/detail/{{$product->id}}"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
+                    <a class="cart-entry-thumbnail" href="/product/detail/{{$product->slug}}"><img src="{{$image}}" alt="" style="width:20%;height:20%;"></a>
                     <div class="cart-entry-description">
                         <table>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div class="h6"><a href="#">{{$product->title}}</a></div>
+                                        <div class="h6"><a href="/product/detail/{{$product->slug}}">{{$product->title}}</a></div>
                                         <div class="simple-article size-1">QUANTITY: {{$cd->quantity}}</div>
                                     </td>
                                     <td class="text-right">

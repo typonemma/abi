@@ -77,7 +77,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             {{-- <div class="simple-article size-3 col-xs-b5">ITEM NO.: <span class="grey">127-#5238</span></div> --}}
-                            <div class="simple-article size-3 col-xs-b20">SKU : <span class="grey">{{$product->sku}}</span></div>
+                            <div class="simple-article size-3 col-xs-b20">SKU : <span class="grey">{{trim($product->sku) != '' ? $product->sku : '-'}}</span></div>
                         </div>
                         <div class="col-sm-6 col-sm-text-right">
 
@@ -154,20 +154,24 @@
                     </div>
                 </div>
                 <?php
-                    $brands = App\Compatibility::where('product_id', '=', $product->id)->where('type', '=', '0')->get()->groupBy('brand_id');
-                    $parts = App\Compatibility::where('product_id', '=', $product->id)->where('type', '=', '1')->get()->groupBy('brand_id');
+                    $brands = App\ProductCompatible::join('compatibility', 'product_compatible.product_compatible_id', '=', 'compatibility.id')->select('compatibility.*')->where('product_compatible.product_id', '=', $product->id)->where('compatibility.type', '=', '0')->get()->groupBy('brand_id');
+                    $parts = App\ProductCompatible::join('compatibility', 'product_compatible.product_compatible_id', '=', 'compatibility.id')->select('compatibility.*')->where('product_compatible.product_id', '=', $product->id)->where('compatibility.type', '=', '1')->get()->groupBy('brand_id');
                     $index = 0;
                 ?>
                 <div class="tab-entry">
-                    <div class="h5">compatible by type/brand</div>
-                    <hr/>
+                    <div class="h5">compatible by model</div>
                     @foreach ($brands as $brand_id => $brand)
                         <?php
                             $b = App\Brand::find($brand_id);
                             $index = 0;
+                            $logo_brand = $b->logo_brand;
+                            if ($logo_brand == '/public/uploads/') {
+                                $logo_brand = '/public/uploads/no-image.jpg';
+                            }
                         ?>
+                        <hr/>
                         <div class="row">
-                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo_brand}}"></div>
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$logo_brand}}"></div>
                             @for ($i = 0; $i < count($brand); $i++)
                                 <div class="col-sm-3">
                                     <div class="simple-article size-3">
@@ -183,21 +187,21 @@
                                 </div>
                             @endfor
                         </div>
-                        <br>
-                        @if ($index < count($brand))
-                            <hr/>
-                        @endif
                     @endforeach
                     <br><br><br>
                     <div class="h5">compatible by part number</div>
-                    <hr/>
                     @foreach ($parts as $brand_id => $part)
                         <?php
                             $b = App\Brand::find($brand_id);
                             $index = 0;
+                            $logo_brand = $b->logo_brand;
+                            if ($logo_brand == '/public/uploads/') {
+                                $logo_brand = '/public/uploads/no-image.jpg';
+                            }
                         ?>
+                        <hr/>
                         <div class="row">
-                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$b->logo_brand}}"></div>
+                            <div class="col-sm-3"><img style="width:50%;height:50%;" src="{{$logo_brand}}"></div>
                             @for ($i = 0; $i < count($part); $i++)
                                 <div class="col-sm-3">
                                     <div class="simple-article size-3">
@@ -213,10 +217,6 @@
                                 </div>
                             @endfor
                         </div>
-                        <br>
-                        @if ($index < count($part))
-                            <hr/>
-                        @endif
                     @endforeach
                 </div>
 

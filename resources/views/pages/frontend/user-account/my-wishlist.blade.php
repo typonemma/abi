@@ -29,7 +29,7 @@
                                     $product->image_url = '/public/uploads/no-image.jpeg';
                                 ?>
                             @endif
-                            <img src="{{$product->image_url}}" alt="" />
+                            <img src="{{$product->image_url}}" alt="" style="width:200px;height:200px;"/>
                             <div class="preview-buttons valign-middle">
                                 <div class="valign-middle-content">
                                     <a class="button size-2 style-3" href="/product/detail/{{$product->slug}}">
@@ -46,7 +46,14 @@
                             <div class="simple-article size-4 dark">Rp {{number_format($product->regular_price,0,',','.')}}</div>
                         </div>
                         <div class="description">
-                            <div class="simple-article text size-2">{!! htmlspecialchars_decode($product->content) !!}</div>
+                            <?php
+                                $content = $product->content;
+                                $limit = 100;
+                                if (strlen($content) > $limit) {
+                                    $content = substr($content, 0, $limit) . '...';
+                                }
+                            ?>
+                            <div class="simple-article text size-2">{!! htmlspecialchars_decode($content) !!}</div>
                             <div class="icons">
                                 <a class="entry" onclick="ajaxInsertToCart({{$product->id}})"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
                                 <a id="products-{{$product->id}}" class="entry open-popup" onclick="popup({{$product->id}})" data-rel="0" data-id="{{$product->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>

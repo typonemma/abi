@@ -281,7 +281,7 @@
                     <div class="row">
                       <label class="col-sm-6 control-label" for="inputWeight">Weight</label>
                       <div class="col-sm-6">
-                        <input type="number" placeholder="Weight" id="inputWeight" name="inputWeight" class="form-control" min="0" step="any" value="{{ old('inputWeight') }}">
+                        <input type="number" placeholder="Weight" id="inputWeight" name="inputWeight" class="form-control" min="0" step="any" value="{{ $product_post_data['weight'] }}">
                       </div>
                     </div>
                 </div>
@@ -1763,6 +1763,35 @@
         </div>
       </div>
       @endif
+
+            <div class="box box-solid product-sizes">
+                <div class="box-header with-border">
+                <i class="fa fa-brand-o"></i>
+                <h3 class="box-title">Brand</h3>
+                </div>
+                <div class="box-body">
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <select name="brand_list" id="brand_list" class="vendors-list" style="width:100%;">
+                            <option value=""> Choose Brand </option>
+                            @foreach($brands_list as $brand)
+                                @if(!empty($product_post_data['brand_id']))
+                                    @if($brand->id == $product_post_data['brand_id'])
+                                        <option value="{{ $brand->id }}" selected> {!! $brand->name_brand !!} </option>
+                                    @else
+                                        <option value="{{ $brand->id }}"> {!! $brand->name_brand !!} </option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
   </div>
 

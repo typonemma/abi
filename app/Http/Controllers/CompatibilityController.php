@@ -6,6 +6,8 @@ use App\Brand;
 use App\Compatibility;
 use App\Library\CommonFunction;
 use App\Models\Product;
+use App\product_brand;
+use App\ProductCompatible;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +22,7 @@ class CompatibilityController extends Controller
         $this->option              = new OptionController();
 	}
 
-    public function list($product_id)
+    public function list()
     {
         $data = array();
         $search_value = '';
@@ -34,40 +36,32 @@ class CompatibilityController extends Controller
         $sidebar['is_vendor_login'] = $is_vendor;
         $data['sidebar_data'] = $sidebar;
 
-        $data['compatibility_all_data']  =  $this->getCompatibility(true, $search_value, $product_id, $is_vendor);
+        $data['compatibility_all_data']  =  $this->getCompatibility(true, $search_value, $is_vendor);
         $data['search_value']      =  $search_value;
         $data['settings'] = $this->option->getSettingsData();
-
-        $product = Product::find($product_id);
-
-        session()->put('product', $product);
 
         return view('pages.admin.compatibility.compatibility-list', $data);
     }
 
-    public function getCompatibility($pagination = false, $search_val = null, $product_id = null, $is_vendor_login = false){
+    public function getCompatibility($pagination = false, $search_val = null, $is_vendor_login = false){
 
         if(!empty($search_val) && $search_val != ''){
           $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
-                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         elseif(!empty($search_val) && $search_val != ''){
             $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
-                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         elseif (empty($search_val)) {
             $get_posts_for_compatibility = DB::table('compatibility')
                                             ->where('compatibility.name', 'LIKE', '%'. $search_val .'%')
-                                            ->where('product_id', '=', $product_id)
                                             ->orderBy('compatibility.id', 'desc');
         }
         else{
             $get_posts_for_compatibility = DB::table('compatibility')
-                                                ->where('product_id', '=', $product_id)
                                                 ->orderBy('compatibility.id', 'desc');
         }
 
@@ -90,10 +84,8 @@ class CompatibilityController extends Controller
             'name' => 'required'
         ];
         $request->validate($rules);
-        $product = session('product');
         Compatibility::create([
             'id' => 0,
-            'product_id' => $product->id,
             'brand_id' => $request->brand,
             'name' => $request->name,
             'type' => $request->type,
@@ -106,12 +98,11 @@ class CompatibilityController extends Controller
 
     public function createCompatibilityContentData($data)
     {
-        $data['products'] = Product::all();
-        $data['brands'] = Brand::all();
-
         $is_vendor = is_vendor_login();
         $sidebar['is_vendor_login'] = $is_vendor;
         $data['sidebar_data'] = $sidebar;
+
+        $data['brands'] = product_brand::all();
 
         return $data;
     }
@@ -131,10 +122,8 @@ class CompatibilityController extends Controller
             'name' => 'required'
         ];
         $request->validate($rules);
-        $product = session('product');
         $compatibility = Compatibility::find($id);
         $compatibility->name = $request->name;
-        $compatibility->product_id = $product->id;
         $compatibility->brand_id = $request->brand;
         $compatibility->type = $request->type;
         $compatibility->save();

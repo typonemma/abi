@@ -354,7 +354,7 @@
                                 <div class="popup-align">
                                     <h3 class="h3 text-center">forgot password</h3>
                                     <div class="empty-space col-xs-b20"></div>
-                                    <h6 class="h6 text-center" style="font-weight: normal;text-transform: none;">Enter the OTP code that has been sent to your phone number</h6>
+                                    <h6 id="desc-enter-otp" class="h6 text-center" style="font-weight: normal;text-transform: none;">Enter the OTP code that has been sent to your phone number: {{ session('phone_number') }}</h6>
                                     <div class="empty-space col-xs-b20"></div>
                                     <div class="otp">
                                         <input type="text" id="digit-1" name="digit-1" data-next="digit-2" />
@@ -788,6 +788,7 @@
                                 },
                                 success: function() {
                                     otpSend();
+                                    $('#desc-enter-otp').load(' #desc-enter-otp');
                                     $('#temp1').click();
                                 },
                                 error: function(jqXhr, json, errorThrown) {
@@ -882,11 +883,16 @@
                             let digit = document.getElementById('digit-' + i.toString()).value;
                             code += digit;
                         }
-                        confirmationResult.confirm(code).then(function (result) {
-                            $('#temp2').click();
-                        }).catch(function (error) {
-                            alert(error.message);
-                        });
+                        if (code == '') {
+                            alert('Please enter the sent OTP code');
+                        }
+                        else {
+                            confirmationResult.confirm(code).then(function (result) {
+                                $('#temp2').click();
+                            }).catch(function (error) {
+                                alert(error.message);
+                            });
+                        }
                     }
 
                     function numberWithCommas(x) {
@@ -1286,6 +1292,34 @@
                             else if(data.error == true && data.error_type == 'exceed_from_cart_total'){
                             alert( 'Discount price can not be greater than from cart total' );
                             }
+                        });
+                    }
+
+                    function ajaxAddToCart(id){
+                        let quantity = document.getElementById("quantity").innerText;
+                        var ajaxAddToCart = $.ajax({
+                            type:"post",
+                            url : "/cart-slice/insert",
+                            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+                        }).done(function(){
+                            $('#calculate').load(' #calculate');
+                            $('#cart-count').load(' #cart-count');
+                            $('#user-wallet').load(' #user-wallet');
+                            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
+                            $('#cart-total').load(' #cart-total');
+                            $('#cart-title-total').load(' #cart-title-total');
+                            alert('Item added to cart successfully !');
+                        });
+                    }
+
+                    function ajaxAddToWishlist(id){
+                        let quantity = document.getElementById("quantity").innerText;
+                        var ajaxAddToWishlist = $.ajax({
+                            type:"post",
+                            url : "/insertWishlist",
+                            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
+                        }).done(function(){
+                            alert('Item added to wishlist successfully !');
                         });
                     }
 

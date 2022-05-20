@@ -32,10 +32,17 @@
         <tbody>
             @foreach($cart_detail as $items)
                 <tr>
+                    <?php
+                        $product = App\Models\Product::find($items->prod_id);
+                        $image = $product->image_url;
+                        if ($image == '') {
+                            $image = 'public/uploads/no-image.jpg';
+                        }
+                    ?>
                     <td data-title=" ">
-                        <a class="cart-entry-thumbnail" href="#"><img src="" alt="" style="widht:85px;height:85px"></a>
+                        <a class="cart-entry-thumbnail" href="/product/detail/{{$product->slug}}"><img src="{{$image}}" alt="" style="width:100%;height:100%;"></a>
                     </td>
-                    <td data-title=" "><h5 class="h5"><a href="/product/detail/{{$items->prod_id}}">{!! $items->title !!}</a></h5></td>
+                    <td data-title=" "><h5 class="h5"><a href="/product/detail/{{$product->slug}}">{!! $items->title !!}</a></h5></td>
                     <td data-title="Price: " class="price" data-price="{!!$items->price!!}">Rp. {!!  number_format($items->price,0,',','.') !!}</td>
                     <td data-title="Quantity: ">
                         <div class="quantity-select">

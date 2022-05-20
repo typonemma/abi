@@ -71,15 +71,19 @@
                                         @foreach ($cart_detail as $cd)
                                             <?php
                                                 $product = App\Models\Product::find($cd->product_id);
+                                                $image = $product->image_url;
+                                                if ($image == '') {
+                                                    $image = 'public/uploads/no-image.jpg';
+                                                }
                                             ?>
                                             <div class="cart-entry clearfix">
-                                                <a class="cart-entry-thumbnail" href="#"><img src="{{URL::asset('public/custom/img/product-1.png')}}" alt=""></a>
+                                                <a class="cart-entry-thumbnail" href="/product/detail/{{$product->slug}}"><img src="{{$image}}" alt="" style="width:30%;height:30%;"></a>
                                                 <div class="cart-entry-description">
                                                     <table>
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="h6"><a href="#">{{$product->title}}</a></div>
+                                                                    <div class="h6"><a href="/product/detail/{{$product->slug}}">{{$product->title}}</a></div>
                                                                     <div class="simple-article size-1">QUANTITY: {{$cd->quantity}}</div>
                                                                 </td>
                                                                 <td>

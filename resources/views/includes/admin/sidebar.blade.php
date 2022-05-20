@@ -304,15 +304,25 @@
               @endif
             @endif
 
+            <!-- BRAND -->
             @if(in_array('product_brand_access', $user_permission_list))
-                <li><a href="{{route('admin.product_categories_list')}}"><i class="fa fa-brands"></i> Brands</a></li>
-
-              {{-- @if(Request::is('admin/product/brands/list'))
-                <li class="active"><a href="{{route('admin.product_brands_list')}}"><i class="fa fa-brands"></i> {!! trans('admin.brands') !!}</a></li>
+              @if(Request::is('admin/product/brand/list'))
+                <li class="active"><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
               @else
-                <li><a href="{{route('admin.product_brands_list')}}"><i class="fa fa-brands"></i> {!! trans('admin.brands') !!}</a></li>
-              @endif --}}
+                <li><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
+              @endif
             @endif
+            <!-- Batas Akhir Brand -->
+
+            <!-- COMPATIBILITY -->
+            @if(in_array('product_compatibility', $user_permission_list))
+              @if(Request::is('admin/product/compatibility/list'))
+                <li class="active"><a href="{{route('compatibility.list')}}"><i class="fa fa-file"></i> Compatibility</a></li>
+              @else
+                <li><a href="{{route('compatibility.list')}}"><i class="fa fa-file"></i> Compatibility</a></li>
+              @endif
+            @endif
+            <!-- Batas Akhir Compatibility -->
 
             @if(in_array('product_tags_access', $user_permission_list))
               @if(Request::is('admin/product/tags/list'))
@@ -356,7 +366,7 @@
           </ul>
       </li>
       @else
-        @if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)))
+        @if((in_array('products_list_access', $user_permission_list)) || (in_array('add_edit_delete_product', $user_permission_list)) || (in_array('product_categories_access', $user_permission_list)) || (in_array('product_brand_access', $user_permission_list)) || (in_array('product_tags_access', $user_permission_list)) || (in_array('product_attributes_access', $user_permission_list)) || (in_array('product_colors_access', $user_permission_list)) || (in_array('product_sizes_access', $user_permission_list)) || (in_array('products_comments_list_access', $user_permission_list)))
           <li class="treeview">
             <a href="#">
               <i class="fa fa-shopping-cart"></i> <span>{!! trans('admin.products') !!}</span> <i class="fa fa-angle-left pull-right"></i>
@@ -372,6 +382,10 @@
 
               @if(in_array('product_categories_access', $user_permission_list))
                 <li><a href="{{ route('admin.product_categories_list') }}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
+              @endif
+
+              @if(in_array('product_brand_access', $user_permission_list))
+                <li><a href="{{ route('ProductBrand.list') }}"><i class="fa fa-file"></i> Brand</a></li>
               @endif
 
               @if(in_array('product_tags_access', $user_permission_list))

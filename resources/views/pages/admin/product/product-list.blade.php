@@ -147,7 +147,8 @@
                         <li><a class="remove-selected-data-from-list" data-track_name="product_list" data-id="{{ $row->id }}" href="#"><i class="fa fa-remove"></i>{!! trans('admin.delete') !!}</a></li>
                       @endif
                       @if(in_array('product_compatibility', $user_permission_list))
-                        <li><a target="_blank" href="{{ route( 'compatibility.list', $row->id ) }}"><i class="fa fa-edit"></i>Compatibility</a></li>
+                        <li><a target="_blank" href="{{ route( 'product_compatible.list', [$row->id, 0]) }}"><i class="fa fa-edit"></i>Compatibility by Model</a></li>
+                        <li><a target="_blank" href="{{ route( 'product_compatible.list', [$row->id, 1]) }}"><i class="fa fa-edit"></i>Compatibility by Part Number</a></li>
                       @endif
                     </ul>
                   </div>

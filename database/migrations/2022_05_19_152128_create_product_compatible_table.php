@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompatibilityTable extends Migration
+class CreateProductCompatibleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateCompatibilityTable extends Migration
      */
     public function up()
     {
-        Schema::create('compatibility', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('brand_id');
-            $table->string('name');
-            $table->enum('type',['0','1'])->default(0);
+        Schema::create('product_compatible', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->integer('product_compatible_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateCompatibilityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compatibility');
+        Schema::dropIfExists('product_compatible');
     }
 }
