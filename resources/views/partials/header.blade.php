@@ -170,9 +170,11 @@
         }
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            if (element.type != 'hidden' && element.type != 'checkbox') {
-                element.value = "";
+            if (element.type != 'hidden') {
                 element.setAttribute("style", "border-color:none");
+                if (element.type == 'password') {
+                    element.value = "";
+                }
             }
         }
     }
@@ -183,9 +185,11 @@
         document.getElementById("address-errors").innerHTML = "";
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            if (element.type != 'hidden' && element.type != 'checkbox') {
-                element.value = "";
+            if (element.type != 'hidden') {
                 element.setAttribute("style", "border-color:none");
+                if (element.type == 'password') {
+                    element.value = "";
+                }
             }
         }
     }
@@ -200,9 +204,11 @@
         document.getElementById("ppa-errors").innerHTML = "";
         for (let i = 0; i < input.length; i++) {
             const element = input[i];
-            if (element.type != 'hidden' && element.type != 'checkbox') {
-                element.value = "";
+            if (element.type != 'hidden') {
                 element.setAttribute("style", "border-color:none");
+                if (element.type == 'password') {
+                    element.value = "";
+                }
             }
         }
     }

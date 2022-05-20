@@ -1301,7 +1301,7 @@
                             type:"post",
                             url : "/cart-slice/insert",
                             data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
-                        }).done(function(){
+                        }).done(function(data){
                             $('#calculate').load(' #calculate');
                             $('#cart-count').load(' #cart-count');
                             $('#user-wallet').load(' #user-wallet');

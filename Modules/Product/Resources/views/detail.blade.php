@@ -105,7 +105,7 @@
                         </div>
                         <div class="row m5 col-xs-b40">
                             <div class="col-sm-6 col-xs-b10 col-sm-b0">
-                                <a class="button size-2 style-3 block" onclick="ajaxAddToCart()">
+                                <a class="button size-2 style-3 block" onclick="ajaxAddToCart({{$product->id}})">
                                     <span class="button-wrapper">
                                         <span class="icon"><img src="{{URL::asset('public/custom/img/icon-2.png')}}" alt=""></span>
                                         <span class="text">add to cart</span>
@@ -113,7 +113,7 @@
                                 </a>
                             </div>
                             <div class="col-sm-6">
-                                <a class="button size-2 style-1 block noshadow" onclick="ajaxAddToWishlist()">
+                                <a class="button size-2 style-1 block noshadow" onclick="ajaxAddToWishlist({{$product->id}})">
                                     <span class="button-wrapper">
                                         <span class="icon"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                         <span class="text">add to favourites</span>
@@ -314,33 +314,6 @@
     function copyToClipboard() {
         navigator.clipboard.writeText(location.href);
         alert("Copied link !");
-    }
-    let id = document.getElementById("product-id").value;
-    function ajaxAddToCart(){
-        let quantity = document.getElementById("quantity").innerText;
-        var ajaxAddToCart = $.ajax({
-            type:"post",
-            url : "/cart-slice/insert",
-            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
-        }).done(function(){
-            $('#calculate').load(' #calculate');
-            $('#cart-count').load(' #cart-count');
-            $('#user-wallet').load(' #user-wallet');
-            $('#cart-detail-dropdown').load(' #cart-detail-dropdown');
-            $('#cart-total').load(' #cart-total');
-            $('#cart-title-total').load(' #cart-title-total');
-            alert('Item added to cart successfully !');
-        });
-    }
-    function ajaxAddToWishlist(){
-        let quantity = document.getElementById("quantity").innerText;
-        var ajaxAddToWishlist = $.ajax({
-            type:"post",
-            url : "/insertWishlist",
-            data:{_token:"{{csrf_token()}}",id:id,quantity:quantity},
-        }).done(function(){
-            alert('Item added to wishlist successfully !');
-        });
     }
 </script>
 @endsection
