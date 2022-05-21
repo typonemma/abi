@@ -49,12 +49,21 @@
                             <div class="footer-column-links">
                                 <div class="row">
                                     <div class="col-xs-6">
+<<<<<<< HEAD
                                         <a href="/general/home">home</a>
                                         <a href="/product">products</a>
                                         <a href="/general/aboutus">about us</a>
                                         <a href="/general/shipment">shipment</a>
                                         <a href="/general/blogs">blogs</a>
                                         <a href="/general/contact">contact us</a>
+=======
+                                        <a href="/">home</a>
+                                        <a href="/product">products</a>
+                                        <a href="#">about us</a>
+                                        <a href="#">shipment</a>
+                                        <a href="#">blogs</a>
+                                        <a href="#">contact us</a>
+>>>>>>> origin/dev_bryan
                                     </div>
                                     <div class="col-xs-6">
                                         <a href="#">privacy policy</a>

@@ -9,7 +9,7 @@
   <div class="col-6">
     <div class="pull-right">
       <a href="{{ route('admin.add_new_user') }}" class="btn btn-primary pull-right btn-sm">{{ trans('admin.add_new_user_title') }}</a>
-    </div>  
+    </div>
   </div>
 </div>
 <br>
@@ -18,7 +18,7 @@
     <div class="box">
       <div class="box-body">
         <div id="table_search_option">
-          <form action="{{ route('admin.users_list') }}" method="GET"> 
+          <form action="{{ route('admin.users_list') }}" method="GET">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="input-group">
@@ -31,14 +31,15 @@
                 </div>
               </div>
             </div>
-          </form>  
-        </div>      
+          </form>
+        </div>
         <table class="table table-bordered admin-data-table admin-data-list">
           <thead class="thead-dark">
             <tr>
               <th>{{ trans('admin.user_list_table_header_title_1') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_2') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_3') }}</th>
+              <th>Phone Number</th>
               <th>{{ trans('admin.user_list_table_header_title_4') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_5') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_6') }}</th>
@@ -49,19 +50,21 @@
             @foreach($user_list_data as $row)
             <tr>
               <td>{!! $row['name'] !!}</td>
-              
+
               <td>{!! $row['display_name'] !!}</td>
-              
+
               <td>{!! $row['email'] !!}</td>
-              
+
+              <td>{!! $row['phone_number'] !!}</td>
+
               <td>{!! $row['user_role'] !!}</td>
-              
+
               @if($row['user_status'] == 1)
               <td>{{ trans('admin.enable') }}</td>
               @else
               <td>{{ trans('admin.disable') }}</td>
               @endif
-                
+
               <td>
                 <div class="btn-group">
                   <button class="btn btn-success btn-flat" type="button">{{ trans('admin.action') }}</button>
@@ -86,14 +89,15 @@
               <th>{{ trans('admin.user_list_table_header_title_1') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_2') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_3') }}</th>
+              <th>Phone Number</th>
               <th>{{ trans('admin.user_list_table_header_title_4') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_5') }}</th>
               <th>{{ trans('admin.user_list_table_header_title_6') }}</th>
             </tr>
           </tfoot>
         </table>
-          <br>  
-        <div class="products-pagination">{!! $user_list_data->appends(Request::capture()->except('page'))->render() !!}</div>  
+          <br>
+        <div class="products-pagination">{!! $user_list_data->appends(Request::capture()->except('page'))->render() !!}</div>
       </div>
     </div>
   </div>

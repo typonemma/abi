@@ -332,6 +332,26 @@
             @endif
             <!-- Batas Akhir Brand -->
 
+            <!-- BRAND -->
+            @if(in_array('product_brand_access', $user_permission_list))
+              @if(Request::is('admin/product/brand/list'))
+                <li class="active"><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
+              @else
+                <li><a href="{{route('ProductBrand.list')}}"><i class="fa fa-file"></i> Brand</a></li>
+              @endif
+            @endif
+            <!-- Batas Akhir Brand -->
+
+            <!-- COMPATIBILITY -->
+            @if(in_array('product_compatibility', $user_permission_list))
+              @if(Request::is('admin/product/compatibility/list'))
+                <li class="active"><a href="{{route('compatibility.list')}}"><i class="fa fa-file"></i> Compatibility</a></li>
+              @else
+                <li><a href="{{route('compatibility.list')}}"><i class="fa fa-file"></i> Compatibility</a></li>
+              @endif
+            @endif
+            <!-- Batas Akhir Compatibility -->
+
             @if(in_array('product_tags_access', $user_permission_list))
               @if(Request::is('admin/product/tags/list'))
                 <li class="active"><a href="{{route('admin.product_tags_list')}}"><i class="fa fa-tags"></i> {!! trans('admin.tags') !!}</a></li>
@@ -392,7 +412,11 @@
                 <li><a href="{{ route('admin.product_categories_list') }}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
               @endif
 
+<<<<<<< HEAD
               @if(in_array('product_brand_access', $user_permission_list))                
+=======
+              @if(in_array('product_brand_access', $user_permission_list))
+>>>>>>> origin/dev_bryan
                 <li><a href="{{ route('ProductBrand.list') }}"><i class="fa fa-file"></i> Brand</a></li>
               @endif
 

@@ -24,6 +24,15 @@ Route::get('/installation', [
   'as'   => 'installation-int'
 ]);
 
+Route::get('asd', function () {
+    $asd = 'a:38:{s:17:"pages_list_access";s:17:"Pages list access";s:21:"add_edit_delete_pages";s:21:"Add/edit/delete pages";s:17:"list_blogs_access";s:16:"Blog list access";s:20:"add_edit_delete_blog";s:20:"Add/edit/delete blog";s:18:"blog_comments_list";s:20:"Blog comments access";s:22:"blog_categories_access";s:31:"Add/edit/delete blog categories";s:23:"testimonial_list_access";s:23:"Testimonial list access";s:27:"add_edit_delete_testimonial";s:27:"Add/edit/delete testimonial";s:18:"brands_list_access";s:25:"Manufacturers list access";s:22:"add_edit_delete_brands";s:29:"Add/edit/delete manufacturers";s:15:"manage_seo_full";s:22:"Manage SEO full access";s:20:"products_list_access";s:20:"Products list access";s:23:"add_edit_delete_product";s:23:"Add/edit/delete product";s:25:"product_categories_access";s:35:"Add/edit/delete products categories";s:19:"product_tags_access";s:29:"Add/edit/delete products tags";s:25:"product_attributes_access";s:35:"Add/edit/delete products attributes";s:21:"product_colors_access";s:31:"Add/edit/delete products colors";s:20:"product_sizes_access";s:30:"Add/edit/delete products sizes";s:29:"products_comments_list_access";s:29:"Products comments list access";s:18:"manage_orders_list";s:25:"Manage orders list access";s:19:"manage_reports_list";s:26:"Manage reports list access";s:19:"vendors_list_access";s:19:"Vendors list access";s:23:"vendors_withdraw_access";s:23:"Vendors withdraw access";s:29:"vendors_refund_request_access";s:29:"Vendors refund request access";s:30:"vendors_earning_reports_access";s:30:"Vendors earning reports access";s:27:"vendors_announcement_access";s:27:"Vendors announcement access";s:15:"vendor_settings";s:8:"settings";s:28:"vendors_packages_full_access";s:33:"Vendors packages menu full access";s:28:"vendors_packages_list_access";s:28:"Vendors packages list access";s:30:"vendors_packages_create_access";s:30:"Vendors packages create access";s:34:"manage_shipping_method_menu_access";s:34:"Manage shipping method full access";s:33:"manage_payment_method_menu_access";s:33:"Manage payment method full access";s:36:"manage_designer_elements_menu_access";s:43:"Manage custom designer elements full access";s:25:"manage_coupon_menu_access";s:33:"Manage coupon manager full access";s:27:"manage_settings_menu_access";s:27:"Manage settings full access";s:36:"manage_requested_product_menu_access";s:35:"Manage request products full access";s:31:"manage_subscription_menu_access";s:31:"Manage subscription full access";s:28:"manage_extra_features_access";s:33:"Manage extra features full access";}';
+    $ar = unserialize($asd);
+    $ar['product_brand_access'] = "Product Brand Access";
+    $ar['product_compatibility'] = "Product Compatibility";
+    $qq = serialize($ar);
+    dd($qq);
+});
+
 Route::group(['namespace' => 'Auth'], function () {
   Route::get('/installation-process', [
     'uses' => 'RegisterController@redirectToInstallationProcess',
@@ -129,6 +138,51 @@ Route::group(['prefix' => 'admin'], function () {
 
 
  //Ads Route
+
+ Route::get('compatibility/list', [
+    'uses' => 'CompatibilityController@list',
+    'as'   => 'compatibility.list'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('compatibility/store', [
+    'uses' => 'CompatibilityController@store',
+    'as'   => 'compatibility.store'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::post('compatibility/create', [
+    'uses' => 'CompatibilityController@create',
+    'as'   => 'compatibility.create'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('compatibility/edit/{id}', [
+    'uses' => 'CompatibilityController@edit',
+    'as'   => 'compatibility.edit'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::post('compatibility/update/{id}', [
+    'uses' => 'CompatibilityController@update',
+    'as'   => 'compatibility.update'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('compatibility/delete/{id}', [
+    'uses' => 'CompatibilityController@delete',
+    'as'   => 'compatibility.delete'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('product-compatibles/list/{product_id}/{type}', [
+    'uses' => 'ProductCompatibleController@list',
+    'as'   => 'product_compatible.list'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::post('product-compatibles/create', [
+    'uses' => 'ProductCompatibleController@create',
+    'as'   => 'product_compatible.create'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
+
+ Route::get('product-compatibles/delete/{product_id}/{compatible_id}', [
+    'uses' => 'ProductCompatibleController@delete',
+    'as'   => 'product_compatible.delete'
+ ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
  Route::get('users/ads/list', [
     'uses' => 'AdsController@index',
@@ -264,6 +318,7 @@ Route::post('users/ads/store', [
     'as'   => 'admin.add_product'
   ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
+<<<<<<< HEAD
   //->Bank<-//
   Route::get('PagesBank/list', [
     'uses' => 'PagesBankController@list',
@@ -296,6 +351,8 @@ Route::post('users/ads/store', [
   ]);  
   //Batas Bank
 
+=======
+>>>>>>> origin/dev_bryan
   //->Brand<-//
   Route::get('ProductBrand/list', [
     'uses' => 'ProductBrandController@list',
@@ -325,7 +382,11 @@ Route::post('users/ads/store', [
   Route::delete('ProductBrand/delete/{id}', [
       'uses' => 'ProductBrandController@delete',
       'as'   => 'ProductBrand.delete'
+<<<<<<< HEAD
   ]);  
+=======
+  ]);
+>>>>>>> origin/dev_bryan
   //Batas Brand
 
   Route::get('product/tags/list', [
@@ -1374,7 +1435,7 @@ Route::post('/ajax/contact-with-vendor', [
 
 
 //frontend route
-Route::get( '/', [
+Route::get( '/home', [
   'uses' => 'Frontend\FrontendManagerController@homePageContent',
   'as'   => 'home-page'
 ]);

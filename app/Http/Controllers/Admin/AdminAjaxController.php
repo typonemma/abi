@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Compatibility;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Validator;
@@ -1137,6 +1138,7 @@ class AdminAjaxController extends Controller
             return response()->json(array('delete' => true));
           }
         }
+
         elseif($input['data']['track'] == 'bank_list'){
           if(bank_list::where('id', $input['data']['id'])->delete()){
             return response()->json(array('delete' => true));

@@ -7,10 +7,16 @@ use App\Models\Term;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\bestsellerproduct_list;
+use App\Http\Controllers\ProductsController;
+use App\Models\ObjectRelationship;
+use DB;
 
 class ProductController extends Controller
 {
+    public $product;
+    public function __construct() {
+      $this->product              =  new ProductsController();
+    }
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -34,6 +40,9 @@ class ProductController extends Controller
 
     public function index()
     {
+        session()->forget('ship');
+        session()->forget('ship-error');
+        session()->forget('coupon_amount');
 
         $category = Term::where('status',1)
                     ->where('parent',0)
@@ -55,18 +64,19 @@ class ProductController extends Controller
                 ->select('term_id','name','parent')
                 ->get()->toArray();
 
-        $bestsellerproduct_list = bestsellerproduct_list::all();
-
         return view('product::index',[
             'categories' => $arr,
-            'tags' => $tags,
-            'bestsellerproduct_list' => $bestsellerproduct_list
+            'tags' => $tags
         ]);
     }
 
 
-    public function details()
+    public function details(Request $request,$slug)
     {
+        session()->forget('ship');
+        session()->forget('ship-error');
+        session()->forget('coupon_amount');
+
         $category = Term::where('status',1)
         ->where('parent',0)
         ->where('type','product_cat')
@@ -87,7 +97,26 @@ class ProductController extends Controller
             ->select('term_id','name','parent')
             ->get()->toArray();
 
+            $p = Product::where('slug', $slug)->first();
+
+            $product = Product::join('object_relationships as OR','OR.object_id','=','products.id')
+            ->join('product_extras', 'products.id', '=', 'product_extras.product_id');
+            $product = $product->where('products.id',$p->id)
+                            ->select(
+                                'products.*',
+                                \DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as product_related_img_json"),
+                                \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags')
+                            )
+                        ->groupBy('products.id')
+                        ->first();
+            if(isset($product)){
+                $product->color = $this->getColorsByObjectId($p->id);
+                $product->size = $this->getSizesByObjectId($p->id);
+                $product->tag = $this->getTagsByObjectId($p->id);
+                $product->related = $this->product->getRelatedItems($p->id);
+            }
         return view('product::detail',[
+            'product' => $product,
             'categories' => $arr,
             'tags' => $tags
         ]);
@@ -103,70 +132,131 @@ class ProductController extends Controller
         if($arr != []){
             $product = $product->whereIn('OR.term_id',[$arr]);
         }
-        $product = $product->select('products.*')->groupBy('products.id')->get();
+        $product = $product
+        ->select(
+            'products.*',
+            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags'),
+            \DB::raw('(SELECT terms.term_id from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as term_id')
+        )->groupBy('products.id')->paginate($request->limit);
+        // object_relationships
+
+        // dd($product);
+        foreach ($product as $val) {
+            $val->content = htmlspecialchars_decode($val->content);
+        }
+        return $product;
+    }
+
+
+    public function ajaxProductPromo(Request $request){
+        $arr = isset($request['location'])?$request['location']:[];
+        if($request->id != 0){
+            array_push($arr,$request->id);
+        }
+        $product = Product::join('object_relationships as OR','OR.object_id','=','products.id');
+        if($arr != []){
+            $product = $product->whereIn('OR.term_id',[$arr]);
+        }
+        $product = $product->where('products.sale_price','>','0')
+                        ->select(
+                            'products.*',
+                            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags'),
+                            \DB::raw('(SELECT terms.term_id from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as term_id')
+                        )
+                    ->groupBy('products.id')
+                    ->get();
         // object_relationships
 
         return $product;
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('product::create');
+    public function ajaxGetDetail(Request $request){
+        $product = Product::join('object_relationships as OR','OR.object_id','=','products.id')
+        ->join('product_extras', 'products.id', '=', 'product_extras.product_id');
+        $product = $product->where('products.id',$request->id)
+                        ->select(
+                            'products.*',
+                            \DB::raw("max(CASE WHEN product_extras.key_name = '_product_related_images_url' THEN product_extras.key_value END) as product_related_img_json"),
+                            \DB::raw('(SELECT terms.name from object_relationships as obr left join terms ON obr.term_id = terms.term_id where obr.object_id = products.id and terms.type="product_cat" limit 1) as tags')
+                        )
+                    ->groupBy('products.id')
+                    ->first();
+        if(isset($product)){
+            $product->color = $this->getColorsByObjectId($request->id);
+            $product->size = $this->getSizesByObjectId($request->id);
+        }
+        $product->content = htmlspecialchars_decode($product->content);
+        return $product;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
+    public function getColorsByObjectId($object_id){
+        $get_colors_array = array();
+        $get_colors_list  =  DB::table('terms')
+                             ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_colors' ])
+                             ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
+                             ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
+                             ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_product_color_code' THEN term_extras.key_value END) as color_code"))
+                             ->groupBy('term_extras.term_id')
+                             ->get()
+                             ->toArray();
+
+        if(count($get_colors_list) > 0){
+          $term_data = array();
+
+          foreach($get_colors_list as $row){
+            array_push($term_data, (array) $row);
+          }
+
+          $get_colors_array = $term_data;
+        }
+
+        return $get_colors_array;
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('product::show');
+    public function getSizesByObjectId($object_id){
+        $get_sizes_array = array();
+        $get_sizes_list  =  DB::table('terms')
+                            ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_sizes' ])
+                            ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
+                            ->select('terms.*')
+                            ->get()
+                            ->toArray();
+
+        if(count($get_sizes_list) > 0){
+          $term_data = array();
+
+          foreach($get_sizes_list as $row){
+            array_push($term_data, (array) $row);
+          }
+
+          $get_sizes_array = $term_data;
+        }
+
+        return $get_sizes_array;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('product::edit');
+    public function getTagsByObjectId($object_id){
+        $get_tag_array = array();
+        $get_tag_list  =  DB::table('terms')
+                          ->where(['object_relationships.object_id' => $object_id, 'terms.type' => 'product_tag' ])
+                          ->join('object_relationships', 'object_relationships.term_id', '=', 'terms.term_id')
+                          ->join('term_extras', 'terms.term_id', '=', 'term_extras.term_id')
+                          ->select('terms.*', DB::raw("max(CASE WHEN term_extras.key_name = '_tag_description' THEN term_extras.key_value END) as tag_description"))
+                          ->groupBy('term_extras.term_id')
+                          ->pluck('name')
+                          ->toArray();
+        if(count($get_tag_list) > 0){
+          $term_data = array();
+
+        //   foreach($get_tag_list as $row){
+        //     array_push($term_data, (array) $row);
+        //   }
+
+          $get_tag_array = $get_tag_list;
+        }
+
+        return $get_tag_array;
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

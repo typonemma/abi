@@ -18,7 +18,9 @@ use App\Models\UsersDetail;
 use App\Library\GetFunction;
 use Illuminate\Support\Facades\App;
 use App\Library\CommonFunction;
-
+use App\Rules\AdminPhoneNumberCheck;
+use App\Rules\AdminUserNotExist;
+use App\Rules\UserNotExist;
 
 class UserController extends Controller
 {
@@ -288,7 +290,8 @@ class UserController extends Controller
       $rules = [
                   'user_display_name'          =>  'required',
                   'user_name'                  =>  'required',
-                  'user_email'                 =>  'required|email'
+                  'user_email'                 =>  'required|email',
+                  'user_phone_number'          =>  ['required', 'bail', new AdminPhoneNumberCheck, new AdminUserNotExist]
                ];
 
       if(Request::get('hf_post_type') == 'add'){
@@ -328,6 +331,7 @@ class UserController extends Controller
             $User->display_name       =    Request::get('user_display_name');
             $User->name               =    Request::get('user_name');
             $User->email              =    Request::get('user_email');
+            $User->phone_number       =    Request::get('user_phone_number');
             $User->password           =    bcrypt( trim(Request::get('user_password')) );
             $User->user_photo_url     =    '';
             $User->user_status        =    1;
@@ -395,7 +399,8 @@ class UserController extends Controller
             $user_data  =    array(
                                   'display_name'    => Request::get('user_display_name'),
                                   'name'            => Request::get('user_name'),
-                                  'email'           => Request::get('user_email')
+                                  'email'           => Request::get('user_email'),
+                                  'phone_number'           => Request::get('user_phone_number')
             );
 
             if(Request::get('user_password')){
@@ -499,6 +504,7 @@ class UserController extends Controller
 			  $data['display_name'] = $val->display_name;
 			  $data['name'] = $val->name;
 			  $data['email'] = $val->email;
+              $data['phone_number'] = $val->phone_number;
 			  $data['user_status'] = $val->user_status;
 			  $data['created_at'] = $val->created_at;
 

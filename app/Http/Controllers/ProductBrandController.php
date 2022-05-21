@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev_bryan
 use App\Compatibility;
 use App\Library\CommonFunction;
 use App\Models\Product;
@@ -12,6 +16,10 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductBrandController extends Controller
 {
+<<<<<<< HEAD
+=======
+    //
+>>>>>>> origin/dev_bryan
     public $classCommonFunction;
 
     public function __construct(){
@@ -28,11 +36,19 @@ class ProductBrandController extends Controller
         }
 
         $data = $this->classCommonFunction->commonDataForAllPages();
+<<<<<<< HEAD
         
         $is_vendor = is_vendor_login();
         $sidebar['is_vendor_login'] = $is_vendor;
         $data['sidebar_data'] = $sidebar;
         
+=======
+
+        $is_vendor = is_vendor_login();
+        $sidebar['is_vendor_login'] = $is_vendor;
+        $data['sidebar_data'] = $sidebar;
+
+>>>>>>> origin/dev_bryan
         $data['brand_all_data']     =  $this->getBrand(true, $search_value, $is_vendor);
         $data['search_value']       =  $search_value;
 
@@ -69,15 +85,23 @@ class ProductBrandController extends Controller
     {
         $data = array();
         $data = $this->classCommonFunction->commonDataForAllPages();
+<<<<<<< HEAD
         $get_data = $this->createCompatibilityContentData($data);        
+=======
+        $get_data = $this->createCompatibilityContentData($data);
+>>>>>>> origin/dev_bryan
         return view('pages.admin.product.add-product-brand', $get_data);
     }
 
     public function create(Request $request)
     {
         $rules = [
+<<<<<<< HEAD
             'name_brand' => 'required',
             'logo_brand' => 'required'
+=======
+            'name_brand' => 'required'
+>>>>>>> origin/dev_bryan
         ];
         $request->validate($rules);
 
@@ -87,6 +111,13 @@ class ProductBrandController extends Controller
             $destinationPath = public_path().'/uploads';
             $file->move($destinationPath,$fileName);
         }
+<<<<<<< HEAD
+=======
+        else{
+            $file = $request->file('logo_brand');
+            $fileName = "";
+        }
+>>>>>>> origin/dev_bryan
 
         product_brand::create([
             'id' => 0,
@@ -113,6 +144,7 @@ class ProductBrandController extends Controller
         $rules = [
             'name_brand' => 'required'
         ];
+<<<<<<< HEAD
         
         $compatibility = product_brand::find($id);
 
@@ -122,6 +154,14 @@ class ProductBrandController extends Controller
             $destinationPath = public_path().'/uploads';
             $file->move($destinationPath,$fileName);
             $compatibility->logo_brand = '/public/uploads/'.$fileName;
+=======
+        // dd($request->logo_brand);
+        if (!empty($request->logo_brand)) {
+            $file = $request->file('logo_brand');
+            $fileName = str_replace('-', '', date('d-m-Y-H-i')).'_'.$file->getClientOriginalName();
+            $destinationPath = public_path().'/uploads';
+            $file->move($destinationPath,$fileName);
+>>>>>>> origin/dev_bryan
         }
         else{
             $file = $request->file('logo_brand');
@@ -129,8 +169,14 @@ class ProductBrandController extends Controller
         }
 
         $request->validate($rules);
+<<<<<<< HEAD
 
         $compatibility->name_brand = $request->name_brand;
+=======
+        $compatibility = product_brand::find($id);
+        $compatibility->name_brand = $request->name_brand;
+        $compatibility->logo_brand = '/public/uploads/'.$fileName;
+>>>>>>> origin/dev_bryan
         $compatibility->status = $request->status;
         $compatibility->save();
         return redirect('/admin/ProductBrand/edit/' . $id);
@@ -152,5 +198,10 @@ class ProductBrandController extends Controller
         $data['sidebar_data'] = $sidebar;
 
         return $data;
+<<<<<<< HEAD
     }    
 }
+=======
+    }
+}
+>>>>>>> origin/dev_bryan

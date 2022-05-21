@@ -1,5 +1,6 @@
 <?php
 use App\Library\GetFunction;
+use App\Models\UserRolePermission;
 
 /**
  * Get function for product title
@@ -579,7 +580,7 @@ function get_frontend_selected_currency()
  */
 function get_permissions_files_list()
 {
-  return GetFunction::permissions_files_list();
+    return GetFunction::permissions_files_list();
 }
 
 /**

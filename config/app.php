@@ -181,8 +181,12 @@ return [
         App\Providers\CartServiceProvider::class,
         'Barryvdh\Debugbar\ServiceProvider',
 
+<<<<<<< HEAD
         Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
 
+=======
+        Laravel\Socialite\SocialiteServiceProvider::class,
+>>>>>>> origin/dev_bryan
     ],
 
     /*
@@ -239,8 +243,12 @@ return [
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
         'Cart'   =>  App\Cart\Facades\Cart::class,
         'Debugbar' => 'Barryvdh\Debugbar\Facade',
+<<<<<<< HEAD
 
         'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
+=======
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+>>>>>>> origin/dev_bryan
     ],
 
 ];
