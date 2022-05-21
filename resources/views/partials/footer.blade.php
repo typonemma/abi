@@ -16,7 +16,7 @@
                                                 echo '<h6 class="h6 light">' . $potong_kalimat . '</h6>';
                                                 echo '<font color="#f7f7f7">' . htmlspecialchars_decode($cu->post_content) . '</font>';
                                             }
-                                        ?>                                                                  
+                                        ?>
                                 </div>
                                     <div class="footer-contact"><i class="fa fa-envelope-o" aria-hidden="true"></i> email: <br/>
                                         <?php
@@ -28,7 +28,7 @@
                                         ?>
                                     </div>
                                 </div>
-                                <div class="col-sm-8">     
+                                <div class="col-sm-8">
                                     <div class="footer-contact"><i class="fa fa-map-marker" aria-hidden="true"></i> address: <br/>
                                         <?php
                                             $contactus = App\contactus_list::where('post_title', 'LIKE', '%address%')->get();
@@ -38,8 +38,8 @@
                                                 echo htmlspecialchars_decode($cu->post_content);
                                                 echo '<div class="empty-space col-xs-b35 col-md-b10"></div>';
                                             }
-                                        ?>                                
-                                    </div>                                    
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -49,21 +49,12 @@
                             <div class="footer-column-links">
                                 <div class="row">
                                     <div class="col-xs-6">
-<<<<<<< HEAD
                                         <a href="/general/home">home</a>
                                         <a href="/product">products</a>
                                         <a href="/general/aboutus">about us</a>
                                         <a href="/general/shipment">shipment</a>
                                         <a href="/general/blogs">blogs</a>
                                         <a href="/general/contact">contact us</a>
-=======
-                                        <a href="/">home</a>
-                                        <a href="/product">products</a>
-                                        <a href="#">about us</a>
-                                        <a href="#">shipment</a>
-                                        <a href="#">blogs</a>
-                                        <a href="#">contact us</a>
->>>>>>> origin/dev_bryan
                                     </div>
                                     <div class="col-xs-6">
                                         <a href="#">privacy policy</a>
@@ -77,7 +68,7 @@
                         <div class="col-sm-6 col-md-3 col-xs-b30 col-sm-b0">
                             <h6 class="h6 light">latest blogs</h6>
                             <?php
-                                $relatedblog_list = App\relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get(); 
+                                $relatedblog_list = App\relatedblog_list::where('post_type', '=', 'post-blog')->orderBy('id', 'DESC')->limit(3)->get();
                             ?>
                             @foreach ($relatedblog_list as $blog)
                                 <div class="empty-space col-xs-b20"></div>
@@ -94,14 +85,14 @@
                                             }
 
                                             $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
-                                            if ($key_value == ''){                                                 
-                                                echo "<img src='/public/uploads/no-image.jpg'>";                                                    
+                                            if ($key_value == ''){
+                                                echo "<img src='/public/uploads/no-image.jpg'>";
                                             }
                                             else if (file_exists($filename)) {
                                                 echo "<img src='$key_value'>";
-                                            } else { 
+                                            } else {
                                                 echo "<img src='/public/uploads/no-image.jpg'>";
-                                                
+
                                             }
                                         ?>
                                     </a>

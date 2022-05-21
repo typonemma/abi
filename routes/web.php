@@ -126,7 +126,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 //admin menu route
 Route::group(['prefix' => 'admin'], function () {
-  
+
  //Bank Route
 
  Route::get('users/bank/list', [
@@ -318,7 +318,6 @@ Route::post('users/ads/store', [
     'as'   => 'admin.add_product'
   ])->middleware('verifyLoginPage', 'admin', 'sufficientPermission');
 
-<<<<<<< HEAD
   //->Bank<-//
   Route::get('PagesBank/list', [
     'uses' => 'PagesBankController@list',
@@ -348,11 +347,9 @@ Route::post('users/ads/store', [
   Route::get('PagesBank/delete/{id}', [
     'uses' => 'PagesBankController@delete',
     'as'   => 'PagesBank.delete'
-  ]);  
+  ]);
   //Batas Bank
 
-=======
->>>>>>> origin/dev_bryan
   //->Brand<-//
   Route::get('ProductBrand/list', [
     'uses' => 'ProductBrandController@list',
@@ -382,11 +379,7 @@ Route::post('users/ads/store', [
   Route::delete('ProductBrand/delete/{id}', [
       'uses' => 'ProductBrandController@delete',
       'as'   => 'ProductBrand.delete'
-<<<<<<< HEAD
-  ]);  
-=======
   ]);
->>>>>>> origin/dev_bryan
   //Batas Brand
 
   Route::get('product/tags/list', [

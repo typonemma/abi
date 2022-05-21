@@ -623,12 +623,6 @@
                 <script src="{{URL::asset('public/custom/js/jquery.classycountdown.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/jquery.knob.js')}}"></script>
                 <script src="{{URL::asset('public/custom/js/jquery.throttle.js')}}"></script>
-<<<<<<< HEAD
-                @yield('script')
-                <script>
-                function ajaxPlaceOrder() {
-                        let payment = $('#payment').val();
-=======
                 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
                 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
                 <script type="text/javascript">
@@ -1014,22 +1008,12 @@
                         if (selected_city != null && (postcode != '' && isNumeric(postcode)) && address != '') {
                             $('#shipping-cost').text('Loading...');
                         }
->>>>>>> origin/dev_bryan
                         $.ajaxSetup({
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                             }
                         });
                         $.ajax({
-<<<<<<< HEAD
-                            method: "GET",
-                            url: "/general/placeOrder",
-                            data : {
-                                payment:payment
-                            },
-                            success: function() {
-                                location.href = '/general/thank_you';
-=======
                             method: "POST",
                             url: "/cart-slice/calculateShipping",
                             data : {
@@ -1250,20 +1234,12 @@
                                     });
                                     $('#ppa-errors').append(errorsHtml);
                                 }
->>>>>>> origin/dev_bryan
                             }
                         });
                     }
 
                     function checkChanged(rb) {
                         if (rb.checked) {
-<<<<<<< HEAD
-                            let payment = $('#pay-'+rb.id).html();
-                            $('#payment').val(payment);
-                        }
-                    }
-                    </script>                
-=======
                             let payment = $('#pay-'+rb.id).text();
                             $('#payment').val(payment);
                         }
@@ -1478,8 +1454,6 @@
 
                     // $(document).on('click', '.open-popup', popup());
                 </script>
->>>>>>> origin/dev_bryan
             </body>
 
         </html>
-

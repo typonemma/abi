@@ -532,10 +532,6 @@ INSERT INTO `posts` (`id`, `post_author_id`, `post_content`, `post_title`, `post
 -- Struktur dari tabel `post_extras`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `post_extras`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `post_extras` (
   `post_extra_id` int(10) UNSIGNED NOT NULL,
   `post_id` int(10) UNSIGNED NOT NULL,
@@ -695,10 +691,6 @@ INSERT INTO `post_extras` (`post_extra_id`, `post_id`, `key_name`, `key_value`, 
 -- Struktur dari tabel `products`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `products`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `products` (
   `id` int(10) UNSIGNED NOT NULL,
   `author_id` int(10) UNSIGNED NOT NULL,
@@ -712,10 +704,6 @@ CREATE TABLE `products` (
   `price` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stock_qty` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stock_availability` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-<<<<<<< HEAD
-  `weight` int(100) NOT NULL,
-=======
->>>>>>> origin/dev_bryan
   `type` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -739,10 +727,6 @@ INSERT INTO `products` (`id`, `author_id`, `content`, `title`, `slug`, `status`,
 -- Struktur dari tabel `product_extras`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `product_extras`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `product_extras` (
   `product_extra_id` int(10) UNSIGNED NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
@@ -997,10 +981,6 @@ INSERT INTO `product_extras` (`product_extra_id`, `product_id`, `key_name`, `key
 -- Struktur dari tabel `request_products`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `request_products`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `request_products` (
   `id` int(10) UNSIGNED NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
@@ -1018,10 +998,6 @@ CREATE TABLE `request_products` (
 -- Struktur dari tabel `roles`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `roles`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `roles` (
   `id` int(10) UNSIGNED NOT NULL,
   `role_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1034,16 +1010,9 @@ CREATE TABLE `roles` (
 -- Dumping data untuk tabel `roles`
 --
 
-<<<<<<< HEAD
-INSERT INTO `roles` (`id`, `role_name`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', 'administrator', '2019-11-03 23:03:55', '2022-01-23 23:45:17'),
-(2, 'Site User', 'site-user', '2019-11-03 23:03:55', '2019-11-03 23:03:55'),
-(3, 'Vendor', 'vendor', '2019-11-03 23:03:55', '2019-11-03 23:03:55');
-=======
 INSERT INTO `roles` (`id`, `role_name`, `slug`, `created_at`, `updated_at`) VALUES(1, 'Administrator', 'administrator', '2019-11-03 23:03:55', '2022-01-23 23:45:17');
 INSERT INTO `roles` (`id`, `role_name`, `slug`, `created_at`, `updated_at`) VALUES(2, 'Site User', 'site-user', '2019-11-03 23:03:55', '2019-11-03 23:03:55');
 INSERT INTO `roles` (`id`, `role_name`, `slug`, `created_at`, `updated_at`) VALUES(3, 'Vendor', 'vendor', '2019-11-03 23:03:55', '2019-11-03 23:03:55');
->>>>>>> origin/dev_bryan
 
 -- --------------------------------------------------------
 
@@ -1051,10 +1020,6 @@ INSERT INTO `roles` (`id`, `role_name`, `slug`, `created_at`, `updated_at`) VALU
 -- Struktur dari tabel `role_user`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `role_user`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `role_user` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -1067,13 +1032,8 @@ CREATE TABLE `role_user` (
 -- Dumping data untuk tabel `role_user`
 --
 
-<<<<<<< HEAD
-INSERT INTO `role_user` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2019-11-03 23:03:55', '2019-11-03 23:03:55');
-=======
 INSERT INTO `role_user` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES(1, 1, 1, '2019-11-03 23:03:55', '2019-11-03 23:03:55');
 INSERT INTO `role_user` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES(2, 9, 2, '2022-03-03 02:12:18', '2022-03-03 02:12:18');
->>>>>>> origin/dev_bryan
 
 -- --------------------------------------------------------
 
@@ -1081,10 +1041,6 @@ INSERT INTO `role_user` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`)
 -- Struktur dari tabel `save_custom_designs`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `save_custom_designs`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `save_custom_designs` (
   `id` int(10) UNSIGNED NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
@@ -1099,10 +1055,6 @@ CREATE TABLE `save_custom_designs` (
 -- Struktur dari tabel `subscriptions`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `subscriptions`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `subscriptions` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1117,10 +1069,6 @@ CREATE TABLE `subscriptions` (
 -- Struktur dari tabel `terms`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `terms`;
-=======
->>>>>>> origin/dev_bryan
 CREATE TABLE `terms` (
   `term_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1136,32 +1084,6 @@ CREATE TABLE `terms` (
 -- Dumping data untuk tabel `terms`
 --
 
-<<<<<<< HEAD
-INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'LCD/LED', 'lcdled', 'product_cat', 0, 1, '2022-02-07 19:16:50', '2022-02-07 19:16:50'),
-(2, 'Baterai Laptop\r\n', 'Baterai Laptop\r\n', 'product_cat\r\n', 0, 1, NULL, NULL),
-(3, 'Communication', 'communication', 'product_cat', 0, 1, '2022-02-07 20:10:07', '2022-02-07 20:10:07'),
-(4, 'Optical Disk Drive', 'optical-disk-drive', 'product_cat', 0, 1, '2022-02-07 20:10:22', '2022-02-07 20:10:22'),
-(5, 'KABEL DAN KONEKTOR', 'kabel-dan-konektor', 'product_cat', 0, 1, '2022-02-07 20:10:40', '2022-02-07 20:10:40'),
-(6, 'Hardisk Lenovo', 'hdd-lenovo', 'product_cat', 4, 1, '2022-02-07 20:11:15', '2022-02-07 20:11:15'),
-(7, 'Hardisk Lenovo 2.5inch', 'hardisk-lenovo-25inch', 'product_cat', 6, 1, '2022-02-07 20:11:41', '2022-02-07 20:11:41'),
-(9, 'SURABAYA', 'surabaya', 'product_tag', 0, 1, '2022-02-07 21:26:51', '2022-02-07 21:26:51'),
-(10, 'SEMARANG', 'semarang', 'product_tag', 0, 1, '2022-02-07 21:26:57', '2022-02-07 21:26:57'),
-(11, 'DENPASAR', 'denpasar', 'product_tag', 0, 1, '2022-02-07 21:27:03', '2022-02-07 21:27:03'),
-(12, 'MATARAM', 'mataram', 'product_tag', 0, 1, '2022-02-07 21:27:09', '2022-02-07 21:27:09'),
-(13, 'tokopedia', 'tokopedia', 'product_brands', 0, 1, '2022-02-19 07:41:37', '2022-04-05 01:18:46'),
-(14, 'shopee', 'shopee', 'product_brands', 0, 1, '2022-02-19 07:47:10', '2022-04-05 01:18:24'),
-(15, 'bukalapak', 'bukalapak', 'product_brands', 0, 1, '2022-02-19 07:47:24', '2022-04-05 01:18:08'),
-(16, 'blibli', 'blibli', 'product_brands', 0, 1, '2022-02-19 07:47:33', '2022-04-05 01:17:52'),
-(17, 'lazada', 'lazada', 'product_brands', 0, 1, '2022-02-19 07:47:42', '2022-04-05 01:17:35'),
-(18, 'jdid', 'jdid', 'product_brands', 0, 1, '2022-02-19 07:47:52', '2022-04-05 01:17:23'),
-(19, 'shopee', 'shopee-17', 'product_brands', 0, 1, '2022-02-22 20:39:53', '2022-04-05 01:17:05'),
-(20, 'tokopedia', 'tokopedia-18', 'product_brands', 0, 1, '2022-02-22 20:40:11', '2022-04-09 23:49:04'),
-(21, 'Coba', 'coba', 'product_brands', 0, 1, '2022-04-05 07:15:53', '2022-04-05 07:28:40'),
-(22, 'coba tanpa gambar', 'coba-tanpa-gambar', 'product_brands', 0, 1, '2022-04-07 08:20:07', '2022-04-07 08:20:07'),
-(23, 'a', 'a-21', 'product_tag', 0, 1, '2022-04-19 07:35:13', '2022-04-19 07:35:13'),
-(24, 'coba', 'coba-21', 'product_tag', 0, 1, '2022-04-19 09:20:12', '2022-04-19 09:20:12');
-=======
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(1, 'LCD/LED', 'lcdled', 'product_cat', 0, 1, '2022-02-07 19:16:50', '2022-02-07 19:16:50');
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(2, 'Baterai Laptop', 'baterai-laptop', 'product_cat', 0, 1, '2022-02-07 20:09:23', '2022-02-07 20:09:23');
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(3, 'Communication', 'communication', 'product_cat', 0, 1, '2022-02-07 20:10:07', '2022-02-07 20:10:07');
@@ -1173,7 +1095,6 @@ INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `cre
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(10, 'SEMARANG', 'semarang', 'product_tag', 0, 1, '2022-02-07 21:26:57', '2022-02-07 21:26:57');
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(11, 'DENPASAR', 'denpasar', 'product_tag', 0, 1, '2022-02-07 21:27:03', '2022-02-07 21:27:03');
 INSERT INTO `terms` (`term_id`, `name`, `slug`, `type`, `parent`, `status`, `created_at`, `updated_at`) VALUES(12, 'MATARAM', 'mataram', 'product_tag', 0, 1, '2022-02-07 21:27:09', '2022-02-07 21:27:09');
->>>>>>> origin/dev_bryan
 
 -- --------------------------------------------------------
 
@@ -1220,29 +1141,16 @@ INSERT INTO `term_extras` (`term_extra_id`, `term_id`, `key_name`, `key_value`, 
 -- Struktur dari tabel `users`
 --
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
-=======
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
->>>>>>> origin/dev_bryan
   `phone_number` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_status` int(10) UNSIGNED NOT NULL,
-<<<<<<< HEAD
-  `secret_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-=======
   `secret_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
->>>>>>> origin/dev_bryan
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -40,25 +40,6 @@
           <div class="box-body">
             <div class="uploaded-product-image">
               <div class="product-sample-img">
-<<<<<<< HEAD
-                
-                <input name="logo_brand" type="file" value="{{ $product_brand->logo_brand }}" id="fileInput"><br><br>
-
-                <?php                                                
-                    $key_value = $product_brand->logo_brand;
-                    $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
-                    if ($key_value == ''){                                                 
-                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
-                    }  
-                    else if ($key_value == '/public/uploads/'){                                                 
-                      echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
-                    } 
-                    else if (!file_exists($filename)) {
-                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";  
-                    }                                
-                    else {                                                 
-                        echo "<img src='$key_value' style='width:100px;height:100px;'>";                                                    
-=======
 
                 <input name="logo_brand" type="file" value="{{ $product_brand->logo_brand }}" id="fileInput"><br><br>
 
@@ -76,7 +57,6 @@
                     }
                     else {
                         echo "<img src='$key_value' style='width:100px;height:100px;'>";
->>>>>>> origin/dev_bryan
                     }
                 ?><br>
 
@@ -84,11 +64,7 @@
               <div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link">
                 <button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
               </div>
-<<<<<<< HEAD
-          </div>   
-=======
           </div>
->>>>>>> origin/dev_bryan
           </div>
       </div>
 
@@ -105,24 +81,15 @@
                   <div class="col-sm-5">
                       <select class="form-control select2" name="status" style="width: 100%;">
                           <option value="1">Enable</option>
-<<<<<<< HEAD
-                          <option value="0">Disable</option>                            
-=======
                           <option value="0">Disable</option>
->>>>>>> origin/dev_bryan
                       </select>
                   </div>
                   </div>
               </div>
           </div>
         </div>
-<<<<<<< HEAD
-      </div>         
-</form> 
-=======
       </div>
 </form>
->>>>>>> origin/dev_bryan
 <script>
   let fileupload = document.getElementById('file-upload');
   fileupload.ondragover = dropContainer.ondragenter = function(evt) {
@@ -135,10 +102,5 @@
     fileInput.files = dT.files;
     evt.preventDefault();
   };
-<<<<<<< HEAD
-</script> 
-@endsection
-=======
 </script>
 @endsection
->>>>>>> origin/dev_bryan

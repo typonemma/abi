@@ -28,15 +28,9 @@
         <div class="box-body">
           <input type="text" placeholder="Brand name" class="form-control" name="name_brand" id="eb_compatibility_name" value="{{ old('name_brand') }}">
         </div>
-<<<<<<< HEAD
-        
-      </div>
-        
-=======
 
       </div>
 
->>>>>>> origin/dev_bryan
       <!-- Image -->
         <div class="box box-solid">
         <div class="box-header with-border">
@@ -52,11 +46,7 @@
               <input name="logo_brand" type="file" id="fileInput">
             </div><div class="product-uploaded-image"><img class="img-responsive"><div class="remove-img-link"><button type="button" data-target="product_image" class="btn btn-default attachtopost">Remove Image</button></div></div>
           </div>
-<<<<<<< HEAD
-        </div>   
-=======
         </div>
->>>>>>> origin/dev_bryan
         </div>
       <!-- Batas Image -->
       </div>

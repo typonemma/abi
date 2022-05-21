@@ -9,11 +9,7 @@
   <div class="col-6">
     <div class="pull-right">
         <a href="{{ route('ProductBrand.store') }}" class="btn btn-primary pull-right btn-sm">Add New</a>
-<<<<<<< HEAD
-    </div>  
-=======
     </div>
->>>>>>> origin/dev_bryan
   </div>
 </div>
 <br>
@@ -21,11 +17,7 @@
   <div class="col-12">
     <div class="box">
       <div class="box-body">
-<<<<<<< HEAD
-        <div id="table_search_option">             
-=======
         <div id="table_search_option">
->>>>>>> origin/dev_bryan
           <form action="{{ route('ProductBrand.list', 'all') }}" method="GET">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -40,11 +32,7 @@
               </div>
             </div>
           </form>
-<<<<<<< HEAD
-        </div>    
-=======
         </div>
->>>>>>> origin/dev_bryan
         <table class="table table-bordered admin-data-table admin-data-list">
           <thead class="thead-dark">
             <tr>
@@ -61,22 +49,6 @@
                 <!-- <td><img src='{!! $b->logo_brand !!}' alt="" style="width:100px;height:100px;"></td> -->
 
                 <td>
-<<<<<<< HEAD
-                  <?php                                                
-                      $key_value = $b->logo_brand;
-                      $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;                                                   
-                      if ($key_value == ''){                                                 
-                          echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
-                      }  
-                      else if ($key_value == '/public/uploads/'){                                                 
-                        echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";                                                    
-                      } 
-                      else if (!file_exists($filename)) {
-                          echo "<img src='/public/uploads/no-image.jpg' style='width:100px;height:100px;'>";  
-                      }                                
-                      else {                                                 
-                          echo "<img src='$key_value' style='width:100px;height:100px;'>";                                                    
-=======
                   <?php
                       $key_value = $b->logo_brand;
                       $filename = $_SERVER['DOCUMENT_ROOT'] . $key_value;
@@ -91,7 +63,6 @@
                       }
                       else {
                           echo "<img src='$key_value' style='width:100px;height:100px;'>";
->>>>>>> origin/dev_bryan
                       }
                   ?>
                 </td>
@@ -135,13 +106,8 @@
             </tr>
           </tfoot>
         </table>
-<<<<<<< HEAD
-        <br>  
-        <div class="products-pagination">{!! $brand_all_data->appends(Request::capture()->except('page'))->render() !!}</div>  
-=======
         <br>
         <div class="products-pagination">{!! $brand_all_data->appends(Request::capture()->except('page'))->render() !!}</div>
->>>>>>> origin/dev_bryan
       </div>
     </div>
   </div>
@@ -150,8 +116,4 @@
 <div class="eb-overlay-loader"></div>
 <input type="hidden" name="hf_from_model" id="hf_from_model" value="">
 <input type="hidden" name="hf_update_id" id="hf_update_id" value="">
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> origin/dev_bryan

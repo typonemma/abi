@@ -39,8 +39,8 @@
               @else
                 <li><a href="{{route('admin.add_page')}}"><i class="fa fa-plus-square-o"></i> {!! trans('admin.add_new_page') !!}</a></li>
               @endif
-            @endif   
-            
+            @endif
+
             <!-- BANK -->
             @if(in_array('pages_bank_lis', $user_permission_list))
               @if(Request::is('admin/page/bank'))
@@ -50,7 +50,7 @@
               @endif
             @endif
             <!-- END BANK 1-->
-            
+
           </ul>
         </li>
       @else
@@ -72,13 +72,13 @@
               @if(in_array('pages_bank_lis', $user_permission_list))
                 <li class="active"><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>
               @else
-                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>                
+                <li><a href="{{route('PagesBank.list')}}"><i class="fa fa-money"></i> Bank</a></li>
               @endif
             <!-- Batas Akhir Bank -->
             </ul>
           </li>
         @endif
-      @endif      
+      @endif
       @if(Request::is('admin/users/ads/list') || Request::is('admin/users/ads/create'))
         <li class="active treeview">
           <a href="#">
@@ -320,7 +320,7 @@
               @else
                 <li><a href="{{route('admin.product_categories_list')}}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
               @endif
-            @endif           
+            @endif
 
             <!-- BRAND -->
             @if(in_array('product_brand_access', $user_permission_list))
@@ -412,11 +412,7 @@
                 <li><a href="{{ route('admin.product_categories_list') }}"><i class="fa fa-camera"></i> {!! trans('admin.categories') !!}</a></li>
               @endif
 
-<<<<<<< HEAD
-              @if(in_array('product_brand_access', $user_permission_list))                
-=======
               @if(in_array('product_brand_access', $user_permission_list))
->>>>>>> origin/dev_bryan
                 <li><a href="{{ route('ProductBrand.list') }}"><i class="fa fa-file"></i> Brand</a></li>
               @endif
 

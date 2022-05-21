@@ -963,11 +963,7 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> origin/dev_bryan
       <div class="box box-solid product-tags">
         <div class="box-header with-border">
           <i class="fa fa-tags"></i>

@@ -7,26 +7,7 @@
                         <div class="nav-close-layer"></div>
                         <nav>
                             <ul>
-<<<<<<< HEAD
                                 @yield('navbar')
-=======
-                                <li id="home">
-                                    <a href="/">Home</a>
-                                </li>
-                                <li id="about-us">
-                                    <a href="about.html">about us</a>
-                                </li>
-                                <li id="product">
-                                    <a href="/product">products</a>
-                                </li>
-                                <li id="shipment">
-                                    <a href="services.html">Shipment</a>
-                                </li>
-                                <li id="blog">
-                                    <a href="blog.html">blogs</a>
-                                </li>
-                                <li id="contact-us"><a href="contact.html">contact us</a></li>
->>>>>>> origin/dev_bryan
                             </ul>
                             <div class="navigation-title">
                                 Navigation
@@ -43,13 +24,8 @@
                     <div class="header-bottom-icon visible-rd">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         <span class="cart-label">5</span>
-<<<<<<< HEAD
                     </div>-->
                     <a id="logo" href="home" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
-=======
-                    </div>
-                    <a id="logo" style="padding-left:4%" href="index.html" class="text-center"><img src="{{URL::asset('public/custom/img/logo.jpg')}}" alt="" /></a>
->>>>>>> origin/dev_bryan
                     <div class="text-right">
                         @if (session('user'))
                             <div class="entry hidden-xs hidden-sm cart">
@@ -112,7 +88,6 @@
                                             </div>
                                         @endforeach
                                     </div>
-<<<<<<< HEAD
                                     <div class="col-xs-6 text-right">
                                         <a class="button size-2 style-3" href="/cart-slice/checkout">
                                             <span class="button-wrapper">
@@ -120,23 +95,6 @@
                                                 <span class="text">proceed to checkout</span>
                                             </span>
                                         </a>
-=======
-                                    <div class="empty-space col-xs-b40"></div>
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="cell-view empty-space col-xs-b50">
-                                                <div id="cart-total" class="simple-article size-5 grey">TOTAL <span class="color">RP {{number_format($cart->total, 0, '.', '.')}}</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6 text-right">
-                                            <a class="button size-2 style-3" href="/cart-slice">
-                                                <span class="button-wrapper">
-                                                    <span class="icon"><img src="{{URL::asset('public/custom/img/icon-4.png')}}" alt=""></span>
-                                                    <span class="text">view cart</span>
-                                                </span>
-                                            </a>
-                                        </div>
->>>>>>> origin/dev_bryan
                                     </div>
                                 </div>
                             </div>
